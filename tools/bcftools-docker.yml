@@ -1,5 +1,0 @@
-class: DockerRequirement
-dockerPull: scidap/bcftools:v1.3
-#dockerImageId: scidap/alea:v1.2.2 #not yet ready
-dockerFile: >
-  $import: bcftools-Dockerfile

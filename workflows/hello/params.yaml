@@ -1,3 +1,0 @@
-#!/usr/bin/env cwl-runner
-"cwl:tool" : hello.cwl
-usermessage: "Hello, CWL !\nHello World !\n"

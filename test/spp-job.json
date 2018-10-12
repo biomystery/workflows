@@ -1,6 +1,0 @@
-{
-  "input_bam":{
-    "path": "test-files/aligned.bam",
-    "class": "File"
-  }
-}
