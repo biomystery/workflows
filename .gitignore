@@ -1,11 +1,31 @@
+# Python temps
+__pycache__/
+*.py[cod]
+*$py.class
+build/
+dist/
+eggs/
+.eggs/
+*.egg-info/
+*.egg
+.tox/
+
+# Editor Temps
+.*.sw?
+*~
+\#*\#
+.desktop
 .vagrant
 .DS_Store
+._.DS_Store
 
 # editor temp files
 .*.sw?
 
 #bioinformatics stuff
 *.bam
+*.sam
+*.bt2
 *.bai
 *.fa
 *.fastq
@@ -33,6 +53,7 @@
 # Logs
 logs
 *.log
+*.txt
 
 # Runtime data
 pids
@@ -60,3 +81,7 @@ node_modules
 
 # Debug log from npm
 npm-debug.log
+
+# webstorm files
+.idea
+

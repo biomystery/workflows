@@ -1,0 +1,191 @@
+============================================================================================
+Gene list from RNA-Seq experiment #6756 grouped by isoforms
+============================================================================================
+
+select tableName,type from ems.genelist where id='Qbdcb6a6-a77a-4b7f-8bea-07cdd91d9f66';
++----------------------------------+------+
+| tableName                        | type |
++----------------------------------+------+
+| Qbdcb6a6a77a4b7f8bea07cdd91d9f66 |    2 |
++----------------------------------+------+
+
+describe experiments.Qbdcb6a6a77a4b7f8bea07cdd91d9f66;
++---------------+--------------+------+-----+---------+-------+
+| Field         | Type         | Null | Key | Default | Extra |
++---------------+--------------+------+-----+---------+-------+
+| refseq_id     | varchar(100) | NO   |     | NULL    |       |
+| gene_id       | varchar(100) | NO   |     | NULL    |       |
+| chrom         | varchar(255) | NO   |     | NULL    |       |
+| txStart       | int(11)      | YES  |     | NULL    |       |
+| txEnd         | int(11)      | YES  |     | NULL    |       |
+| strand        | varchar(1)   | YES  |     | NULL    |       |
+| RPKM genelist | double       | YES  |     | NULL    |       |
++---------------+--------------+------+-----+---------+-------+
+
+
+
+
+
+
+
+
+============================================================================================
+Gene list from RNA-Seq experiment #6756 grouped by genes
+============================================================================================
+
+select tableName,type from ems.genelist where id='lcbd3756-cec9-443f-946d-62ee1a8aa5fc';
++----------------------------------+------+
+| tableName                        | type |
++----------------------------------+------+
+| lcbd3756cec9443f946d62ee1a8aa5fc |    2 |
++----------------------------------+------+
+
+describe experiments.lcbd3756cec9443f946d62ee1a8aa5fc;
++---------------+--------------+------+-----+---------+-------+
+| Field         | Type         | Null | Key | Default | Extra |
++---------------+--------------+------+-----+---------+-------+
+| refseq_id     | mediumtext   | YES  |     | NULL    |       |
+| gene_id       | varchar(100) | NO   |     | NULL    |       |
+| chrom         | varchar(255) | YES  |     | NULL    |       |
+| txStart       | int(11)      | YES  |     | NULL    |       |
+| txEnd         | int(11)      | YES  |     | NULL    |       |
+| strand        | varchar(1)   | YES  |     | NULL    |       |
+| RPKM genelist | double       | YES  |     | NULL    |       |
++---------------+--------------+------+-----+---------+-------+
+
+
+
+
+
+
+
+
+============================================================================================
+Gene list from RNA-Seq experiment #6756 grouped by common tss
+============================================================================================
+
+select tableName,type from ems.genelist where id='g3112a87-163b-4d28-97a5-01931bf28421';
++----------------------------------+------+
+| tableName                        | type |
++----------------------------------+------+
+| g3112a87163b4d2897a501931bf28421 |    2 |
++----------------------------------+------+
+
+describe experiments.g3112a87163b4d2897a501931bf28421;
++---------------+--------------+------+-----+---------+-------+
+| Field         | Type         | Null | Key | Default | Extra |
++---------------+--------------+------+-----+---------+-------+
+| refseq_id     | mediumtext   | YES  |     | NULL    |       |
+| gene_id       | mediumtext   | YES  |     | NULL    |       |
+| chrom         | varchar(255) | NO   |     |         |       |
+| txStart       | int(11)      | YES  |     | NULL    |       |
+| txEnd         | int(11)      | YES  |     | NULL    |       |
+| strand        | varchar(1)   | YES  |     | NULL    |       |
+| RPKM genelist | double       | YES  |     | NULL    |       |
++---------------+--------------+------+-----+---------+-------+
+
+
+
+
+
+
+
+
+============================================================================================
+Gene list from DESeq results grouped by isoforms
+============================================================================================
+
+select tableName,type from ems.genelist where id='Yb6494e2-8571-457f-df3a-d0a4b83bb799';
++----------------------------------+------+
+| tableName                        | type |
++----------------------------------+------+
+| Yb6494e28571457fdf3ad0a4b83bb799 |    2 |
++----------------------------------+------+
+
+describe experiments.Yb6494e28571457fdf3ad0a4b83bb799;
++--------------------------------+---------------+------+-----+---------+-------+
+| Field                          | Type          | Null | Key | Default | Extra |
++--------------------------------+---------------+------+-----+---------+-------+
+| refseq_id                      | varchar(1000) | NO   |     | NULL    |       |
+| gene_id                        | varchar(500)  | NO   |     | NULL    |       |
+| chrom                          | varchar(45)   | NO   |     | NULL    |       |
+| txStart                        | int(11)       | YES  |     | NULL    |       |
+| txEnd                          | int(11)       | YES  |     | NULL    |       |
+| strand                         | varchar(1)    | YES  |     | NULL    |       |
+| Rpkm_u                         | float         | YES  |     | NULL    |       |
+| Rpkm_t                         | float         | YES  |     | NULL    |       |
+| LOG2R KO_vs_WT_isoforms_cwl_2  | float         | YES  |     | NULL    |       |
+| pvalue KO_vs_WT_isoforms_cwl_2 | float         | YES  |     | NULL    |       |
+| padj KO_vs_WT_isoforms_cwl_2   | float         | YES  |     | NULL    |       |
++--------------------------------+---------------+------+-----+---------+-------+
+
+
+
+
+
+
+
+============================================================================================
+Gene list from DESeq results grouped by genes
+============================================================================================
+
+select tableName,type from ems.genelist where id='W38740ca-50a9-47ad-c4bd-4bd82aa4c645';
++----------------------------------+------+
+| tableName                        | type |
++----------------------------------+------+
+| W38740ca50a947adc4bd4bd82aa4c645 |    2 |
++----------------------------------+------+
+
+describe experiments.W38740ca50a947adc4bd4bd82aa4c645;
++-----------------------------+---------------+------+-----+---------+-------+
+| Field                       | Type          | Null | Key | Default | Extra |
++-----------------------------+---------------+------+-----+---------+-------+
+| refseq_id                   | varchar(1000) | NO   |     | NULL    |       |
+| gene_id                     | varchar(500)  | NO   |     | NULL    |       |
+| chrom                       | varchar(45)   | NO   |     | NULL    |       |
+| txStart                     | int(11)       | YES  |     | NULL    |       |
+| txEnd                       | int(11)       | YES  |     | NULL    |       |
+| strand                      | varchar(1)    | YES  |     | NULL    |       |
+| Rpkm_u                      | float         | YES  |     | NULL    |       |
+| Rpkm_t                      | float         | YES  |     | NULL    |       |
+| LOG2R KO_vs_WT_genes_cwl_2  | float         | YES  |     | NULL    |       |
+| pvalue KO_vs_WT_genes_cwl_2 | float         | YES  |     | NULL    |       |
+| padj KO_vs_WT_genes_cwl_2   | float         | YES  |     | NULL    |       |
++-----------------------------+---------------+------+-----+---------+-------+
+
+
+
+
+
+
+
+============================================================================================
+Gene list from DESeq results grouped by common tss
+============================================================================================
+
+select tableName,type from ems.genelist where id='q3124d31-5e78-4fdb-d809-1d7d20b11934';
+
++----------------------------------+------+
+| tableName                        | type |
++----------------------------------+------+
+| q3124d315e784fdbd8091d7d20b11934 |    2 |
++----------------------------------+------+
+
+describe experiments.q3124d315e784fdbd8091d7d20b11934;
+
++---------------------------+---------------+------+-----+---------+-------+
+| Field                     | Type          | Null | Key | Default | Extra |
++---------------------------+---------------+------+-----+---------+-------+
+| refseq_id                 | varchar(1000) | NO   |     | NULL    |       |
+| gene_id                   | varchar(500)  | NO   |     | NULL    |       |
+| chrom                     | varchar(45)   | NO   |     | NULL    |       |
+| txStart                   | int(11)       | YES  |     | NULL    |       |
+| txEnd                     | int(11)       | YES  |     | NULL    |       |
+| strand                    | varchar(1)    | YES  |     | NULL    |       |
+| Rpkm_u                    | float         | YES  |     | NULL    |       |
+| Rpkm_t                    | float         | YES  |     | NULL    |       |
+| LOG2R KO_vs_WT_tss_cwl_2  | float         | YES  |     | NULL    |       |
+| pvalue KO_vs_WT_tss_cwl_2 | float         | YES  |     | NULL    |       |
+| padj KO_vs_WT_tss_cwl_2   | float         | YES  |     | NULL    |       |
++---------------------------+---------------+------+-----+---------+-------+
+

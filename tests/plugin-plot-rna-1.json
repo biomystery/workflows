@@ -1,0 +1,6 @@
+{
+  "annotation_file": {"class": "File", "location": "./data/dm3_chr4/main_inputs/gtf/dm3_chr4.tsv"},
+  "bambai_pair": {"class": "File", "location": "./data/dm3_chr4/generated_inputs/bam_bai/chr4_100_mapped_reads.Aligned.out.bam"},
+  "isoforms_file": {"class": "File", "location": "./data/dm3_chr4/generated_inputs/geep/chr4_100_mapped_reads.Aligned.out.isoforms.csv"},
+  "stats_file": {"class": "File", "location": "./data/dm3_chr4/generated_inputs/logs/python_get_stat_rnaseq/chr4_100_mapped_reads.stat"}
+}

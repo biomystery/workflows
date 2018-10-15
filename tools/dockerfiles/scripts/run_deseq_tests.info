@@ -1,0 +1,369 @@
+=============================================================================================================================================================
+Add single to many tests, if necessarry
+=============================================================================================================================================================
+KO_vs_WT_isoforms
+{
+  "project_id": "Wf526674-b228-4661-ffaa-9a4c2269f648",
+  "atype_id": 3,
+  "deseq": {
+    "name": "KO_vs_WT_isoforms",
+    "annottype": 1,
+    "seriestype": 1,
+    "deseq": [{
+      "order": 1,
+      "table": "t73d61ff-035b-4635-be75-0a14cd33cce3"
+    }, {
+      "order": 2,
+      "table": "G6a7dc23-2ba0-48d9-bbdf-b3b220122069"
+    }]
+  }
+}
+
+Rscript run_deseq.R readonly readonly experiments 127.0.0.1 ems t73d61ff-035b-4635-be75-0a14cd33cce3 G6a7dc23-2ba0-48d9-bbdf-b3b220122069 1 KO_vs_WT_isoforms
+
+[1] "T1T"
+                             tableName    name
+1 x62BF009-769B-20C8-74FF-E7D8A471DFB5 KO Epi1
+2 ZF165FA0-0543-41EA-AD72-EC07BDDC415E KO Epi3
+3 sF2EE0AF-D8CD-DCBC-B170-8D79310EB292 KO Epi2
+[1] "T2T"
+                             tableName    name
+1 zCF389FC-D531-99DD-CF01-F14D8BC1577E WT Epi1
+2 X3CE323D-2BA3-256D-325B-8DF8F7B7E412 WT Epi2
+3 M03F1FB3-E7F0-4793-9CA4-FA1FC6F3A9C9 WT Epi3
+
+Rscript run_deseq_updated.R -u /wardrobe/RAW-DATA/x62BF009-769B-20C8-74FF-E7D8A471DFB5/x62BF009-769B-20C8-74FF-E7D8A471DFB5.isoforms.csv
+                               /wardrobe/RAW-DATA/ZF165FA0-0543-41EA-AD72-EC07BDDC415E/ZF165FA0-0543-41EA-AD72-EC07BDDC415E.isoforms.csv
+                               /wardrobe/RAW-DATA/sF2EE0AF-D8CD-DCBC-B170-8D79310EB292/sF2EE0AF-D8CD-DCBC-B170-8D79310EB292.isoforms.csv
+                            -t /wardrobe/RAW-DATA/zCF389FC-D531-99DD-CF01-F14D8BC1577E/zCF389FC-D531-99DD-CF01-F14D8BC1577E.isoforms.csv
+                               /wardrobe/RAW-DATA/X3CE323D-2BA3-256D-325B-8DF8F7B7E412/X3CE323D-2BA3-256D-325B-8DF8F7B7E412.isoforms.csv 
+                               /wardrobe/RAW-DATA/M03F1FB3-E7F0-4793-9CA4-FA1FC6F3A9C9/M03F1FB3-E7F0-4793-9CA4-FA1FC6F3A9C9.isoforms.csv
+                            -c isoform -o KO_vs_WT_isoforms_updated.tsv
+=============================================================================================================================================================
+
+=============================================================================================================================================================
+KO_vs_WT_genes
+{
+  "project_id": "Wf526674-b228-4661-ffaa-9a4c2269f648",
+  "atype_id": 3,
+  "deseq": {
+    "name": "KO_vs_WT_genes",
+    "annottype": 2,
+    "seriestype": 1,
+    "deseq": [{
+      "order": 1,
+      "table": "t73d61ff-035b-4635-be75-0a14cd33cce3"
+    }, {
+      "order": 2,
+      "table": "G6a7dc23-2ba0-48d9-bbdf-b3b220122069"
+    }]
+  }
+}
+Rscript run_deseq.R readonly readonly experiments 127.0.0.1 ems t73d61ff-035b-4635-be75-0a14cd33cce3 G6a7dc23-2ba0-48d9-bbdf-b3b220122069 2 KO_vs_WT_genes
+
+[1] "T1T"
+                             tableName    name
+1 x62BF009-769B-20C8-74FF-E7D8A471DFB5 KO Epi1
+2 ZF165FA0-0543-41EA-AD72-EC07BDDC415E KO Epi3
+3 sF2EE0AF-D8CD-DCBC-B170-8D79310EB292 KO Epi2
+[1] "T2T"
+                             tableName    name
+1 zCF389FC-D531-99DD-CF01-F14D8BC1577E WT Epi1
+2 X3CE323D-2BA3-256D-325B-8DF8F7B7E412 WT Epi2
+3 M03F1FB3-E7F0-4793-9CA4-FA1FC6F3A9C9 WT Epi3
+=============================================================================================================================================================
+
+=============================================================================================================================================================
+KO_vs_WT_tss
+{
+  "project_id": "Wf526674-b228-4661-ffaa-9a4c2269f648",
+  "atype_id": 3,
+  "deseq": {
+    "name": "KO_vs_WT_tss",
+    "annottype": 3,
+    "seriestype": 1,
+    "deseq": [{
+      "order": 1,
+      "table": "t73d61ff-035b-4635-be75-0a14cd33cce3"
+    }, {
+      "order": 2,
+      "table": "G6a7dc23-2ba0-48d9-bbdf-b3b220122069"
+    }]
+  }
+}
+Rscript run_deseq.R readonly readonly experiments 127.0.0.1 ems t73d61ff-035b-4635-be75-0a14cd33cce3 G6a7dc23-2ba0-48d9-bbdf-b3b220122069 3 KO_vs_WT_tss
+
+[1] "T1T"
+                             tableName    name
+1 x62BF009-769B-20C8-74FF-E7D8A471DFB5 KO Epi1
+2 ZF165FA0-0543-41EA-AD72-EC07BDDC415E KO Epi3
+3 sF2EE0AF-D8CD-DCBC-B170-8D79310EB292 KO Epi2
+[1] "T2T"
+                             tableName    name
+1 zCF389FC-D531-99DD-CF01-F14D8BC1577E WT Epi1
+2 X3CE323D-2BA3-256D-325B-8DF8F7B7E412 WT Epi2
+3 M03F1FB3-E7F0-4793-9CA4-FA1FC6F3A9C9 WT Epi3
+=============================================================================================================================================================
+
+=============================================================================================================================================================
+WT_vs_KO_isoforms
+{
+  "project_id": "Wf526674-b228-4661-ffaa-9a4c2269f648",
+  "atype_id": 3,
+  "deseq": {
+    "name": "WT_vs_KO_isoforms",
+    "annottype": 1,
+    "seriestype": 1,
+    "deseq": [{
+      "order": 1,
+      "table": "G6a7dc23-2ba0-48d9-bbdf-b3b220122069"
+    }, {
+      "order": 2,
+      "table": "t73d61ff-035b-4635-be75-0a14cd33cce3"
+    }]
+  }
+}
+Rscript run_deseq.R readonly readonly experiments 127.0.0.1 ems G6a7dc23-2ba0-48d9-bbdf-b3b220122069 t73d61ff-035b-4635-be75-0a14cd33cce3 1 WT_vs_KO_isoforms
+
+[1] "T1T"
+                             tableName    name
+1 zCF389FC-D531-99DD-CF01-F14D8BC1577E WT Epi1
+2 X3CE323D-2BA3-256D-325B-8DF8F7B7E412 WT Epi2
+3 M03F1FB3-E7F0-4793-9CA4-FA1FC6F3A9C9 WT Epi3
+[1] "T2T"
+                             tableName    name
+1 x62BF009-769B-20C8-74FF-E7D8A471DFB5 KO Epi1
+2 ZF165FA0-0543-41EA-AD72-EC07BDDC415E KO Epi3
+3 sF2EE0AF-D8CD-DCBC-B170-8D79310EB292 KO Epi2
+=============================================================================================================================================================
+
+=============================================================================================================================================================
+WT_vs_KO_genes
+{
+  "project_id": "Wf526674-b228-4661-ffaa-9a4c2269f648",
+  "atype_id": 3,
+  "deseq": {
+    "name": "WT_vs_KO_genes",
+    "annottype": 2,
+    "seriestype": 1,
+    "deseq": [{
+      "order": 1,
+      "table": "G6a7dc23-2ba0-48d9-bbdf-b3b220122069"
+    }, {
+      "order": 2,
+      "table": "t73d61ff-035b-4635-be75-0a14cd33cce3"
+    }]
+  }
+}
+Rscript run_deseq.R readonly readonly experiments 127.0.0.1 ems G6a7dc23-2ba0-48d9-bbdf-b3b220122069 t73d61ff-035b-4635-be75-0a14cd33cce3 2 WT_vs_KO_genes
+
+[1] "T1T"
+                             tableName    name
+1 zCF389FC-D531-99DD-CF01-F14D8BC1577E WT Epi1
+2 X3CE323D-2BA3-256D-325B-8DF8F7B7E412 WT Epi2
+3 M03F1FB3-E7F0-4793-9CA4-FA1FC6F3A9C9 WT Epi3
+[1] "T2T"
+                             tableName    name
+1 x62BF009-769B-20C8-74FF-E7D8A471DFB5 KO Epi1
+2 ZF165FA0-0543-41EA-AD72-EC07BDDC415E KO Epi3
+3 sF2EE0AF-D8CD-DCBC-B170-8D79310EB292 KO Epi2
+=============================================================================================================================================================
+
+=============================================================================================================================================================
+WT_vs_KO_tss
+{
+  "project_id": "Wf526674-b228-4661-ffaa-9a4c2269f648",
+  "atype_id": 3,
+  "deseq": {
+    "name": "WT_vs_KO_tss",
+    "annottype": 3,
+    "seriestype": 1,
+    "deseq": [{
+      "order": 1,
+      "table": "G6a7dc23-2ba0-48d9-bbdf-b3b220122069"
+    }, {
+      "order": 2,
+      "table": "t73d61ff-035b-4635-be75-0a14cd33cce3"
+    }]
+  }
+}
+Rscript run_deseq.R readonly readonly experiments 127.0.0.1 ems G6a7dc23-2ba0-48d9-bbdf-b3b220122069 t73d61ff-035b-4635-be75-0a14cd33cce3 3 WT_vs_KO_tss
+
+[1] "T1T"
+                             tableName    name
+1 zCF389FC-D531-99DD-CF01-F14D8BC1577E WT Epi1
+2 X3CE323D-2BA3-256D-325B-8DF8F7B7E412 WT Epi2
+3 M03F1FB3-E7F0-4793-9CA4-FA1FC6F3A9C9 WT Epi3
+[1] "T2T"
+                             tableName    name
+1 x62BF009-769B-20C8-74FF-E7D8A471DFB5 KO Epi1
+2 ZF165FA0-0543-41EA-AD72-EC07BDDC415E KO Epi3
+3 sF2EE0AF-D8CD-DCBC-B170-8D79310EB292 KO Epi2
+=============================================================================================================================================================
+
+=============================================================================================================================================================
+KO_single_vs_WT_single_isoforms
+{
+  "project_id": "Wf526674-b228-4661-ffaa-9a4c2269f648",
+  "atype_id": 3,
+  "deseq": {
+    "name": "KO_single_vs_WT_single_isoforms",
+    "annottype": 1,
+    "seriestype": 1,
+    "deseq": [{
+      "order": 1,
+      "table": "Kd46504d-268a-463c-ea9c-cefe94000516"
+    }, {
+      "order": 2,
+      "table": "Vb2824e8-8ddc-4b63-862a-bb81d95a2ac0"
+    }]
+  }
+}
+Rscript run_deseq.R readonly readonly experiments 127.0.0.1 ems Kd46504d-268a-463c-ea9c-cefe94000516 Vb2824e8-8ddc-4b63-862a-bb81d95a2ac0 1 KO_single_vs_WT_single_isoforms
+
+[1] "T1T"
+                             tableName    name
+1 x62BF009-769B-20C8-74FF-E7D8A471DFB5 KO Epi1
+[1] "T2T"
+                             tableName    name
+1 zCF389FC-D531-99DD-CF01-F14D8BC1577E WT Epi1
+=============================================================================================================================================================
+
+=============================================================================================================================================================
+KO_single_vs_WT_single_genes
+{
+  "project_id": "Wf526674-b228-4661-ffaa-9a4c2269f648",
+  "atype_id": 3,
+  "deseq": {
+    "name": "KO_single_vs_WT_single_genes",
+    "annottype": 2,
+    "seriestype": 1,
+    "deseq": [{
+      "order": 1,
+      "table": "Kd46504d-268a-463c-ea9c-cefe94000516"
+    }, {
+      "order": 2,
+      "table": "Vb2824e8-8ddc-4b63-862a-bb81d95a2ac0"
+    }]
+  }
+}
+Rscript run_deseq.R readonly readonly experiments 127.0.0.1 ems Kd46504d-268a-463c-ea9c-cefe94000516 Vb2824e8-8ddc-4b63-862a-bb81d95a2ac0 2 KO_single_vs_WT_single_genes
+
+[1] "T1T"
+                             tableName    name
+1 x62BF009-769B-20C8-74FF-E7D8A471DFB5 KO Epi1
+[1] "T2T"
+                             tableName    name
+1 zCF389FC-D531-99DD-CF01-F14D8BC1577E WT Epi1
+=============================================================================================================================================================
+
+=============================================================================================================================================================
+KO_single_vs_WT_single_tss
+{
+  "project_id": "Wf526674-b228-4661-ffaa-9a4c2269f648",
+  "atype_id": 3,
+  "deseq": {
+    "name": "KO_single_vs_WT_single_tss",
+    "annottype": 3,
+    "seriestype": 1,
+    "deseq": [{
+      "order": 1,
+      "table": "Kd46504d-268a-463c-ea9c-cefe94000516"
+    }, {
+      "order": 2,
+      "table": "Vb2824e8-8ddc-4b63-862a-bb81d95a2ac0"
+    }]
+  }
+}
+Rscript run_deseq.R readonly readonly experiments 127.0.0.1 ems Kd46504d-268a-463c-ea9c-cefe94000516 Vb2824e8-8ddc-4b63-862a-bb81d95a2ac0 3 KO_single_vs_WT_single_tss
+
+[1] "T1T"
+                             tableName    name
+1 x62BF009-769B-20C8-74FF-E7D8A471DFB5 KO Epi1
+[1] "T2T"
+                             tableName    name
+1 zCF389FC-D531-99DD-CF01-F14D8BC1577E WT Epi1
+=============================================================================================================================================================
+
+=============================================================================================================================================================
+WT_single_vs_KO_single_isoforms
+{
+  "project_id": "Wf526674-b228-4661-ffaa-9a4c2269f648",
+  "atype_id": 3,
+  "deseq": {
+    "name": "WT_single_vs_KO_single_isoforms",
+    "annottype": 1,
+    "seriestype": 1,
+    "deseq": [{
+      "order": 1,
+      "table": "Vb2824e8-8ddc-4b63-862a-bb81d95a2ac0"
+    }, {
+      "order": 2,
+      "table": "Kd46504d-268a-463c-ea9c-cefe94000516"
+    }]
+  }
+}
+Rscript run_deseq.R readonly readonly experiments 127.0.0.1 ems Vb2824e8-8ddc-4b63-862a-bb81d95a2ac0 Kd46504d-268a-463c-ea9c-cefe94000516 1 WT_single_vs_KO_single_isoforms
+
+[1] "T1T"
+                             tableName    name
+1 zCF389FC-D531-99DD-CF01-F14D8BC1577E WT Epi1
+[1] "T2T"
+                             tableName    name
+1 x62BF009-769B-20C8-74FF-E7D8A471DFB5 KO Epi1
+=============================================================================================================================================================
+
+=============================================================================================================================================================
+WT_single_vs_KO_single_genes
+{
+  "project_id": "Wf526674-b228-4661-ffaa-9a4c2269f648",
+  "atype_id": 3,
+  "deseq": {
+    "name": "WT_single_vs_KO_single_genes",
+    "annottype": 2,
+    "seriestype": 1,
+    "deseq": [{
+      "order": 1,
+      "table": "Vb2824e8-8ddc-4b63-862a-bb81d95a2ac0"
+    }, {
+      "order": 2,
+      "table": "Kd46504d-268a-463c-ea9c-cefe94000516"
+    }]
+  }
+}
+Rscript run_deseq.R readonly readonly experiments 127.0.0.1 ems Vb2824e8-8ddc-4b63-862a-bb81d95a2ac0 Kd46504d-268a-463c-ea9c-cefe94000516 2 WT_single_vs_KO_single_genes
+
+[1] "T1T"
+                             tableName    name
+1 zCF389FC-D531-99DD-CF01-F14D8BC1577E WT Epi1
+[1] "T2T"
+                             tableName    name
+1 x62BF009-769B-20C8-74FF-E7D8A471DFB5 KO Epi1
+=============================================================================================================================================================
+
+=============================================================================================================================================================
+WT_single_vs_KO_single_tss
+{
+  "project_id": "Wf526674-b228-4661-ffaa-9a4c2269f648",
+  "atype_id": 3,
+  "deseq": {
+    "name": "WT_single_vs_KO_single_tss",
+    "annottype": 3,
+    "seriestype": 1,
+    "deseq": [{
+      "order": 1,
+      "table": "Vb2824e8-8ddc-4b63-862a-bb81d95a2ac0"
+    }, {
+      "order": 2,
+      "table": "Kd46504d-268a-463c-ea9c-cefe94000516"
+    }]
+  }
+}
+Rscript run_deseq.R readonly readonly experiments 127.0.0.1 ems Vb2824e8-8ddc-4b63-862a-bb81d95a2ac0 Kd46504d-268a-463c-ea9c-cefe94000516 3 WT_single_vs_KO_single_tss
+
+[1] "T1T"
+                             tableName    name
+1 zCF389FC-D531-99DD-CF01-F14D8BC1577E WT Epi1
+[1] "T2T"
+                             tableName    name
+1 x62BF009-769B-20C8-74FF-E7D8A471DFB5 KO Epi1
