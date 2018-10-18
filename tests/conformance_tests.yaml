@@ -2314,11 +2314,11 @@
       size: 16175
 
 # ========================================================
-# homer-maketagdirectory
+# homer-make-tag-directory
 # ========================================================
 
-- job: ./homer-maketagdirectory-1.json
-  tool: ../tools/homer-maketagdirectory.cwl
+- job: ./homer-make-tag-directory-1.json
+  tool: ../tools/homer-make-tag-directory.cwl
   output:
     output_tag_folder:
       class: Directory
@@ -2340,8 +2340,8 @@
         location: tagCountDistribution.txt
         size: 108
 
-- job: ./homer-maketagdirectory-2.json
-  tool: ../tools/homer-maketagdirectory.cwl
+- job: ./homer-make-tag-directory-2.json
+  tool: ../tools/homer-make-tag-directory.cwl
   output:
     output_tag_folder:
       class: Directory
@@ -2363,8 +2363,8 @@
         location: tagCountDistribution.txt
         size: 108
 
-- job: ./homer-maketagdirectory-3.json
-  tool: ../tools/homer-maketagdirectory.cwl
+- job: ./homer-make-tag-directory-3.json
+  tool: ../tools/homer-make-tag-directory.cwl
   output:
     output_tag_folder:
       class: Directory
@@ -2386,8 +2386,8 @@
         location: tagCountDistribution.txt
         size: 108
 
-- job: ./homer-maketagdirectory-4.json
-  tool: ../tools/homer-maketagdirectory.cwl
+- job: ./homer-make-tag-directory-4.json
+  tool: ../tools/homer-make-tag-directory.cwl
   output:
     output_tag_folder:
       class: Directory
@@ -2409,8 +2409,8 @@
         location: tagCountDistribution.txt
         size: 97
 
-- job: ./homer-maketagdirectory-5.json
-  tool: ../tools/homer-maketagdirectory.cwl
+- job: ./homer-make-tag-directory-5.json
+  tool: ../tools/homer-make-tag-directory.cwl
   output:
     output_tag_folder:
       class: Directory
@@ -2432,8 +2432,8 @@
         location: tagCountDistribution.txt
         size: 97
 
-- job: ./homer-maketagdirectory-6.json
-  tool: ../tools/homer-maketagdirectory.cwl
+- job: ./homer-make-tag-directory-6.json
+  tool: ../tools/homer-make-tag-directory.cwl
   output:
     output_tag_folder:
       class: Directory
@@ -2455,8 +2455,8 @@
         location: tagCountDistribution.txt
         size: 97
 
-- job: ./homer-maketagdirectory-7.json
-  tool: ../tools/homer-maketagdirectory.cwl
+- job: ./homer-make-tag-directory-7.json
+  tool: ../tools/homer-make-tag-directory.cwl
   output:
     output_tag_folder:
       class: Directory
@@ -2678,3 +2678,133 @@
       - class: File
         location: tagCountDistribution.txt
         size: 108
+
+# ========================================================
+# homer-annotate-peaks-hist
+# ========================================================
+
+- job: ./homer-annotate-peaks-hist-1.json
+  tool: ../tools/homer-annotate-peaks-hist.cwl
+  output:
+    histogram_file:
+      class: File
+      location: output.heatmap
+      size: 7670
+
+- job: ./homer-annotate-peaks-hist-2.json
+  tool: ../tools/homer-annotate-peaks-hist.cwl
+  output:
+    histogram_file:
+      class: File
+      location: output.heatmap
+      size: 4332
+
+- job: ./homer-annotate-peaks-hist-3.json
+  tool: ../tools/homer-annotate-peaks-hist.cwl
+  output:
+    histogram_file:
+      class: File
+      location: output.hist
+
+# ========================================================
+# split-heatmap
+# ========================================================
+
+- job: ./split-heatmap-1.json
+  tool: ../tools/split-heatmap.cwl
+  output:
+    refactored_heatmap_file:
+      - class: File
+        location: heatmap_1.json
+        size: 1973
+
+- job: ./split-heatmap-2.json
+  tool: ../tools/split-heatmap.cwl
+  output:
+    refactored_heatmap_file:
+      - class: File
+        location: heatmap_1.json
+        size: 1973
+
+- job: ./split-heatmap-3.json
+  tool: ../tools/split-heatmap.cwl
+  output:
+    refactored_heatmap_file:
+      - class: File
+        location: heatmap_1.json
+        size: 1973
+      - class: File
+        location: heatmap_2.json
+        size: 1973
+
+- job: ./split-heatmap-4.json
+  tool: ../tools/split-heatmap.cwl
+  output:
+    refactored_heatmap_file:
+      - class: File
+        location: heatmap_1.json
+        size: 1973
+      - class: File
+        location: heatmap_2.json
+        size: 1973
+
+- job: ./split-heatmap-5.json
+  tool: ../tools/split-heatmap.cwl
+  output:
+    refactored_heatmap_file:
+      - class: File
+        location: heatmap_1.json
+        size: 1973
+      - class: File
+        location: heatmap_2.json
+        size: 1973
+
+- job: ./split-heatmap-6.json
+  tool: ../tools/split-heatmap.cwl
+  output:
+    refactored_heatmap_file:
+      - class: File
+        location: chr4_100_mapped_reads.Aligned.out.json
+        size: 1973
+      - class: File
+        location: copy_chr4_100_mapped_reads.Aligned.out.json
+        size: 1973
+
+- job: ./split-heatmap-7.json
+  tool: ../tools/split-heatmap.cwl
+  output:
+    refactored_heatmap_file:
+      - class: File
+        location: chr4_100_mapped_reads.Aligned.out.json
+        size: 1973
+
+- job: ./split-heatmap-8.json
+  tool: ../tools/split-heatmap.cwl
+  output:
+    refactored_heatmap_file:
+      - class: File
+        location: chr4_100_mapped_reads.Aligned.out.json
+        size: 1973
+
+# ========================================================
+# heatmap
+# ========================================================
+
+- job: ./heatmap-1.json
+  tool: ../workflows/heatmap.cwl
+  output:
+    heatmap_file:
+      - class: File
+        location: chr4_100_mapped_reads.Aligned.out.json
+        size: 121544
+
+- job: ./heatmap-2.json
+  tool: ../workflows/heatmap.cwl
+  output:
+    heatmap_file:
+      - class: File
+        location: chr4_100_mapped_reads.Aligned.out.json
+        size: 121544
+      - class: File
+        location: copy_chr4_100_mapped_reads.Aligned.out.json
+        size: 121544
