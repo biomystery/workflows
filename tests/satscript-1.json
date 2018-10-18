@@ -1,4 +1,0 @@
-{
-    "bam_file": {"class": "File", "location": "/Users/kot4or/workspaces/python_ws/SatScript/data/short.bam", "format": "http://edamontology.org/format_2572"},
-    "macs_log": {"class": "File", "location": "/Users/kot4or/workspaces/python_ws/SatScript/data/macs.log", "format": "http://edamontology.org/format_2330"}
-}
