@@ -2689,7 +2689,7 @@
     histogram_file:
       class: File
       location: output.heatmap
-      size: 7670
+      size: 25710
 
 - job: ./homer-annotate-peaks-hist-2.json
   tool: ../tools/homer-annotate-peaks-hist.cwl
@@ -2697,7 +2697,7 @@
     histogram_file:
       class: File
       location: output.heatmap
-      size: 4332
+      size: 23806
 
 - job: ./homer-annotate-peaks-hist-3.json
   tool: ../tools/homer-annotate-peaks-hist.cwl
@@ -2796,7 +2796,7 @@
     heatmap_file:
       - class: File
         location: chr4_100_mapped_reads.Aligned.out.json
-        size: 121544
+        size: 289146
 
 - job: ./heatmap-2.json
   tool: ../workflows/heatmap.cwl
@@ -2804,7 +2804,7 @@
     heatmap_file:
       - class: File
         location: chr4_100_mapped_reads.Aligned.out.json
-        size: 121544
+        size: 289146
       - class: File
         location: copy_chr4_100_mapped_reads.Aligned.out.json
-        size: 121544
+        size: 289146
