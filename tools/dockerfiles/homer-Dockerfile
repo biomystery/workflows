@@ -47,7 +47,8 @@ RUN Rscript /tmp/install_from_bioconductor.R edgeR && \
     perl configureHomer.pl -install homer -version ${VER_HOMER} && \
 
 ### Patch annotatePeaks.pl script
-    cat /opt/homer/bin/annotatePeaks.pl | awk '{if (NR != 3094) print $0}' > /opt/homer/bin/annotatePeaks.pl && \
+    cat /opt/homer/bin/annotatePeaks.pl | awk '{if (NR != 3094) print $0}' > /opt/homer/bin/annotatePeaks_updated.pl && \
+    mv /opt/homer/bin/annotatePeaks_updated.pl /opt/homer/bin/annotatePeaks.pl && \
     chmod +x /opt/homer/bin/annotatePeaks.pl && \
 
 ### Cleaning
