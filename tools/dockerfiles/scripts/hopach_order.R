@@ -29,7 +29,7 @@ print(paste("Load data from ", args$input, sep=""))
 original_data <- read.table(args$input, sep=get_file_type(args$input), header=TRUE, stringsAsFactors=FALSE)
 print(paste("Number of rows: ", nrow(original_data), sep=""))
 
-selected_data <- original_data[!rowSums(original_data[,c(7:ncol(original_data))] < args$min),]
+selected_data <- original_data[!rowSums(original_data[,c(7:ncol(original_data))] < args$min) == (ncol(original_data)-6),]
 print(paste("Discarded from calculation due to RPKM filtering with min=", args$min, ": ", nrow(original_data)-nrow(selected_data), sep=""))
 
 expression_data = selected_data[, c(7:ncol(selected_data))]
