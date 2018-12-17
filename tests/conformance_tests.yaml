@@ -2057,7 +2057,7 @@
     wig_file:
       class: File
       location: output.wig
-      size: 1658
+      size: 1546
 
 - job: ./ucsc-bigwigtowig-4.json
   tool: ../tools/ucsc-bigwigtowig.cwl
