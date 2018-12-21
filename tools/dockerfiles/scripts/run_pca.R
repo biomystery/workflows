@@ -2,6 +2,7 @@
 options(warn=-1)
 options("width"=200)
 suppressMessages(library(argparse))
+suppressMessages(library(scatterplot3d))
 
 
 get_file_type <- function (filename) {
@@ -52,6 +53,13 @@ icolor <- colorRampPalette(c("#7fc97f","#beaed4","#fdc086","#386cb0","#f0027f"))
 pca <- prcomp(t(filtered_target_data), cor=TRUE, scale.=T)
 result <- pca$x
 
+write.table(result,
+            file=paste(args$output, "pca.tsv", sep=""),
+            sep="\t",
+            row.names=TRUE,
+            col.names=TRUE,
+            quote=FALSE)
+
 plot(result[,1], result[,2], col=icolor, xlab="PCA1", ylab="PCA2", main="")
 legend("bottomright", text.col=icolor, bg="white", legend = args$name, yjust=0, horiz=F, bty='n', cex=0.8)
 
@@ -60,9 +68,9 @@ legend("bottomright", text.col=icolor, bg="white", legend = args$name, yjust=0, 
 
 plot(pca, type="lines")
 
-library(scatterplot3d)
 s3d <- scatterplot3d(result[,1], result[,2], result[,3], xlab="PC1", ylab="PC2", zlab="PC3", main="",
 	                 color=icolor, col.axis="blue", sub="", box=T, lwd=5, type="p")
+
 legend("bottomright", inset=c(0.03,0.03), text.col=icolor, bg="white", legend=args$name, yjust=0, horiz=F, bty='n', cex=0.8)
 
 graphics.off()
