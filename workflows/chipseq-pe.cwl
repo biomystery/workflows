@@ -242,6 +242,13 @@ outputs:
     doc: "Processed and combined Bowtie aligner and Samtools rmdup log"
     outputSource: get_stat/output_file
 
+  get_stat_formatted_log:
+    type: File?
+    label: "Bowtie & Samtools Rmdup combined formatted log"
+    format: "http://edamontology.org/format_3475"
+    doc: "Processed and combined Bowtie aligner and Samtools rmdup formatted log"
+    outputSource: get_stat/formatted_output_file
+
   macs2_fragment_stat:
     type: File?
     label: "FRAGMENT, FRAGMENTE, ISLANDS"
@@ -380,6 +387,7 @@ steps:
       out:
         - output_file
         - mapped_reads
+        - formatted_output_file
 
   island_intersect:
       run: ../tools/iaintersect.cwl

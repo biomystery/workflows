@@ -175,6 +175,13 @@ outputs:
     doc: "Processed and combined Bowtie & STAR aligner and GEEP logs"
     outputSource: get_stat/output_file
 
+  get_stat_formatted_log:
+    type: File?
+    label: "Bowtie, STAR and GEEP combined formatted log"
+    format: "http://edamontology.org/format_3475"
+    doc: "Processed and combined Bowtie & STAR aligner and GEEP formatted logs"
+    outputSource: get_stat/formatted_output_file
+
   trim_report_upstream:
     type: File
     label: "TrimGalore report Upstream"
@@ -341,7 +348,9 @@ steps:
         rpkm_isoforms: rpkm_calculation/isoforms_file
         pair_end:
           default: true
-      out: [output_file]
+      out:
+        - output_file
+        - formatted_output_file
 
 $namespaces:
   s: http://schema.org/

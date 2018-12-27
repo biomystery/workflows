@@ -860,6 +860,10 @@
       class: File
       location: upstream.stat
       size: 12
+    formatted_output_file:
+      class: File
+      location: upstream_formatted.tsv
+      size: 125
 
 - job: ./python-get-stat-chipseq-2.json
   tool: ../tools/python-get-stat-chipseq.cwl
@@ -872,6 +876,26 @@
       class: File
       location: result.txt
       size: 12
+    formatted_output_file:
+      class: File
+      location: upstream_formatted.tsv
+      size: 125
+
+- job: ./python-get-stat-chipseq-3.json
+  tool: ../tools/python-get-stat-chipseq.cwl
+  output:
+    used_reads: 94
+    total_reads: 125
+    supressed_reads: 0
+    mapped_reads: 31
+    output_file:
+      class: File
+      location: result.txt
+      size: 12
+    formatted_output_file:
+      class: File
+      location: result_formatted.tsv
+      size: 125
 
 # ========================================================
 # python-get-stat-rnaseq
@@ -889,6 +913,10 @@
       class: File
       location: chr4_100_mapped_reads.stat
       size: 14
+    formatted_output_file:
+      class: File
+      location: chr4_100_mapped_reads_formatted.tsv
+      size: 149
 
 - job: ./python-get-stat-rnaseq-2.json
   tool: ../tools/python-get-stat-rnaseq.cwl
@@ -902,6 +930,28 @@
       class: File
       location: result.txt
       size: 15
+    formatted_output_file:
+      class: File
+      location: chr4_100_mapped_reads_formatted.tsv
+      size: 150
+  doc: We use pair-end, but treat it as single-end, so the output has not correct read numbers from biological point of view
+
+- job: ./python-get-stat-rnaseq-3.json
+  tool: ../tools/python-get-stat-rnaseq.cwl
+  output:
+    ribo_reads: 0
+    mapped_reads: 94
+    total_reads: 125
+    used_reads: 135
+    supressed_reads: 5
+    output_file:
+      class: File
+      location: result.txt
+      size: 15
+    formatted_output_file:
+      class: File
+      location: result.tsv
+      size: 150
   doc: We use pair-end, but treat it as single-end, so the output has not correct read numbers from biological point of view
 
 # ========================================================
@@ -2846,6 +2896,10 @@
       class: File
       location: upstream.stat
       size: 12
+    get_stat_formatted_log:
+      class: File
+      location: upstream_formatted.tsv
+      size: 125
     iaintersect_log:
       class: File
       location: upstream_macs_peaks_iaintersect.log
@@ -2919,6 +2973,10 @@
       class: File
       location: upstream.stat
       size: 12
+    get_stat_formatted_log:
+      class: File
+      location: upstream_formatted.tsv
+      size: 125
     iaintersect_log:
       class: File
       location: upstream_macs_peaks_iaintersect.log
@@ -2981,6 +3039,10 @@
       location: "upstream.stat"
       class: File
       size: 15
+    get_stat_formatted_log:
+      location: "upstream_formatted.tsv"
+      class: File
+      size: 150
     rpkm_common_tss:
       location: "upstream.common_tss.tsv"
       class: File
@@ -3042,6 +3104,10 @@
       location: "upstream.stat"
       class: File
       size: 14
+    get_stat_formatted_log:
+      location: "upstream_formatted.tsv"
+      class: File
+      size: 149
     rpkm_common_tss:
       location: "upstream.common_tss.tsv"
       class: File
@@ -3103,6 +3169,10 @@
       location: "upstream.stat"
       class: File
       size: 15
+    get_stat_formatted_log:
+      location: "upstream_formatted.tsv"
+      class: File
+      size: 150
     rpkm_common_tss:
       location: "upstream.common_tss.tsv"
       class: File
@@ -3168,6 +3238,10 @@
       location: "upstream.stat"
       class: File
       size: 14
+    get_stat_formatted_log:
+      location: "upstream_formatted.tsv"
+      class: File
+      size: 149
     rpkm_common_tss:
       location: "upstream.common_tss.tsv"
       class: File
@@ -3232,6 +3306,10 @@
       location: "upstream.stat"
       class: File
       size: 12
+    get_stat_formatted_log:
+      location: "upstream_formatted.tsv"
+      class: File
+      size: 125
     iaintersect_log:
       location: "upstream_macs_peaks_iaintersect.log"
       class: File
@@ -3308,6 +3386,10 @@
       location: "upstream.stat"
       class: File
       size: 11
+    get_stat_formatted_log:
+      location: "upstream_formatted.tsv"
+      class: File
+      size: 124
     iaintersect_log:
       location: "upstream_macs_peaks_iaintersect.log"
       class: File
@@ -3376,6 +3458,10 @@
       location: "upstream.stat"
       class: File
       size: 14
+    get_stat_formatted_log:
+      location: "upstream_formatted.tsv"
+      class: File
+      size: 149
     rpkm_common_tss:
       location: "upstream.common_tss.tsv"
       class: File
@@ -3440,6 +3526,10 @@
       location: "upstream.stat"
       class: File
       size: 13
+    get_stat_formatted_log:
+      location: "upstream_formatted.tsv"
+      class: File
+      size: 148
     rpkm_common_tss:
       location: "upstream.common_tss.tsv"
       class: File
@@ -3507,6 +3597,10 @@
       location: "upstream.stat"
       class: File
       size: 14
+    get_stat_formatted_log:
+      location: "upstream_formatted.tsv"
+      class: File
+      size: 149
     rpkm_common_tss:
       location: "upstream.common_tss.tsv"
       class: File
@@ -3575,6 +3669,10 @@
       location: "upstream.stat"
       class: File
       size: 13
+    get_stat_formatted_log:
+      location: "upstream_formatted.tsv"
+      class: File
+      size: 148
     rpkm_common_tss:
       location: "upstream.common_tss.tsv"
       class: File

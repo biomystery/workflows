@@ -14,6 +14,15 @@ requirements:
           return inputs.output_filename;
         }
     };
+  - var get_formatted_output_filename = function() {
+        if (inputs.formatted_output_filename == null){
+          let root = inputs.bowtie_log.basename.split('.').slice(0,-1).join('.');
+          let ext = "_formatted.tsv";
+          return (root == "")?inputs.bowtie_log.basename+ext:root+ext;
+        } else {
+          return inputs.formatted_output_filename;
+        }
+    };
 
 hints:
 - class: DockerRequirement
@@ -27,7 +36,7 @@ inputs:
     default: |
       #!/usr/bin/env python
       import sys, re
-      TOTAL, ALIGNED, SUPRESSED, USED = 100, 80, 0, 0
+      TOTAL, ALIGNED, SUPPRESSED, USED = 100, 80, 0, 0
       with open(sys.argv[1], 'r') as bowtie_log:
         for line in bowtie_log:
           if 'processed:' in line:
@@ -35,18 +44,21 @@ inputs:
           if 'alignment:' in line:
             ALIGNED = int(line.split('alignment:')[1].split()[0])
           if 'due to -m:' in line:
-            SUPRESSED = int(line.split('due to -m:')[1].split()[0])
+            SUPPRESSED = int(line.split('due to -m:')[1].split()[0])
       USED = ALIGNED
       with open(sys.argv[2], 'r') as rmdup_log:
         for line in rmdup_log:
           if '/' in line and 'Skip' not in line:
             splt = line.split('/')
             USED = int((splt[1].split('='))[0].strip()) - int((splt[0].split(']'))[1].strip())
-      print TOTAL, ALIGNED, SUPRESSED, USED
+      print TOTAL, ALIGNED, SUPPRESSED, USED
+      print >> sys.stderr, "Total reads number\tUniquely mapped reads number\tMulti-mapped reads number\tReads number after removing duplicates"
+      print >> sys.stderr, str(TOTAL) + "\t" + str(ALIGNED) + "\t" + str(SUPPRESSED) + "\t" + str(USED)
+
     inputBinding:
       position: 5
     doc: |
-      Python script to get TOTAL, ALIGNED, SUPRESSED, USED values from log files
+      Python script to get TOTAL, ALIGNED, SUPPRESSED, USED values from log files
 
   bowtie_log:
     type: File
@@ -69,6 +81,12 @@ inputs:
     doc: |
       Name for generated output file
 
+  formatted_output_filename:
+    type:
+    - "null"
+    - string
+    doc: |
+      Name for generated formatted output file
 
 outputs:
 
@@ -76,6 +94,11 @@ outputs:
     type: File
     outputBinding:
       glob: $(get_output_filename())
+
+  formatted_output_file:
+    type: File
+    outputBinding:
+      glob: $(get_formatted_output_filename())
 
   total_reads:
     type: int
@@ -107,7 +130,7 @@ outputs:
 
 baseCommand: [python, '-c']
 arguments:
-  - valueFrom: $(" > " + get_output_filename())
+  - valueFrom: $(" > " + get_output_filename() + " 2> " + get_formatted_output_filename())
     position: 100000
     shellQuote: false
 
@@ -157,6 +180,9 @@ doc: |
 
   `get_output_filename` function returns output filename equal to `output_filename` (if this input is provided) or
   generated on the base of bowtie log basename with `.stat` extension.
+
+  `get_formatted_output_filename` function returns output filename equal to `formatted_output_filename` (if input is provided) or
+  generated on the base of STAR log basename with `_formatted.tsv` extension.
 
 s:about: |
   Runs python code from the script input

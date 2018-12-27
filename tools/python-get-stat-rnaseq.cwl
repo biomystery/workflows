@@ -12,6 +12,13 @@ requirements:
           return inputs.output_filename;
         }
     };
+  - var get_formatted_output_filename = function() {
+        if (inputs.formatted_output_filename == null){
+          return inputs.star_log.location.split('/').slice(-1)[0].replace(/\.*Log\.final\.out$/i,'')+"_formatted.tsv";
+        } else {
+          return inputs.formatted_output_filename;
+        }
+    };
 
 hints:
 - class: DockerRequirement
@@ -25,7 +32,7 @@ inputs:
     default: |
       # !/usr/bin/env python
       import sys, re
-      TOTAL, ALIGNED, RIBO, SUPRESSED, USED = 0, 0, 0, 0, 0
+      TOTAL, ALIGNED, RIBO, SUPPRESSED, USED = 0, 0, 0, 0, 0
       with open(sys.argv[1], 'r') as star_log:
           for line in star_log:
               if 'Number of input reads' in line:
@@ -53,10 +60,12 @@ inputs:
       if len(sys.argv) > 4 and sys.argv[4] == "--pair":
           USED = USED/2
       print TOTAL, ALIGNED, RIBO, SUPPRESSED, USED
+      print >> sys.stderr, "Total reads number\tUniquely mapped reads number\tRibosomal reads number\tMulti-mapped reads number\tMapped within annotation reads number"
+      print >> sys.stderr, str(TOTAL) + "\t" + str(ALIGNED) + "\t" + str(RIBO) + "\t" + str(SUPPRESSED) + "\t" + str(USED)
     inputBinding:
       position: 5
     doc: |
-      Python script to get TOTAL, ALIGNED, RIBO, SUPRESSED, USED values from log files
+      Python script to get TOTAL, ALIGNED, RIBO, SUPPRESSED, USED values from log files
 
   star_log:
     type: File
@@ -94,6 +103,13 @@ inputs:
     doc: |
       Name for generated output file
 
+  formatted_output_filename:
+    type:
+    - "null"
+    - string
+    doc: |
+      Name for generated formatted output file
+
 
 outputs:
 
@@ -101,6 +117,11 @@ outputs:
     type: File
     outputBinding:
       glob: $(get_output_filename())
+
+  formatted_output_file:
+    type: File
+    outputBinding:
+      glob: $(get_formatted_output_filename())
 
   total_reads:
     type: int
@@ -139,7 +160,7 @@ outputs:
 
 baseCommand: [python, '-c']
 arguments:
-  - valueFrom: $(" > " + get_output_filename())
+  - valueFrom: $(" > " + get_output_filename() + " 2> " + get_formatted_output_filename())
     position: 100000
     shellQuote: false
 
@@ -189,6 +210,9 @@ doc: |
 
   `get_output_filename` function returns output filename equal to `output_filename` (if input is provided) or
   generated on the base of STAR log basename with `.stat` extension.
+
+  `get_formatted_output_filename` function returns output filename equal to `formatted_output_filename` (if input is provided) or
+  generated on the base of STAR log basename with `_formatted.tsv` extension.
 
 s:about: |
   Runs python code from the `script` input
