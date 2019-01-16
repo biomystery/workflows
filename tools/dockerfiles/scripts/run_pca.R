@@ -44,7 +44,7 @@ parser$add_argument("-c", "--combine",   help='Combine inputs by columns names',
 parser$add_argument("-o", "--output",    help='Output prefix',                         type="character", default="./pca_")
 args <- parser$parse_args(commandArgs(trailingOnly = TRUE))
 
-png(filename=paste(args$output, "%03d.png", sep=""))
+png(filename=paste(args$output, "%03d.png", sep=""), width=800, height=800)
 target_data <- load_data_set(args$input, args$name, args$target, args$combine)
 filtered_target_data <- target_data[rowSums(target_data) != 0,]
 
@@ -53,10 +53,13 @@ icolor <- colorRampPalette(c("#7fc97f","#beaed4","#fdc086","#386cb0","#f0027f"))
 pca <- prcomp(t(filtered_target_data), cor=TRUE, scale.=T)
 result <- pca$x
 
-write.table(result,
+result_df <- as.data.frame(result)
+result_df <- cbind(exp=rownames(result_df), result_df)
+
+write.table(result_df,
             file=paste(args$output, "pca.tsv", sep=""),
             sep="\t",
-            row.names=TRUE,
+            row.names=FALSE,
             col.names=TRUE,
             quote=FALSE)
 
