@@ -3720,7 +3720,6 @@
     estimates_file:
       location: "small.sorted_preseq_estimates.tsv"
       class: File
-      size: 388918
 
 - job: ./preseq-lc-extrap-2.json
   tool: ../tools/preseq-lc-extrap.cwl
@@ -3728,7 +3727,6 @@
     estimates_file:
       location: "output.tsv"
       class: File
-      size: 388918
 
 - job: ./preseq-lc-extrap-3.json
   tool: ../tools/preseq-lc-extrap.cwl
