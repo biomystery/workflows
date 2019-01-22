@@ -2931,6 +2931,7 @@
     samtools_rmdup_log:
       class: File
       location: upstream.rmdup
+    estimates_file: null
 
 # ========================================================
 # chipseq-pe
@@ -3008,6 +3009,7 @@
     samtools_rmdup_log:
       class: File
       location: upstream.rmdup
+    estimates_file: null
 
 # ========================================================
 # rnaseq-se
@@ -3344,6 +3346,7 @@
     trim_report:
       location: "upstream.fastq_trimming_report.txt"
       class: File
+    estimates_file: null
 
 # ========================================================
 # trim-chipseq-pe
@@ -3427,6 +3430,7 @@
     trim_report_upstream:
       location: "upstream.fastq_trimming_report.txt"
       class: File
+    estimates_file: null
 
 # ========================================================
 # trim-rnaseq-se
@@ -3725,3 +3729,15 @@
       location: "output.tsv"
       class: File
       size: 388918
+
+- job: ./preseq-lc-extrap-3.json
+  tool: ../tools/preseq-lc-extrap.cwl
+  output:
+    estimates_file: null
+  doc: with this input BAM file Preseq should fail, but CommandLineTool won't fail
+
+- job: ./preseq-lc-extrap-4.json
+  tool: ../tools/preseq-lc-extrap.cwl
+  output:
+    estimates_file: null
+  doc: with this input BAM file Preseq should fail, but CommandLineTool won't fail

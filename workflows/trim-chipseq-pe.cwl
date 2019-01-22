@@ -268,6 +268,13 @@ outputs:
     doc: "TrimGalore generated log for downstream FASTQ"
     outputSource: trim_fastq/report_file_pair
 
+  preseq_estimates:
+    type: File?
+    label: "Preseq estimates"
+    format: "http://edamontology.org/format_3475"
+    doc: "Preseq estimated results"
+    outputSource: preseq/estimates_file
+
 steps:
 
   extract_fastq_upstream:
@@ -362,6 +369,14 @@ steps:
       sort_input: bowtie_aligner/sam_file
       threads: threads
     out: [bam_bai_pair]
+
+  preseq:
+    run: ../tools/preseq-lc-extrap.cwl
+    in:
+      bam_file: samtools_sort_index/bam_bai_pair
+      pe_mode:
+        default: true
+    out: [estimates_file]
 
   samtools_rmdup:
     run: ../tools/samtools-rmdup.cwl

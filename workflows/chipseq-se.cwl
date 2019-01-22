@@ -244,6 +244,13 @@ outputs:
     doc: "fragment, calculated fragment, islands count from MACS2 results"
     outputSource: macs2_callpeak/macs2_stat_file
 
+  preseq_estimates:
+    type: File?
+    label: "Preseq estimates"
+    format: "http://edamontology.org/format_3475"
+    doc: "Preseq estimated results"
+    outputSource: preseq/estimates_file
+
 steps:
 
   extract_fastq:
@@ -286,6 +293,12 @@ steps:
       sort_input: bowtie_aligner/sam_file
       threads: threads
     out: [bam_bai_pair]
+
+  preseq:
+    run: ../tools/preseq-lc-extrap.cwl
+    in:
+      bam_file: samtools_sort_index/bam_bai_pair
+    out: [estimates_file]
 
   samtools_rmdup:
     run: ../tools/samtools-rmdup.cwl

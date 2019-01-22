@@ -5,9 +5,14 @@ class: CommandLineTool
 requirements:
   - class: InlineJavascriptRequirement
     expressionLib:
-    - var default_output_filename = function(input_file, ext) {
-          let root = input_file.basename.split('.').slice(0,-1).join('.');
-          return (root == "")?inputs.input_file.basename+ext:root+ext;
+    - var get_output_filename = function(input_file) {
+          if (inputs.estimates_filename == "") {
+            let ext = "_preseq_estimates.tsv";
+            let root = input_file.basename.split('.').slice(0,-1).join('.');
+            return (root == "")?inputs.input_file.basename+ext:root+ext;
+          } else {
+            return inputs.estimates_filename;
+          }
       };
 
 
@@ -32,7 +37,7 @@ inputs:
       prefix: "-extrap"
     doc: "Maximum extrapolation, default: 1e+10"
 
-  fragment_size:
+  max_fragment_size:
     type: int?
     inputBinding:
       position: 7
@@ -81,6 +86,15 @@ inputs:
       prefix: "-verbose"
     doc: "Verbose mode"
 
+  estimates_filename:
+    type: string?
+    inputBinding:
+      position: 14
+      prefix: "-output"
+      valueFrom: $(get_output_filename(inputs.bam_file))
+    default: ""
+    doc: "Output filename"
+
   pe_mode:
     type: boolean?
     inputBinding:
@@ -94,21 +108,18 @@ inputs:
       position: 16
     doc: "Coordinate sorted BAM file"
 
-  estimates_filename:
-    type: string?
-    doc: "Output filename"
-
-
 outputs:
 
   estimates_file:
-    type: stdout
-
-
-stdout: $(inputs.estimates_filename?inputs.estimates_filename:default_output_filename(inputs.bam_file, "_preseq_estimates.tsv"))
+    type: File?
+    outputBinding:
+      glob: $(get_output_filename(inputs.bam_file))
 
 
 baseCommand: ["preseq", "lc_extrap", "-bam"]
+
+
+successCodes: [1]
 
 
 $namespaces:
@@ -157,6 +168,7 @@ s:creator:
 
 doc: |
   Tool runs preseq lc_extrap. Only BAM input file is supported (-B option is used by default)
+  successCodes: [1] - is used to pass this tool as a step in a workflow in case the BAM file was not correct for Preseq
   Discarded arguments:
     -V, -vals        input is a text file containing only the observed counts
     -H, -hist        input is a text file containing the observed histogram
