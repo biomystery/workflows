@@ -8,6 +8,7 @@
 # Provides:         SatScript
 #                   bedops
 #                   bedmap
+#                   bc
 # Base Image:       biowardrobe2/macs2:v2.1.1
 # Build Cmd:        docker build --rm -t biowardrobe2/satscript:v0.0.2 -f satscript-Dockerfile .
 # Pull Cmd:         docker pull biowardrobe2/satscript:v0.0.2
@@ -42,7 +43,7 @@ ENV BEDOPS_URL "https://github.com/bedops/bedops/archive/v${BEDOPS_VERSION}.tar.
 
 RUN apt-get clean all &&\
     apt-get update &&\
-    apt-get install -y libc6-dev build-essential tcsh devscripts debhelper &&\
+    apt-get install -y libc6-dev build-essential tcsh devscripts debhelper bc &&\
 
 ### Installing bedops
     wget -q -O - $BEDOPS_URL | tar -zxv --strip-components=1 &&\
