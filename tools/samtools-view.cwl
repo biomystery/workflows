@@ -245,7 +245,14 @@ outputs:
   view_file:
     type: File
     outputBinding:
-      glob: $(default_output_name())
+      glob: |
+        ${
+            if (inputs.output_name == ""){
+              return default_output_name();
+            } else {
+              return inputs.output_name;
+            }
+        }
 
   filtered_file:
     type: File?
