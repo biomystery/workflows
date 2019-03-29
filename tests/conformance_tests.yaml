@@ -3361,7 +3361,7 @@
     atdp_result:
       location: "upstream_atdp.tsv"
       class: File
-      size: 119074
+      size: 120727
     bambai_pair:
       location: "upstream.bam"
       class: File
