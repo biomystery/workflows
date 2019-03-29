@@ -1,0 +1,15 @@
+{
+    "bam_file": {"class": "File", "location": "./data/dm3_chr4/generated_inputs/bam_bai/chr4_100_mapped_reads.Aligned.out.bam"},
+    "bed_file": {"class": "File", "location": "./data/dm3_chr4/generated_inputs/macs_peaks/broad_peaks.broadPeak"},
+    "fasta_file": {
+        "class": "File",
+        "location": "./data/dm3_chr4/main_inputs/fasta/chr4.fa",
+        "secondaryFiles":[
+            {
+                "class": "File",
+                "location": "./data/dm3_chr4/main_inputs/fasta/chr4.fa.fai"
+            }
+        ]
+    },
+    "output_basename": "necleoatac"
+}
