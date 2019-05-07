@@ -362,7 +362,7 @@ steps:
       q:
         default: true
       X:
-        default: 500  
+        default: 2000
     out: [sam_file, log_file]
 
   samtools_sort_index:
