@@ -2982,18 +2982,18 @@
     atdp_result:
       class: File
       location: upstream_atdp.tsv
-      size: 139615
+      size: 139861
     bambai_pair:
       class: File
       location: upstream.bam
       secondaryFiles:
       - class: File
         location: upstream.bam.bai
-        size: 1128
+        size: 1176
     bigwig:
       class: File
       location: upstream.bigWig
-      size: 25842
+      size: 25792
     bowtie_log:
       class: File
       location: upstream.bw
@@ -3397,18 +3397,18 @@
     atdp_result:
       location: "upstream_atdp.tsv"
       class: File
-      size: 120727
+      size: 121660
     bambai_pair:
       location: "upstream.bam"
       class: File
       secondaryFiles:
       - location: "upstream.bam.bai"
         class: File
-        size: 984
+        size: 1056
     bigwig:
       location: "upstream.bigWig"
       class: File
-      size: 25755
+      size: 25709
     bowtie_log:
       location: "upstream.bw"
       class: File
