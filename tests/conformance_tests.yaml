@@ -3775,3 +3775,15 @@
   output:
     estimates_file: null
   doc: with this input BAM file Preseq should fail, but CommandLineTool won't fail
+
+# ========================================================
+# manorm
+# ========================================================
+
+- job: ./manorm-1.json
+  tool: ../tools/manorm.cwl
+  output:
+    common_peak_file:
+      - class: File
+        location: MAnorm_result_commonPeak_merged.xls
+        size: 628

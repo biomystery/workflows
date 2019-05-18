@@ -1,0 +1,20 @@
+{
+    "bam_file_first": {
+        "class": "File",
+        "location": "./data/dm3_chr4/generated_inputs/bam_bai/chr4_100_mapped_reads.Aligned.out.bam"
+    },
+    "bam_file_second": {
+        "class": "File",
+        "location": "./data/dm3_chr4/generated_inputs/bam_bai/chr4_100_mapped_reads.Aligned.out.bam"
+    },
+    "peak_file_first": {
+        "class": "File",
+        "location": "./data/dm3_chr4/generated_inputs/iaintersect/chr4_100_mapped_reads.Aligned.out_macs_peaks_iaintersect.tsv"
+    },
+    "peak_file_second": {
+        "class": "File",
+        "location": "./data/dm3_chr4/generated_inputs/iaintersect/chr4_100_mapped_reads.Aligned.out_macs_peaks_iaintersect.tsv"
+    },
+    "fragment_size_first": 150,
+    "fragment_size_second": 150
+}
