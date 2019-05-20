@@ -3848,3 +3848,41 @@
       - class: File
         location: upstream_bismark_bt2_splitting_report.txt
         size: 742
+
+# ========================================================
+# bismark-methylation-se
+# ========================================================
+
+- job: ./bismark-methylation-se-1.json
+  tool: ../tools/bismark-methylation-se.cwl
+  output:
+    chg_context_file:
+      - class: File
+        location: CHG_context_upstream_bismark_bt2.txt
+        size: 8114
+    chh_context_file:
+      - class: File
+        location: CHH_context_upstream_bismark_bt2.txt
+        size: 25300
+    cpg_context_file:
+      - class: File
+        location: CpG_context_upstream_bismark_bt2.txt
+        size: 7680
+    mbias_plot:
+      - class: File
+        location: upstream_bismark_bt2.M-bias.txt
+        size: 2054
+    bedgraph_cov_file:
+      - class: File
+        location: upstream_bismark_bt2.bedGraph.gz
+        size: 661
+    bismark_cov_file:
+      - class: File
+        location: upstream_bismark_bt2.bismark.cov.gz
+    splitting_report_file:
+      - class: File
+        location: upstream_bismark_bt2_splitting_report.txt
+        size: 742
+    bismark_align_log_file:
+      - class: File
+        location: upstream.trimmed_bismark_bt2_SE_report.txt
