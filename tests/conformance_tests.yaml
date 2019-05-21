@@ -3809,7 +3809,6 @@
     bam_file:
       class: File
       location: upstream_bismark_bt2.bam
-      size: 4874
     log_file:
       class: File
       location: upstream_bismark_bt2_SE_report.txt
@@ -3854,7 +3853,7 @@
 # ========================================================
 
 - job: ./bismark-methylation-se-1.json
-  tool: ../tools/bismark-methylation-se.cwl
+  tool: ../workflows/bismark-methylation-se.cwl
   output:
     chg_context_file:
       class: File
