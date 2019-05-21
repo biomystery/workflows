@@ -21,11 +21,6 @@ inputs:
     label: "Bismark indices folder"
     doc: "Path to Bismark generated indices folder"
 
-  genome_folder:
-    type: Directory
-    label: "Genome folder"
-    doc: "Genome folder with FASTA files"
-
   threads:
     type: int?
     default: 1
@@ -117,7 +112,7 @@ steps:
   bismark_extract_methylation:
     run: ../tools/bismark-extract-methylation.cwl
     in:
-      genome_folder: genome_folder
+      genome_folder: indices_folder
       bam_file: bismark_align/bam_file
       threads: threads
     out:
@@ -172,7 +167,8 @@ s:creator:
         - id: http://orcid.org/0000-0002-6486-3898
 
 doc: |
-  Bismark Methylation pipeline.
+  Bismark Methylation pipeline. We can use indices_folder as genome_folder for bismark_extract_methylation step,
+  because it insludes the original FASTA files too.
 
 s:about: |
 
