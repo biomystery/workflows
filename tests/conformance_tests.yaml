@@ -3915,3 +3915,29 @@
     bismark_align_log_file:
       class: File
       location: upstream.trimmed_bismark_bt2_SE_report.txt
+
+# ========================================================
+# samtools-filter
+# ========================================================
+
+- job: ./samtools-filter-1.json
+  tool: ../tools/samtools-filter.cwl
+  output:
+    filtered_bam_bai_pair:
+      class: File
+      location: chr4_100_mapped_reads.Aligned.out.bam
+      secondaryFiles:
+      - class: File
+        location: chr4_100_mapped_reads.Aligned.out.bam.bai
+        size: 1312
+
+- job: ./samtools-filter-2.json
+  tool: ../tools/samtools-filter.cwl
+  output:
+    filtered_bam_bai_pair:
+      class: File
+      location: filtered.bam
+      secondaryFiles:
+      - class: File
+        location: filtered.bam.bai
+        size: 1312
