@@ -111,7 +111,8 @@ s:creator:
         - id: http://orcid.org/0000-0002-6486-3898
 
 doc: |
-  Excludes chromosomes from the input BAM file
+  Excludes chromosomes from the input BAM file.
+  If there is only one chromosome present, you cannot exclude it
 
 s:about: |
   Excludes chromosomes from the input BAM file
