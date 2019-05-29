@@ -8,7 +8,7 @@ suppressMessages(library(BiocParallel))
 suppressMessages(library(pheatmap))
 
 ##########################################################################################
-# v0.0.4
+# v0.0.5
 #
 # All input CSV/TSV files should have the following header (case-sensitive)
 # <RefseqId,GeneId,Chrom,TxStart,TxEnd,Strand,TotalReads,Rpkm>         - CSV
@@ -26,6 +26,8 @@ suppressMessages(library(pheatmap))
 # RefseqId, GeneId, Chrom, TxStart, TxEnd, Strand
 #
 # DESeq/DESeq2 always compares untreated_vs_treated groups
+# 
+# Additionally we calculate -LOG10(pval) and -LOG10(padj)
 ##########################################################################################
 
 
@@ -141,6 +143,9 @@ DESeqRes[is.na(DESeqRes)] <- 1;
 
 # Export results to file
 collected_isoforms <- data.frame(cbind(collected_isoforms[, !colnames(collected_isoforms) %in% read_count_cols], DESeqRes), check.names=F, check.rows=F)
+collected_isoforms[,"-LOG10(pval)"] <- -log(as.numeric(collected_isoforms$pval), 10)
+collected_isoforms[,"-LOG10(padj)"] <- -log(as.numeric(collected_isoforms$padj), 10)
+
 write.table(collected_isoforms,
             file=args$output,
             sep="\t",
