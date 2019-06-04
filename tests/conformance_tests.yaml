@@ -3907,8 +3907,8 @@
       size: 6223
     mbias_plot:
       class: File
-      location: upstream.trimmed_bismark_bt2.M-bias.txt
-      size: 2008
+      location: mbias_plot.tsv
+      size: 1291
     bedgraph_cov_file:
       class: File
       location: upstream.trimmed_bismark_bt2.bedGraph.gz
