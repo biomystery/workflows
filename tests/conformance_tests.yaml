@@ -3886,6 +3886,13 @@
 - job: ./bismark-methylation-se-1.json
   tool: ../workflows/bismark-methylation-se.cwl
   output:
+    bambai_pair:
+      class: File
+      location: upstream.trimmed_bismark_bt2.bam
+      secondaryFiles:
+      - class: File
+        location: upstream.trimmed_bismark_bt2.bam.bai
+        size: 1368
     chg_context_file:
       class: File
       location: CHG_context_upstream.trimmed_bismark_bt2.txt

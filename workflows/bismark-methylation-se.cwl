@@ -30,6 +30,12 @@ inputs:
 
 outputs:
 
+  bambai_pair:
+    type: File
+    label: "BAM + BAI files"
+    doc: "Bismark aligned coordinate sorted BAM file and BAI index file"
+    outputSource: samtools_sort_index/bam_bai_pair
+
   bismark_align_log_file:
     type: File
     label: "Bismark aligner log file"
@@ -109,11 +115,18 @@ steps:
       threads: threads
     out: [bam_file, log_file]
 
+  samtools_sort_index:
+    run: ../tools/samtools-sort-index.cwl
+    in:
+      sort_input: bismark_align/bam_file
+      threads: threads
+    out: [bam_bai_pair]
+
   bismark_extract_methylation:
     run: ../tools/bismark-extract-methylation.cwl
     in:
       genome_folder: indices_folder
-      bam_file: bismark_align/bam_file
+      bam_file: samtools_sort_index/bam_bai_pair
       threads: threads
     out:
       - chg_context_file
