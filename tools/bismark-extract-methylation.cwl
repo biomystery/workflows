@@ -5,7 +5,7 @@ class: CommandLineTool
 requirements:
 - class: InlineJavascriptRequirement
 - class: DockerRequirement
-  dockerPull: biowardrobe2/bismark:v0.0.1
+  dockerPull: biowardrobe2/bismark:v0.0.2
 
 
 inputs:
@@ -13,26 +13,30 @@ inputs:
   genome_folder:
     type: Directory
     label: "Genome folder"
-    doc: "Genome folder with FASTA (fa, fasta) files."
+    doc: |
+      "Genome folder with FASTA (fa, fasta) files.
+       Bismark generated indices folder can be used also"
     inputBinding:
       position: 2
       prefix: "--genome_folder"
 
   bam_file:
     type: File
-    label: "BAM file"
-    doc: "BAM file alligned by Bismark"
+    label: "BAM alignment file"
+    doc: "Bismark generated BAM alignment file"
     inputBinding:
       position: 3
 
-  threads:
+  processes:
     type: int?
-    label: "Number of cores to use"
-    doc: "Sets the number of parallel instances of Bismark to be run concurrently"
+    label: "Number of Bismark instances to run"
+    doc: |
+      "Set the number of parallel Bismark instances to run concurrently.
+       Each Bismark instance simultainously runs the methylation extractor,
+       samtools stream and GZIP streams"
     inputBinding:
       position: 1
       prefix: "--multicore"
-    default: 1
 
 
 outputs:
@@ -65,21 +69,35 @@ outputs:
     outputBinding:
       glob: "*M-bias.txt"
 
-  bedgraph_cov_file:
+  mbias_plot_png:
     type: File
-    label: "Methylation statuses in bedGraph format"
-    doc: "Methylation statuses in bedGraph format"
+    label: "Methylation bias plot (PNG)"
+    doc: "QC data showing methylation bias across read lengths"
+    outputBinding:
+      glob: "*.png"
+
+  bedgraph_coverage_file:
+    type: File
+    label: "Methylation statuses bedGraph coverage file"
+    doc: "Coverage text file summarising cytosine methylation values in bedGraph format (tab-delimited; 0-based start coords, 1-based end coords)"
     outputBinding:
       glob: "*bedGraph.gz"
 
-  bismark_cov_file:
+  bismark_coverage_file:
     type: File
-    label: "Genome-wide cytosine methylation report"
-    doc: "Coverage text file summarising cytosine methylation values"
+    label: "Methylation statuses Bismark coverage file"
+    doc: "Coverage text file summarising cytosine methylation values in Bismark format (tab-delimited, 1-based genomic coords)"
     outputBinding:
       glob: "*bismark.cov.gz"
 
-  splitting_report_file:
+  genome_wide_methylation_report:
+    type: File
+    label: "Genome-wide cytosine methylation report"
+    doc: "Genome-wide methylation report for all cytosines in the genome"
+    outputBinding:
+      glob: "*CpG_report.txt"
+
+  splitting_report:
     type: File
     label: "Methylation extraction log"
     doc: "Log file giving summary statistics about methylation extraction"
@@ -87,7 +105,7 @@ outputs:
       glob: "*splitting_report.txt"
 
 
-baseCommand: ["bismark_methylation_extractor", "--comprehensive", "--bedgraph"]
+baseCommand: ["bismark_methylation_extractor", "--comprehensive", "--bedgraph", "--cytosine_report"]
 
 
 $namespaces:
@@ -157,7 +175,15 @@ doc: |
     will be considered irrespective of whether they were actually covered by any reads in the experiment or not.
     For this to work one has to also specify the genome that was used for the Bismark alignments using the
     option --genome_folder <path>. As for the bedGraph mode, this will only consider cytosines in CpG context.
-
+  --cytosine_report
+    After the conversion to bedGraph has completed, the option '--cytosine_report' produces a
+    genome-wide methylation report for all cytosines in the genome. By default, the output uses 1-based
+    chromosome coordinates (zero-based start coords are optional) and reports CpG context only (all
+    cytosine context is optional). The output considers all Cs on both forward and reverse strands and
+    reports their position, strand, trinucleotide content and methylation state (counts are 0 if not
+    covered). The cytosine report conversion step is performed by the external module
+    'coverage2cytosine'; this script needs to reside in the same folder as the bismark_methylation_extractor
+    itself.
 
 s:about: |
   DESCRIPTION

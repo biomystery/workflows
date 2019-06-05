@@ -3841,7 +3841,7 @@
     bam_file:
       class: File
       location: upstream_bismark_bt2.bam
-    log_file:
+    alignment_report:
       class: File
       location: upstream_bismark_bt2_SE_report.txt
 
@@ -3868,13 +3868,20 @@
       class: File
       location: upstream_bismark_bt2.M-bias.txt
       size: 2054
-    bedgraph_cov_file:
+    mbias_plot_png:
+      class: File
+      location: upstream_bismark_bt2.M-bias_R1.png
+    bedgraph_coverage_file:
       class: File
       location: upstream_bismark_bt2.bedGraph.gz
-    bismark_cov_file:
+    bismark_coverage_file:
       class: File
       location: upstream_bismark_bt2.bismark.cov.gz
-    splitting_report_file:
+    genome_wide_methylation_report:
+      class: File
+      location: pstream_bismark_bt2.CpG_report.txt
+      size: 2209922
+    splitting_report:
       class: File
       location: upstream_bismark_bt2_splitting_report.txt
       size: 742
@@ -3907,19 +3914,30 @@
       size: 6223
     mbias_plot:
       class: File
-      location: mbias_plot.tsv
-      size: 1291
-    bedgraph_cov_file:
+      location: upstream.trimmed_bismark_bt2.M-bias.txt
+      size: 2008
+    mbias_plot_png:
+      class: File
+      location: upstream.trimmed_bismark_bt2.M-bias_R1.png
+    bedgraph_coverage_file:
       class: File
       location: upstream.trimmed_bismark_bt2.bedGraph.gz
-    bismark_cov_file:
+    bismark_coverage_file:
       class: File
       location: upstream.trimmed_bismark_bt2.bismark.cov.gz
-    splitting_report_file:
+    genome_wide_methylation_report:
+      class: File
+      location: upstream.trimmed_bismark_bt2.CpG_report.txt
+      size: 2177458
+    splitting_report:
       class: File
       location: upstream.trimmed_bismark_bt2_splitting_report.txt
       size: 750
-    bismark_align_log_file:
+    collected_report:
+      class: File
+      location: upstream.trimmed_bismark_bt2_SE_report.html
+      size: 2860475
+    bismark_alignment_report:
       class: File
       location: upstream.trimmed_bismark_bt2_SE_report.txt
 
@@ -3948,3 +3966,15 @@
       - class: File
         location: filtered.bam.bai
         size: 1312
+
+# ========================================================
+# bismark-report
+# ========================================================
+
+- job: ./bismark_report-1.json
+  tool: ../tools/bismark_report.cwl
+  output:
+    collected_report:
+      class: File
+      location: upstream_bismark_bt2_SE_report.html
+      size: 2860497

@@ -5,7 +5,7 @@ class: CommandLineTool
 requirements:
 - class: InlineJavascriptRequirement
 - class: DockerRequirement
-  dockerPull: biowardrobe2/bismark:v0.0.1
+  dockerPull: biowardrobe2/bismark:v0.0.2
 - class: InitialWorkDirRequirement
   listing: |
     ${
