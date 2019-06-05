@@ -45,7 +45,7 @@ outputs:
 
   bismark_alignment_report_formatted:
     type: File
-    label: "Bismark alignment and methylation report formatted to pie chart"
+    label: "Bismark alignment and methylation report formatted for pie chart"
     doc: "Bismark generated alignment and methylation summary report formatted for pie chart"
     outputSource: refactore_bismark_alignment_report/alignment_report_formatted
 
