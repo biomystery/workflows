@@ -3895,54 +3895,58 @@
   output:
     bambai_pair:
       class: File
-      location: upstream.trimmed_bismark_bt2.bam
+      location: upstream_trimmed_bismark_bt2.bam
       secondaryFiles:
       - class: File
-        location: upstream.trimmed_bismark_bt2.bam.bai
-        size: 1368
+        location: upstream_trimmed_bismark_bt2.bam.bai
+        size: 1392
     chg_context_file:
       class: File
-      location: CHG_context_upstream.trimmed_bismark_bt2.txt
-      size: 7261
+      location: CHG_context_upstream_trimmed_bismark_bt2.txt
+      size: 7690
     chh_context_file:
       class: File
-      location: CHH_context_upstream.trimmed_bismark_bt2.txt
-      size: 22002
+      location: CHH_context_upstream_trimmed_bismark_bt2.txt
+      size: 24576
     cpg_context_file:
       class: File
-      location: CpG_context_upstream.trimmed_bismark_bt2.txt
-      size: 6223
+      location: CpG_context_upstream_trimmed_bismark_bt2.txt
+      size: 7497
     mbias_plot:
       class: File
-      location: upstream.trimmed_bismark_bt2.M-bias.txt
-      size: 2008
+      location: upstream_trimmed_bismark_bt2.M-bias.txt
+      size: 2043
     mbias_plot_png:
       class: File
-      location: upstream.trimmed_bismark_bt2.M-bias_R1.png
+      location: upstream_trimmed_bismark_bt2.M-bias_R1.png
     bedgraph_coverage_file:
       class: File
-      location: upstream.trimmed_bismark_bt2.bedGraph.gz
+      location: upstream_trimmed_bismark_bt2.bismark.cov.gz
     bismark_coverage_file:
       class: File
       location: upstream.trimmed_bismark_bt2.bismark.cov.gz
     genome_wide_methylation_report:
       class: File
-      location: upstream.trimmed_bismark_bt2.CpG_report.txt
+      location: upstream_trimmed_bismark_bt2.CpG_report.txt
       size: 2177458
     splitting_report:
       class: File
-      location: upstream.trimmed_bismark_bt2_splitting_report.txt
+      location: upstream_trimmed_bismark_bt2_splitting_report.txt
       size: 750
     collected_report:
       class: File
-      location: upstream.trimmed_bismark_bt2_SE_report.html
-      size: 2860475
+      location: upstream_trimmed_bismark_bt2_SE_report.html
+      size: 2860499
     bismark_alignment_report:
       class: File
-      location: upstream.trimmed_bismark_bt2_SE_report.txt
+      location: upstream_trimmed_bismark_bt2_SE_report.txt
     collected_report_formatted:
       class: File
       location: collected_report_formatted.tsv
+      size: 528
+    trim_adapters_report:
+      class: File
+      location: upstream.fastq_trimming_report.txt
       size: 528
 
 # ========================================================
