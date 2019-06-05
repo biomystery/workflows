@@ -3940,10 +3940,10 @@
     bismark_alignment_report:
       class: File
       location: upstream.trimmed_bismark_bt2_SE_report.txt
-    bismark_alignment_report_formatted:
+    collected_report_formatted:
       class: File
-      location: alignment_report_formatted.tsv
-      size: 275
+      location: collected_report_formatted.tsv
+      size: 528
 
 # ========================================================
 # samtools-filter
@@ -3990,7 +3990,7 @@
 - job: ./python-get-stat-bismark-1.json
   tool: ../tools/python-get-stat-bismark.cwl
   output:
-    alignment_report_formatted:
+    collected_report_formatted:
       class: File
-      location: alignment_report_formatted.tsv
-      size: 275
+      location: collected_report_formatted.tsv
+      size: 528

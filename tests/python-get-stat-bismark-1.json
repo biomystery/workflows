@@ -2,5 +2,9 @@
     "alignment_report": {
         "class": "File",
         "location": "./data/dm3_chr4/generated_inputs/bismark/upstream_bismark_bt2_SE_report.txt"
+    },
+    "splitting_report": {
+        "class": "File",
+        "location": "./data/dm3_chr4/generated_inputs/bismark/upstream_bismark_bt2_splitting_report.txt"
     }
 }
