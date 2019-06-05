@@ -3879,7 +3879,7 @@
       location: upstream_bismark_bt2.bismark.cov.gz
     genome_wide_methylation_report:
       class: File
-      location: pstream_bismark_bt2.CpG_report.txt
+      location: upstream_bismark_bt2.CpG_report.txt
       size: 2209922
     splitting_report:
       class: File
@@ -3979,8 +3979,8 @@
 # bismark-report
 # ========================================================
 
-- job: ./bismark_report-1.json
-  tool: ../tools/bismark_report.cwl
+- job: ./bismark-report-1.json
+  tool: ../tools/bismark-report.cwl
   output:
     collected_report:
       class: File
