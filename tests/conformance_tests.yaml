@@ -3921,7 +3921,7 @@
       location: upstream_trimmed_bismark_bt2.M-bias_R1.png
     bedgraph_coverage_file:
       class: File
-      location: upstream_trimmed_bismark_bt2.bismark.cov.gz
+      location: upstream_trimmed_bismark_bt2.bedGraph.gz
     bismark_coverage_file:
       class: File
       location: upstream.trimmed_bismark_bt2.bismark.cov.gz
