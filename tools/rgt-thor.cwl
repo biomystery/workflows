@@ -36,6 +36,8 @@ inputs:
     inputBinding:
       position: 6
       itemSeparator: ","
+    secondaryFiles:
+      - .bai
     doc: "Alignment and index files for the first biological condition"
 
   bambai_pair_cond_2:
@@ -43,6 +45,8 @@ inputs:
     inputBinding:
       position: 7
       itemSeparator: ","
+    secondaryFiles:
+      - .bai
     doc: "Alignment and index files for the second biological condition"
 
   chrom_length_file:
@@ -191,7 +195,7 @@ inputs:
       prefix: "--size"
       position: 27
     doc: "Number of bins the HMM's training set constists of. [default: 10000]"
-  
+
   pvalue_filter_percentile:
     type: int?
     inputBinding:
@@ -343,7 +347,7 @@ doc: |
   The following arguments are skipped: --report (tool fails to execute)
 
 s:about: |
-  Usage: 
+  Usage:
   rgt-THOR [options] CONFIG
 
   THOR detects differential peaks in multiple ChIP-seq profiles associated
@@ -351,8 +355,8 @@ s:about: |
 
   Copyright (C) 2014-2016  Manuel Allhoff (allhoff@aices.rwth-aachen.de)
 
-  This program comes with ABSOLUTELY NO WARRANTY. This is free 
-  software, and you are welcome to redistribute it under certain 
+  This program comes with ABSOLUTELY NO WARRANTY. This is free
+  software, and you are welcome to redistribute it under certain
   conditions. Please see LICENSE file for details.
 
   Options:
