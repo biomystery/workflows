@@ -38,11 +38,18 @@ load_data_set <- function(filenames, prefixes, target_colname, intersect_by) {
 # Parser
 parser <- ArgumentParser(description='Run BioWardrobe PCA')
 parser$add_argument("-i", "--input",     help='Input CSV/TSV expression files',        type="character", required="True", nargs='+')
-parser$add_argument("-n", "--name",      help='Names, the order corresponds to input', type="character", required="True", nargs='+')
+parser$add_argument("-n", "--name",      help='Names, the order corresponds to input', type="character", nargs='+')
 parser$add_argument("-t", "--target",    help='Target column name to be used in PCA',  type="character", default="Rpkm")
 parser$add_argument("-c", "--combine",   help='Combine inputs by columns names',       type="character", nargs='+')
 parser$add_argument("-o", "--output",    help='Output prefix',                         type="character", default="./pca_")
 args <- parser$parse_args(commandArgs(trailingOnly = TRUE))
+
+# Set default value for --name if it wasn't provided
+if(is.null(args$name)){
+    for (i in 1:length(args$input)) {
+        args$name = append(args$name, head(unlist(strsplit(basename(args$input[i]), ".", fixed = TRUE)), 1))
+    }
+}
 
 png(filename=paste(args$output, "%03d.png", sep=""), width=800, height=800)
 target_data <- load_data_set(args$input, args$name, args$target, args$combine)
