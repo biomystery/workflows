@@ -4094,3 +4094,29 @@
       class: File
       location: sequences.fa
       size: 643678
+
+# ========================================================
+# samtools-stats
+# ========================================================
+
+- job: ./samtools-stats-1.json
+  tool: ../tools/samtools-stats.cwl
+  output:
+    log_file:
+      class: File
+      location: chr4_100_mapped_reads.Aligned.out.log
+      size: 643678
+    average_length: 37
+    raw_total_sequences: 188
+    reads_mapped: 188
+
+- job: ./samtools-stats-2.json
+  tool: ../tools/samtools-stats.cwl
+  output:
+    log_file:
+      class: File
+      location: statistics.log
+      size: 643678
+    average_length: 37
+    raw_total_sequences: 188
+    reads_mapped: 188
