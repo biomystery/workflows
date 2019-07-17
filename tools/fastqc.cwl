@@ -150,6 +150,11 @@ outputs:
       - File
     outputBinding:
       glob: '*.zip'
+  html_file:
+    type:
+      - File
+    outputBinding:
+      glob: '*.html'
   summary_file:
     type:
       - File

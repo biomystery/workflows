@@ -499,6 +499,10 @@
     zipped_file:
       class: File
       location: upstream_fastqc.zip
+    html_file:
+      class: File
+      location: upstream_fastqc.html
+      size: 280948
 
 - job: ./fastqc-2.json
   tool: ../tools/fastqc.cwl
@@ -510,6 +514,10 @@
     zipped_file:
       class: File
       location: chr4_100_mapped_reads.Aligned.out_fastqc.zip
+    html_file:
+      class: File
+      location: hr4_100_mapped_reads.Aligned.out_fastqc.html
+      size: 279476
 
 - job: ./fastqc-3.json
   tool: ../tools/fastqc.cwl
@@ -521,7 +529,11 @@
     zipped_file:
       class: File
       location: chr4_100_mapped_reads.Aligned.out_fastqc.zip
-
+    html_file:
+      class: File
+      location: chr4_100_mapped_reads.Aligned.out_fastqc.html
+      size: 279476
+      
 # ========================================================
 # fastqc-results-trigger
 # ========================================================
