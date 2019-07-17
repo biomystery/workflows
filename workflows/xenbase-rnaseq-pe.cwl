@@ -158,13 +158,13 @@ steps:
   fastqc_stats_upstream:
     run: ../tools/fastqc.cwl
     in:
-      fastq_file: extract_fastq_upstream/fastq_file
+      reads_file: extract_fastq_upstream/fastq_file
     out: [summary_file]
 
   fastqc_stats_downstream:
     run: ../tools/fastqc.cwl
     in:
-      fastq_file: extract_fastq_downstream/fastq_file
+      reads_file: extract_fastq_downstream/fastq_file
     out: [summary_file]
 
   fastqc_results_trigger_upstream:

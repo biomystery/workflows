@@ -132,7 +132,7 @@ steps:
   fastqc_stats:
     run: ../tools/fastqc.cwl
     in:
-      fastq_file: extract_fastq/fastq_file
+      reads_file: extract_fastq/fastq_file
     out: [summary_file]
 
   fastqc_results_trigger:

@@ -41,13 +41,13 @@ steps:
   fastqc_1:
     run: ../tools/fastqc.cwl
     in:
-      fastq_file: sra_to_fastq/fastq_file_1
+      reads_file: sra_to_fastq/fastq_file_1
     out: [summary_file]
 
   fastqc_2:
     run: ../tools/fastqc.cwl
     in:
-      fastq_file: sra_to_fastq/fastq_file_2
+      reads_file: sra_to_fastq/fastq_file_2
     out: [summary_file]
 
   fastqc_results_trigger_1:

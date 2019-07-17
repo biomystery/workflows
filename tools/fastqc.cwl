@@ -11,7 +11,7 @@ hints:
 
 
 inputs:
-  fastq_file:
+  reads_file:
     type:
       - File
     inputBinding:
@@ -316,4 +316,3 @@ s:about: |
      -d --dir         Selects a directory to be used for temporary files written when
                       generating report images. Defaults to system temp directory if
                       not specified.
-
