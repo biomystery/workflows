@@ -4076,7 +4076,7 @@
       size: 643678
 
 - job: ./bedtools-intersect-2.json
-  tool: ../tools/bedtools-intersect.cwl
+  tool: ../tools/bedtools-getfasta.cwl
   output:
     sequences_file:
       class: File
