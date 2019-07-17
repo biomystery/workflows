@@ -45,10 +45,47 @@ inputs:
       prefix: "--maxFragmentLength"
     doc: "The maximum fragment length needed for read/pair inclusion"
 
+  min_mapping_quality:
+    type: int?
+    inputBinding:
+      position: 8
+      prefix: "--minMappingQuality"
+    doc: "If set, only reads that have a mapping quality score of at least this are considered"
+
+  ignore_duplicates:
+    type: boolean?
+    inputBinding:
+      position: 9
+      prefix: "--ignoreDuplicates"
+    doc: |
+      If set, reads that have the same orientation and start position will be considered only once.
+      If reads are paired, the mate’s position also has to coincide to ignore a read
+
+  shift:
+    type: string?
+    inputBinding:
+      position: 10
+      prefix: "--shift"
+    doc: "Shift the left and right end of a read for BAM files"
+
+  atac_shift:
+    type: boolean?
+    inputBinding:
+      position: 11
+      prefix: "--ATACshift"
+    doc: "Shift commonly done for ATAC-seq. This is equivalent to –shift 4 -5 5 -4"
+
+  blacklisted_regions:
+    type: File?
+    inputBinding:
+      position: 12
+      prefix: "--blackListFileName"
+    doc: "A BED or GTF file containing regions that should be excluded from all analyses"
+
   output_filename:
     type: string?
     inputBinding:
-      position: 8
+      position: 13
       prefix: "--outFile"
       valueFrom: $(default_output_filename())
     default: ""
@@ -57,7 +94,7 @@ inputs:
   threads:
     type: int?
     inputBinding:
-      position: 9
+      position: 14
       prefix: "--numberOfProcessors"
     doc: "Number of processors to use"
 
@@ -129,7 +166,7 @@ s:creator:
         - id: http://orcid.org/0000-0002-6486-3898
 
 doc: |
-  For BAM files only. Only selected parameters used.
+  For BAM files only. Only selected parameters are implemented.
 
 s:about: |
   usage: Example usage: alignmentSieve.py -b sample1.bam -o sample1.filtered.bam --minMappingQuality 10 --filterMetrics log.txt

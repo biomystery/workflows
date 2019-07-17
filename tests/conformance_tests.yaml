@@ -4022,3 +4022,63 @@
     alignmentsieve_log:
       class: File
       location: alignmentsieve.log
+
+# ========================================================
+# bedtools-merge
+# ========================================================
+
+- job: ./bedtools-merge-1.json
+  tool: ../tools/bedtools-merge.cwl
+  output:
+    merged_bed_file:
+      class: File
+      location: chr4_100_mapped_reads.Aligned.out_macs_peaks.narrowPeak
+      size: 153
+
+- job: ./bedtools-merge-2.json
+  tool: ../tools/bedtools-merge.cwl
+  output:
+    merged_bed_file:
+      class: File
+      location: merged.bed
+      size: 153
+
+# ========================================================
+# bedtools-intersect
+# ========================================================
+
+- job: ./bedtools-intersect-1.json
+  tool: ../tools/bedtools-intersect.cwl
+  output:
+    intersected_file:
+      class: File
+      location: chr4_100_mapped_reads.Aligned.out_macs_peaks.narrowPeak
+      size: 816
+
+- job: ./bedtools-intersect-2.json
+  tool: ../tools/bedtools-intersect.cwl
+  output:
+    intersected_file:
+      class: File
+      location: intersected.bed
+      size: 816
+
+# ========================================================
+# bedtools-getfasta
+# ========================================================
+
+- job: ./bedtools-getfasta-1.json
+  tool: ../tools/bedtools-getfasta.cwl
+  output:
+    sequences_file:
+      class: File
+      location: chr4_100_mapped_reads.Aligned.out_macs_peaks.fa
+      size: 643678
+
+- job: ./bedtools-intersect-2.json
+  tool: ../tools/bedtools-intersect.cwl
+  output:
+    sequences_file:
+      class: File
+      location: sequences.fa
+      size: 643678
