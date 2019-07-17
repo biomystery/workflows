@@ -533,7 +533,7 @@
       class: File
       location: chr4_100_mapped_reads.Aligned.out_fastqc.html
       size: 279476
-      
+
 # ========================================================
 # fastqc-results-trigger
 # ========================================================
@@ -4087,7 +4087,7 @@
       location: chr4_100_mapped_reads.Aligned.out_macs_peaks.fa
       size: 643678
 
-- job: ./bedtools-intersect-2.json
+- job: ./bedtools-getfasta-2.json
   tool: ../tools/bedtools-getfasta.cwl
   output:
     sequences_file:
