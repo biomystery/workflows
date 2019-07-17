@@ -62,7 +62,9 @@ inputs:
       If reads are paired, the mate’s position also has to coincide to ignore a read
 
   shift:
-    type: string?
+    type:
+      - "null"
+      - int[]
     inputBinding:
       position: 10
       prefix: "--shift"
