@@ -119,7 +119,7 @@ inputs:
     type: string?
     default: |
       #!/bin/bash
-      if [ "$0" = True ]
+      if [ "$0" = "true" ]
       then
         ls | grep -v ${@: -1}.log | xargs rm -f
         macs2 callpeak "${@:1}"
@@ -136,6 +136,8 @@ inputs:
     default: true
     inputBinding:
       position: 2
+      valueFrom: |
+        ${return self?"true":"false"}
     doc: |
       If true - run MACS2, if false - return staged files
 
