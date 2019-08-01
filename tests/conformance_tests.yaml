@@ -1774,6 +1774,61 @@
     report_file_pair: null
     unpaired_file_2: null
 
+- job: ./trimgalore-6.json
+  tool: ../tools/trimgalore.cwl
+  output:
+    report_file: null
+    report_file_pair: null
+    trimmed_file:
+      class: File
+      location: upstream.fastq.gz
+      size: 3860
+    trimmed_file_pair: null
+    unpaired_file_1: null
+    unpaired_file_2: null
+
+- job: ./trimgalore-7.json
+  tool: ../tools/trimgalore.cwl
+  output:
+    report_file: null
+    report_file_pair: null
+    trimmed_file:
+      class: File
+      location: upstream.fastq.gz
+      size: 3860
+    trimmed_file_pair: null
+    unpaired_file_1: null
+    unpaired_file_2: null
+
+- job: ./trimgalore-8.json
+  tool: ../tools/trimgalore.cwl
+  output:
+    report_file: null
+    report_file_pair: null
+    trimmed_file:
+      class: File
+      location: upstream.fastq.gz
+      size: 3860
+    trimmed_file_pair: null
+    unpaired_file_1: null
+    unpaired_file_2: null
+
+- job: ./trimgalore-9.json
+  tool: ../tools/trimgalore.cwl
+  output:
+    report_file: null
+    report_file_pair: null
+    trimmed_file:
+      class: File
+      location: upstream.fastq.gz
+      size: 3860
+    trimmed_file_pair:
+      class: File
+      location: downstream.fastq.gz
+      size: 5582
+    unpaired_file_1: null
+    unpaired_file_2: null
+
 # ========================================================
 # trimmomatic
 # ========================================================
