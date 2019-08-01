@@ -42,6 +42,13 @@ inputs:
       prefix: "-c"
     doc: "For each entry in A, report the number of hits in B. Reports 0 for A entries that have no overlap with B" 
 
+  no_overlaps:
+    type: boolean?
+    inputBinding:
+      position: 8
+      prefix: "-v"
+    doc: "Only report those entries in A that have _no overlaps_ with B" 
+
   output_filename:
     type: string?
     default: ""

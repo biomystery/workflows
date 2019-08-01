@@ -4141,6 +4141,14 @@
       location: intersected.bed
       size: 816
 
+- job: ./bedtools-intersect-3.json
+  tool: ../tools/bedtools-intersect.cwl
+  output:
+    intersected_file:
+      class: File
+      location: chr4_100_mapped_reads.Aligned.out_macs_peaks.narrowPeak
+      size: 200
+
 # ========================================================
 # bedtools-getfasta
 # ========================================================
