@@ -4206,3 +4206,23 @@
       class: File
       location: upstream_macs_peaks.narrowPeak
       size: 47
+
+# ========================================================
+# bedtools-bamtobed
+# ========================================================
+
+- job: ./bedtools-bamtobed-1.json
+  tool: ../tools/bedtools-bamtobed.cwl
+  output:
+    bed_file:
+      class: File
+      location: chr4_100_mapped_reads.Aligned.out.bed
+      size: 13096
+
+- job: ./bedtools-bamtobed-2.json
+  tool: ../tools/bedtools-bamtobed.cwl
+  output:
+    bed_file:
+      class: File
+      location: file.bed
+      size: 13096
