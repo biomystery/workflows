@@ -26,7 +26,7 @@ inputs:
     inputBinding:
       position: 6
       prefix: "-r"
-      secondaryFiles: $(self.basename+".bai")  # due to bug in cwltool==1.0.20190621234233
+    secondaryFiles: $(self.basename+".bai")  # due to bug in cwltool==1.0.20190621234233
     doc: |
       Indexed bamfile to rank enhancer by
 
