@@ -204,11 +204,11 @@ outputs:
         var ext = self.location.split('/').slice(-1)[0].split('.').slice(-1)[0];
         var basename = self.location.split("/").slice(-1)[0].split(".").slice(0, -2).join (".");
         var dirname = self.location.split("/").slice(0,-1).join("/");
-        return [{"class": "File", "location": dirname + "/" + basename + ".2." + ext},
-                {"class": "File", "location": dirname + "/" + basename + ".3." + ext},
-                {"class": "File", "location": dirname + "/" + basename + ".4." + ext},
-                {"class": "File", "location": dirname + "/" + basename + ".rev.1." + ext},
-                {"class": "File", "location": dirname + "/" + basename + ".rev.2." + ext}
+        return [{"class": "File", "path": dirname + "/" + basename + ".2." + ext},
+                {"class": "File", "path": dirname + "/" + basename + ".3." + ext},
+                {"class": "File", "path": dirname + "/" + basename + ".4." + ext},
+                {"class": "File", "path": dirname + "/" + basename + ".rev.1." + ext},
+                {"class": "File", "path": dirname + "/" + basename + ".rev.2." + ext}
         ]
       }
 
