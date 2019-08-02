@@ -33,8 +33,7 @@ inputs:
     type: File
     inputBinding:
       position: 6
-    secondaryFiles:
-      - .bai
+    secondaryFiles: $(self.basename+".bai")  # due to bug in cwltool==1.0.20190621234233
     doc: Indexed BAM+BAI files
 
   exclude_chromosome:
@@ -68,8 +67,7 @@ outputs:
     type: File
     outputBinding:
       glob: "*.bam"
-    secondaryFiles:
-      - .bai
+    secondaryFiles: ${return self.basename+".bai"}  # due to bug in cwltool==1.0.20190621234233
     doc: "Filtered BAM+BAI files"
 
 

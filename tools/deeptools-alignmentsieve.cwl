@@ -24,8 +24,7 @@ inputs:
 
   bambai_pair:
     type: File
-    secondaryFiles:
-      - .bai
+    secondaryFiles: $(self.basename+".bai")  # due to bug in cwltool==1.0.20190621234233
     inputBinding:
       position: 5
       prefix: "--bam"

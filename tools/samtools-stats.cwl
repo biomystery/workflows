@@ -24,8 +24,7 @@ inputs:
     type: File
     inputBinding:
       position: 5
-    secondaryFiles:
-      - .bai
+    secondaryFiles: $(self.basename+".bai")  # due to bug in cwltool==1.0.20190621234233
     doc: "Coordinate sorted BAM alignment and index BAI files"
 
   output_filename:

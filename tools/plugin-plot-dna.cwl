@@ -35,8 +35,7 @@ inputs:
     inputBinding:
       position: 6
       prefix: "-b"
-    secondaryFiles:
-      - .bai
+      secondaryFiles: $(self.basename+".bai")  # due to bug in cwltool==1.0.20190621234233
     doc: "Indexed BAM + BAI files"
 
   output_prefix:
