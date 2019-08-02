@@ -502,7 +502,6 @@
     html_file:
       class: File
       location: upstream_fastqc.html
-      size: 280948
 
 - job: ./fastqc-2.json
   tool: ../tools/fastqc.cwl
@@ -517,7 +516,6 @@
     html_file:
       class: File
       location: chr4_100_mapped_reads.Aligned.out_fastqc.html
-      size: 279476
 
 - job: ./fastqc-3.json
   tool: ../tools/fastqc.cwl
@@ -532,7 +530,6 @@
     html_file:
       class: File
       location: chr4_100_mapped_reads.Aligned.out_fastqc.html
-      size: 279476
 
 # ========================================================
 # fastqc-results-trigger
