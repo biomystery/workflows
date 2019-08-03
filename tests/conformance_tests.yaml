@@ -972,7 +972,6 @@
       class: File
       location: chr4_100_mapped_reads.Aligned.out.bam.bai
       size: 11034
-      secondaryFiles: []
 
 - job: ./rename-2.json
   tool: ../tools/rename.cwl
@@ -981,7 +980,6 @@
       class: File
       location: renamed.bam
       size: 11034
-      secondaryFiles: []
 
 # ========================================================
 # rsem-calculate-expression
