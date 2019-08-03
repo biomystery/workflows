@@ -20,6 +20,15 @@ hints:
 
 inputs:
 
+  script:
+    type: string?
+    default: |
+      #!/bin/bash
+      samtools stats $0 | grep SN | cut -f 2-
+    inputBinding:
+      position: 4
+    doc: "samtools stats with optional filtering criteria passes as $1"
+
   bambai_pair:
     type: File
     inputBinding:
@@ -78,7 +87,7 @@ outputs:
     doc: "Reads Average Length"
 
 
-baseCommand: ["samtools", "stats"]
+baseCommand: ["bash", "-c"]
 stdout: $(default_output_filename())
 
 
@@ -127,7 +136,7 @@ s:creator:
         - id: http://orcid.org/0000-0002-6486-3898
 
 doc: |
-  Generates statistics for the input BAM file.
+  Generates statistics for the input BAM file. Output if filtered with grep SN | cut -f 2-
 
 s:about: |
   Generates statistics for the input BAM file.
