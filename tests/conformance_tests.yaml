@@ -4191,28 +4191,6 @@
     reads_mapped: 188
 
 # ========================================================
-# trim-atacseq-pe-miraldi
-# ========================================================
-
-- job: ./trim-atacseq-pe-miraldi-1.json
-  tool: ../tools/trim-atacseq-pe-miraldi.cwl
-  output:
-    bambai_pair:
-      class: File
-      location: upstream.bam
-      secondaryFiles:
-      - class: File
-        location: upstream.bam.bai
-        size: 2784
-    merge_peaks_sequences:
-      class: File
-      location: upstream_macs_peaks.fa
-    merge_peaks_with_counts:
-      class: File
-      location: upstream_macs_peaks.narrowPeak
-      size: 47
-
-# ========================================================
 # bedtools-bamtobed
 # ========================================================
 
