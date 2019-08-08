@@ -4077,3 +4077,47 @@
       class: File
       location: file.bed
       size: 13096
+
+# ========================================================
+# hopach
+# ========================================================
+
+- job: ./hopach-1.json
+  tool: ../tools/hopach.cwl
+  output:
+    ordered_genelist:
+      class: File
+      location: ordered_genelist_raw_data.tsv
+      size: 61273
+    distance_matrix_png:
+      class: File
+      location: ordered_genelist_dist_matrix.png
+    heatmap_png:
+      class: File
+      location: ordered_genelist_heatmap.png
+    stdout_log:
+      class: File
+      location: hopach_stdout.log
+    stderr_log:
+      class: File
+      location: hopach_stderr.log
+
+- job: ./hopach-2.json
+  tool: ../tools/hopach.cwl
+  output:
+    ordered_genelist:
+      class: File
+      location: hopach_raw_data.tsv
+      size: 253439
+    distance_matrix_png:
+      class: File
+      location: hopach_dist_matrix.png
+    heatmap_png:
+      class: File
+      location: hopach_heatmap.png
+    stdout_log:
+      class: File
+      location: hopach_stdout.log
+    stderr_log:
+      class: File
+      location: hopach_stderr.log
