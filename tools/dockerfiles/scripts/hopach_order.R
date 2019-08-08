@@ -68,7 +68,7 @@ parser$add_argument("-d", "--dist",         help='Distance metric. Default: cosa
 parser$add_argument("-l", "--logtransform", help='Log2 transform input data prior running hopach. Default: false',    action='store_true')
 parser$add_argument("-k", "--keep",         help='Keep discarded values at the end of the file. Default: false',      action='store_true')
 parser$add_argument("-m", "--min",          help='Min value for target column value. Default: 0',     type="double",    default=0)
-parser$add_argument("-p", "--pallete",      help='Pallete  color names. Default: black, red, yellow', type="character", nargs='+', default=c("black", "red", "yellow"))
+parser$add_argument("-p", "--palette",      help='Palette color names. Default: black, red, yellow', type="character", nargs='+', default=c("black", "red", "yellow"))
 parser$add_argument("-o", "--output",       help='Output prefix. Default: ordered_genelist',          type="character", default="./ordered_genelist")
 args <- parser$parse_args(commandArgs(trailingOnly = TRUE))
 
@@ -131,7 +131,7 @@ png(distance_matrix_name,
     height = 5*300,
     res = 300,
     pointsize = 8)
-dplot(distance_matrix, hopach_results, ord="cluster", main="Distance Matrix", col=colorRampPalette(args$pallete)(n = 299))
+dplot(distance_matrix, hopach_results, ord="cluster", main="Distance Matrix", col=colorRampPalette(args$palette)(n = 299))
 
 
 # Apply order from hopach clustering results to the expression data
@@ -167,7 +167,7 @@ heatmap_name = paste(args$output, "_heatmap.png", sep="")
 pheatmap(data.matrix(result_data[,(length(args$combine)+1):ncol(result_data)]),
          cluster_rows=FALSE,
          cluster_cols=FALSE,
-         color=colorRampPalette(args$pallete)(n = 299),
+         color=colorRampPalette(args$palette)(n = 299),
          scale="row",
          border_color=FALSE,
          show_rownames=FALSE,
