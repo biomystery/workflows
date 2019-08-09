@@ -2,15 +2,19 @@
 # Dockerfile
 #
 # Software:         hopach
-# Software Version: v0.0.3
+# Software Version: v0.0.4
 # Description:      Hierarchical Ordered Partitioning and Collapsing Hybrid (HOPACH)
 # Website:          https://www.bioconductor.org/packages/release/bioc/html/hopach.html
 # Provides:         hopach 2.44.0
 # Base Image:       r-base:3.6.0
-# Build Cmd:        docker build --rm -t biowardrobe2/hopach:v0.0.3 -f hopach-Dockerfile .
-# Pull Cmd:         docker pull biowardrobe2/hopach:v0.0.3
-# Run Cmd:          docker run --rm -ti biowardrobe2/hopach:v0.0.3 /bin/bash
+# Build Cmd:        docker build --rm -t biowardrobe2/hopach:v0.0.4 -f hopach-Dockerfile .
+# Pull Cmd:         docker pull biowardrobe2/hopach:v0.0.4
+# Run Cmd:          docker run --rm -ti biowardrobe2/hopach:v0.0.4 /bin/bash
 #################################################################
+#
+# v0.0.4
+#   Update hopach_order.R script.
+#   Optionally exports heatmap, distance matrix and cluster variability plots.
 #
 # v0.0.3
 #   switch to r-base:3.6.0
