@@ -4088,13 +4088,10 @@
     ordered_genelist:
       class: File
       location: ordered_genelist_raw_data.tsv
-      size: 61273
-    distance_matrix_png:
-      class: File
-      location: ordered_genelist_dist_matrix.png
-    heatmap_png:
-      class: File
-      location: ordered_genelist_heatmap.png
+      size: 63315
+    distance_matrix_png: null
+    heatmap_png: null
+    variability_plot_png: null
     stdout_log:
       class: File
       location: hopach_stdout.log
@@ -4108,13 +4105,16 @@
     ordered_genelist:
       class: File
       location: hopach_raw_data.tsv
-      size: 253439
+      size: 57375
     distance_matrix_png:
       class: File
       location: hopach_dist_matrix.png
     heatmap_png:
       class: File
       location: hopach_heatmap.png
+    variability_plot_png:
+      class: File
+      location: hopach_variablility.png
     stdout_log:
       class: File
       location: hopach_stdout.log
