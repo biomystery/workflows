@@ -4105,7 +4105,7 @@
     ordered_genelist:
       class: File
       location: hopach_raw_data.tsv
-      size: 57375
+      size: 59422
     distance_matrix_png:
       class: File
       location: hopach_dist_matrix.png
