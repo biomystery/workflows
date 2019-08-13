@@ -204,7 +204,7 @@ inputs:
       So please avoid any confliction between these filenames and your existing files.
       DEFAULT: generated on the base of the treatment input
 
-  control:
+  control_file:
     type:
       - "null"
       - File
