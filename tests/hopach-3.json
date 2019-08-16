@@ -13,9 +13,7 @@
       "location": "./data/dm3_chr4/main_inputs/geep/u3_1000.isoforms.csv"
     }
   ],
-  "expression_aliases": ["file_1", "file_2", "file_3"],
-  "combine": ["RefseqId", "GeneId"],
-  "target_column": "TotalReads",
+  "cluster_method": "row",
   "row_logtransform": true,
   "col_logtransform": true,
   "row_center": "mean",

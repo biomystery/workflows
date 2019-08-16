@@ -4085,13 +4085,23 @@
 - job: ./hopach-1.json
   tool: ../tools/hopach.cwl
   output:
-    ordered_genelist:
+    clustering_results:
       class: File
-      location: ordered_genelist_raw_data.tsv
-      size: 63315
-    distance_matrix_png: null
-    heatmap_png: null
-    variability_plot_png: null
+      location: hopach_clustering.tsv
+      size: 91339
+    column_clustering_labels:
+      class: File
+      location: hopach_column_clustering_labels.tsv
+      size: 58
+    row_distance_matrix_png:
+      class: File
+      location: hopach_row_dist_matrix.png
+    col_distance_matrix_png:
+      class: File
+      location: hopach_row_dist_matrix.png
+    heatmap_png:
+      class: File
+      location: hopach_heatmap.png
     stdout_log:
       class: File
       location: hopach_stdout.log
@@ -4102,19 +4112,70 @@
 - job: ./hopach-2.json
   tool: ../tools/hopach.cwl
   output:
-    ordered_genelist:
+    clustering_results:
       class: File
-      location: hopach_raw_data.tsv
-      size: 59422
-    distance_matrix_png:
+      location: results_clustering.tsv
+      size: 42300
+    column_clustering_labels:
       class: File
-      location: hopach_dist_matrix.png
+      location: results_column_clustering_labels.tsv
+      size: 73
+    row_distance_matrix_png:
+      class: File
+      location: results_row_dist_matrix.png
+    col_distance_matrix_png:
+      class: File
+      location: results_column_dist_matrix.png
+    heatmap_png:
+      class: File
+      location: results_heatmap.png
+    stdout_log:
+      class: File
+      location: hopach_stdout.log
+    stderr_log:
+      class: File
+      location: hopach_stderr.log
+
+- job: ./hopach-3.json
+  tool: ../tools/hopach.cwl
+  output:
+    clustering_results:
+      class: File
+      location: results_clustering.tsv
+      size: 73297
+    column_clustering_labels: null
+    row_distance_matrix_png:
+      class: File
+      location: results_row_dist_matrix.png
+    col_distance_matrix_png: null
+    heatmap_png:
+      class: File
+      location: results_heatmap.png
+    stdout_log:
+      class: File
+      location: hopach_stdout.log
+    stderr_log:
+      class: File
+      location: hopach_stderr.log
+
+- job: ./hopach-4.json
+  tool: ../tools/hopach.cwl
+  output:
+    clustering_results:
+      class: File
+      location: hopach_clustering.tsv
+      size: 61273
+    column_clustering_labels:
+      class: File
+      location: hopach_column_clustering_labels.tsv
+      size: 58
+    row_distance_matrix_png: null
+    col_distance_matrix_png:
+      class: File
+      location: hopach_row_dist_matrix.png
     heatmap_png:
       class: File
       location: hopach_heatmap.png
-    variability_plot_png:
-      class: File
-      location: hopach_variablility.png
     stdout_log:
       class: File
       location: hopach_stdout.log

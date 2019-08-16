@@ -129,7 +129,7 @@ cluster <- function(expression_data, logtransform, center, normalize, dist, outp
 parser <- ArgumentParser(description='Hopach Clustering')
 parser$add_argument("--input",           help='Input CSV/TSV files',                                    type="character", required="True", nargs='+')
 parser$add_argument("--name",            help='Input aliases, the order corresponds to --input order. Default: basename of --input files', type="character", nargs='+')
-parser$add_argument("--target",          help='Target column to be used by Hopach. Default: Rpkm',      type="character", default="Rpkm")
+parser$add_argument("--target",          help='Target column to be used by hopach clustering. Default: Rpkm',      type="character", default="Rpkm")
 parser$add_argument("--combine",         help='Combine inputs by columns names. Default: RefseqId, GeneId, Chrom, TxStart, TxEnd, Strand', type="character", nargs='+', default=c("RefseqId", "GeneId", "Chrom", "TxStart", "TxEnd", "Strand"))
 parser$add_argument("--method",          help='Cluster method. Default: both',                          type="character", choices=c("row","column","both"), default="both")
 parser$add_argument("--palette",         help='Palette color names. Default: red, black, green',        type="character", nargs='+', default=c("red", "black", "green"))
@@ -137,7 +137,7 @@ parser$add_argument("--output",          help='Output prefix. Default: hopach', 
 
 
 parser$add_argument("--rowmin",          help='Exclude rows from clustering by the min value of a target column. Default: 0',          type="double",    default=0)
-parser$add_argument("--rowkeep",         help='Append excluded rows to the result table after clustering is finished. Default: false', action='store_true')
+parser$add_argument("--rowkeep",         help='Append excluded rows to the output table after clustering is finished. Default: false', action='store_true')
 
 
 parser$add_argument("--rowdist",         help='Distance metric for row clustering. Default: cosangle',  type="character", choices=c("cosangle","abscosangle","euclid","abseuclid","cor","abscor"), default="cosangle")
@@ -148,17 +148,12 @@ parser$add_argument("--rowlogtransform", help='Log2 transform input data prior t
 parser$add_argument("--collogtransform", help='Log2 transform input data prior to running column clustering. Default: false', action='store_true')
 
 
-parser$add_argument("--rowcenter",       help='Center rows prior to running clustering. Default: not centered',    type="character", choices=c("mean", "median"))
-parser$add_argument("--colcenter",       help='Center columns prior to running clustering. Default: not centered', type="character", choices=c("mean", "median"))
+parser$add_argument("--rowcenter",       help='Center rows prior to running row clustering. Default: not centered',    type="character", choices=c("mean", "median"))
+parser$add_argument("--colcenter",       help='Center columns prior to running column clustering. Default: not centered', type="character", choices=c("mean", "median"))
 
 
-parser$add_argument("--rownorm",         help='Normalize rows to prior running clustering. Default: not normalized',    action='store_true' )
-parser$add_argument("--colnorm",         help='Normalize columns to prior running clustering. Default: not normalized', action='store_true' )
-
-
-parser$add_argument("--heatmap",         help='Save heatmap. Default: false',                action='store_true')
-
-
+parser$add_argument("--rownorm",         help='Normalize rows prior to running row clustering. Default: not normalized',    action='store_true' )
+parser$add_argument("--colnorm",         help='Normalize columns prior to running column clustering. Default: not normalized', action='store_true' )
 
 
 args <- parser$parse_args(commandArgs(trailingOnly = TRUE))
@@ -259,27 +254,25 @@ if (args$method == "both" || args$method == "column"){
 
 
 # Create and export heatmap to png file
-if (args$heatmap){
-    heatmap_name = paste(args$output, "_heatmap.png", sep="")
-    if (args$method == "both"){
-        heatmap_data <- data.matrix(expression_data_row[,colnames(expression_data_col)])
-    } else if (args$method == "row"){
-        heatmap_data <- data.matrix(expression_data_row)
-    } else if (args$method == "column"){
-        heatmap_data <- data.matrix(expression_data_col)
-    }
-    pheatmap(heatmap_data,
-            cluster_row=FALSE,
-            cluster_cols=FALSE,
-            treeheight_col = 0,
-            main = paste("Heatmap (clustering: ", args$method, ")", sep=""),
-            color=colorRampPalette(args$palette)(n = 299),
-            scale="none",
-            border_color=FALSE,
-            show_rownames=FALSE,
-            filename=heatmap_name)
-    print(paste("Export heatmap to ", heatmap_name, sep=""))
+heatmap_name = paste(args$output, "_heatmap.png", sep="")
+if (args$method == "both"){
+    heatmap_data <- data.matrix(expression_data_row[,colnames(expression_data_col)])
+} else if (args$method == "row"){
+    heatmap_data <- data.matrix(expression_data_row)
+} else if (args$method == "column"){
+    heatmap_data <- data.matrix(expression_data_col)
 }
+pheatmap(heatmap_data,
+        cluster_row=FALSE,
+        cluster_cols=FALSE,
+        treeheight_col = 0,
+        main = paste("Heatmap (clustering: ", args$method, ")", sep=""),
+        color=colorRampPalette(args$palette)(n = 299),
+        scale="none",
+        border_color=FALSE,
+        show_rownames=FALSE,
+        filename=heatmap_name)
+print(paste("Export heatmap to ", heatmap_name, sep=""))
 
 
 dev.off()
