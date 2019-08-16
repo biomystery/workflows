@@ -4098,7 +4098,7 @@
       location: hopach_row_dist_matrix.png
     col_distance_matrix_png:
       class: File
-      location: hopach_row_dist_matrix.png
+      location: hopach_column_dist_matrix.png
     heatmap_png:
       class: File
       location: hopach_heatmap.png
@@ -4172,7 +4172,7 @@
     row_distance_matrix_png: null
     col_distance_matrix_png:
       class: File
-      location: hopach_row_dist_matrix.png
+      location: hopach_column_dist_matrix.png
     heatmap_png:
       class: File
       location: hopach_heatmap.png
