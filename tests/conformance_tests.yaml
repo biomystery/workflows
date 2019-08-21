@@ -4252,3 +4252,53 @@
     saturation_file:
       class: File
       location: dummy_saturation.txt
+
+# ========================================================
+# plugin-plot-dna
+# ========================================================
+
+- job: ./plugin-plot-dna-1.json
+  tool: ../tools/plugin-plot-dna.cwl
+  output:
+    length_file:
+      class: File
+      location: chr4_100_mapped_reads.Aligned.out_default_length.tsv
+      size: 1143
+    pileup_file:
+      class: File
+      location: chr4_100_mapped_reads.Aligned.out_default_pileup.tsv
+      size: 16
+    reads_file:
+      class: File
+      location: chr4_100_mapped_reads.Aligned.out_default_reads.tsv
+      size: 9
+    png_file:
+    - class: File
+      location: chr4_100_mapped_reads.Aligned.out_default_001.png
+    - class: File
+      location: chr4_100_mapped_reads.Aligned.out_default_002.png
+    - class: File
+      location: chr4_100_mapped_reads.Aligned.out_default_003.png
+
+- job: ./plugin-plot-dna-2.json
+  tool: ../tools/plugin-plot-dna.cwl
+  output:
+    length_file:
+      class: File
+      location: dummy_length.tsv
+      size: 1143
+    pileup_file:
+      class: File
+      location: dummy_pileup.tsv
+      size: 16
+    reads_file:
+      class: File
+      location: dummy_reads.tsv
+      size: 9
+    png_file:
+    - class: File
+      location: dummy_001.png
+    - class: File
+      location: dummy_002.png
+    - class: File
+      location: dummy_003.png
