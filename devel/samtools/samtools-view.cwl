@@ -241,7 +241,9 @@ inputs:
     doc: |
       RNAME[:STARTPOS[-ENDPOS]] and all position coordinates are 1-based.
 
+
 outputs:
+
   view_file:
     type: File
     outputBinding:
@@ -259,7 +261,9 @@ outputs:
     outputBinding:
       glob: $(inputs.filtered_out)
 
+
 baseCommand: [samtools, view]
+
 
 $namespaces:
   s: http://schema.org/
@@ -268,7 +272,7 @@ $schemas:
 - http://schema.org/docs/schema_org_rdfa.html
 
 s:mainEntity:
-  $import: ./metadata/samtools-metadata.yaml
+  $import: ../tools/metadata/samtools-metadata.yaml
 
 s:downloadUrl: https://github.com/Barski-lab/workflows/blob/master/tools/samtools-view.cwl
 s:codeRepository: https://github.com/Barski-lab/workflows
