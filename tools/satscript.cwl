@@ -18,7 +18,7 @@ requirements:
 
 hints:
 - class: DockerRequirement
-  dockerPull: biowardrobe2/satscript:v0.0.1
+  dockerPull: biowardrobe2/satscript:v0.0.2
 
 
 inputs:
@@ -65,9 +65,9 @@ inputs:
     inputBinding:
       position: 9
       prefix: "-s"
-    default: ["reads.png", "islands.png", "surface.png", "saturation.txt"]
+    default: ["reads.png", "islands.png", "surface.png", "frip.png", "saturation.txt"]
     doc: |
-      Output suffixes for reads, islands, surface and saturation files.
+      Output suffixes for reads, islands, surface, frip and saturation files.
 
   res_dpi:
     type:
@@ -95,10 +95,15 @@ outputs:
     outputBinding:
       glob: $("*"+inputs.output_suffixes[2])
 
-  saturation_file:
+  frip_file:
     type: File
     outputBinding:
       glob: $("*"+inputs.output_suffixes[3])
+
+  saturation_file:
+    type: File
+    outputBinding:
+      glob: $("*"+inputs.output_suffixes[4])
 
 
 baseCommand: ["SatScript"]

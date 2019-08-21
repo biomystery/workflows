@@ -1,0 +1,10 @@
+{
+    "bam_file": {
+        "class": "File",
+        "location": "./data/dm3_chr4/generated_inputs/bam_bai/chr4_100_mapped_reads.Aligned.out.bam"
+    },
+    "macs_log": {
+        "class": "File",
+        "location": "./data/dm3_chr4/generated_inputs/macs_peaks/chr4_100_mapped_reads.Aligned.out_macs.log"
+    }
+}

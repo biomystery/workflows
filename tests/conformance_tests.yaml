@@ -4211,3 +4211,44 @@
       location: thor_stdout.log
       size: 0
 
+# ========================================================
+# satscript
+# ========================================================
+
+- job: ./satscript-1.json
+  tool: ../tools/satscript.cwl
+  output:
+    frip_file:
+      class: File
+      location: chr4_100_mapped_reads.Aligned.out_default_frip.png
+    islands_file:
+      class: File
+      location: chr4_100_mapped_reads.Aligned.out_default_islands.png
+    reads_file:
+      class: File
+      location: chr4_100_mapped_reads.Aligned.out_default_reads.png
+    surface_file:
+      class: File
+      location: chr4_100_mapped_reads.Aligned.out_default_surface.png
+    saturation_file:
+      class: File
+      location: chr4_100_mapped_reads.Aligned.out_default_saturation.txt
+
+- job: ./satscript-2.json
+  tool: ../tools/satscript.cwl
+  output:
+    frip_file:
+      class: File
+      location: dummy_frip.png
+    islands_file:
+      class: File
+      location: dummy_islands.png
+    reads_file:
+      class: File
+      location: dummy_reads.png
+    surface_file:
+      class: File
+      location: dummy_surface.png
+    saturation_file:
+      class: File
+      location: dummy_saturation.txt
