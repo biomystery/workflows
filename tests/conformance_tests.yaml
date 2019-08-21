@@ -596,7 +596,7 @@
         size: 1368
       - class: File
         location: dm3_chr4.tsv
-        size: 76091
+        size: 76090
       - class: File
         location: chr4.fa
         size: 1378901
