@@ -36,8 +36,8 @@ inputs:
     inputBinding:
       position: 6
       itemSeparator: ","
-      secondaryFiles:
-      - .bai
+    secondaryFiles:
+    - .bai
     doc: "Alignment and index files for the first biological condition"
 
   bambai_pair_cond_2:
@@ -45,8 +45,8 @@ inputs:
     inputBinding:
       position: 7
       itemSeparator: ","
-      secondaryFiles:
-      - .bai
+    secondaryFiles:
+    - .bai
     doc: "Alignment and index files for the second biological condition"
 
   chrom_length_file:
@@ -242,32 +242,36 @@ inputs:
 outputs:
 
   diffpeaks_bed_file:
-    type: File
+    type: File?
     outputBinding:
       glob: "*[!-uncor]-diffpeaks.bed"
 
   diffpeaks_narrowpeak_file:
-    type: File
+    type: File?
     outputBinding:
       glob: "*[!-uncor]-diffpeaks.narrowPeak"
 
   uncor_diffpeaks_bed_file:
-    type: File
+    type: File?
     outputBinding:
       glob: "*-uncor-diffpeaks.bed"
 
   uncor_diffpeaks_narrowpeak_file:
-    type: File
+    type: File?
     outputBinding:
       glob: "*-uncor-diffpeaks.narrowPeak"
 
   cond_1_bigwig_file:
-    type: File[]
+    type:
+      - "null"
+      - File[]
     outputBinding:
       glob: "*-s1-rep*.bw"
 
   cond_2_bigwig_file:
-    type: File[]
+    type:
+      - "null"
+      - File[]
     outputBinding:
       glob: "*-s2-rep*.bw"
 
