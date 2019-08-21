@@ -46,7 +46,7 @@ inputs:
     inputBinding:
       position: 1
     doc: |
-      Bash function to run samtools sort with all input parameters or skip it if trigger is false
+      Bash function to run refgene-sort and atdp
 
   input_file:
     type:
