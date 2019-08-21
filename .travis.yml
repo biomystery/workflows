@@ -7,10 +7,8 @@ python:
 os:
 - linux
 install:
-- pip install --upgrade cwltool==1.0.20190621234233
+- pip install --upgrade cwltool==1.0.20190815141648
 - pip install --upgrade cwltest
-- pip install --upgrade schema-salad==4.5.20190621200723
-- pip install --upgrade ruamel.yaml==0.15.51
 script: bash run_test.sh --junit-xml=result.xml RUNNER=cwltool
 branches:
   only:
