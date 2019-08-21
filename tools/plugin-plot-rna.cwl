@@ -36,8 +36,8 @@ inputs:
     inputBinding:
       position: 6
       prefix: "-b"
-      secondaryFiles:
-      - .bai
+    secondaryFiles:
+    - .bai
     doc: |
       Indexed BAM + BAI files
 
