@@ -962,7 +962,8 @@ outputs:
               return inputs.output_filename + ".transcript.sorted.bam";
             }
         }
-    secondaryFiles: ${return self.basename + ".bai"}
+    secondaryFiles:
+    - .bai
 
   genome_sorted_bam_bai_pair:
     type:
@@ -977,7 +978,8 @@ outputs:
               return inputs.output_filename + ".genome.sorted.bam";
             }
         }
-    secondaryFiles: ${return self.basename + ".bai"}
+    secondaryFiles:
+    - .bai
 
   align_time_file:
     type:

@@ -36,7 +36,8 @@ inputs:
     inputBinding:
       position: 6
       itemSeparator: ","
-      secondaryFiles: $(self.basename+".bai")  # due to bug in cwltool==1.0.20190621234233
+      secondaryFiles:
+      - .bai
     doc: "Alignment and index files for the first biological condition"
 
   bambai_pair_cond_2:
@@ -44,7 +45,8 @@ inputs:
     inputBinding:
       position: 7
       itemSeparator: ","
-      secondaryFiles: $(self.basename+".bai")  # due to bug in cwltool==1.0.20190621234233
+      secondaryFiles:
+      - .bai
     doc: "Alignment and index files for the second biological condition"
 
   chrom_length_file:

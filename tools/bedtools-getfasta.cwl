@@ -24,7 +24,8 @@ inputs:
 
   genome_fasta_file:
     type: File
-    secondaryFiles: $(self.basename+".fai")  # due to bug in cwltool==1.0.20190621234233
+    secondaryFiles:
+    - .fai
     inputBinding:
       position: 5
       prefix: "-fi"

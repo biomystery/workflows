@@ -25,7 +25,8 @@ inputs:
 
   bambai_pair:
     type: File
-    secondaryFiles: $(self.basename+".bai")  # due to bug in cwltool==1.0.20190621234233
+    secondaryFiles:
+    - .bai
     label: "Coordinate sorted BAM alignment file (+index BAI)"
     format: "http://edamontology.org/format_2572"
     doc: "Coordinate sorted BAM file and BAI index file"
