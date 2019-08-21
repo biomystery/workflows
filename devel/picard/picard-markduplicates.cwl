@@ -376,7 +376,7 @@ $schemas:
 - http://schema.org/docs/schema_org_rdfa.html
 
 s:mainEntity:
-  $import: ./metadata/picard-metadata.yaml
+  $import: picard-metadata.yaml
 
 s:downloadUrl: https://github.com/Barski-lab/workflows/tree/master/tools/picard-markduplicates.cwl
 s:codeRepository: https://github.com/Barski-lab/workflows
