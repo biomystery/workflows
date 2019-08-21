@@ -86,7 +86,7 @@ steps:
       - log_file
 
   bam_to_bigwig:
-    run: bam-bedgraph-bigwig.cwl
+    run: ../subworkflows/bam-bedgraph-bigwig.cwl
     in:
       bam_file: samtools_sort_index_after_dup_removing/bam_bai_pair
       chrom_length_file: chr_length_file

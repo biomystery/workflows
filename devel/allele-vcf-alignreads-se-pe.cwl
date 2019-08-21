@@ -239,7 +239,7 @@ steps:
     out: [projected_file]
 
   strain1_bam_to_bigwig:
-    run: bam-bedgraph-bigwig.cwl
+    run: ../subworkflows/bam-bedgraph-bigwig.cwl
     in:
       bam_file: strain1_project/projected_file
       chrom_length_file: reference_chrom_length_file
@@ -252,7 +252,7 @@ steps:
     out: [bigwig_file]
 
   strain2_bam_to_bigwig:
-    run: bam-bedgraph-bigwig.cwl
+    run: ../subworkflows/bam-bedgraph-bigwig.cwl
     in:
       bam_file: strain2_project/projected_file
       chrom_length_file: reference_chrom_length_file
@@ -291,7 +291,7 @@ steps:
     out: [sorted_file]
 
   reference_bam_to_bigwig:
-    run: bam-bedgraph-bigwig.cwl
+    run: ../subworkflows/bam-bedgraph-bigwig.cwl
     in:
       bam_file: reference_samtools_sort/sorted_file
       chrom_length_file: reference_chrom_length_file

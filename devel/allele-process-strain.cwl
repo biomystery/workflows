@@ -130,7 +130,7 @@ steps:
     out: [output_file]
 
   sort_filtered_bedgraph:
-    run: ../tools/custom-bedops.cwl
+    run: custom-bedops.cwl
     in:
       input_file: filter_projected_bedgraph/output_file
       script:
@@ -138,7 +138,7 @@ steps:
     out: [output_file]
 
   remove_overlaps:
-    run: ../tools/custom-bedops.cwl
+    run: custom-bedops.cwl
     in:
       input_file: sort_filtered_bedgraph/output_file
       script:
