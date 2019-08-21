@@ -1093,7 +1093,7 @@ arguments:
       ${
           for (var i = 0; i < inputs.indices_folder.listing.length; i++) {
               if (inputs.indices_folder.listing[i].basename.split('.').slice(-1)[0] == 'grp'){
-                let name = inputs.indices_folder.listing[i].basename.split('.').slice(0,-1).join('.');
+                var name = inputs.indices_folder.listing[i].basename.split('.').slice(0,-1).join('.');
                 return inputs.indices_folder.listing[i].path.split('/').slice(0,-1).join('/') + '/' + name;
               }
           }

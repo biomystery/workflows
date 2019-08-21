@@ -7,8 +7,8 @@ requirements:
   expressionLib:
   - var default_output_filename = function() {
         if (inputs.output_filename == ""){
-          let ext = ".gff";
-          let root = inputs.islands_file.basename.split('.').slice(0,-1).join('.');
+          var ext = ".gff";
+          var root = inputs.islands_file.basename.split('.').slice(0,-1).join('.');
           return (root == "")?inputs.islands_file.basename+ext:root+ext;
         } else {
           return inputs.output_filename;

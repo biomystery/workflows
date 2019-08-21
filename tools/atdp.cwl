@@ -5,7 +5,7 @@ requirements:
 - class: InlineJavascriptRequirement
   expressionLib:
   - var default_output_filename = function(ext) {
-        let root = inputs.input_file.basename.split('.').slice(0,-1).join('.');
+        var root = inputs.input_file.basename.split('.').slice(0,-1).join('.');
         return (root == "")?inputs.input_file.basename+ext:root+ext;
     };
 - class: InitialWorkDirRequirement

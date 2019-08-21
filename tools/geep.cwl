@@ -5,8 +5,8 @@ requirements:
 - class: InlineJavascriptRequirement
   expressionLib:
   - var default_output_prefix = function() {
-        let ext = '.';
-        let root = inputs.bam_file.basename.split('.').slice(0,-1).join('.');
+        var ext = '.';
+        var root = inputs.bam_file.basename.split('.').slice(0,-1).join('.');
         return (root == "")?inputs.bam_file.basename+ext:root+ext;
     };
 - class: InitialWorkDirRequirement

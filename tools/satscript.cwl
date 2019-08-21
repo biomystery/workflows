@@ -8,7 +8,7 @@ requirements:
   - var get_output_prefix = function(ext) {
         ext = ext || "";
         if (inputs.output_prefix == ""){
-          let root = inputs.bam_file.basename.split('.').slice(0,-1).join('.');
+          var root = inputs.bam_file.basename.split('.').slice(0,-1).join('.');
           return (root == "")?inputs.bam_file.basename+ext:root+ext;
         } else {
           return inputs.output_prefix;

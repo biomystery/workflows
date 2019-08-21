@@ -6,7 +6,7 @@ requirements:
 - class: InlineJavascriptRequirement
   expressionLib:
   - var default_log_name = function() {
-      let lognames = {};
+      var lognames = {};
       lognames["pair"] = (inputs.paired && inputs.input_file_pair) ? inputs.input_file_pair.basename+'_trimming_report.txt':null;
       lognames["single"] = inputs.input_file.basename+'_trimming_report.txt';
       return lognames;

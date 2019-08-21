@@ -5,9 +5,9 @@ requirements:
 - class: InlineJavascriptRequirement
   expressionLib:
   - var default_output_filename = function() {
-          let basename = inputs.bedgraph_file.location.split('/').slice(-1)[0];
-          let root = basename.split('.').slice(0,-1).join('.');
-          let ext = ".bigWig";
+          var basename = inputs.bedgraph_file.location.split('/').slice(-1)[0];
+          var root = basename.split('.').slice(0,-1).join('.');
+          var ext = ".bigWig";
           return (root == "")?basename+ext:root+ext;
         };
 

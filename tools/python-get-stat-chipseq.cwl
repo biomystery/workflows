@@ -7,8 +7,8 @@ requirements:
   expressionLib:
   - var get_output_filename = function() {
         if (inputs.output_filename == null){
-          let root = inputs.bowtie_log.basename.split('.').slice(0,-1).join('.');
-          let ext = ".stat";
+          var root = inputs.bowtie_log.basename.split('.').slice(0,-1).join('.');
+          var ext = ".stat";
           return (root == "")?inputs.bowtie_log.basename+ext:root+ext;
         } else {
           return inputs.output_filename;
@@ -16,8 +16,8 @@ requirements:
     };
   - var get_formatted_output_filename = function() {
         if (inputs.formatted_output_filename == null){
-          let root = inputs.bowtie_log.basename.split('.').slice(0,-1).join('.');
-          let ext = "_formatted.tsv";
+          var root = inputs.bowtie_log.basename.split('.').slice(0,-1).join('.');
+          var ext = "_formatted.tsv";
           return (root == "")?inputs.bowtie_log.basename+ext:root+ext;
         } else {
           return inputs.formatted_output_filename;
