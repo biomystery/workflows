@@ -71,7 +71,7 @@ outputs:
 steps:
 
   filter_sam:
-    run: ../tools/custom-bash.cwl
+    run: ../../tools/custom-bash.cwl
     in:
       input_file: sam_file
       script:
@@ -82,7 +82,7 @@ steps:
     out: [output_file]
 
   samtools_sort_index:
-    run: ../tools/samtools-sort-index.cwl
+    run: ../../tools/samtools-sort-index.cwl
     in:
       sort_input: filter_sam/output_file
       sort_output_filename:
@@ -92,7 +92,7 @@ steps:
     out: [bam_bai_pair]
 
   bam_to_bedgraph:
-    run: ../tools/bedtools-genomecov.cwl
+    run: ../../tools/bedtools-genomecov.cwl
     in:
       input_file: samtools_sort_index/bam_bai_pair
       depth:
@@ -103,7 +103,7 @@ steps:
     out: [genome_coverage_file]
 
   sort_bedgraph:
-    run: ../tools/linux-sort.cwl
+    run: ../../tools/linux-sort.cwl
     in:
       unsorted_file: bam_to_bedgraph/genome_coverage_file
       key:
@@ -111,7 +111,7 @@ steps:
     out: [sorted_file]
 
   project_bedgraph:
-    run: ../tools/halliftover.cwl
+    run: ../../tools/halliftover.cwl
     in:
       input_bed_file: sort_bedgraph/sorted_file
       hal_file: hal_file
@@ -120,7 +120,7 @@ steps:
     out: [projected_bed_file]
 
   filter_projected_bedgraph:
-    run: ../tools/custom-bash.cwl
+    run: ../../tools/custom-bash.cwl
     in:
       input_file: project_bedgraph/projected_bed_file
       script:
@@ -146,7 +146,7 @@ steps:
     out: [output_file]
 
   bedgraph_to_bigwig:
-    run: ../tools/ucsc-bedgraphtobigwig.cwl
+    run: ../../tools/ucsc-bedgraphtobigwig.cwl
     in:
       bedgraph_file: remove_overlaps/output_file
       chrom_length_file: chrom_length_file

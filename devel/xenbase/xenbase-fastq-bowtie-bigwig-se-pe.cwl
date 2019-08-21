@@ -45,7 +45,7 @@ outputs:
 
 steps:
   bowtie2_aligner:
-    run: ../tools/bowtie2.cwl
+    run: ../bowtie2/bowtie2.cwl
     in:
       filelist: upstream_fastq
       filelist_mates: downstream_fastq
@@ -54,14 +54,14 @@ steps:
     out: [output, output_log]
 
   samtools_sort_index:
-    run: ../tools/samtools-sort-index.cwl
+    run: ../../tools/samtools-sort-index.cwl
     in:
       sort_input: bowtie2_aligner/output
       threads: threads
     out: [bam_bai_pair]
 
   remove_dup_picard:
-    run: ../tools/picard-markduplicates.cwl
+    run: ../../tools/picard-markduplicates.cwl
     in:
       input_file: samtools_sort_index/bam_bai_pair
       remove_dup:
@@ -71,14 +71,14 @@ steps:
       - metrics_file
 
   samtools_sort_index_after_dup_removing:
-    run: ../tools/samtools-sort-index.cwl
+    run: ../../tools/samtools-sort-index.cwl
     in:
       sort_input: remove_dup_picard/output_file
       threads: threads
     out: [bam_bai_pair]
 
   bamtools_stats:
-    run: ../tools/bamtools-stats.cwl
+    run: ../../tools/bamtools-stats.cwl
     in:
       bam_file: samtools_sort_index_after_dup_removing/bam_bai_pair
     out:
@@ -86,7 +86,7 @@ steps:
       - log_file
 
   bam_to_bigwig:
-    run: ../subworkflows/bam-bedgraph-bigwig.cwl
+    run: ../../subworkflows/bam-bedgraph-bigwig.cwl
     in:
       bam_file: samtools_sort_index_after_dup_removing/bam_bai_pair
       chrom_length_file: chr_length_file

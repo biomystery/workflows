@@ -114,13 +114,13 @@ steps:
 
 
   extract_fastq_1:
-    run: ../tools/extract-fastq.cwl
+    run: ../../tools/extract-fastq.cwl
     in:
       compressed_file: fastq_file_1
     out: [fastq_file]
 
   qc_fastq_1:
-    run: ../tools/fastqc.cwl
+    run: ../../tools/fastqc.cwl
     in:
       reads_file: extract_fastq_1/fastq_file
     out:
@@ -128,7 +128,7 @@ steps:
       - html_file
 
   rename_qc_fastq_1_report:
-    run: ../tools/rename.cwl
+    run: ../../tools/rename.cwl
     in:
       source_file: qc_fastq_1/html_file
       target_filename:
@@ -137,7 +137,7 @@ steps:
     out: [target_file]
 
   trigger_fastq_1_adapter_trimming:
-    run: ../expressiontools/fastqc-results-trigger.cwl
+    run: ../../expressiontools/fastqc-results-trigger.cwl
     in:
       summary_file: qc_fastq_1/summary_file
     out: [trigger]
@@ -147,13 +147,13 @@ steps:
 
 
   extract_fastq_2:
-    run: ../tools/extract-fastq.cwl
+    run: ../../tools/extract-fastq.cwl
     in:
       compressed_file: fastq_file_2
     out: [fastq_file]
 
   qc_fastq_2:
-    run: ../tools/fastqc.cwl
+    run: ../../tools/fastqc.cwl
     in:
       reads_file: extract_fastq_2/fastq_file
     out:
@@ -161,7 +161,7 @@ steps:
       - html_file
 
   rename_qc_fastq_2_report:
-    run: ../tools/rename.cwl
+    run: ../../tools/rename.cwl
     in:
       source_file: qc_fastq_2/html_file
       target_filename:
@@ -170,7 +170,7 @@ steps:
     out: [target_file]
 
   trigger_fastq_2_adapter_trimming:
-    run: ../expressiontools/fastqc-results-trigger.cwl
+    run: ../../expressiontools/fastqc-results-trigger.cwl
     in:
       summary_file: qc_fastq_2/summary_file
     out: [trigger]
@@ -180,7 +180,7 @@ steps:
 
 
   trim_adapters:
-    run: ../tools/trimgalore.cwl
+    run: ../../tools/trimgalore.cwl
     in:
       trigger:
         source: [trigger_fastq_1_adapter_trimming/trigger, trigger_fastq_2_adapter_trimming/trigger]
@@ -206,7 +206,7 @@ steps:
 
 
   rename_trimmed_fastq_1:
-    run: ../tools/rename.cwl
+    run: ../../tools/rename.cwl
     in:
       source_file: trim_adapters/trimmed_file
       target_filename:
@@ -215,7 +215,7 @@ steps:
     out: [target_file]
 
   rename_trimmed_fastq_2:
-    run: ../tools/rename.cwl
+    run: ../../tools/rename.cwl
     in:
       source_file: trim_adapters/trimmed_file_pair
       target_filename:
@@ -228,7 +228,7 @@ steps:
 
 
   align_reads:
-    run: ../tools/bowtie2.cwl
+    run: ../bowtie2/bowtie2.cwl
     in:
       filelist: rename_trimmed_fastq_1/target_file
       filelist_mates: rename_trimmed_fastq_2/target_file
@@ -247,14 +247,14 @@ steps:
       - output_log
 
   sort_and_index:
-    run: ../tools/samtools-sort-index.cwl
+    run: ../../tools/samtools-sort-index.cwl
     in:
       sort_input: align_reads/output
       threads: threads
     out: [bam_bai_pair]
 
   get_alignment_statistics:
-    run: ../tools/samtools-stats.cwl
+    run: ../../tools/samtools-stats.cwl
     in:
       bambai_pair: sort_and_index/bam_bai_pair
     out:
@@ -263,7 +263,7 @@ steps:
       - reads_mapped
 
   estimate_read_redundancy:
-    run: ../tools/preseq-lc-extrap.cwl
+    run: ../../tools/preseq-lc-extrap.cwl
     in:
       bam_file: sort_and_index/bam_bai_pair
       pe_mode:
@@ -277,7 +277,7 @@ steps:
 
 
   filter_reads:
-    run: ../tools/samtools-filter.cwl
+    run: ../../tools/samtools-filter.cwl
     in:
       bam_bai_pair: sort_and_index/bam_bai_pair
       exclude_chromosome: exclude_chromosome
@@ -286,19 +286,19 @@ steps:
     out: [filtered_bam_bai_pair]
   
   remove_duplicates:
-    run: ../tools/samtools-rmdup.cwl
+    run: ../../tools/samtools-rmdup.cwl
     in:
       bam_file: filter_reads/filtered_bam_bai_pair
     out: [rmdup_output]
 
   convert_bam_to_bed:
-    run: ../tools/bedtools-bamtobed.cwl
+    run: ../../tools/bedtools-bamtobed.cwl
     in:
       bam_file: remove_duplicates/rmdup_output   # do we need to split reads by N
     out: [bed_file]
 
   shift_reads:
-    run: ../tools/custom-bash.cwl
+    run: ../../tools/custom-bash.cwl
     in:
       input_file: convert_bam_to_bed/bed_file
       script:
@@ -306,7 +306,7 @@ steps:
     out: [output_file]
 
   remove_blacklisted:
-    run: ../tools/bedtools-intersect.cwl
+    run: ../../tools/bedtools-intersect.cwl
     in:
       file_a: shift_reads/output_file
       file_b: blacklisted_regions_bed
@@ -319,7 +319,7 @@ steps:
 
 
   group_by_chromosome:
-    run: ../tools/linux-sort.cwl
+    run: ../../tools/linux-sort.cwl
     in:
       unsorted_file: remove_blacklisted/intersected_file
       key:
@@ -327,7 +327,7 @@ steps:
     out: [sorted_file]
 
   get_genome_coverage:
-    run: ../tools/bedtools-genomecov.cwl
+    run: ../../tools/bedtools-genomecov.cwl
     in:
       input_file: group_by_chromosome/sorted_file
       chrom_length_file: chrom_length_file
@@ -337,7 +337,7 @@ steps:
     out: [genome_coverage_file]
 
   sort_genome_coverage:
-    run: ../tools/linux-sort.cwl
+    run: ../../tools/linux-sort.cwl
     in:
       unsorted_file: get_genome_coverage/genome_coverage_file
       key:
@@ -345,7 +345,7 @@ steps:
     out: [sorted_file]
 
   convert_genome_coverage_to_bigwig:
-    run: ../tools/ucsc-bedgraphtobigwig.cwl
+    run: ../../tools/ucsc-bedgraphtobigwig.cwl
     in:
       bedgraph_file: sort_genome_coverage/sorted_file
       chrom_length_file: chrom_length_file
@@ -356,7 +356,7 @@ steps:
 
 
   call_peaks:
-    run: ../tools/macs2-callpeak.cwl
+    run: ../macs2/macs2-callpeak.cwl
     in:
       treatment_file: remove_blacklisted/intersected_file
       format_mode:
@@ -375,7 +375,7 @@ steps:
       - macs_log
 
   sort_peaks:
-    run: ../tools/linux-sort.cwl
+    run: ../../tools/linux-sort.cwl
     in:
       unsorted_file: call_peaks/narrow_peak_file
       key:
@@ -383,13 +383,13 @@ steps:
     out: [sorted_file]
 
   merge_peaks:
-    run: ../tools/bedtools-merge.cwl
+    run: ../../tools/bedtools-merge.cwl
     in:
       bed_file: sort_peaks/sorted_file
     out: [merged_bed_file]
 
   count_tags:
-    run: ../tools/bedtools-intersect.cwl
+    run: ../../tools/bedtools-intersect.cwl
     in:
       file_a: merge_peaks/merged_bed_file
       file_b: remove_blacklisted/intersected_file
@@ -398,7 +398,7 @@ steps:
     out: [intersected_file]
 
   get_sequences:
-    run: ../tools/bedtools-getfasta.cwl
+    run: ../../tools/bedtools-getfasta.cwl
     in:
       genome_fasta_file: genome_fasta_file
       intervals_file: merge_peaks/merged_bed_file

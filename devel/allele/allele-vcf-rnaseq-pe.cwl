@@ -172,19 +172,19 @@ outputs:
 steps:
 
   extract_fastq_upstream:
-    run: ../tools/extract-fastq.cwl
+    run: ../../tools/extract-fastq.cwl
     in:
       compressed_file: fastq_file_upstream
     out: [fastq_file]
 
   extract_fastq_downstream:
-    run: ../tools/extract-fastq.cwl
+    run: ../../tools/extract-fastq.cwl
     in:
       compressed_file: fastq_file_downstream
     out: [fastq_file]
 
   allele_vcf_alignreads_se_pe:
-    run: ../subworkflows/allele-vcf-alignreads-se-pe.cwl
+    run: allele-vcf-alignreads-se-pe.cwl
     in:
       fastq_files: [extract_fastq_upstream/fastq_file, extract_fastq_downstream/fastq_file]
       insilico_star_indices_folder: insilico_star_indices_folder

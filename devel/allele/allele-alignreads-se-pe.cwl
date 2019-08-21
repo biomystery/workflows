@@ -165,7 +165,7 @@ outputs:
 steps:
 
   insilico_star_aligner:
-    run: ../tools/star-alignreads.cwl
+    run: ../../tools/star-alignreads.cwl
     in:
       readFilesIn: fastq_files
       genomeDir: insilico_star_indices_folder
@@ -186,7 +186,7 @@ steps:
       - uniquely_mapped_reads_number
 
   reference_star_aligner:
-    run: ../tools/star-alignreads.cwl
+    run: ../../tools/star-alignreads.cwl
     in:
       readFilesIn: fastq_files
       genomeDir: reference_star_indices_folder

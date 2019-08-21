@@ -118,31 +118,31 @@ outputs:
 steps:
 
   extract_fastq:
-    run: ../tools/extract-fastq.cwl
+    run: ../../tools/extract-fastq.cwl
     in:
       compressed_file: fastq_file
     out: [fastq_file]
 
   fastx_quality_stats:
-    run: ../tools/fastx-quality-stats.cwl
+    run: ../../tools/fastx-quality-stats.cwl
     in:
       input_file: extract_fastq/fastq_file
     out: [statistics_file]
 
   fastqc_stats:
-    run: ../tools/fastqc.cwl
+    run: ../../tools/fastqc.cwl
     in:
       reads_file: extract_fastq/fastq_file
     out: [summary_file]
 
   fastqc_results_trigger:
-    run: ../expressiontools/fastqc-results-trigger.cwl
+    run: ../../expressiontools/fastqc-results-trigger.cwl
     in:
       summary_file: fastqc_stats/summary_file
     out: [trigger]
 
   trim_adapters:
-    run: ../tools/trimmomatic.cwl
+    run: ../../tools/trimmomatic.cwl
     in:
       fastq_file_upstream: extract_fastq/fastq_file
       adapters_file: fasta_file_adapters
@@ -155,7 +155,7 @@ steps:
     out: [upstream_trimmed_file]
 
   rsem_calculate_expression:
-    run: ../tools/rsem-calculate-expression.cwl
+    run: ../../tools/rsem-calculate-expression.cwl
     in:
       upstream_read_file: trim_adapters/upstream_trimmed_file
       indices_folder: rsem_indices_folder
@@ -176,7 +176,7 @@ steps:
       - multimapped_reads_number
 
   rename_rsem_bambai_pair:
-    run: ../tools/rename.cwl
+    run: ../../tools/rename.cwl
     in:
       source_file: rsem_calculate_expression/genome_sorted_bam_bai_pair
       target_filename:
@@ -185,7 +185,7 @@ steps:
     out: [target_file]
 
   rename_rsem_isoforms_file:
-    run: ../tools/rename.cwl
+    run: ../../tools/rename.cwl
     in:
       source_file: rsem_calculate_expression/isoform_results_file
       target_filename:
@@ -194,7 +194,7 @@ steps:
     out: [target_file]
 
   rename_rsem_genes_file:
-    run: ../tools/rename.cwl
+    run: ../../tools/rename.cwl
     in:
       source_file: rsem_calculate_expression/gene_results_file
       target_filename:
@@ -203,7 +203,7 @@ steps:
     out: [target_file]
 
   get_chr_length_file:
-    run: ../expressiontools/get-file-by-name.cwl
+    run: ../../expressiontools/get-file-by-name.cwl
     in:
       input_files: rsem_indices_folder
       basename_regex:
@@ -211,7 +211,7 @@ steps:
     out: [selected_file]
 
   bam_to_bigwig:
-    run: ../subworkflows/bam-bedgraph-bigwig.cwl
+    run: ../../subworkflows/bam-bedgraph-bigwig.cwl
     in:
       bam_file: rename_rsem_bambai_pair/target_file
       chrom_length_file: get_chr_length_file/selected_file
@@ -219,7 +219,7 @@ steps:
     out: [bigwig_file]
 
   ribo_bowtie_aligner:
-    run: ../tools/bowtie-alignreads.cwl
+    run: ../../tools/bowtie-alignreads.cwl
     in:
       upstream_filelist: trim_adapters/upstream_trimmed_file
       indices_folder: bowtie_indices_folder
@@ -236,7 +236,7 @@ steps:
       - log_file
 
   get_stat:
-    run: ../tools/custom-bash.cwl
+    run: ../../tools/custom-bash.cwl
     in:
       input_file: rsem_calculate_expression/isoform_results_file
       script:
@@ -256,7 +256,7 @@ steps:
     out: [output_file]
 
   get_annotation_file:
-    run: ../expressiontools/get-file-by-name.cwl
+    run: ../../expressiontools/get-file-by-name.cwl
     in:
       input_files: rsem_indices_folder
       basename_regex:
@@ -264,7 +264,7 @@ steps:
     out: [selected_file]
 
   make_biowardrobe_isoforms:
-    run: ../tools/python-make-biowardrobe-isoforms.cwl
+    run: ../../tools/python-make-biowardrobe-isoforms.cwl
     in:
       rsem_isoforms_file: rename_rsem_isoforms_file/target_file
       rsem_annotation_file: get_annotation_file/selected_file

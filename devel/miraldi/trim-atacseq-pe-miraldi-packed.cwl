@@ -707,7 +707,7 @@ steps:
       - class: InlineJavascriptRequirement
         expressionLib:
         - var default_log_name = function() {
-            let lognames = {};
+            var lognames = {};
             lognames["pair"] = (inputs.paired && inputs.input_file_pair) ? inputs.input_file_pair.basename+'_trimming_report.txt':null;
             lognames["single"] = inputs.input_file.basename+'_trimming_report.txt';
             return lognames;
@@ -1065,7 +1065,7 @@ steps:
             paired-end files. To pass the validation test, both sequences of a sequence pair
             are required to have a certain minimum length which is governed by the option
             --length (see above). If only one read passes this length threshold the
-            other read can be rescued (see option --retain_unpaired). Using this option lets
+            other read can be rescued (see option --retain_unpaired). Using this option vars
             you discard too short read pairs without disturbing the sequence-by-sequence order
             of FastQ files which is required by many aligners.
         trim1:
@@ -2287,7 +2287,7 @@ steps:
         expressionLib:
         - var default_output_filename = function() {
                 if (inputs.output_filename == ""){
-                  let root = inputs.bambai_pair.basename.split('.').slice(0,-1).join('.');
+                  var root = inputs.bambai_pair.basename.split('.').slice(0,-1).join('.');
                   return (root == "")?inputs.bambai_pair.basename+".log":root+".log";
                 } else {
                   return inputs.output_filename;
@@ -2372,8 +2372,8 @@ steps:
           expressionLib:
           - var get_output_filename = function(input_file) {
                 if (inputs.estimates_filename == "") {
-                  let ext = "_preseq_estimates.tsv";
-                  let root = input_file.basename.split('.').slice(0,-1).join('.');
+                  var ext = "_preseq_estimates.tsv";
+                  var root = input_file.basename.split('.').slice(0,-1).join('.');
                   return (root == "")?inputs.input_file.basename+ext:root+ext;
                 } else {
                   return inputs.estimates_filename;
@@ -2693,7 +2693,7 @@ steps:
         expressionLib:
         - var default_output_filename = function() {
                 if (inputs.output_filename == ""){
-                  let root = inputs.bam_file.basename.split('.').slice(0,-1).join('.');
+                  var root = inputs.bam_file.basename.split('.').slice(0,-1).join('.');
                   return (root == "")?inputs.bam_file.basename+".bed":root+".bed";
                 } else {
                   return inputs.output_filename;
@@ -2883,7 +2883,7 @@ steps:
       - class: InlineJavascriptRequirement
         expressionLib:
         - var default_output_filename = function() {
-                let ext = (inputs.depth == "-bg" || inputs.depth == "-bga")?".bedGraph":".tab";
+                var ext = (inputs.depth == "-bg" || inputs.depth == "-bga")?".bedGraph":".tab";
                 return inputs.input_file.location.split('/').slice(-1)[0].split('.').slice(0,-1).join('.') + ext;
               };
       hints:
@@ -3129,9 +3129,9 @@ steps:
       - class: InlineJavascriptRequirement
         expressionLib:
         - var default_output_filename = function() {
-                let basename = inputs.bedgraph_file.location.split('/').slice(-1)[0];
-                let root = basename.split('.').slice(0,-1).join('.');
-                let ext = ".bigWig";
+                var basename = inputs.bedgraph_file.location.split('/').slice(-1)[0];
+                var root = basename.split('.').slice(0,-1).join('.');
+                var ext = ".bigWig";
                 return (root == "")?basename+ext:root+ext;
               };
       hints:
@@ -3439,7 +3439,7 @@ steps:
             {AUTO,BAM,SAM,BED,ELAND,ELANDMULTI,ELANDEXPORT,BOWTIE,BAMPE}, --format
             {AUTO,BAM,SAM,BED,ELAND,ELANDMULTI,ELANDEXPORT,BOWTIE,BAMPE} Format of tag file,
             "AUTO", "BED" or "ELAND" or "ELANDMULTI" or "ELANDEXPORT" or "SAM" or "BAM"
-            or "BOWTIE" or "BAMPE". The default AUTO option will let MACS decide which format
+            or "BOWTIE" or "BAMPE". The default AUTO option will var MACS decide which format
             the file is. Note that MACS can''t detect "BAMPE" or "BEDPE" format with "AUTO",
             and you have to implicitly specify the format for "BAMPE" and "BEDPE".
             DEFAULT: AUTO
@@ -3624,7 +3624,7 @@ steps:
           doc: |
             The arbitrary extension size in bp. When nomodel is  true, MACS will use
             this value as fragment size to  extend each read towards 3'' end, then pile
-            them up.  It''s exactly twice the number of obsolete SHIFTSIZE.  In previous
+            them up.  It''s exactly twice the number of obsovare SHIFTSIZE.  In previous
             language, each read is moved 5''->3''  direction to middle of fragment by 1/2
             d, then  extended to both direction with 1/2 d. This is  equivalent to say each
             read is extended towards 5''->3''  into a d size fragment.EXTSIZE
@@ -4111,7 +4111,7 @@ steps:
         expressionLib:
         - var default_output_filename = function() {
                 if (inputs.output_filename == ""){
-                  let root = inputs.intervals_file.basename.split('.').slice(0,-1).join('.');
+                  var root = inputs.intervals_file.basename.split('.').slice(0,-1).join('.');
                   return (root == "")?inputs.intervals_file.basename+".fa":root+".fa";
                 } else {
                   return inputs.output_filename;

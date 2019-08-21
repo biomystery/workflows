@@ -158,7 +158,7 @@ outputs:
 steps:
 
   insilico_star_aligner:
-    run: ../tools/star-alignreads.cwl
+    run: ../../tools/star-alignreads.cwl
     in:
       readFilesIn: fastq_files
       genomeDir: insilico_star_indices_folder
@@ -179,7 +179,7 @@ steps:
       - uniquely_mapped_reads_number
 
   strain1_sam_filter:
-    run: ../tools/custom-bash.cwl
+    run: ../../tools/custom-bash.cwl
     in:
       input_file: insilico_star_aligner/aligned_file
       script:
@@ -190,7 +190,7 @@ steps:
     out: [output_file]
 
   strain2_sam_filter:
-    run: ../tools/custom-bash.cwl
+    run: ../../tools/custom-bash.cwl
     in:
       input_file: insilico_star_aligner/aligned_file
       script:
@@ -201,7 +201,7 @@ steps:
     out: [output_file]
 
   strain1_samtools_sort_index:
-    run: ../tools/samtools-sort-index.cwl
+    run: ../../tools/samtools-sort-index.cwl
     in:
       sort_input: strain1_sam_filter/output_file
       sort_output_filename:
@@ -211,7 +211,7 @@ steps:
     out: [bam_bai_pair]
 
   strain2_samtools_sort_index:
-    run: ../tools/samtools-sort-index.cwl
+    run: ../../tools/samtools-sort-index.cwl
     in:
       sort_input: strain2_sam_filter/output_file
       sort_output_filename:
@@ -221,7 +221,7 @@ steps:
     out: [bam_bai_pair]
 
   strain1_project:
-    run: ../tools/crossmap.cwl
+    run: ../../tools/crossmap.cwl
     in:
       input_file_type:
         default: "bam"
@@ -230,7 +230,7 @@ steps:
     out: [projected_file]
 
   strain2_project:
-    run: ../tools/crossmap.cwl
+    run: ../../tools/crossmap.cwl
     in:
       input_file_type:
         default: "bam"
@@ -239,7 +239,7 @@ steps:
     out: [projected_file]
 
   strain1_bam_to_bigwig:
-    run: ../subworkflows/bam-bedgraph-bigwig.cwl
+    run: ../../subworkflows/bam-bedgraph-bigwig.cwl
     in:
       bam_file: strain1_project/projected_file
       chrom_length_file: reference_chrom_length_file
@@ -252,7 +252,7 @@ steps:
     out: [bigwig_file]
 
   strain2_bam_to_bigwig:
-    run: ../subworkflows/bam-bedgraph-bigwig.cwl
+    run: ../../subworkflows/bam-bedgraph-bigwig.cwl
     in:
       bam_file: strain2_project/projected_file
       chrom_length_file: reference_chrom_length_file
@@ -265,7 +265,7 @@ steps:
     out: [bigwig_file]
 
   reference_star_aligner:
-    run: ../tools/star-alignreads.cwl
+    run: ../../tools/star-alignreads.cwl
     in:
       readFilesIn: fastq_files
       genomeDir: reference_star_indices_folder
@@ -281,7 +281,7 @@ steps:
       - log_std
 
   reference_samtools_sort:
-    run: ../tools/samtools-sort.cwl
+    run: ../../tools/samtools-sort.cwl
     in:
       sort_input: reference_star_aligner/aligned_file
       sort_output_filename:
@@ -291,7 +291,7 @@ steps:
     out: [sorted_file]
 
   reference_bam_to_bigwig:
-    run: ../subworkflows/bam-bedgraph-bigwig.cwl
+    run: ../../subworkflows/bam-bedgraph-bigwig.cwl
     in:
       bam_file: reference_samtools_sort/sorted_file
       chrom_length_file: reference_chrom_length_file

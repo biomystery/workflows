@@ -71,7 +71,7 @@ $schemas:
 - http://schema.org/docs/schema_org_rdfa.html
 
 s:mainEntity:
-  $import: ./metadata/macs2-metadata.yaml
+  $import: ../../tools/metadata/macs2-metadata.yaml
 
 s:name: "macs2-island-count"
 s:downloadUrl: https://github.com/Barski-lab/workflows/tree/master/tools/macs2-island-count.cwl

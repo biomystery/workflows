@@ -47,6 +47,9 @@ $namespaces:
 $schemas:
 - http://schema.org/docs/schema_org_rdfa.html
 
+s:mainEntity:
+  $import: ../../tools/metadata/macs2-metadata.yaml
+
 s:name: "macs2-stat"
 s:downloadUrl: https://github.com/Barski-lab/workflows/tree/master/tools/macs2-stat.cwl
 s:codeRepository: https://github.com/Barski-lab/workflows

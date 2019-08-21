@@ -22,25 +22,25 @@ outputs:
 steps:
 
   sra_to_fastq:
-    run: ../tools/fastq-dump.cwl
+    run: fastq-dump.cwl
     in:
       sra_file: sra_input_file
     out: [fastq_file_1]
 
   fastqc:
-    run: ../tools/fastqc.cwl
+    run: ../../tools/fastqc.cwl
     in:
       reads_file: sra_to_fastq/fastq_file_1
     out: [summary_file]
 
   fastqc_results_trigger:
-    run: ../expressiontools/fastqc-results-trigger.cwl
+    run: ../../expressiontools/fastqc-results-trigger.cwl
     in:
       summary_file: fastqc/summary_file
     out: [trigger]
 
   trimmomatic:
-    run: ../tools/trimmomatic.cwl
+    run: ../../tools/trimmomatic.cwl
     in:
       fastq_file_upstream: sra_to_fastq/fastq_file_1
       adapters_file: illumina_adapters_file

@@ -233,7 +233,7 @@ $schemas:
 - http://schema.org/docs/schema_org_rdfa.html
 
 s:mainEntity:
-  $import: ./metadata/bowtie2-metadata.yaml
+  $import: bowtie2-metadata.yaml
 
 s:downloadUrl: https://github.com/Barski-lab/workflows/blob/master/tools/bowtie2-build.cwl
 s:codeRepository: https://github.com/Barski-lab/workflows

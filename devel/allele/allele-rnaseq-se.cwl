@@ -165,13 +165,13 @@ outputs:
 steps:
 
   extract_fastq:
-    run: ../tools/extract-fastq.cwl
+    run: ../../tools/extract-fastq.cwl
     in:
       compressed_file: fastq_file
     out: [fastq_file]
 
   allele_alignreads_se_pe:
-    run: ../subworkflows/allele-alignreads-se-pe.cwl
+    run: allele-alignreads-se-pe.cwl
     in:
       fastq_files: extract_fastq/fastq_file
       insilico_star_indices_folder: insilico_star_indices_folder

@@ -31,7 +31,7 @@ outputs:
 steps:
 
   sra_to_fastq:
-    run: ../tools/fastq-dump.cwl
+    run: fastq-dump.cwl
     in:
       sra_file: sra_input_file
       split_files:
@@ -39,31 +39,31 @@ steps:
     out: [fastq_file_1, fastq_file_2]
 
   fastqc_1:
-    run: ../tools/fastqc.cwl
+    run: ../../tools/fastqc.cwl
     in:
       reads_file: sra_to_fastq/fastq_file_1
     out: [summary_file]
 
   fastqc_2:
-    run: ../tools/fastqc.cwl
+    run: ../../tools/fastqc.cwl
     in:
       reads_file: sra_to_fastq/fastq_file_2
     out: [summary_file]
 
   fastqc_results_trigger_1:
-    run: ../expressiontools/fastqc-results-trigger.cwl
+    run: ../../expressiontools/fastqc-results-trigger.cwl
     in:
       summary_file: fastqc_1/summary_file
     out: [trigger]
 
   fastqc_results_trigger_2:
-    run: ../expressiontools/fastqc-results-trigger.cwl
+    run: ../../expressiontools/fastqc-results-trigger.cwl
     in:
       summary_file: fastqc_2/summary_file
     out: [trigger]
 
   trimmomatic:
-    run: ../tools/trimmomatic.cwl
+    run: ../../tools/trimmomatic.cwl
     in:
       fastq_file_upstream: sra_to_fastq/fastq_file_1
       fastq_file_downstream: sra_to_fastq/fastq_file_2

@@ -281,7 +281,7 @@ $schemas:
 - http://schema.org/docs/schema_org_rdfa.html
 
 s:mainEntity:
-  $import: ./metadata/sratoolkit-metadata.yaml
+  $import: sratoolkit-metadata.yaml
 
 s:name: "fastq-dump"
 s:downloadUrl: https://raw.githubusercontent.com/Barski-lab/workflows/master/tools/fastq-dump.cwl
