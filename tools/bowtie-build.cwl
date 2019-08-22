@@ -5,7 +5,17 @@ class: CommandLineTool
 requirements:
 - class: ShellCommandRequirement
 - class: InlineJavascriptRequirement
-
+- class: InitialWorkDirRequirement
+  listing: |
+    ${
+      return [
+        {
+          "class": "Directory",
+          "basename": inputs.index_base_name,
+          "listing": [],
+          "writable": true}
+      ]
+    }
 
 hints:
 - class: DockerRequirement
@@ -29,6 +39,7 @@ inputs:
     type: string
     inputBinding:
       position: 26
+      valueFrom: $("./"+self+"/"+self)
     doc: |
       write Ebwt data to files with this dir/basename
 
@@ -185,19 +196,9 @@ inputs:
 outputs:
 
   indices:
-    type: File[]
+    type: Directory
     outputBinding:
-      glob: "*"
-      outputEval: |
-        ${
-          var output_array = [];
-          for (var i = 0; i < self.length; i++){
-            if (self[i].class == "File"){
-              output_array.push(self[i]);
-            }
-          }
-          return output_array;
-        }
+      glob: $(inputs.index_base_name)
 
 
 baseCommand:
