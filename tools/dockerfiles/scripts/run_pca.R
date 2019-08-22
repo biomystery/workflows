@@ -5,6 +5,20 @@ suppressMessages(library(argparse))
 suppressMessages(library(scatterplot3d))
 
 
+##########################################################################################
+#
+# All input CSV/TSV files should have the following header (case-sensitive)
+# <RefseqId,GeneId,Chrom,TxStart,TxEnd,Strand,TotalReads,Rpkm>         - CSV
+# <RefseqId\tGeneId\tChrom\tTxStart\tTxEnd\tStrand\tTotalReads\tRpkm>  - TSV
+#
+# Format of the input files is identified by file extension
+# *.csv - CSV
+# *.tsv - TSV
+# CSV is used by default
+#
+##########################################################################################
+
+
 get_file_type <- function (filename) {
     ext = tools::file_ext(filename)
     separator = ","
@@ -37,11 +51,11 @@ load_data_set <- function(filenames, prefixes, target_colname, intersect_by) {
 
 # Parser
 parser <- ArgumentParser(description='Run BioWardrobe PCA')
-parser$add_argument("-i", "--input",     help='Input CSV/TSV expression files',        type="character", required="True", nargs='+')
-parser$add_argument("-n", "--name",      help='Names, the order corresponds to input', type="character", nargs='+')
-parser$add_argument("-t", "--target",    help='Target column name to be used in PCA',  type="character", default="Rpkm")
-parser$add_argument("-c", "--combine",   help='Combine inputs by columns names',       type="character", nargs='+')
-parser$add_argument("-o", "--output",    help='Output prefix',                         type="character", default="./pca_")
+parser$add_argument("-i", "--input",     help='Input CSV/TSV files',                   type="character", required="True", nargs='+')
+parser$add_argument("-n", "--name",      help='Input aliases, the order corresponds to --input order. Default: basename of --input files', type="character", nargs='+')
+parser$add_argument("-t", "--target",    help='Target column name to be used by PCA',  type="character", default="Rpkm")
+parser$add_argument("-c", "--combine",   help='Combine inputs by columns names. Default: RefseqId, GeneId, Chrom, TxStart, TxEnd, Strand', type="character", nargs='+', default=c("RefseqId", "GeneId", "Chrom", "TxStart", "TxEnd", "Strand"))
+parser$add_argument("-o", "--output",    help='Output prefix. Default: pca_',          type="character", default="./pca_")
 args <- parser$parse_args(commandArgs(trailingOnly = TRUE))
 
 # Set default value for --name if it wasn't provided
