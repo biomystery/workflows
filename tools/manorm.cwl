@@ -214,17 +214,11 @@ outputs:
       glob: "output_figures/*_read_density_on_common_peaks.png"
     doc: "Read density on common peaks plot"
 
-  stderr_log:
-    type: File
-    outputBinding:
-      glob: "manorm_stderr.log"
-    doc: "MAnorm stderr log"
-
   stdout_log:
-    type: File
-    outputBinding:
-      glob: "manorm_stdout.log"
-    doc: "MAnorm stdout log"
+    type: stdout
+
+  stderr_log:
+    type: stderr
 
 
 baseCommand: ["manorm"]

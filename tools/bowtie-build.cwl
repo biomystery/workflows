@@ -17,6 +17,7 @@ requirements:
       ]
     }
 
+
 hints:
 - class: DockerRequirement
   dockerPull: biowardrobe2/bowtie:v1.2.0
@@ -193,6 +194,7 @@ inputs:
     doc: |
       verbose output (for debugging)
 
+
 outputs:
 
   indices:
@@ -200,16 +202,14 @@ outputs:
     outputBinding:
       glob: $(inputs.index_base_name)
 
-  stderr_log:
-    type: stderr
-
   stdout_log:
     type: stdout
 
+  stderr_log:
+    type: stderr
 
-baseCommand:
-  - bowtie-build
 
+baseCommand: ["bowtie-build"]
 stderr: bowtie_stderr.log
 stdout: bowtie_stdout.log
 

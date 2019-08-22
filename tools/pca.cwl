@@ -76,17 +76,11 @@ outputs:
       glob: "*.tsv"
     doc: "PCA analysis results exported as TSV"
 
-  stderr_log:
-    type: File
-    outputBinding:
-      glob: "pca_stderr.log"
-    doc: "PCA stderr log"
-
   stdout_log:
-    type: File
-    outputBinding:
-      glob: "pca_stdout.log"
-    doc: "PCA stdout log"
+    type: stdout
+
+  stderr_log:
+    type: stderr
 
 
 baseCommand: ["run_pca.R"]

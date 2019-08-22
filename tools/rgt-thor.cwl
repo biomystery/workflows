@@ -280,20 +280,14 @@ outputs:
     outputBinding:
       glob: "*-setup.info"
 
-  stderr_log:
-    type: File
-    outputBinding:
-      glob: "thor_stderr.log"
-
   stdout_log:
-    type: File
-    outputBinding:
-      glob: "thor_stdout.log"
+    type: stdout
+
+  stderr_log:
+    type: stderr
 
 
 baseCommand: ["bash", "-c"]
-
-
 stderr: thor_stderr.log
 stdout: thor_stdout.log
 
