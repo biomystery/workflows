@@ -432,13 +432,17 @@
         location: dm3_chr4.4.ebwt
         size: 337940
       - class: File
-        location: dm3_chr4.log
-      - class: File
         location: dm3_chr4.rev.1.ebwt
         size: 4580786
       - class: File
         location: dm3_chr4.rev.2.ebwt
         size: 42248
+    stdout_log:
+      class: File
+      location: bowtie_stdout.log
+    stderr_log:
+      class: File
+      location: bowtie_stderr.log
 
 # ========================================================
 # bzip2-compress

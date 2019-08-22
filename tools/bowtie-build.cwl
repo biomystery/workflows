@@ -200,14 +200,18 @@ outputs:
     outputBinding:
       glob: $(inputs.index_base_name)
 
+  stderr_log:
+    type: stderr
+
+  stdout_log:
+    type: stdout
+
 
 baseCommand:
   - bowtie-build
 
-arguments:
-  - valueFrom: $('> ' + inputs.index_base_name + '.log')
-    position: 100000
-    shellQuote: false
+stderr: bowtie_stderr.log
+stdout: bowtie_stdout.log
 
 
 $namespaces:
