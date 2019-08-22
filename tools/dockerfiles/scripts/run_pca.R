@@ -69,7 +69,7 @@ png(filename=paste(args$output, "%03d.png", sep=""), width=800, height=800)
 target_data <- load_data_set(args$input, args$name, args$target, args$combine)
 filtered_target_data <- target_data[rowSums(target_data) != 0,]
 
-icolor <- colorRampPalette(c("#7fc97f","#beaed4","#fdc086","#386cb0","#f0027f"))(length(colnames(filtered_target_data)))
+icolor <- colorRampPalette(c("red", "black", "green", "yellow", "blue", "pink", "brown"))(length(colnames(filtered_target_data)))
 
 pca <- prcomp(t(filtered_target_data), cor=TRUE, scale.=T)
 result <- pca$x
