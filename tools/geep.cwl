@@ -1,6 +1,7 @@
 cwlVersion: v1.0
 class: CommandLineTool
 
+
 requirements:
 - class: InlineJavascriptRequirement
   expressionLib:
@@ -20,6 +21,7 @@ requirements:
                 }
               ]
     }
+
 
 hints:
 - class: DockerRequirement
@@ -47,9 +49,7 @@ inputs:
       Set the path to the GTF or TAB-delimited file. Required
 
   log_filename:
-    type:
-      - "null"
-      - string
+    type: string?
     inputBinding:
       position: 12
       prefix: --log
@@ -57,9 +57,7 @@ inputs:
       Set the path to save LOG file. Default: /dev/null
 
   output_prefix:
-    type:
-      - "null"
-      - string
+    type: string?
     inputBinding:
       position: 13
       prefix: --output
@@ -76,9 +74,7 @@ inputs:
       Set the prefix to save output files. Default: ""
 
   rpkm_threshold:
-    type:
-      - "null"
-      - double
+    type: double?
     inputBinding:
       position: 14
       prefix: --threshold
@@ -86,9 +82,7 @@ inputs:
       Set rpkm cutoff threshold, below which everything will be changed to value set with --cutoff. Default: 0
 
   rpkm_cutoff:
-    type:
-      - "null"
-      - double
+    type: double?
     inputBinding:
       position: 15
       prefix: --cutoff
@@ -96,9 +90,7 @@ inputs:
       Set rpkm cutoff value to be used for all rpkms below --threshold. Default: 0
 
   exclude_chr:
-    type:
-      - "null"
-      - string
+    type: string?
     inputBinding:
       position: 16
       prefix: --exclude
@@ -106,9 +98,7 @@ inputs:
       Coma separated list of chromosomes to be ignored. Default: ""
 
   min_interval_length:
-    type:
-      - "null"
-      - int
+    type: int?
     inputBinding:
       position: 17
       prefix: --minIntLen
@@ -116,9 +106,7 @@ inputs:
       Set the minimal interval length. All shorter intervals will be discarded. Default: 0
 
   min_read_length:
-    type:
-      - "null"
-      - int
+    type: int?
     inputBinding:
       position: 18
       prefix: --minReadLen
@@ -127,9 +115,7 @@ inputs:
       less than minReadLen nucleotides will be discarded. Default: 0
 
   keep_unique:
-    type:
-      - "null"
-      - boolean
+    type: boolean?
     inputBinding:
       position: 19
       prefix: --keepUnique
@@ -137,9 +123,7 @@ inputs:
       Set this flag if you want prevent distributing the isoform unique reads among other isoforms. Default: False
 
   dutp:
-    type:
-      - "null"
-      - boolean
+    type: boolean?
     inputBinding:
       position: 20
       prefix: --dutp
@@ -147,9 +131,7 @@ inputs:
       Set this dutp flag if strand specific analysys should be made. Default: False
 
   threads:
-    type:
-      - "null"
-      - int
+    type: int?
     inputBinding:
       position: 21
       prefix: --threads
@@ -181,7 +163,9 @@ outputs:
     outputBinding:
       glob: $(inputs.log_filename)
 
+
 baseCommand: [geep]
+
 
 $namespaces:
   s: http://schema.org/
@@ -192,6 +176,7 @@ $schemas:
 s:mainEntity:
   $import: ./metadata/geep-metadata.yaml
 
+label: "geep"
 s:name: "geep"
 s:downloadUrl: https://raw.githubusercontent.com/Barski-lab/workflows/master/tools/geep.cwl
 s:codeRepository: https://github.com/Barski-lab/workflows

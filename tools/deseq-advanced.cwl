@@ -171,4 +171,3 @@ s:about: |
                         Output TSV filename
   -p THREADS, --threads THREADS
                         Threads
-
