@@ -1,0 +1,20 @@
+{
+  "treatment_file": [{"location": "./data/dm3_chr4/generated_inputs/bam_bai/chr4_100_mapped_reads.Aligned.out.bam", "class": "File"}],
+  "format_mode": "BAMPE",
+  "extsize": 150,
+  "mfold": "4 40",
+  "trigger": false,
+  "output_prefix": "results",
+  "peak_xls_file_staged": {
+    "class": "File",
+    "location": "./data/dm3_chr4/generated_inputs/macs_peaks/chr4_100_mapped_reads.Aligned.out_macs_peaks.xls"
+  },
+  "narrow_peak_file_staged": {
+    "class": "File",
+    "location": "./data/dm3_chr4/generated_inputs/macs_peaks/chr4_100_mapped_reads.Aligned.out_macs_peaks.narrowPeak"
+  },
+  "macs_log_staged": {
+    "class": "File",
+    "location": "./data/dm3_chr4/generated_inputs/macs_peaks/chr4_100_mapped_reads.Aligned.out_macs.log"
+  }
+}

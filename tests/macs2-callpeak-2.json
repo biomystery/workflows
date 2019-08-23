@@ -1,0 +1,13 @@
+{
+  "treatment_file": [
+    {
+      "class": "File",
+      "location": "./data/dm3_chr4/generated_inputs/bam_bai/chr4_100_mapped_reads.Aligned.out.bam"
+    }
+  ],
+  "format_mode": "BAMPE",
+  "extsize": 150,
+  "mfold": "4 40",
+  "trigger": true,
+  "output_prefix": "results"
+}
