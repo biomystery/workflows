@@ -4377,3 +4377,35 @@
     stderr_log:
       class: File
       location: pca_stderr.log
+
+# ========================================================
+# clip-toolkit-tag2peak
+# ========================================================
+
+- job: ./clip-toolkit-tag2peak-1.json
+  tool: ../tools/clip-toolkit-tag2peak.cwl
+  output:
+    peaks_bed:
+      class: File
+      location: chr4_100_mapped_reads.Aligned.out.peaks.bed
+      size: 516
+    stdout_log:
+      class: File
+      location: tag2peak_stdout.log
+    stderr_log:
+      class: File
+      location: tag2peak_stderr.log
+
+- job: ./clip-toolkit-tag2peak-2.json
+  tool: ../tools/clip-toolkit-tag2peak.cwl
+  output:
+    peaks_bed:
+      class: File
+      location: custom.bed
+      size: 471
+    stdout_log:
+      class: File
+      location: tag2peak_stdout.log
+    stderr_log:
+      class: File
+      location: tag2peak_stderr.log
