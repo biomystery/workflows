@@ -4627,3 +4627,33 @@
       class: File
       location: chrNameLength.txt
       size: 13
+
+# ========================================================
+# umi-tools-dedup
+# ========================================================
+
+- job: ./umi-tools-dedup-1.json
+  tool: ../tools/umi-tools-dedup.cwl
+  output:
+    dedup_bam_file:
+      class: File
+      location: chr4_100_mapped_reads.Aligned.out_dedup.bam
+    stdout_log:
+      class: File
+      location: umi_tools_dedup_stdout.log
+    stderr_log:
+      class: File
+      location: umi_tools_dedup_stderr.log
+
+- job: ./umi-tools-dedup-2.json
+  tool: ../tools/umi-tools-dedup.cwl
+  output:
+    dedup_bam_file:
+      class: File
+      location: results.bam
+    stdout_log:
+      class: File
+      location: umi_tools_dedup_stdout.log
+    stderr_log:
+      class: File
+      location: umi_tools_dedup_stderr.log
