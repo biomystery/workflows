@@ -904,7 +904,7 @@
       size: 11
     formatted_output_file:
       class: File
-      location: result_formatted.tsv
+      location: result_stats.tsv
       size: 67
     mapped_reads: 31
     suppressed_reads: 0
@@ -959,7 +959,7 @@
       size: 14
     formatted_output_file:
       class: File
-      location: result_formatted.tsv
+      location: result_stats.tsv
       size: 109
     mapped_reads: 94
     multimapped_reads: 5
@@ -2877,7 +2877,7 @@
       size: 11
     get_stat_formatted_log:
       class: File
-      location: upstream_formatted.tsv
+      location: upstream_stats.tsv
       size: 65
     iaintersect_log:
       class: File
@@ -2955,7 +2955,7 @@
       size: 11
     get_stat_formatted_log:
       class: File
-      location: upstream_formatted.tsv
+      location: upstream_stats.tsv
       size: 65
     iaintersect_log:
       class: File
@@ -3021,7 +3021,7 @@
       class: File
       size: 14
     get_stat_formatted_log:
-      location: "upstream_formatted.tsv"
+      location: "upstream_stats.tsv"
       class: File
       size: 107
     rpkm_common_tss:
@@ -3086,7 +3086,7 @@
       class: File
       size: 13
     get_stat_formatted_log:
-      location: "upstream_formatted.tsv"
+      location: "upstream_stats.tsv"
       class: File
       size: 107
     rpkm_common_tss:
@@ -3151,7 +3151,7 @@
       class: File
       size: 14
     get_stat_formatted_log:
-      location: "upstream_formatted.tsv"
+      location: "upstream_stats.tsv"
       class: File
       size: 107
     rpkm_common_tss:
@@ -3220,7 +3220,7 @@
       class: File
       size: 13
     get_stat_formatted_log:
-      location: "upstream_formatted.tsv"
+      location: "upstream_stats.tsv"
       class: File
       size: 107
     rpkm_common_tss:
@@ -3288,7 +3288,7 @@
       class: File
       size: 12
     get_stat_formatted_log:
-      location: "upstream_formatted.tsv"
+      location: "upstream_stats.tsv"
       class: File
       size: 125
     iaintersect_log:
@@ -3369,7 +3369,7 @@
       class: File
       size: 10
     get_stat_formatted_log:
-      location: "upstream_formatted.tsv"
+      location: "upstream_stats.tsv"
       class: File
       size: 64
     iaintersect_log:
@@ -3442,7 +3442,7 @@
       class: File
       size: 11
     get_stat_formatted_log:
-      location: "upstream_formatted.tsv"
+      location: "upstream_stats.tsv"
       class: File
       size: 65
     rpkm_common_tss:
@@ -3510,7 +3510,7 @@
       class: File
       size: 13
     get_stat_formatted_log:
-      location: "upstream_formatted.tsv"
+      location: "upstream_stats.tsv"
       class: File
       size: 107
     rpkm_common_tss:
@@ -3581,7 +3581,7 @@
       class: File
       size: 13
     get_stat_formatted_log:
-      location: "upstream_formatted.tsv"
+      location: "upstream_stats.tsv"
       class: File
       size: 107
     rpkm_common_tss:
@@ -3653,7 +3653,7 @@
       class: File
       size: 12
     get_stat_formatted_log:
-      location: "upstream_formatted.tsv"
+      location: "upstream_stats.tsv"
       class: File
       size: 106
     rpkm_common_tss:
@@ -4485,3 +4485,59 @@
       class: File
       location: chr4_100_mapped_reads.Aligned.out_macs_peaks.xls
       size: 1919
+
+# ========================================================
+# samtools-merge
+# ========================================================
+
+- job: ./samtools-merge-1.json
+  tool: ../tools/samtools-merge.cwl
+  output:
+    merged_alignment_file:
+      class: File
+      location: chr4_100_mapped_reads.Aligned.out_merged.bam
+    stdout_log:
+      class: File
+      location: samtools_merge_stdout.log
+    stderr_log:
+      class: File
+      location: samtools_merge_stderr.log
+
+- job: ./samtools-merge-2.json
+  tool: ../tools/samtools-merge.cwl
+  output:
+    merged_alignment_file:
+      class: File
+      location: chr4_100_mapped_reads.Aligned.out_merged.sam
+    stdout_log:
+      class: File
+      location: samtools_merge_stdout.log
+    stderr_log:
+      class: File
+      location: samtools_merge_stderr.log
+
+- job: ./samtools-merge-3.json
+  tool: ../tools/samtools-merge.cwl
+  output:
+    merged_alignment_file:
+      class: File
+      location: merged.bam
+    stdout_log:
+      class: File
+      location: samtools_merge_stdout.log
+    stderr_log:
+      class: File
+      location: samtools_merge_stderr.log
+
+- job: ./samtools-merge-4.json
+  tool: ../tools/samtools-merge.cwl
+  output:
+    merged_alignment_file:
+      class: File
+      location: merged.sam
+    stdout_log:
+      class: File
+      location: samtools_merge_stdout.log
+    stderr_log:
+      class: File
+      location: samtools_merge_stderr.log
