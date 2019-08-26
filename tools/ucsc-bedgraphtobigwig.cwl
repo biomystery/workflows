@@ -1,6 +1,7 @@
 cwlVersion: v1.0
 class: CommandLineTool
 
+
 requirements:
 - class: InlineJavascriptRequirement
   expressionLib:
@@ -11,12 +12,14 @@ requirements:
           return (root == "")?basename+ext:root+ext;
         };
 
+
 hints:
 - class: DockerRequirement
   dockerPull: biowardrobe2/ucscuserapps:v358
 
 
 inputs:
+
   bedgraph_file:
     type: File
     inputBinding:
@@ -32,9 +35,7 @@ inputs:
       Two-column chromosome length file: <chromosome name> <size in bases>
 
   unc:
-    type:
-      - "null"
-      - boolean
+    type: boolean?
     inputBinding:
       position: 5
       prefix: "-unc"
@@ -42,9 +43,7 @@ inputs:
       Disable compression
 
   items_per_slot:
-    type:
-      - "null"
-      - int
+    type: int?
     inputBinding:
       separate: false
       position: 6
@@ -53,9 +52,7 @@ inputs:
       Number of data points bundled at lowest level. Default 1024
 
   block_size:
-    type:
-      - "null"
-      - int
+    type: int?
     inputBinding:
       separate: false
       position: 7
@@ -64,9 +61,7 @@ inputs:
       Number of items to bundle in r-tree.  Default 256
 
   output_filename:
-    type:
-      - "null"
-      - string
+    type: string?
     inputBinding:
       position: 12
       valueFrom: |
@@ -82,7 +77,9 @@ inputs:
       If set, writes the output bigWig file to output_filename,
       otherwise generates filename from default_output_filename()
 
+
 outputs:
+
   bigwig_file:
     type: File
     outputBinding:
@@ -95,7 +92,9 @@ outputs:
             }
         }
 
+
 baseCommand: ["bedGraphToBigWig"]
+
 
 $namespaces:
   s: http://schema.org/
