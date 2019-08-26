@@ -904,7 +904,7 @@
       size: 11
     formatted_output_file:
       class: File
-      location: result_stats.tsv
+      location: result_formatted.tsv
       size: 67
     mapped_reads: 31
     suppressed_reads: 0
@@ -959,7 +959,7 @@
       size: 14
     formatted_output_file:
       class: File
-      location: result_stats.tsv
+      location: result_formatted.tsv
       size: 109
     mapped_reads: 94
     multimapped_reads: 5
@@ -3286,7 +3286,7 @@
     get_stat_log:
       location: "upstream.stat"
       class: File
-      size: 12
+      size: 11
     get_stat_formatted_log:
       location: "upstream_stats.tsv"
       class: File
@@ -3440,7 +3440,7 @@
     get_stat_log:
       location: "upstream.stat"
       class: File
-      size: 11
+      size: 13
     get_stat_formatted_log:
       location: "upstream_stats.tsv"
       class: File
@@ -3508,7 +3508,7 @@
     get_stat_log:
       location: "upstream.stat"
       class: File
-      size: 13
+      size: 12
     get_stat_formatted_log:
       location: "upstream_stats.tsv"
       class: File
@@ -4541,3 +4541,113 @@
     stderr_log:
       class: File
       location: samtools_merge_stderr.log
+
+# ========================================================
+# star-genomegenerate
+# ========================================================
+
+- job: ./star-genomegenerate-1.json
+  tool: ../tools/star-genomegenerate.cwl
+  output:
+    indices:
+      class: Directory
+      location: star_indices
+      listing:
+      - class: File
+        location: chrStart.txt
+        size: 10
+      - class: File
+        location: chrNameLength.txt
+        size: 13
+      - class: File
+        location: chrLength.txt
+        size: 8
+      - class: File
+        location: sjdbList.fromGTF.out.tab
+        size: 19133
+      - class: File
+        location: exonInfo.tab
+        size: 45281
+      - class: File
+        location: sjdbList.out.tab
+        size: 19133
+      - class: File
+        location: SAindex
+      - class: File
+        location: chrName.txt
+        size: 5
+      - class: File
+        location: geneInfo.tab
+        size: 3728
+      - class: File
+        location: SA
+      - class: File
+        location: sjdbInfo.txt
+        size: 20033
+      - class: File
+        location: exonGeTrInfo.tab
+        size: 74437
+      - class: File
+        location: transcriptInfo.tab
+        size: 13759
+      - class: File
+        location: Genome
+      - class: File
+        location: genomeParameters.txt
+    chr_name_length:
+      class: File
+      location: chrNameLength.txt
+      size: 13
+
+- job: ./star-genomegenerate-2.json
+  tool: ../tools/star-genomegenerate.cwl
+  output:
+    indices:
+      class: Directory
+      location: dm3
+      listing:
+      - class: File
+        location: chrStart.txt
+        size: 10
+      - class: File
+        location: chrNameLength.txt
+        size: 13
+      - class: File
+        location: chrLength.txt
+        size: 8
+      - class: File
+        location: sjdbList.fromGTF.out.tab
+        size: 19133
+      - class: File
+        location: exonInfo.tab
+        size: 45281
+      - class: File
+        location: sjdbList.out.tab
+        size: 19133
+      - class: File
+        location: SAindex
+      - class: File
+        location: chrName.txt
+        size: 5
+      - class: File
+        location: geneInfo.tab
+        size: 3728
+      - class: File
+        location: SA
+      - class: File
+        location: sjdbInfo.txt
+        size: 20033
+      - class: File
+        location: exonGeTrInfo.tab
+        size: 74437
+      - class: File
+        location: transcriptInfo.tab
+        size: 13759
+      - class: File
+        location: Genome
+      - class: File
+        location: genomeParameters.txt
+    chr_name_length:
+      class: File
+      location: chrNameLength.txt
+      size: 13
