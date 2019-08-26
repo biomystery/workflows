@@ -11,6 +11,7 @@ requirements:
         return inputs.output_filename?inputs.output_filename:root+"_dedup."+ext;
     };
 
+
 hints:
 - class: DockerRequirement
   dockerPull: quay.io/biocontainers/umi_tools:0.5.5--py36h470a237_0
@@ -61,8 +62,8 @@ outputs:
 
 
 baseCommand: [umi_tools, dedup]
-stderr: umi_tools_dedup_stderr.log
 stdout: umi_tools_dedup_stdout.log
+stderr: umi_tools_dedup_stderr.log
 
 
 $namespaces:
