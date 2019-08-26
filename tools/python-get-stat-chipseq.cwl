@@ -1,28 +1,28 @@
 cwlVersion: v1.0
 class: CommandLineTool
 
+
 requirements:
 - class: ShellCommandRequirement
 - class: InlineJavascriptRequirement
   expressionLib:
   - var get_output_filename = function() {
-        if (inputs.output_filename == null){
-          var root = inputs.bowtie_log.basename.split('.').slice(0,-1).join('.');
-          var ext = ".stat";
-          return (root == "")?inputs.bowtie_log.basename+ext:root+ext;
-        } else {
+        if (inputs.output_filename) {
           return inputs.output_filename;
         }
+        let root = inputs.bowtie_log.basename.split('.').slice(0,-1).join('.');
+        let ext = ".stat";
+        return (root == "")?inputs.bowtie_log.basename+ext:root+ext;
     };
   - var get_formatted_output_filename = function() {
-        if (inputs.formatted_output_filename == null){
-          var root = inputs.bowtie_log.basename.split('.').slice(0,-1).join('.');
-          var ext = "_formatted.tsv";
-          return (root == "")?inputs.bowtie_log.basename+ext:root+ext;
-        } else {
-          return inputs.formatted_output_filename;
+        if (inputs.formatted_output_filename) {
+            return inputs.formatted_output_filename;
         }
+        let root = inputs.bowtie_log.basename.split('.').slice(0,-1).join('.');
+        let ext = "_stats.tsv";
+        return (root == "")?inputs.bowtie_log.basename+ext:root+ext;
     };
+
 
 hints:
 - class: DockerRequirement
@@ -51,42 +51,43 @@ inputs:
           if '/' in line and 'Skip' not in line:
             splt = line.split('/')
             USED = int((splt[1].split('='))[0].strip()) - int((splt[0].split(']'))[1].strip())
-      print TOTAL, ALIGNED, SUPPRESSED, USED
-      print >> sys.stderr, "Total reads number\tUniquely mapped reads number\tMulti-mapped reads number\tReads number after removing duplicates"
-      print >> sys.stderr, str(TOTAL) + "\t" + str(ALIGNED) + "\t" + str(SUPPRESSED) + "\t" + str(USED)
-
+      with open(sys.argv[3], 'w') as fo:
+          fo.write(str(TOTAL) + " " + str(ALIGNED) + " " + str(SUPPRESSED) + " " + str(USED))
+      with open(sys.argv[4], 'w') as fof:
+          fof.write("Tags total\tMapped\tMulti-mapped\tUnmapped\tDuplicates\n")
+          fof.write(str(TOTAL) + "\t" + str(USED) + "\t" + str(SUPPRESSED) + "\t" + str(TOTAL-ALIGNED-SUPPRESSED) + "\t" + str(ALIGNED-USED) + "\n")
     inputBinding:
       position: 5
-    doc: |
-      Python script to get TOTAL, ALIGNED, SUPPRESSED, USED values from log files
+    doc: "Python script to get TOTAL, ALIGNED, SUPPRESSED, USED values from log files"
 
   bowtie_log:
     type: File
     inputBinding:
       position: 6
-    doc: |
-      Log file from Bowtie
+    doc: "Log file from Bowtie"
 
   rmdup_log:
     type: File
     inputBinding:
       position: 7
-    doc: |
-      Log file from samtools rmdup
+    doc: "Log file from samtools rmdup"
 
   output_filename:
-    type:
-    - "null"
-    - string
-    doc: |
-      Name for generated output file
+    type: string?
+    inputBinding:
+      position: 8
+      valueFrom: $(get_output_filename())
+    default: ""
+    doc: "Name for generated output file"
 
   formatted_output_filename:
-    type:
-    - "null"
-    - string
-    doc: |
-      Name for generated formatted output file
+    type: string?
+    inputBinding:
+      position: 9
+      valueFrom: $(get_formatted_output_filename())
+    default: ""
+    doc: "Name for generated formatted output file"
+
 
 outputs:
 
@@ -114,7 +115,7 @@ outputs:
       glob: $(get_output_filename())
       outputEval: $(parseInt(self[0].contents.split(' ')[1]))
 
-  supressed_reads:
+  suppressed_reads:
     type: int
     outputBinding:
       loadContents: true
@@ -128,11 +129,9 @@ outputs:
       glob: $(get_output_filename())
       outputEval: $(parseInt(self[0].contents.split(' ')[3]))
 
+
 baseCommand: [python, '-c']
-arguments:
-  - valueFrom: $(" > " + get_output_filename() + " 2> " + get_formatted_output_filename())
-    position: 100000
-    shellQuote: false
+
 
 $namespaces:
   s: http://schema.org/
@@ -182,7 +181,7 @@ doc: |
   generated on the base of bowtie log basename with `.stat` extension.
 
   `get_formatted_output_filename` function returns output filename equal to `formatted_output_filename` (if input is provided) or
-  generated on the base of STAR log basename with `_formatted.tsv` extension.
+  generated on the base of STAR log basename with `_stats.tsv` extension.
 
 s:about: |
   Runs python code from the script input

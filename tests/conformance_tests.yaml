@@ -868,7 +868,7 @@
   output:
     used_reads: 94
     total_reads: 125
-    supressed_reads: 0
+    suppressed_reads: 0
     mapped_reads: 31
     output_file:
       class: File
@@ -884,7 +884,7 @@
   output:
     used_reads: 94
     total_reads: 125
-    supressed_reads: 0
+    suppressed_reads: 0
     mapped_reads: 31
     output_file:
       class: File
@@ -900,7 +900,7 @@
   output:
     used_reads: 94
     total_reads: 125
-    supressed_reads: 0
+    suppressed_reads: 0
     mapped_reads: 31
     output_file:
       class: File
