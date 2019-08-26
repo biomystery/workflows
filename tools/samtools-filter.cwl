@@ -27,7 +27,7 @@ inputs:
       samtools index $3
     inputBinding:
       position: 5
-    doc: Script to exclude chromosomes from the BAM file and filter reads by quality
+    doc: "Script to exclude chromosomes from the BAM file and filter reads by quality"
 
   bam_bai_pair:
     type: File
