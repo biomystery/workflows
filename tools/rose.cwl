@@ -18,8 +18,7 @@ inputs:
     inputBinding:
       position: 5
       prefix: "-i"
-    doc: |
-      GFF or BED file of binding sites used to make enhancers
+    doc: "GFF or BED file of binding sites used to make enhancers"
 
   bam_file:
     type: File
@@ -28,32 +27,28 @@ inputs:
       prefix: "-r"
     secondaryFiles:
     - .bai
-    doc: |
-      Indexed bamfile to rank enhancer by
+    doc: "Indexed bamfile to rank enhancer by"
 
   annotation_file:
     type: File
     inputBinding:
       position: 7
       prefix: "-g"
-    doc: |
-      TSV genome annotation file
+    doc: "TSV genome annotation file"
 
   stitch_distance:
     type: int
     inputBinding:
       position: 8
       prefix: "-s"
-    doc: |
-      Linking distance for stitching
+    doc: "Linking distance for stitching"
 
   tss_distance:
     type: int
     inputBinding:
       position: 9
       prefix: "-t"
-    doc: |
-      Distance from TSS to exclude. 0 = no TSS exclusion
+    doc: "Distance from TSS to exclude. 0 = no TSS exclusion"
 
 
 outputs:
@@ -152,6 +147,7 @@ s:creator:
         - id: http://orcid.org/0000-0002-6486-3898
 
 doc: |
+  Tool runs ROSE to get Super Enhancers regions
   -b and -c arguments are not supported
 
 s:about: |
