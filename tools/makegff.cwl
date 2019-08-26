@@ -15,6 +15,7 @@ requirements:
         }
     };
 
+
 hints:
 - class: DockerRequirement
   dockerPull: biowardrobe2/rose:v0.0.2
@@ -45,6 +46,7 @@ inputs:
 
 
 outputs:
+
   gff_file:
     type: File
     outputBinding:
