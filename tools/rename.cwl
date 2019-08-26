@@ -12,10 +12,21 @@ requirements:
 
 hints:
 - class: DockerRequirement
-  dockerPull: biowardrobe2/scidap:v0.0.2
+  dockerPull: biowardrobe2/scidap:v0.0.3
 
 
 inputs:
+
+  script:
+    type: string?
+    default: |
+      #!/bin/bash
+      cp $0 $1
+      if [ -f $0.bai ]; then
+        cp $0.bai $1.bai
+      fi
+    inputBinding:
+      position: 1
 
   source_file:
     type: File
@@ -35,9 +46,18 @@ outputs:
     type: File
     outputBinding:
       glob: $(get_target_name())
+    secondaryFiles: |
+      ${
+          if (inputs.source_file.secondaryFiles && inputs.source_file.secondaryFiles.length > 0){
+            return inputs.target_filename+".bai";
+          } else {
+            return "null";
+          }
+        }
 
 
-baseCommand: ["cp"]
+baseCommand: [bash, '-c']
+
 
 $namespaces:
   s: http://schema.org/
@@ -82,6 +102,8 @@ s:creator:
 
 doc: |
   Tool renames `source_file` to `target_filename`.
+  Input `target_filename` should be set as string. If it's a full path, only basename will be used.
+  If BAI file is present, it will be renamed too
 
 s:about: |
   cp source target
