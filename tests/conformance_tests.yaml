@@ -866,50 +866,50 @@
 - job: ./python-get-stat-chipseq-1.json
   tool: ../tools/python-get-stat-chipseq.cwl
   output:
-    used_reads: 94
-    total_reads: 125
-    suppressed_reads: 0
-    mapped_reads: 31
     output_file:
       class: File
       location: upstream.stat
-      size: 12
+      size: 11
     formatted_output_file:
       class: File
-      location: upstream_formatted.tsv
-      size: 125
-
+      location: upstream_stats.tsv
+      size: 67
+    mapped_reads: 31
+    suppressed_reads: 0
+    total_reads: 125
+    used_reads: 94
+    
 - job: ./python-get-stat-chipseq-2.json
   tool: ../tools/python-get-stat-chipseq.cwl
   output:
-    used_reads: 94
-    total_reads: 125
-    suppressed_reads: 0
-    mapped_reads: 31
     output_file:
       class: File
       location: result.txt
-      size: 12
+      size: 11
     formatted_output_file:
       class: File
-      location: upstream_formatted.tsv
-      size: 125
+      location: upstream_stats.tsv
+      size: 67
+    mapped_reads: 31
+    suppressed_reads: 0
+    total_reads: 125
+    used_reads: 94
 
 - job: ./python-get-stat-chipseq-3.json
   tool: ../tools/python-get-stat-chipseq.cwl
   output:
-    used_reads: 94
-    total_reads: 125
-    suppressed_reads: 0
-    mapped_reads: 31
     output_file:
       class: File
       location: result.txt
-      size: 12
+      size: 11
     formatted_output_file:
       class: File
       location: result_formatted.tsv
-      size: 125
+      size: 67
+    mapped_reads: 31
+    suppressed_reads: 0
+    total_reads: 125
+    used_reads: 94
 
 # ========================================================
 # python-get-stat-rnaseq
@@ -918,54 +918,54 @@
 - job: ./python-get-stat-rnaseq-1.json
   tool: ../tools/python-get-stat-rnaseq.cwl
   output:
-    ribo_reads: 0
-    mapped_reads: 94
-    total_reads: 125
-    used_reads: 67
-    supressed_reads: 5
     output_file:
       class: File
       location: chr4_100_mapped_reads.stat
-      size: 14
+      size: 13
     formatted_output_file:
       class: File
-      location: chr4_100_mapped_reads_formatted.tsv
-      size: 149
-
+      location: chr4_100_mapped_reads_stats.tsv
+      size: 107
+    mapped_reads: 94
+    multimapped_reads: 5
+    ribo_reads: 0
+    total_reads: 125
+    used_reads: 67
+    
 - job: ./python-get-stat-rnaseq-2.json
   tool: ../tools/python-get-stat-rnaseq.cwl
   output:
-    ribo_reads: 0
-    mapped_reads: 94
-    total_reads: 125
-    used_reads: 135
-    supressed_reads: 5
     output_file:
       class: File
       location: result.txt
-      size: 15
+      size: 14
     formatted_output_file:
       class: File
-      location: chr4_100_mapped_reads_formatted.tsv
-      size: 150
+      location: chr4_100_mapped_reads_stats.tsv
+      size: 109
+    mapped_reads: 94
+    multimapped_reads: 5
+    ribo_reads: 0
+    total_reads: 125
+    used_reads: 135
   doc: We use pair-end, but treat it as single-end, so the output has not correct read numbers from biological point of view
 
 - job: ./python-get-stat-rnaseq-3.json
   tool: ../tools/python-get-stat-rnaseq.cwl
   output:
-    ribo_reads: 0
-    mapped_reads: 94
-    total_reads: 125
-    used_reads: 135
-    supressed_reads: 5
     output_file:
       class: File
       location: result.txt
-      size: 15
+      size: 14
     formatted_output_file:
       class: File
-      location: result.tsv
-      size: 150
+      location: result_formatted.tsv
+      size: 109
+    mapped_reads: 94
+    multimapped_reads: 5
+    ribo_reads: 0
+    total_reads: 125
+    used_reads: 135
   doc: We use pair-end, but treat it as single-end, so the output has not correct read numbers from biological point of view
 
 # ========================================================

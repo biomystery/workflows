@@ -1,28 +1,28 @@
 cwlVersion: v1.0
 class: CommandLineTool
 
+
 requirements:
 - class: ShellCommandRequirement
 - class: InlineJavascriptRequirement
   expressionLib:
   - var get_output_filename = function() {
-        if (inputs.output_filename == null){
-          return inputs.star_log.location.split('/').slice(-1)[0].replace(/\.*Log\.final\.out$/i,'')+".stat";
-        } else {
+        if (inputs.output_filename) {
           return inputs.output_filename;
         }
+        return inputs.star_log.location.split('/').slice(-1)[0].replace(/\.*Log\.final\.out$/i,'')+".stat";
     };
   - var get_formatted_output_filename = function() {
-        if (inputs.formatted_output_filename == null){
-          return inputs.star_log.location.split('/').slice(-1)[0].replace(/\.*Log\.final\.out$/i,'')+"_formatted.tsv";
-        } else {
-          return inputs.formatted_output_filename;
-        }
+      if (inputs.formatted_output_filename) {
+            return inputs.formatted_output_filename;
+         }
+      return inputs.star_log.location.split('/').slice(-1)[0].replace(/\.*Log\.final\.out$/i,'')+"_stats.tsv";
     };
+
 
 hints:
 - class: DockerRequirement
-  dockerPull: biowardrobe2/scidap:v0.0.2
+  dockerPull: biowardrobe2/scidap:v0.0.3
 
 
 inputs:
@@ -32,7 +32,7 @@ inputs:
     default: |
       # !/usr/bin/env python
       import sys, re
-      TOTAL, ALIGNED, RIBO, SUPPRESSED, USED = 0, 0, 0, 0, 0
+      TOTAL, ALIGNED, RIBO, MULTIMAPPED, USED = 0, 0, 0, 0, 0
       with open(sys.argv[1], 'r') as star_log:
           for line in star_log:
               if 'Number of input reads' in line:
@@ -40,7 +40,7 @@ inputs:
               if 'Uniquely mapped reads number' in line:
                   ALIGNED = int(line.split('|')[1])
               if 'Number of reads mapped to too many loci' in line:
-                  SUPPRESSED = int(line.split('|')[1])
+                  MULTIMAPPED = int(line.split('|')[1])
       with open(sys.argv[2], 'r') as bowtie_log:
           for line in bowtie_log:
               if 'alignment:' in line:
@@ -57,58 +57,57 @@ inputs:
                   continue
               line_splitted = line.split(',')
               USED += int(line_splitted[key_index])
-      if len(sys.argv) > 4 and sys.argv[4] == "--pair":
+      if len(sys.argv) > 6 and sys.argv[6] == "--pair":
           USED = USED/2
-      print TOTAL, ALIGNED, RIBO, SUPPRESSED, USED
-      print >> sys.stderr, "Total reads number\tUniquely mapped reads number\tRibosomal reads number\tMulti-mapped reads number\tMapped within annotation reads number"
-      print >> sys.stderr, str(TOTAL) + "\t" + str(ALIGNED) + "\t" + str(RIBO) + "\t" + str(SUPPRESSED) + "\t" + str(USED)
+      with open(sys.argv[4], 'w') as fo:
+          fo.write(str(TOTAL) + " " + str(ALIGNED) + " " + str(RIBO) + " " + str(MULTIMAPPED) + " " + str(USED))
+      with open(sys.argv[5], 'w') as fof:
+          fof.write("Tags total\tTranscriptome\tMulti-mapped\tOutside annotation\tUnmapped\tRibosomal contamination\n")
+          fof.write(str(TOTAL) + "\t" + str(USED) + "\t" + str(MULTIMAPPED) + "\t" + str(ALIGNED-USED) + "\t" + str(TOTAL-ALIGNED-MULTIMAPPED) + "\t" + str(RIBO) + "\n")
     inputBinding:
       position: 5
-    doc: |
-      Python script to get TOTAL, ALIGNED, RIBO, SUPPRESSED, USED values from log files
+    doc: "Python script to get TOTAL, ALIGNED, RIBO, MULTIMAPPED, USED values from log files"
 
   star_log:
     type: File
     inputBinding:
       position: 6
-    doc: |
-      Log file from STAR (Log.final.out)
+    doc: "Log file from STAR (Log.final.out)"
 
   bowtie_log:
     type: File
     inputBinding:
       position: 7
-    doc: |
-      Log file from Bowtie
+    doc: "Log file from Bowtie"
 
   rpkm_isoforms:
     type: File
     inputBinding:
       position: 8
-    doc: |
-      RPKM calcualted by GEEP, grouped by isoforms
+    doc: "RPKM calcualted by GEEP, grouped by isoforms"
+  
+  output_filename:
+    type: string?
+    inputBinding:
+      position: 9
+      valueFrom: $(get_output_filename())
+    default: ""
+    doc: "Name for generated output file"
+  
+  formatted_output_filename:
+    type: string?
+    inputBinding:
+      position: 10
+      valueFrom: $(get_formatted_output_filename())
+    default: ""
+    doc: "Name for generated formatted output file"
 
   pair_end:
     type: boolean?
     inputBinding:
-      position: 9
+      position: 11
       prefix: --pair
-    doc: |
-      If true, USED values is divided on 2
-
-  output_filename:
-    type:
-    - "null"
-    - string
-    doc: |
-      Name for generated output file
-
-  formatted_output_filename:
-    type:
-    - "null"
-    - string
-    doc: |
-      Name for generated formatted output file
+    doc: "If true, USED values is divided on 2"
 
 
 outputs:
@@ -144,7 +143,7 @@ outputs:
       glob: $(get_output_filename())
       outputEval: $(parseInt(self[0].contents.split(' ')[2]))
 
-  supressed_reads:
+  multimapped_reads:
     type: int
     outputBinding:
       loadContents: true
@@ -158,11 +157,9 @@ outputs:
       glob: $(get_output_filename())
       outputEval: $(parseInt(self[0].contents.split(' ')[4]))
 
+
 baseCommand: [python, '-c']
-arguments:
-  - valueFrom: $(" > " + get_output_filename() + " 2> " + get_formatted_output_filename())
-    position: 100000
-    shellQuote: false
+
 
 $namespaces:
   s: http://schema.org/
@@ -212,7 +209,7 @@ doc: |
   generated on the base of STAR log basename with `.stat` extension.
 
   `get_formatted_output_filename` function returns output filename equal to `formatted_output_filename` (if input is provided) or
-  generated on the base of STAR log basename with `_formatted.tsv` extension.
+  generated on the base of STAR log basename with `_stats.tsv` extension.
 
 s:about: |
   Runs python code from the `script` input

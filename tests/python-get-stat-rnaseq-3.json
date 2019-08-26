@@ -3,5 +3,5 @@
   "bowtie_log":{"class": "File", "location": "./data/dm3_chr4/generated_inputs/logs/bowtie_align_ribo_log/upstream.bw"},
   "rpkm_isoforms":{"class": "File", "location": "./data/dm3_chr4/generated_inputs/geep/chr4_100_mapped_reads.Aligned.out.isoforms.csv"},
   "output_filename": "result.txt",
-  "formatted_output_filename": "result.tsv"
+  "formatted_output_filename": "result_formatted.tsv"
 }
