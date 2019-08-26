@@ -2870,11 +2870,11 @@
     get_stat_log:
       class: File
       location: upstream.stat
-      size: 12
+      size: 11
     get_stat_formatted_log:
       class: File
       location: upstream_formatted.tsv
-      size: 125
+      size: 65
     iaintersect_log:
       class: File
       location: upstream_macs_peaks_iaintersect.log
@@ -2948,11 +2948,11 @@
     get_stat_log:
       class: File
       location: upstream.stat
-      size: 12
+      size: 11
     get_stat_formatted_log:
       class: File
       location: upstream_formatted.tsv
-      size: 125
+      size: 65
     iaintersect_log:
       class: File
       location: upstream_macs_peaks_iaintersect.log
@@ -3015,11 +3015,11 @@
     get_stat_log:
       location: "upstream.stat"
       class: File
-      size: 15
+      size: 14
     get_stat_formatted_log:
       location: "upstream_formatted.tsv"
       class: File
-      size: 150
+      size: 107
     rpkm_common_tss:
       location: "upstream.common_tss.tsv"
       class: File
@@ -3080,11 +3080,11 @@
     get_stat_log:
       location: "upstream.stat"
       class: File
-      size: 14
+      size: 13
     get_stat_formatted_log:
       location: "upstream_formatted.tsv"
       class: File
-      size: 149
+      size: 107
     rpkm_common_tss:
       location: "upstream.common_tss.tsv"
       class: File
@@ -3145,11 +3145,11 @@
     get_stat_log:
       location: "upstream.stat"
       class: File
-      size: 15
+      size: 14
     get_stat_formatted_log:
       location: "upstream_formatted.tsv"
       class: File
-      size: 150
+      size: 107
     rpkm_common_tss:
       location: "upstream.common_tss.tsv"
       class: File
@@ -3214,11 +3214,11 @@
     get_stat_log:
       location: "upstream.stat"
       class: File
-      size: 14
+      size: 13
     get_stat_formatted_log:
       location: "upstream_formatted.tsv"
       class: File
-      size: 149
+      size: 107
     rpkm_common_tss:
       location: "upstream.common_tss.tsv"
       class: File
@@ -3363,11 +3363,11 @@
     get_stat_log:
       location: "upstream.stat"
       class: File
-      size: 11
+      size: 10
     get_stat_formatted_log:
       location: "upstream_formatted.tsv"
       class: File
-      size: 124
+      size: 64
     iaintersect_log:
       location: "upstream_macs_peaks_iaintersect.log"
       class: File
@@ -3436,11 +3436,11 @@
     get_stat_log:
       location: "upstream.stat"
       class: File
-      size: 14
+      size: 11
     get_stat_formatted_log:
       location: "upstream_formatted.tsv"
       class: File
-      size: 149
+      size: 65
     rpkm_common_tss:
       location: "upstream.common_tss.tsv"
       class: File
@@ -3508,7 +3508,7 @@
     get_stat_formatted_log:
       location: "upstream_formatted.tsv"
       class: File
-      size: 148
+      size: 107
     rpkm_common_tss:
       location: "upstream.common_tss.tsv"
       class: File
@@ -3575,11 +3575,11 @@
     get_stat_log:
       location: "upstream.stat"
       class: File
-      size: 14
+      size: 13
     get_stat_formatted_log:
       location: "upstream_formatted.tsv"
       class: File
-      size: 149
+      size: 107
     rpkm_common_tss:
       location: "upstream.common_tss.tsv"
       class: File
@@ -3647,11 +3647,11 @@
     get_stat_log:
       location: "upstream.stat"
       class: File
-      size: 13
+      size: 12
     get_stat_formatted_log:
       location: "upstream_formatted.tsv"
       class: File
-      size: 148
+      size: 106
     rpkm_common_tss:
       location: "upstream.common_tss.tsv"
       class: File
@@ -4451,11 +4451,11 @@
     narrow_peak_file:
       class: File
       location: results_peaks.narrowPeak
-      size: 799
+      size: 551
     peak_summits_file:
       class: File
       location: results_summits.bed
-      size: 584
+      size: 336
     peak_xls_file:
       class: File
       location: results_peaks.xls

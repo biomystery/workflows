@@ -313,8 +313,8 @@ steps:
         source: samtools_sort_index/bam_bai_pair
         valueFrom: |
           ${
-            let root = self.basename.split('.').slice(0,-1).join('.');
-            let ext = "_upstream.bigWig";
+            var root = self.basename.split('.').slice(0,-1).join('.');
+            var ext = "_upstream.bigWig";
             return (root == "")?self.basename+ext:root+ext;
           }
       strand:
@@ -335,8 +335,8 @@ steps:
         source: samtools_sort_index/bam_bai_pair
         valueFrom: |
           ${
-            let root = self.basename.split('.').slice(0,-1).join('.');
-            let ext = "_downstream.bigWig";
+            var root = self.basename.split('.').slice(0,-1).join('.');
+            var ext = "_downstream.bigWig";
             return (root == "")?self.basename+ext:root+ext;
           }
       strand:
