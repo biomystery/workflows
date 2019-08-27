@@ -4657,3 +4657,39 @@
     stderr_log:
       class: File
       location: umi_tools_dedup_stderr.log
+
+# ========================================================
+# umi-tools-extract
+# ========================================================
+
+- job: ./umi-tools-extract-1.json
+  tool: ../tools/umi-tools-extract.cwl
+  output:
+    umi_fastq_file_1:
+      class: File
+      location: umi_extracted.fastq
+      size: 2725
+    stdout_log:
+      class: File
+      location: umi_tools_extract_stdout.log
+    stderr_log:
+      class: File
+      location: umi_tools_extract_stderr.log
+
+- job: ./umi-tools-extract-2.json
+  tool: ../tools/umi-tools-extract.cwl
+  output:
+    umi_fastq_file_1:
+      class: File
+      location: umi_extracted_1.fastq
+      size: 2817
+    umi_fastq_file_2:
+      class: File
+      location: umi_extracted_2.fastq
+      size: 2817
+    stdout_log:
+      class: File
+      location: umi_tools_extract_stdout.log
+    stderr_log:
+      class: File
+      location: umi_tools_extract_stderr.log

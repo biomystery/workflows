@@ -5,7 +5,7 @@ class: CommandLineTool
 requirements:
 - class: InlineJavascriptRequirement
   expressionLib:
-  - var default_output_filename = function(ext) {
+  - var default_output_filename = function() {
         var ext = inputs.bam_file.basename.split('.').slice(-1)[0];
         var root = inputs.bam_file.basename.split('.').slice(0,-1).join('.');
         return inputs.output_filename?inputs.output_filename:root+"_dedup."+ext;
@@ -25,7 +25,6 @@ inputs:
     - .bai
     inputBinding:
       prefix: "-I"
-
     doc: "Input BAM file"
 
   paired_end:

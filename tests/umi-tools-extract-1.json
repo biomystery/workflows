@@ -1,0 +1,8 @@
+{
+    "fastq_file_1": {
+        "class": "File",
+        "location": "./data/dm3_chr4/main_inputs/fastq/chr4_100_chrM_25_mapped_reads/upstream.fastq"
+    },
+    "bc_pattern_1": "(?P<umi_1>.{4})(?P<discard_1>G).*",
+    "output_filename_1": "umi_extracted.fastq"
+}
