@@ -4693,3 +4693,31 @@
     stderr_log:
       class: File
       location: umi_tools_extract_stderr.log
+
+# ========================================================
+# group-isoforms-batch
+# ========================================================
+
+- job: ./group-isoforms-batch-1.json
+  tool: ../tools/group-isoforms-batch.cwl
+  output:
+    common_tss_file:
+    - class: File
+      location: u1_1000.common_tss.tsv
+      size: 46428
+    - class: File
+      location: u2_1000.common_tss.tsv
+      size: 46596
+    - class: File
+      location: u3_1000.common_tss.tsv
+      size: 46741
+    genes_file:
+    - class: File
+      location: u1_1000.genes.tsv
+      size: 43255
+    - class: File
+      location: u2_1000.genes.tsv
+      size: 43433
+    - class: File
+      location: u3_1000.genes.tsv
+      size: 43549
