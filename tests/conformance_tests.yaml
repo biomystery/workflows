@@ -4580,6 +4580,12 @@
       class: File
       location: chrNameLength.txt
       size: 13
+    stdout_log:
+      class: File
+      location: star_build_stdout.log
+    stderr_log:
+      class: File
+      location: star_build_stderr.log
 
 - job: ./star-genomegenerate-2.json
   tool: ../tools/star-genomegenerate.cwl
@@ -4633,6 +4639,12 @@
       class: File
       location: chrNameLength.txt
       size: 13
+    stdout_log:
+      class: File
+      location: star_build_stdout.log
+    stderr_log:
+      class: File
+      location: star_build_stderr.log
 
 # ========================================================
 # umi-tools-dedup

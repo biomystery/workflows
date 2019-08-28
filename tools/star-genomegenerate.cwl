@@ -218,9 +218,16 @@ outputs:
     outputBinding:
       glob: $(inputs.genome_dir + "/chrNameLength.txt")
 
+  stdout_log:
+    type: stdout
 
-baseCommand: [STAR]
-arguments: ["--runMode", "genomeGenerate"]
+  stderr_log:
+    type: stderr
+
+
+baseCommand: ["STAR", "--runMode", "genomeGenerate"]
+stdout: star_build_stdout.log
+stderr: star_build_stderr.log
 
 
 $namespaces:
