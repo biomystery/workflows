@@ -34,7 +34,7 @@ steps:
     out: [summary_file]
 
   fastqc_results_trigger:
-    run: ../../expressiontools/fastqc-results-trigger.cwl
+    run: ../../tools/fastqc-results-trigger.cwl
     in:
       summary_file: fastqc/summary_file
     out: [trigger]

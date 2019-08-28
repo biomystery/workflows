@@ -136,7 +136,7 @@ steps:
     out: [summary_file]
 
   fastqc_results_trigger:
-    run: ../../expressiontools/fastqc-results-trigger.cwl
+    run: ../../tools/fastqc-results-trigger.cwl
     in:
       summary_file: fastqc_stats/summary_file
     out: [trigger]
@@ -203,7 +203,7 @@ steps:
     out: [target_file]
 
   get_chr_length_file:
-    run: ../../expressiontools/get-file-by-name.cwl
+    run: ../../tools/get-file-by-name.cwl
     in:
       input_files: rsem_indices_folder
       basename_regex:
@@ -256,7 +256,7 @@ steps:
     out: [output_file]
 
   get_annotation_file:
-    run: ../../expressiontools/get-file-by-name.cwl
+    run: ../../tools/get-file-by-name.cwl
     in:
       input_files: rsem_indices_folder
       basename_regex:

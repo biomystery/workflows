@@ -51,13 +51,13 @@ steps:
     out: [summary_file]
 
   fastqc_results_trigger_1:
-    run: ../../expressiontools/fastqc-results-trigger.cwl
+    run: ../../tools/fastqc-results-trigger.cwl
     in:
       summary_file: fastqc_1/summary_file
     out: [trigger]
 
   fastqc_results_trigger_2:
-    run: ../../expressiontools/fastqc-results-trigger.cwl
+    run: ../../tools/fastqc-results-trigger.cwl
     in:
       summary_file: fastqc_2/summary_file
     out: [trigger]

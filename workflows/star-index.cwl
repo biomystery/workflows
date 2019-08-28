@@ -67,13 +67,13 @@ steps:
     out: [indices]
 
   files_to_folder:
-    run: ../expressiontools/files-to-folder.cwl
+    run: ../tools/files-to-folder.cwl
     in:
       input_files: star_generate_indices/indices
     out: [folder]
 
   get_chr_length_file:
-    run: ../expressiontools/get-file-by-name.cwl
+    run: ../tools/get-file-by-name.cwl
     in:
       input_files: star_generate_indices/indices
       basename_regex:

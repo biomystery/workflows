@@ -137,7 +137,7 @@ steps:
     out: [target_file]
 
   trigger_fastq_1_adapter_trimming:
-    run: ../../expressiontools/fastqc-results-trigger.cwl
+    run: ../../tools/fastqc-results-trigger.cwl
     in:
       summary_file: qc_fastq_1/summary_file
     out: [trigger]
@@ -170,7 +170,7 @@ steps:
     out: [target_file]
 
   trigger_fastq_2_adapter_trimming:
-    run: ../../expressiontools/fastqc-results-trigger.cwl
+    run: ../../tools/fastqc-results-trigger.cwl
     in:
       summary_file: qc_fastq_2/summary_file
     out: [trigger]
