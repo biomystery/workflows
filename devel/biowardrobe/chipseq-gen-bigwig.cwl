@@ -34,7 +34,7 @@ outputs:
 
 steps:
   bam_to_bigwig:
-    run: ../../subworkflows/bam-bedgraph-bigwig.cwl
+    run: ../../tools/bam-bedgraph-bigwig.cwl
     in:
       bam_file: bam_bai_pair_file
       chrom_length_file: chrom_length_file

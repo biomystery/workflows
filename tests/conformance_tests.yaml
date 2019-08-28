@@ -55,7 +55,7 @@
 # ========================================================
 
 - job: ./bam-bedgraph-bigwig-1.json
-  tool: ../subworkflows/bam-bedgraph-bigwig.cwl
+  tool: ../tools/bam-bedgraph-bigwig.cwl
   output:
     bedgraph_file:
       class: File
@@ -67,7 +67,7 @@
       size: 33486
 
 - job: ./bam-bedgraph-bigwig-2.json
-  tool: ../subworkflows/bam-bedgraph-bigwig.cwl
+  tool: ../tools/bam-bedgraph-bigwig.cwl
   output:
     bedgraph_file:
       class: File
@@ -79,7 +79,7 @@
       size: 33653
 
 - job: ./bam-bedgraph-bigwig-3.json
-  tool: ../subworkflows/bam-bedgraph-bigwig.cwl
+  tool: ../tools/bam-bedgraph-bigwig.cwl
   output:
     bedgraph_file:
       class: File
@@ -91,7 +91,7 @@
       size: 33653
 
 - job: ./bam-bedgraph-bigwig-4.json
-  tool: ../subworkflows/bam-bedgraph-bigwig.cwl
+  tool: ../tools/bam-bedgraph-bigwig.cwl
   output:
     bedgraph_file:
       class: File
@@ -103,7 +103,7 @@
       size: 33653
 
 - job: ./bam-bedgraph-bigwig-5.json
-  tool: ../subworkflows/bam-bedgraph-bigwig.cwl
+  tool: ../tools/bam-bedgraph-bigwig.cwl
   output:
     bedgraph_file:
       class: File
@@ -115,7 +115,7 @@
       size: 33500
 
 - job: ./bam-bedgraph-bigwig-6.json
-  tool: ../subworkflows/bam-bedgraph-bigwig.cwl
+  tool: ../tools/bam-bedgraph-bigwig.cwl
   output:
     bedgraph_file:
       class: File
@@ -2604,7 +2604,7 @@
 # ========================================================
 
 - job: ./heatmap-prepare-1.json
-  tool: ../subworkflows/heatmap-prepare.cwl
+  tool: ../tools/heatmap-prepare.cwl
   output:
     tag_folder:
     - class: Directory
@@ -2627,7 +2627,7 @@
         size: 108
 
 - job: ./heatmap-prepare-2.json
-  tool: ../subworkflows/heatmap-prepare.cwl
+  tool: ../tools/heatmap-prepare.cwl
   output:
     tag_folder:
     - class: Directory
@@ -2668,7 +2668,7 @@
         size: 108
 
 - job: ./heatmap-prepare-3.json
-  tool: ../subworkflows/heatmap-prepare.cwl
+  tool: ../tools/heatmap-prepare.cwl
   output:
     tag_folder:
     - class: Directory
