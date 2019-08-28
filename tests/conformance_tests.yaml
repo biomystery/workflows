@@ -415,7 +415,7 @@
 - job: ./bowtie-build-1.json
   tool: ../tools/bowtie-build.cwl
   output:
-    indices:
+    indices_folder:
       class: Directory
       location: dm3_chr4
       listing:
@@ -4525,7 +4525,7 @@
 - job: ./star-genomegenerate-1.json
   tool: ../tools/star-genomegenerate.cwl
   output:
-    indices:
+    indices_folder:
       class: Directory
       location: star_indices
       listing:
@@ -4570,7 +4570,7 @@
         location: Genome
       - class: File
         location: genomeParameters.txt
-    chr_name_length:
+    chrom_length:
       class: File
       location: chrNameLength.txt
       size: 13
@@ -4578,7 +4578,7 @@
 - job: ./star-genomegenerate-2.json
   tool: ../tools/star-genomegenerate.cwl
   output:
-    indices:
+    indices_folder:
       class: Directory
       location: dm3
       listing:
@@ -4623,7 +4623,7 @@
         location: Genome
       - class: File
         location: genomeParameters.txt
-    chr_name_length:
+    chrom_length:
       class: File
       location: chrNameLength.txt
       size: 13

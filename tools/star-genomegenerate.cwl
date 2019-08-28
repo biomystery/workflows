@@ -208,12 +208,12 @@ inputs:
 
 outputs:
 
-  indices:
+  indices_folder:
     type: Directory
     outputBinding:
       glob: $(inputs.genome_dir)
   
-  chr_name_length:
+  chrom_length:
     type: File
     outputBinding:
       glob: $(inputs.genome_dir + "/chrNameLength.txt")
