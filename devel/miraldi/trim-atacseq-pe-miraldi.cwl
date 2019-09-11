@@ -35,10 +35,6 @@ inputs:
     type: File
     doc: "Blacklisted genomic regions file in BED format"
 
-  chrom_length_file:
-    type: File
-    doc: "Chromosome length file"
-
   genome_size:
     type: string
     doc: "The length of the mappable genome (hs, mm, ce, dm or number, for example 2.7e9)"
