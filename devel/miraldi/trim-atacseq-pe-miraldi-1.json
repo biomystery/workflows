@@ -1,0 +1,29 @@
+{
+  "fastq_file_1": {
+    "class": "File",
+    "location": "../../tests/data/dm3_chr4/main_inputs/fastq/chr4_100_chrM_25_mapped_reads/upstream.fastq"
+  },
+  "fastq_file_2": {
+    "class": "File",
+    "location": "../../tests/data/dm3_chr4/main_inputs/fastq/chr4_100_chrM_25_mapped_reads/downstream.fastq"
+  },
+  "indices_folder": {
+    "class": "Directory",
+    "location": "../../tests/data/dm3_chr4/generated_inputs/indices/rsem_bowtie2_dm3_chr4"
+  },
+  "exclude_chromosome": "chrM chrY chrX",
+  "blacklisted_regions_bed": {
+    "class": "File",
+    "location": "../../tests/data/dm3_chr4/generated_inputs/bed/chr4_100_mapped_reads.Aligned.out.bed"
+  },
+  "chrom_length_file": {
+    "class": "File",
+    "location": "../../tests/data/dm3_chr4/generated_inputs/indices/star_dm3_chr4/chrNameLength.txt"
+  },
+  "genome_size": "dm",
+  "genome_fasta_file": {
+    "class": "File",
+    "location": "../../tests/data/dm3_chr4/main_inputs/fasta/chr4.fa"
+  },
+  "threads": 2
+}

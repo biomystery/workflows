@@ -25,8 +25,6 @@ requirements:
 hints:
 - class: DockerRequirement
   dockerPull: biowardrobe2/bowtie2:v2.3.0
-  dockerFile: >
-    $import: ./dockerfiles/bowtie2-Dockerfile
 
 inputs:
 
