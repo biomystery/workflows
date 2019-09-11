@@ -2907,7 +2907,7 @@
       size: 46
     samtools_rmdup_log:
       class: File
-      location: upstream.rmdup
+      location: upstream_samtools_rmdup_report.txt
     estimates_file: null
 
 # ========================================================
@@ -2983,7 +2983,7 @@
       size: 46
     samtools_rmdup_log:
       class: File
-      location: upstream.rmdup
+      location: upstream_samtools_rmdup_report.txt
     estimates_file: null
 
 # ========================================================
@@ -3306,7 +3306,7 @@
       class: File
       size: 46
     samtools_rmdup_log:
-      location: "upstream.rmdup"
+      location: "upstream_samtools_rmdup_report.txt"
       class: File
     trim_report:
       location: "upstream.fastq_trimming_report.txt"
@@ -3385,7 +3385,7 @@
       class: File
       size: 46
     samtools_rmdup_log:
-      location: "upstream.rmdup"
+      location: "upstream_samtools_rmdup_report.txt"
       class: File
     trim_report_downstream:
       location: "downstream.fastq_trimming_report.txt"

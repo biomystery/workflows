@@ -127,9 +127,9 @@ outputs:
       glob: |
         ${
           if (inputs.output_filename == "" || inputs.trigger == false){
-            return default_output_filename().split('.').slice(0,-1).join('.') + '.rmdup';
+            return default_output_filename().split('.').slice(0,-1).join('.') + '_samtools_rmdup_report.txt';
           } else {
-            return inputs.output_filename.split('.').slice(0,-1).join('.') + '.rmdup';
+            return inputs.output_filename.split('.').slice(0,-1).join('.') + '_samtools_rmdup_report.txt';
           }
         }
 
@@ -139,9 +139,9 @@ arguments:
   - valueFrom: |
       ${
         if (inputs.output_filename == "" || inputs.trigger == false){
-          return " > " + default_output_filename().split('.').slice(0,-1).join('.') + ".rmdup 2>&1";
+          return " > " + default_output_filename().split('.').slice(0,-1).join('.') + "_samtools_rmdup_report.txt 2>&1";
         } else {
-          return " > " + inputs.output_filename.split('.').slice(0,-1).join('.') + ".rmdup 2>&1";
+          return " > " + inputs.output_filename.split('.').slice(0,-1).join('.') + "_samtools_rmdup_report.txt 2>&1";
         }
       }
     position: 100000
