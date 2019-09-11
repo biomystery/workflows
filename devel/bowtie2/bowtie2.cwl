@@ -841,9 +841,9 @@ outputs:
       glob: |
         ${
            if (inputs.output_filename == ""){
-             return default_output_filename().split('.').slice(0,-1).join('.') + ".log";
+             return default_output_filename().split('.').slice(0,-1).join('.') + "_bowtie2_alignment_report.txt";
            } else {
-             return inputs.output_filename.split('.').slice(0,-1).join('.') + ".log";
+             return inputs.output_filename.split('.').slice(0,-1).join('.') + "_bowtie2_alignment_report.txt";
            }
         }
 
@@ -877,9 +877,9 @@ arguments:
   - valueFrom: |
       ${
         if (inputs.output_filename == ""){
-          return ' 2> ' + default_output_filename().split('.').slice(0,-1).join('.') + '.log';
+          return ' 2> ' + default_output_filename().split('.').slice(0,-1).join('.') + '_bowtie2_alignment_report.txt';
         } else {
-          return ' 2> ' + inputs.output_filename.split('.').slice(0,-1).join('.') + '.log';
+          return ' 2> ' + inputs.output_filename.split('.').slice(0,-1).join('.') + '_bowtie2_alignment_report.txt';
         }
       }
     position: 100000

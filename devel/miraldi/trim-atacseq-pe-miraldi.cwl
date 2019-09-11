@@ -3,8 +3,6 @@ class: Workflow
 
 
 requirements:
-  - class: SubworkflowFeatureRequirement
-  - class: ScatterFeatureRequirement
   - class: StepInputExpressionRequirement
   - class: MultipleInputFeatureRequirement
   - class: InlineJavascriptRequirement
@@ -58,23 +56,23 @@ inputs:
 
 outputs:
 
-  fastq_1_qc_report_original:
+  fastqc_report_fastq_1:
     type: File
-    outputSource: rename_qc_fastq_1_report/target_file
+    outputSource: rename_fastqc_report_fastq_1/target_file
 
-  fastq_1_adapter_trimming_report:
+  trimgalore_report_fastq_1:
     type: File
     outputSource: trim_adapters/report_file
 
-  fastq_2_qc_report_original:
+  fastqc_report_fastq_2:
     type: File
-    outputSource: rename_qc_fastq_2_report/target_file
+    outputSource: rename_fastqc_report_fastq_2/target_file
 
-  fastq_2_adapter_trimming_report:
+  trimgalore_report_fastq_2:
     type: File
     outputSource: trim_adapters/report_file_pair
   
-  alignment_log:
+  bowtie_alignment_report:
     type: File
     outputSource: align_reads/output_log
 
@@ -82,19 +80,23 @@ outputs:
     type: File
     outputSource: sort_and_index/bam_bai_pair
 
-  alignment_statistics:
+  bam_statistics_report:
     type: File
-    outputSource: get_alignment_statistics/log_file
+    outputSource: get_bam_statistics/log_file
 
-  read_redundancy_estimation:
+  samtools_rmdup_report:
     type: File
-    outputSource: estimate_read_redundancy/estimates_file
+    outputSource: remove_duplicates/rmdup_log
 
-  genome_coverage:
+  bam_statistics_report_after_filtering:
     type: File
-    outputSource: convert_genome_coverage_to_bigwig/bigwig_file
+    outputSource: get_bam_statistics_after_filtering/log_file
 
-  peak_calling_log:
+  overall_collected_statistics:
+    type: File
+    outputSource: collect_statistics/collected_statistics
+
+  macs2_peak_calling_report:
     type: File
     outputSource: call_peaks/macs_log
 
@@ -119,7 +121,7 @@ steps:
       compressed_file: fastq_file_1
     out: [fastq_file]
 
-  qc_fastq_1:
+  run_fastqc_fastq_1:
     run: ../../tools/fastqc.cwl
     in:
       reads_file: extract_fastq_1/fastq_file
@@ -127,19 +129,19 @@ steps:
       - summary_file
       - html_file
 
-  rename_qc_fastq_1_report:
+  rename_fastqc_report_fastq_1:
     run: ../../tools/rename.cwl
     in:
-      source_file: qc_fastq_1/html_file
+      source_file: run_fastqc_fastq_1/html_file
       target_filename:
         source: fastq_file_1
-        valueFrom: $(get_root(self.basename)+"_qc_original.html")
+        valueFrom: $(get_root(self.basename)+"_fastqc_report.html")
     out: [target_file]
 
-  trigger_fastq_1_adapter_trimming:
+  trigger_adapter_trimming_fastq_1:
     run: ../../tools/fastqc-results-trigger.cwl
     in:
-      summary_file: qc_fastq_1/summary_file
+      summary_file: run_fastqc_fastq_1/summary_file
     out: [trigger]
 
 
@@ -152,7 +154,7 @@ steps:
       compressed_file: fastq_file_2
     out: [fastq_file]
 
-  qc_fastq_2:
+  run_fastqc_fastq_2:
     run: ../../tools/fastqc.cwl
     in:
       reads_file: extract_fastq_2/fastq_file
@@ -160,19 +162,19 @@ steps:
       - summary_file
       - html_file
 
-  rename_qc_fastq_2_report:
+  rename_fastqc_report_fastq_2:
     run: ../../tools/rename.cwl
     in:
-      source_file: qc_fastq_2/html_file
+      source_file: run_fastqc_fastq_2/html_file
       target_filename:
         source: fastq_file_2
-        valueFrom: $(get_root(self.basename)+"_qc_original.html")
+        valueFrom: $(get_root(self.basename)+"_fastqc_report.html")
     out: [target_file]
 
-  trigger_fastq_2_adapter_trimming:
+  trigger_adapter_trimming_fastq_2:
     run: ../../tools/fastqc-results-trigger.cwl
     in:
-      summary_file: qc_fastq_2/summary_file
+      summary_file: run_fastqc_fastq_2/summary_file
     out: [trigger]
 
 
@@ -183,7 +185,7 @@ steps:
     run: ../../tools/trimgalore.cwl
     in:
       trigger:
-        source: [trigger_fastq_1_adapter_trimming/trigger, trigger_fastq_2_adapter_trimming/trigger]
+        source: [trigger_adapter_trimming_fastq_1/trigger, trigger_adapter_trimming_fastq_2/trigger]
         valueFrom: $(self[0] || self[1])               # run trimgalore if at least one of input fastq files failed quality check
       input_file: extract_fastq_1/fastq_file
       input_file_pair: extract_fastq_2/fastq_file
@@ -241,6 +243,9 @@ steps:
         default: true
       no_mixed:               # do we need it?
         default: true
+      output_filename:
+        source: [rename_trimmed_fastq_1/target_file, rename_trimmed_fastq_2/target_file]
+        valueFrom: $(get_root(self[0].basename) + "_" + get_root(self[1].basename) + ".sam")
       threads: threads
     out:
       - output
@@ -253,24 +258,17 @@ steps:
       threads: threads
     out: [bam_bai_pair]
 
-  get_alignment_statistics:
+  get_bam_statistics:
     run: ../../tools/samtools-stats.cwl
     in:
       bambai_pair: sort_and_index/bam_bai_pair
+      output_filename:
+        source: sort_and_index_after_filtering/bam_bai_pair
+        valueFrom: $(get_root(self.basename)+"_bam_statistics_report.txt")
     out:
       - log_file
       - average_length
       - reads_mapped
-
-  estimate_read_redundancy:
-    run: ../../tools/preseq-lc-extrap.cwl
-    in:
-      bam_file: sort_and_index/bam_bai_pair
-      pe_mode:
-        default: true
-      extrapolation:
-        default: 1000000000
-    out: [estimates_file]
 
 
 # -----------------------------------------------------------------------------------
@@ -289,12 +287,30 @@ steps:
     run: ../../tools/samtools-rmdup.cwl
     in:
       bam_file: filter_reads/filtered_bam_bai_pair
-    out: [rmdup_output]
+    out:
+    - rmdup_output
+    - rmdup_log
+
+  sort_and_index_after_filtering:
+    run: ../../tools/samtools-sort-index.cwl
+    in:
+      sort_input: remove_duplicates/rmdup_output 
+      threads: threads
+    out: [bam_bai_pair]
+
+  get_bam_statistics_after_filtering:
+    run: ../../tools/samtools-stats.cwl
+    in:
+      bambai_pair: sort_and_index_after_filtering/bam_bai_pair
+      output_filename:
+        source: sort_and_index_after_filtering/bam_bai_pair
+        valueFrom: $(get_root(self.basename)+"_bam_statistics_report_after_filtering.txt")
+    out: [log_file]
 
   convert_bam_to_bed:
     run: ../../tools/bedtools-bamtobed.cwl
     in:
-      bam_file: remove_duplicates/rmdup_output   # do we need to split reads by N
+      bam_file: sort_and_index_after_filtering/bam_bai_pair   # do we need to split reads by N
     out: [bed_file]
 
   shift_reads:
@@ -313,50 +329,13 @@ steps:
       no_overlaps:
         default: true
     out: [intersected_file]
-                
-
-# -----------------------------------------------------------------------------------
-
-
-  group_by_chromosome:
-    run: ../../tools/linux-sort.cwl
-    in:
-      unsorted_file: remove_blacklisted/intersected_file
-      key:
-        default: ["1,1"]
-    out: [sorted_file]
-
-  get_genome_coverage:
-    run: ../../tools/bedtools-genomecov.cwl
-    in:
-      input_file: group_by_chromosome/sorted_file
-      chrom_length_file: chrom_length_file
-      depth:
-        default: "-bg"
-      mapped_reads_number: get_alignment_statistics/reads_mapped
-    out: [genome_coverage_file]
-
-  sort_genome_coverage:
-    run: ../../tools/linux-sort.cwl
-    in:
-      unsorted_file: get_genome_coverage/genome_coverage_file
-      key:
-        default: ["1,1","2,2n"]
-    out: [sorted_file]
-
-  convert_genome_coverage_to_bigwig:
-    run: ../../tools/ucsc-bedgraphtobigwig.cwl
-    in:
-      bedgraph_file: sort_genome_coverage/sorted_file
-      chrom_length_file: chrom_length_file
-    out: [bigwig_file]
 
 
 # -----------------------------------------------------------------------------------
 
 
   call_peaks:
-    run: ../macs2/macs2-callpeak.cwl
+    run: ../../tools/macs2-callpeak.cwl
     in:
       treatment_file: remove_blacklisted/intersected_file
       format_mode:
@@ -367,9 +346,9 @@ steps:
       nomodel:
         default: true
       shift:
-        source: get_alignment_statistics/average_length
+        source: get_bam_statistics/average_length
         valueFrom: $(-Math.round(self/2))
-      extsize: get_alignment_statistics/average_length
+      extsize: get_bam_statistics/average_length
     out:
       - narrow_peak_file
       - macs_log
@@ -403,3 +382,23 @@ steps:
       genome_fasta_file: genome_fasta_file
       intervals_file: merge_peaks/merged_bed_file
     out: [sequences_file]
+
+
+  # -----------------------------------------------------------------------------------
+
+
+  collect_statistics:
+      run: get-stat-atacseq-pe.cwl
+      in:
+        trimgalore_report_fastq_1: trim_adapters/report_file
+        trimgalore_report_fastq_2: trim_adapters/report_file_pair
+        bam_statistics_report: get_bam_statistics/log_file
+        bowtie_alignment_report: align_reads/output_log
+        bam_statistics_report_after_filtering: get_bam_statistics_after_filtering/log_file
+        reads_after_removal_blacklisted: remove_blacklisted/intersected_file
+        peaks_called: call_peaks/narrow_peak_file
+        peaks_merged: merge_peaks/merged_bed_file
+        output_filename:
+          source: align_reads/output
+          valueFrom: $(get_root(self.basename)+"_collected_statistics_report.txt")
+      out: [collected_statistics]
