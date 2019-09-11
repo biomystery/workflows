@@ -1262,7 +1262,7 @@
       secondaryFiles: []
     rmdup_log:
       class: File
-      location: chr4_100_mapped_reads.Aligned.out.rmdup
+      location: chr4_100_mapped_reads.Aligned.out_samtools_rmdup_report.txt
 
 - job: ./samtools-rmdup-2.json
   tool: ../tools/samtools-rmdup.cwl
@@ -1274,7 +1274,7 @@
       secondaryFiles: []
     rmdup_log:
       class: File
-      location: res.rmdup
+      location: res_samtools_rmdup_report.txt
 
 - job: ./samtools-rmdup-3.json
   tool: ../tools/samtools-rmdup.cwl
@@ -1286,7 +1286,7 @@
       secondaryFiles: []
     rmdup_log:
       class: File
-      location: res.rmdup
+      location: res_samtools_rmdup_report.txt
 
 - job: ./samtools-rmdup-4.json
   tool: ../tools/samtools-rmdup.cwl
@@ -1298,7 +1298,7 @@
       secondaryFiles: []
     rmdup_log:
       class: File
-      location: chr4_100_mapped_reads.Aligned.out.rmdup
+      location: chr4_100_mapped_reads.Aligned.out_samtools_rmdup_report.txt
 
 - job: ./samtools-rmdup-5.json
   tool: ../tools/samtools-rmdup.cwl
@@ -1313,7 +1313,7 @@
         size: 1368
     rmdup_log:
       class: File
-      location: chr4_100_mapped_reads.Aligned.out.rmdup
+      location: chr4_100_mapped_reads.Aligned.out_samtools_rmdup_report.txt
 
 - job: ./samtools-rmdup-6.json
   tool: ../tools/samtools-rmdup.cwl
@@ -1325,7 +1325,7 @@
       secondaryFiles: []
     rmdup_log:
       class: File
-      location: chr4_100_mapped_reads.Aligned.out.rmdup
+      location: chr4_100_mapped_reads.Aligned.out_samtools_rmdup_report.txt
 
 - job: ./samtools-rmdup-7.json
   tool: ../tools/samtools-rmdup.cwl
@@ -1340,7 +1340,7 @@
         size: 1368
     rmdup_log:
       class: File
-      location: chr4_100_mapped_reads.Aligned.out.rmdup
+      location: chr4_100_mapped_reads.Aligned.out_samtools_rmdup_report.txt
 
 - job: ./samtools-rmdup-8.json
   tool: ../tools/samtools-rmdup.cwl
@@ -1352,7 +1352,7 @@
       secondaryFiles: []
     rmdup_log:
       class: File
-      location: res.rmdup
+      location: res_samtools_rmdup_report.txt
 
 # ========================================================
 # samtools-sort
