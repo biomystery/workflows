@@ -41,7 +41,8 @@ inputs:
 
   genome_fasta_file:
     type: File
-    secondaryFiles: $(self.basename+".fai")  # due to bug in cwltool==1.0.20190621234233
+    secondaryFiles:
+    - .fai
     doc: "Reference genome sequence FASTA and FAI index files"
 
   threads:
