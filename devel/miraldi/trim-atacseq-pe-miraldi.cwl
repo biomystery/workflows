@@ -75,7 +75,7 @@ outputs:
 
   aligned_reads:
     type: File
-    outputSource: sort_and_index/bam_bai_pair
+    outputSource: sort_and_index_after_filtering/bam_bai_pair
 
   bam_statistics_report:
     type: File
@@ -265,7 +265,6 @@ steps:
     out:
       - log_file
       - average_length
-      - reads_mapped
 
 
 # -----------------------------------------------------------------------------------
@@ -278,6 +277,8 @@ steps:
       exclude_chromosome: exclude_chromosome
       quality:
         default: 30                 # how do we define 30 (range is from 0 to 255)
+      negative_flag:
+        default: 4                  # correspond to -F 4 (read unmapped)
     out: [filtered_bam_bai_pair]
   
   remove_duplicates:
