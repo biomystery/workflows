@@ -35,30 +35,36 @@ inputs:
           return l.split(":")[1].strip().split()[0]
 
       collected_results.append(["#", "Adapter trimming statistics"])
-
-      with open(sys.argv[1], 'r') as s:
-          for l in s:
-              if "Total reads processed" in l:
-                  collected_results.append( [ "Total reads processed (FASTQ1):", get_value(l) ] )
-              if "Reads with adapters" in l:
-                  collected_results.append( [ "Reads with adapters (FASTQ1):",   get_value(l) ] )
-              if "Reads written (passing filters)" in l:
-                  collected_results.append( [ "Reads passing filters (FASTQ1):", get_value(l) ] )
-
-      with open(sys.argv[2], 'r') as s:
-          for l in s:
-              if "Total reads processed" in l:
-                  collected_results.append( [ "Total reads processed (FASTQ2):",    get_value(l) ] )
-              if "Reads with adapters" in l:
-                  collected_results.append( [ "Reads with adapters (FASTQ2):",      get_value(l) ] )
-              if "Reads written (passing filters)" in l:
-                  collected_results.append( ["Reads passing filters (FASTQ2):",     get_value(l) ] )
-              if "Number of sequence pairs removed" in l:
-                  collected_results.append( ["Number of sequence pairs removed:", get_value(l) ] )
-
+      
+      n = 0
+      if (len(sys.argv) < 10):  # no trimming reports
+        collected_results.append( [ "Skip adapter trimming for FASTQ1:", "True" ] )
+        collected_results.append( [ "Skip adapter trimming for FASTQ2:", "True" ] )
+        n = -2
+      else:
+        with open(sys.argv[1], 'r') as s:
+            for l in s:
+                if "Total reads processed" in l:
+                    collected_results.append( [ "Total reads processed (FASTQ1):", get_value(l) ] )
+                if "Reads with adapters" in l:
+                    collected_results.append( [ "Reads with adapters (FASTQ1):",   get_value(l) ] )
+                if "Reads written (passing filters)" in l:
+                    collected_results.append( [ "Reads passing filters (FASTQ1):", get_value(l) ] )
+      
+        with open(sys.argv[2], 'r') as s:
+            for l in s:
+                if "Total reads processed" in l:
+                    collected_results.append( [ "Total reads processed (FASTQ2):",    get_value(l) ] )
+                if "Reads with adapters" in l:
+                    collected_results.append( [ "Reads with adapters (FASTQ2):",      get_value(l) ] )
+                if "Reads written (passing filters)" in l:
+                    collected_results.append( ["Reads passing filters (FASTQ2):",     get_value(l) ] )
+                if "Number of sequence pairs removed" in l:
+                    collected_results.append( ["Number of sequence pairs removed:", get_value(l) ] )
+        
       collected_results.append(["#", "BAM statistics"])
 
-      with open(sys.argv[3], 'r') as s:
+      with open(sys.argv[3+n], 'r') as s:
           for l in s:
               if "SN\traw total sequences:" in l:
                   collected_results.append( [ "Raw total sequences:", get_value(l) ] )
@@ -79,14 +85,14 @@ inputs:
               if "SN\tinsert size standard deviation:" in l:
                   collected_results.append( [ "Insert size standard deviation", get_value(l) ] )
         
-      with open(sys.argv[4], 'r') as s:
+      with open(sys.argv[4+n], 'r') as s:
           for l in s:
               if "aligned concordantly exactly 1 time" in l:
                   collected_results.append( [ "Aligned concordantly exactly 1 time:", l.split()[0].strip() ] )
 
       collected_results.append(["#", "BAM statistics after quality and duplicate filtering"])
 
-      with open(sys.argv[5], 'r') as s:
+      with open(sys.argv[5+n], 'r') as s:
           for l in s:
               if "SN\traw total sequences:" in l:
                   collected_results.append( [ "Raw total sequences:", get_value(l) ] )
@@ -109,26 +115,26 @@ inputs:
 
 
       collected_results.append(["#", "Blacklisted regions filtering"])
-      collected_results.append( [ "Reads after blackisted regions removal:", str(len(open(sys.argv[6]).readlines())) ] )
+      collected_results.append( [ "Reads after blackisted regions removal:", str(len(open(sys.argv[6+n]).readlines())) ] )
 
       collected_results.append(["#", "Peak calling"])
-      collected_results.append( [ "Number of peaks called:", str(len(open(sys.argv[7]).readlines())) ] )
-      collected_results.append( [ "Number of peaks after merging:", str(len(open(sys.argv[8]).readlines())) ] )
+      collected_results.append( [ "Number of peaks called:", str(len(open(sys.argv[7+n]).readlines())) ] )
+      collected_results.append( [ "Number of peaks after merging:", str(len(open(sys.argv[8+n]).readlines())) ] )
 
 
-      with open(sys.argv[9], 'w') as fstream:
+      with open(sys.argv[9+n], 'w') as fstream:
           for i in collected_results:
               fstream.write("\t".join(i)+"\n")
     inputBinding:
       position: 5
 
   trimgalore_report_fastq_1:
-    type: File
+    type: File?
     inputBinding:
       position: 6
 
   trimgalore_report_fastq_2:
-    type: File
+    type: File?
     inputBinding:
       position: 7
 
