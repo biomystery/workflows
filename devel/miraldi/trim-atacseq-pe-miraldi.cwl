@@ -75,7 +75,11 @@ outputs:
 
   aligned_reads:
     type: File
-    outputSource: sort_and_index_after_filtering/bam_bai_pair
+    outputSource: remove_chrM/filtered_bam_bai_pair
+
+  reads_per_chr_report:
+    type: File
+    outputSource: count_reads_per_chr/output_file
 
   bam_statistics_report:
     type: File
@@ -270,15 +274,33 @@ steps:
 # -----------------------------------------------------------------------------------
 
 
-  filter_reads:
+  count_reads_per_chr:
+    run: ../../tools/custom-bash.cwl
+    in:
+      input_file: align_reads/output
+      script:
+        default: cat "$0" | grep -v "@" | cut -f 3 | uniq -c | awk '{print $2"\t"$1}' > `basename $0 .sam`_chr_count_report.txt
+    out: [output_file]
+
+  remove_chrM:                                            # this step is required only to save original BAM without unmapped and chrM
     run: ../../tools/samtools-filter.cwl
     in:
       bam_bai_pair: sort_and_index/bam_bai_pair
+      exclude_chromosome:
+        default: "chrM"
+      negative_flag:
+        default: 4                                        # correspond to -F 4 (read unmapped)
+    out: [filtered_bam_bai_pair]
+
+  filter_reads:
+    run: ../../tools/samtools-filter.cwl
+    in:
+      bam_bai_pair: remove_chrM/filtered_bam_bai_pair     # if remove_chrM step removed, use sort_and_index/bam_bai_pair
       exclude_chromosome: exclude_chromosome
       quality:
-        default: 30                 # how do we define 30 (range is from 0 to 255)
+        default: 30                                       # how do we define 30 (range is from 0 to 255)
       negative_flag:
-        default: 4                  # correspond to -F 4 (read unmapped)
+        default: 4                                        # correspond to -F 4 (read unmapped)
     out: [filtered_bam_bai_pair]
   
   remove_duplicates:

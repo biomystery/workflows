@@ -88,7 +88,7 @@ inputs:
       with open(sys.argv[4+n], 'r') as s:
           for l in s:
               if "aligned concordantly exactly 1 time" in l:
-                  collected_results.append( [ "Aligned concordantly exactly 1 time:", l.split()[0].strip() ] )
+                  collected_results.append( [ "Read pairs aligned concordantly exactly 1 time:", l.split()[0].strip() ] )
 
       collected_results.append(["#", "BAM statistics after quality and duplicate filtering"])
 
