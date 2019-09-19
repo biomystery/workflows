@@ -65,6 +65,7 @@ inputs:
       collected_results.append(["#", "BAM statistics"])
 
       with open(sys.argv[3+n], 'r') as s:
+        short_fragments, long_fragments = 0, 0
         for l in s:
           if "SN\traw total sequences:" in l:
             collected_results.append( [ "Raw total sequences:", get_value(l) ] )
@@ -84,7 +85,19 @@ inputs:
             collected_results.append( [ "Insert size average:", get_value(l) ] )
           if "SN\tinsert size standard deviation:" in l:
             collected_results.append( [ "Insert size standard deviation", get_value(l) ] )
-        
+          if "IS" in l:
+            fl = int(l.strip().split()[1])
+            fc = int(l.strip().split()[2])
+            if fl < 150:
+              short_fragments = short_fragments + fc
+            else:
+              long_fragments = long_fragments + fc
+        try:
+          collected_results.append( [ "Insert size ratio (l<150 / l>=150)", str(float(short_fragments)/float(long_fragments)) ] )
+        except:
+          collected_results.append( [ "Insert size ratio (l<150 / l>=150)", "N/A" ] )
+
+
       with open(sys.argv[4+n], 'r') as s:
         for l in s:
           if "aligned concordantly exactly 1 time" in l:
@@ -93,6 +106,7 @@ inputs:
       collected_results.append(["#", "BAM statistics after quality and duplicate filtering"])
 
       with open(sys.argv[5+n], 'r') as s:
+        short_fragments, long_fragments = 0, 0
         for l in s:
           if "SN\traw total sequences:" in l:
             collected_results.append( [ "Raw total sequences:", get_value(l) ] )
@@ -112,7 +126,17 @@ inputs:
             collected_results.append( [ "Insert size average:", get_value(l) ] )
           if "SN\tinsert size standard deviation:" in l:
             collected_results.append( [ "Insert size standard deviation:", get_value(l) ] )
-
+          if "IS" in l:
+            fl = int(l.strip().split()[1])
+            fc = int(l.strip().split()[2])
+            if fl < 150:
+              short_fragments = short_fragments + fc
+            else:
+              long_fragments = long_fragments + fc
+        try:
+          collected_results.append( [ "Insert size ratio (l<150 / l>=150)", str(float(short_fragments)/float(long_fragments)) ] )
+        except:
+          collected_results.append( [ "Insert size ratio (l<150 / l>=150)", "N/A" ] )
 
       collected_results.append(["#", "Blacklisted regions filtering"])
       reads_after_blackisted_regions_removal = len(open(sys.argv[6+n]).readlines())
