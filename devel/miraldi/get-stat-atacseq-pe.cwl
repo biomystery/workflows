@@ -32,10 +32,10 @@ inputs:
       collected_results = []
 
       def get_value(l):
-          return l.split(":")[1].strip().split()[0]
+        return l.split(":")[1].strip().split()[0]
 
       collected_results.append(["#", "Adapter trimming statistics"])
-      
+
       n = 0
       if (len(sys.argv) < 10):  # no trimming reports
         collected_results.append( [ "Skip adapter trimming for FASTQ1:", "True" ] )
@@ -43,88 +43,89 @@ inputs:
         n = -2
       else:
         with open(sys.argv[1], 'r') as s:
-            for l in s:
-                if "Total reads processed" in l:
-                    collected_results.append( [ "Total reads processed (FASTQ1):", get_value(l) ] )
-                if "Reads with adapters" in l:
-                    collected_results.append( [ "Reads with adapters (FASTQ1):",   get_value(l) ] )
-                if "Reads written (passing filters)" in l:
-                    collected_results.append( [ "Reads passing filters (FASTQ1):", get_value(l) ] )
-      
+          for l in s:
+            if "Total reads processed" in l:
+              collected_results.append( [ "Total reads processed (FASTQ1):", get_value(l) ] )
+            if "Reads with adapters" in l:
+              collected_results.append( [ "Reads with adapters (FASTQ1):",   get_value(l) ] )
+            if "Reads written (passing filters)" in l:
+              collected_results.append( [ "Reads passing filters (FASTQ1):", get_value(l) ] )
+
         with open(sys.argv[2], 'r') as s:
-            for l in s:
-                if "Total reads processed" in l:
-                    collected_results.append( [ "Total reads processed (FASTQ2):",    get_value(l) ] )
-                if "Reads with adapters" in l:
-                    collected_results.append( [ "Reads with adapters (FASTQ2):",      get_value(l) ] )
-                if "Reads written (passing filters)" in l:
-                    collected_results.append( ["Reads passing filters (FASTQ2):",     get_value(l) ] )
-                if "Number of sequence pairs removed" in l:
-                    collected_results.append( ["Number of sequence pairs removed:", get_value(l) ] )
+          for l in s:
+            if "Total reads processed" in l:
+              collected_results.append( [ "Total reads processed (FASTQ2):",    get_value(l) ] )
+            if "Reads with adapters" in l:
+              collected_results.append( [ "Reads with adapters (FASTQ2):",      get_value(l) ] )
+            if "Reads written (passing filters)" in l:
+              collected_results.append( ["Reads passing filters (FASTQ2):",     get_value(l) ] )
+            if "Number of sequence pairs removed" in l:
+              collected_results.append( ["Number of sequence pairs removed:", get_value(l) ] )
         
       collected_results.append(["#", "BAM statistics"])
 
       with open(sys.argv[3+n], 'r') as s:
-          for l in s:
-              if "SN\traw total sequences:" in l:
-                  collected_results.append( [ "Raw total sequences:", get_value(l) ] )
-              if "SN\t1st fragments:" in l:
-                  collected_results.append( [ "1st fragments:",       get_value(l) ] )
-              if "SN\tlast fragments:" in l:
-                  collected_results.append( [ "Last fragments:",      get_value(l) ] )
-              if "SN\treads mapped:" in l:
-                  collected_results.append( [ "Reads mapped:",        get_value(l) ] )
-              if "SN\taverage length:" in l:
-                  collected_results.append( [ "Average length:",      get_value(l) ] )
-              if "SN\tmaximum length:" in l:
-                  collected_results.append( [ "Maximum length:",      get_value(l) ] )
-              if "SN\taverage quality:" in l:
-                  collected_results.append( [ "Average quality:",     get_value(l) ] )
-              if "SN\tinsert size average:" in l:
-                  collected_results.append( [ "Insert size average:", get_value(l) ] )
-              if "SN\tinsert size standard deviation:" in l:
-                  collected_results.append( [ "Insert size standard deviation", get_value(l) ] )
+        for l in s:
+          if "SN\traw total sequences:" in l:
+            collected_results.append( [ "Raw total sequences:", get_value(l) ] )
+          if "SN\t1st fragments:" in l:
+            collected_results.append( [ "1st fragments:",       get_value(l) ] )
+          if "SN\tlast fragments:" in l:
+            collected_results.append( [ "Last fragments:",      get_value(l) ] )
+          if "SN\treads mapped:" in l:
+            collected_results.append( [ "Reads mapped:",        get_value(l) ] )
+          if "SN\taverage length:" in l:
+            collected_results.append( [ "Average length:",      get_value(l) ] )
+          if "SN\tmaximum length:" in l:
+            collected_results.append( [ "Maximum length:",      get_value(l) ] )
+          if "SN\taverage quality:" in l:
+            collected_results.append( [ "Average quality:",     get_value(l) ] )
+          if "SN\tinsert size average:" in l:
+            collected_results.append( [ "Insert size average:", get_value(l) ] )
+          if "SN\tinsert size standard deviation:" in l:
+            collected_results.append( [ "Insert size standard deviation", get_value(l) ] )
         
       with open(sys.argv[4+n], 'r') as s:
-          for l in s:
-              if "aligned concordantly exactly 1 time" in l:
-                  collected_results.append( [ "Read pairs aligned concordantly exactly 1 time:", l.split()[0].strip() ] )
+        for l in s:
+          if "aligned concordantly exactly 1 time" in l:
+              collected_results.append( [ "Read pairs aligned concordantly exactly 1 time:", l.split()[0].strip() ] )
 
       collected_results.append(["#", "BAM statistics after quality and duplicate filtering"])
 
       with open(sys.argv[5+n], 'r') as s:
-          for l in s:
-              if "SN\traw total sequences:" in l:
-                  collected_results.append( [ "Raw total sequences:", get_value(l) ] )
-              if "SN\t1st fragments:" in l:
-                  collected_results.append( [ "1st fragments:",       get_value(l) ] )
-              if "SN\tlast fragments:" in l:
-                  collected_results.append( [ "Last fragments:",      get_value(l) ] )
-              if "SN\treads mapped:" in l:
-                  collected_results.append( [ "Reads mapped:",        get_value(l) ] )
-              if "SN\taverage length:" in l:
-                  collected_results.append( [ "Average length:",      get_value(l) ] )
-              if "SN\tmaximum length:" in l:
-                  collected_results.append( [ "Maximum length:",      get_value(l) ] )
-              if "SN\taverage quality:" in l:
-                  collected_results.append( [ "Average quality:",     get_value(l) ] )
-              if "SN\tinsert size average:" in l:
-                  collected_results.append( [ "Insert size average:", get_value(l) ] )
-              if "SN\tinsert size standard deviation:" in l:
-                  collected_results.append( [ "Insert size standard deviation:", get_value(l) ] )
+        for l in s:
+          if "SN\traw total sequences:" in l:
+            collected_results.append( [ "Raw total sequences:", get_value(l) ] )
+          if "SN\t1st fragments:" in l:
+            collected_results.append( [ "1st fragments:",       get_value(l) ] )
+          if "SN\tlast fragments:" in l:
+            collected_results.append( [ "Last fragments:",      get_value(l) ] )
+          if "SN\treads mapped:" in l:
+            collected_results.append( [ "Reads mapped:",        get_value(l) ] )
+          if "SN\taverage length:" in l:
+            collected_results.append( [ "Average length:",      get_value(l) ] )
+          if "SN\tmaximum length:" in l:
+            collected_results.append( [ "Maximum length:",      get_value(l) ] )
+          if "SN\taverage quality:" in l:
+            collected_results.append( [ "Average quality:",     get_value(l) ] )
+          if "SN\tinsert size average:" in l:
+            collected_results.append( [ "Insert size average:", get_value(l) ] )
+          if "SN\tinsert size standard deviation:" in l:
+            collected_results.append( [ "Insert size standard deviation:", get_value(l) ] )
 
 
       collected_results.append(["#", "Blacklisted regions filtering"])
-      collected_results.append( [ "Reads after blackisted regions removal:", str(len(open(sys.argv[6+n]).readlines())) ] )
-
+      reads_after_blackisted_regions_removal = len(open(sys.argv[6+n]).readlines())
+      collected_results.append( [ "Reads after blackisted regions removal:", str(reads_after_blackisted_regions_removal) ] )
       collected_results.append(["#", "Peak calling"])
       collected_results.append( [ "Number of peaks called:", str(len(open(sys.argv[7+n]).readlines())) ] )
       collected_results.append( [ "Number of peaks after merging:", str(len(open(sys.argv[8+n]).readlines())) ] )
+      reads_under_the_merged_peaks = float(sum([int(l.strip().split()[3]) for l in open(sys.argv[9+n]).readlines()]))
+      collected_results.append( [ "Fraction of Reads in Peaks (FRIP):",  str(reads_under_the_merged_peaks/reads_after_blackisted_regions_removal)] )
 
-
-      with open(sys.argv[9+n], 'w') as fstream:
-          for i in collected_results:
-              fstream.write("\t".join(i)+"\n")
+      with open(sys.argv[10+n], 'w') as fstream:
+        for i in collected_results:
+          fstream.write("\t".join(i)+"\n")
     inputBinding:
       position: 5
 
@@ -168,10 +169,15 @@ inputs:
     inputBinding:
       position: 13
 
+  merged_peaks_with_counts:
+    type: File
+    inputBinding:
+      position: 14
+
   output_filename:
     type: string?
     inputBinding:
-      position: 14
+      position: 15
       valueFrom: $(get_output_filename())
     default: ""
 

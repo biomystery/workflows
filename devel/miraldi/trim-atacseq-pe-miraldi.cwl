@@ -418,6 +418,7 @@ steps:
         reads_after_removal_blacklisted: remove_blacklisted/intersected_file
         peaks_called: call_peaks/narrow_peak_file
         peaks_merged: merge_peaks/merged_bed_file
+        merged_peaks_with_counts: count_tags/intersected_file
         output_filename:
           source: align_reads/output
           valueFrom: $(get_root(self.basename)+"_collected_statistics_report.txt")
