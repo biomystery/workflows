@@ -103,9 +103,14 @@ inputs:
           if "aligned concordantly exactly 1 time" in l:
               collected_results.append( [ "Read pairs aligned concordantly exactly 1 time:", l.split()[0].strip() ] )
 
+      with open(sys.argv[5+n], 'r') as s:
+        for l in s:
+          if "chrM" in l:
+              collected_results.append( [ "Reads aligned to chrM:", l.split()[1].strip() ] )
+
       collected_results.append(["#", "BAM statistics after quality and duplicate filtering"])
 
-      with open(sys.argv[5+n], 'r') as s:
+      with open(sys.argv[6+n], 'r') as s:
         short_fragments, long_fragments = 0, 0
         for l in s:
           if "SN\traw total sequences:" in l:
@@ -139,15 +144,15 @@ inputs:
           collected_results.append( [ "Insert size ratio (l<150 / l>=150)", "N/A" ] )
 
       collected_results.append(["#", "Blacklisted regions filtering"])
-      reads_after_blackisted_regions_removal = len(open(sys.argv[6+n]).readlines())
+      reads_after_blackisted_regions_removal = len(open(sys.argv[7+n]).readlines())
       collected_results.append( [ "Reads after blackisted regions removal:", str(reads_after_blackisted_regions_removal) ] )
       collected_results.append(["#", "Peak calling"])
-      collected_results.append( [ "Number of peaks called:", str(len(open(sys.argv[7+n]).readlines())) ] )
-      collected_results.append( [ "Number of peaks after merging:", str(len(open(sys.argv[8+n]).readlines())) ] )
-      reads_under_the_merged_peaks = float(sum([int(l.strip().split()[3]) for l in open(sys.argv[9+n]).readlines()]))
+      collected_results.append( [ "Number of peaks called:", str(len(open(sys.argv[8+n]).readlines())) ] )
+      collected_results.append( [ "Number of peaks after merging:", str(len(open(sys.argv[9+n]).readlines())) ] )
+      reads_under_the_merged_peaks = float(sum([int(l.strip().split()[3]) for l in open(sys.argv[10+n]).readlines()]))
       collected_results.append( [ "Fraction of Reads in Peaks (FRIP):",  str(reads_under_the_merged_peaks/reads_after_blackisted_regions_removal)] )
 
-      with open(sys.argv[10+n], 'w') as fstream:
+      with open(sys.argv[11+n], 'w') as fstream:
         for i in collected_results:
           fstream.write("\t".join(i)+"\n")
     inputBinding:
@@ -173,35 +178,40 @@ inputs:
     inputBinding:
       position: 9
 
-  bam_statistics_report_after_filtering:
+  reads_per_chr_report:
     type: File
     inputBinding:
       position: 10
 
-  reads_after_removal_blacklisted:
+  bam_statistics_report_after_filtering:
     type: File
     inputBinding:
       position: 11
 
-  peaks_called:
+  reads_after_removal_blacklisted:
     type: File
     inputBinding:
       position: 12
 
-  peaks_merged:
+  peaks_called:
     type: File
     inputBinding:
       position: 13
 
-  merged_peaks_with_counts:
+  peaks_merged:
     type: File
     inputBinding:
       position: 14
 
+  merged_peaks_with_counts:
+    type: File
+    inputBinding:
+      position: 15
+
   output_filename:
     type: string?
     inputBinding:
-      position: 15
+      position: 16
       valueFrom: $(get_output_filename())
     default: ""
 

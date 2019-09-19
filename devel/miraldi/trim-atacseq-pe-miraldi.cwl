@@ -414,6 +414,7 @@ steps:
         trimgalore_report_fastq_2: trim_adapters/report_file_pair
         bam_statistics_report: get_bam_statistics/log_file
         bowtie_alignment_report: align_reads/output_log
+        reads_per_chr_report: count_reads_per_chr/output_file
         bam_statistics_report_after_filtering: get_bam_statistics_after_filtering/log_file
         reads_after_removal_blacklisted: remove_blacklisted/intersected_file
         peaks_called: call_peaks/narrow_peak_file
