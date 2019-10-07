@@ -37,7 +37,7 @@ inputs:
       collected_results.append(["#", "Adapter trimming statistics"])
 
       n = 0
-      if (len(sys.argv) < 10):  # no trimming reports
+      if (len(sys.argv) < 11):  # no trimming reports
         collected_results.append( [ "Skip adapter trimming for FASTQ1:", "True" ] )
         collected_results.append( [ "Skip adapter trimming for FASTQ2:", "True" ] )
         n = -2
@@ -85,7 +85,7 @@ inputs:
             collected_results.append( [ "Insert size average:", get_value(l) ] )
           if "SN\tinsert size standard deviation:" in l:
             collected_results.append( [ "Insert size standard deviation", get_value(l) ] )
-          if "IS" in l:
+          if "IS" in l and not "grep" in l:
             fl = int(l.strip().split()[1])
             fc = int(l.strip().split()[2])
             if fl < 150:
@@ -131,7 +131,7 @@ inputs:
             collected_results.append( [ "Insert size average:", get_value(l) ] )
           if "SN\tinsert size standard deviation:" in l:
             collected_results.append( [ "Insert size standard deviation:", get_value(l) ] )
-          if "IS" in l:
+          if "IS" in l and not "grep" in l:
             fl = int(l.strip().split()[1])
             fc = int(l.strip().split()[2])
             if fl < 150:

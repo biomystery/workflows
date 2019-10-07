@@ -279,7 +279,7 @@ steps:
     in:
       input_file: align_reads/output
       script:
-        default: cat "$0" | grep -v "@" | cut -f 3 | uniq -c | awk '{print $2"\t"$1}' > `basename $0 .sam`_chr_count_report.txt
+        default: cat "$0" | grep -v "@" | cut -f 3 | sort | uniq -c | awk '{print $2"\t"$1}' > `basename $0 .sam`_chr_count_report.txt
     out: [output_file]
 
   remove_chrM:                                            # this step is required only to save original BAM without unmapped and chrM
