@@ -100,8 +100,12 @@ inputs:
 
       with open(sys.argv[4+n], 'r') as s:
         for l in s:
-          if "aligned concordantly exactly 1 time" in l:
-              collected_results.append( [ "Read pairs aligned concordantly exactly 1 time:", l.split()[0].strip() ] )
+          if "Uniquely mapped reads number" in l:
+              collected_results.append( [ "Uniquely mapped reads number:", l.split("|")[1].strip() ] )
+          if "Number of reads mapped to multiple loci" in l:
+              collected_results.append( [ "Number of reads mapped to multiple loci:", l.split("|")[1].strip() ] )
+          if "Number of reads mapped to too many loci" in l:
+              collected_results.append( [ "Number of reads mapped to too many loci:", l.split("|")[1].strip() ] )
 
       with open(sys.argv[5+n], 'r') as s:
         for l in s:
@@ -173,7 +177,7 @@ inputs:
     inputBinding:
       position: 8
 
-  bowtie_alignment_report:
+  star_alignment_report:
     type: File
     inputBinding:
       position: 9
