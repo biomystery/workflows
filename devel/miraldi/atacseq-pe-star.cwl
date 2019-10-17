@@ -243,10 +243,14 @@ steps:
         default: ["SAM"]
       outSAMunmapped:
         default: "Within"
-      outSAMattributes:
-        default: "Standard"
       alignIntronMax:
         default: 1
+      alignEndsType:
+        default: "EndToEnd"
+      outFilterMultimapNmax:
+        default: 1
+      outFilterMismatchNmax:
+        default: 5
       alignMatesGapMax:
         default: 2000
       outFileNamePrefix:
