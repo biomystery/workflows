@@ -408,7 +408,7 @@ steps:
 
 
   collect_statistics:
-      run: get-stat-atacseq-pe.cwl
+      run: get-stat-atacseq-pe-bowtie2.cwl
       in:
         trimgalore_report_fastq_1: trim_adapters/report_file
         trimgalore_report_fastq_2: trim_adapters/report_file_pair
