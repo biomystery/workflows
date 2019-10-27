@@ -4739,3 +4739,15 @@
     - class: File
       location: u3_1000.genes.tsv
       size: 43549
+
+# ========================================================
+# samtools-faidx
+# ========================================================
+
+- job: ./samtools-faidx-1.json
+  tool: ../tools/samtools-faidx.cwl
+  output:
+    fai_file:
+    - class: File
+      location: chr4.fa.fai
+      size: 21
