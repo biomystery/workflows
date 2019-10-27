@@ -4748,6 +4748,6 @@
   tool: ../tools/samtools-faidx.cwl
   output:
     fai_file:
-    - class: File
+      class: File
       location: chr4.fa.fai
       size: 21
