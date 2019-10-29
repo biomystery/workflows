@@ -55,3 +55,61 @@ outputs:
 baseCommand: ["faToTwoBit"]
 stdout: fa_to_twobit_stdout.log
 stderr: fa_to_twobit_stderr.log
+
+
+$namespaces:
+  s: http://schema.org/
+
+$schemas:
+- http://schema.org/docs/schema_org_rdfa.html
+
+s:mainEntity:
+  $import: ./metadata/ucsc-metadata.yaml
+
+s:name: "ucsc-fa-to-twobit"
+s:downloadUrl: https://raw.githubusercontent.com/Barski-lab/workflows/master/tools/ucsc-fa-to-twobit.cwl
+s:codeRepository: https://github.com/Barski-lab/workflows
+s:license: http://www.apache.org/licenses/LICENSE-2.0
+
+s:isPartOf:
+  class: s:CreativeWork
+  s:name: Common Workflow Language
+  s:url: http://commonwl.org/
+
+s:creator:
+- class: s:Organization
+  s:legalName: "Cincinnati Children's Hospital Medical Center"
+  s:location:
+  - class: s:PostalAddress
+    s:addressCountry: "USA"
+    s:addressLocality: "Cincinnati"
+    s:addressRegion: "OH"
+    s:postalCode: "45229"
+    s:streetAddress: "3333 Burnet Ave"
+    s:telephone: "+1(513)636-4200"
+  s:logo: "https://www.cincinnatichildrens.org/-/media/cincinnati%20childrens/global%20shared/childrens-logo-new.png"
+  s:department:
+  - class: s:Organization
+    s:legalName: "Allergy and Immunology"
+    s:department:
+    - class: s:Organization
+      s:legalName: "Barski Research Lab"
+      s:member:
+      - class: s:Person
+        s:name: Michael Kotliar
+        s:email: mailto:misha.kotliar@gmail.com
+        s:sameAs:
+        - id: http://orcid.org/0000-0002-6486-3898
+doc: |
+  faToTwoBit - Convert DNA from fasta to 2bit format
+
+s:about: |
+  usage:
+    faToTwoBit in.fa [in2.fa in3.fa ...] out.2bit
+  options:
+    -long          use 64-bit offsets for index.   Allow for twoBit to contain more than 4Gb of sequence. 
+                    NOT COMPATIBLE WITH OLDER CODE.
+    -noMask        Ignore lower-case masking in fa file.
+    -stripVersion  Strip off version number after '.' for GenBank accessions.
+    -ignoreDups    Convert first sequence only if there are duplicate sequence
+                    names.  Use 'twoBitDup' to find duplicate sequences.
