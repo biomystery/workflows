@@ -1,0 +1,7 @@
+{
+    "fasta_file": {
+        "class": "File",
+        "location": "./data/dm3_chr4/main_inputs/fasta/chr4.fa"
+    },
+    "output_filename": "genome.2bit"
+}
