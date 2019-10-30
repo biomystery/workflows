@@ -1,0 +1,7 @@
+{
+    "twobit_file": {
+        "class": "File",
+        "location": "./data/dm3_chr4/generated_inputs/twobit/chr4.2bit"
+    },
+    "output_filename": "genome.fa"
+}
