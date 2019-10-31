@@ -1,7 +1,6 @@
 {
     "reference_file": {
         "class": "File",
-        "location": "./data/dm3_chr4/main_inputs/fasta/chr4.fa"
-    },
-    "chr_list": ["chr4"]
+        "location": "./data/dm3_chr4/main_inputs/fasta/chr4.fasta"
+    }
 }

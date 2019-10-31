@@ -3,5 +3,5 @@
         "class": "File",
         "location": "./data/dm3_chr4/main_inputs/fasta/chr4.fa.gz"
     },
-    "chr_list": ["chr4", "chr4"]
+    "chr_list": "chr4"
 }

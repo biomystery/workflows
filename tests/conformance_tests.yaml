@@ -4805,14 +4805,14 @@
   output:
     fasta_file:
       class: File
-      location: chr4.fa
+      location: chr4.fasta
 
 - job: ./ucsc-twobit-to-fa-4.json
   tool: ../tools/ucsc-twobit-to-fa.cwl
   output:
     fasta_file:
       class: File
-      location: chr4.fasta
+      location: chr4.fa
 
 - job: ./ucsc-twobit-to-fa-5.json
   tool: ../tools/ucsc-twobit-to-fa.cwl
@@ -4834,3 +4834,25 @@
     fasta_file:
       class: File
       location: chr4.fa
+
+- job: ./ucsc-twobit-to-fa-8.json
+  tool: ../tools/ucsc-twobit-to-fa.cwl
+  output:
+    fasta_file:
+      class: File
+      location: chr4.fa
+
+- job: ./ucsc-twobit-to-fa-9.json
+  tool: ../tools/ucsc-twobit-to-fa.cwl
+  output:
+    fasta_file:
+      class: File
+      location: chr4.fa
+
+- job: ./ucsc-twobit-to-fa-10.json
+  tool: ../tools/ucsc-twobit-to-fa.cwl
+  output:
+    fasta_file:
+      class: File
+      location: chr4.fa
+  should_fail: true
