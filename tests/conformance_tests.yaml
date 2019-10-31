@@ -4827,3 +4827,10 @@
     fasta_file:
       class: File
       location: chr4.fa
+
+- job: ./ucsc-twobit-to-fa-7.json
+  tool: ../tools/ucsc-twobit-to-fa.cwl
+  output:
+    fasta_file:
+      class: File
+      location: chr4.fa

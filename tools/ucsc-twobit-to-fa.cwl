@@ -36,14 +36,15 @@ inputs:
           twoBitToFa $0 "${0%%.*}".fa
           rm $0
       fi
-      if [ "$#" -gt 1 ]; then
-          samtools faidx ${@:2} "${0%%.*}".fa > temp.fa
-          mv temp.fa "${0%%.*}".fa
+      if [ "$#" -ge 1 ]; then
+          samtools faidx "${0%%.*}".fa ${@:1} > t.fa
+          mv t.fa "${0%%.*}".fa
+          rm "${0%%.*}".fa.fai
       fi
     inputBinding:
       position: 5
     doc: |
-      Bash function to run twoBitToFa with optional chromosome filtering
+      Bash function to run twoBitToFa or gunzip to extract and samtools to filter chromosomes
 
   reference_file:
     type: File
