@@ -4,7 +4,7 @@ class: CommandLineTool
 
 hints:
 - class: DockerRequirement
-  dockerPull: biowardrobe2/ucscuserapps:v358
+  dockerPull: biowardrobe2/ucscuserapps:v358_2
 
 
 requirements:
@@ -28,19 +28,17 @@ inputs:
     default: |
       #!/bin/bash
       if [[ $0 == *.fasta ]] || [[ $0 == *.fa ]]; then
-        echo "Skipping"
+          echo "Skipping"
       elif [[ $0 == *.gz ]]; then
           gunzip -c $0 > "${0%%.*}".fa
           rm $0
       else
-        if [ "$#" -gt 2 ]; then
-          echo ${@:2} | tr " " "\n" > selected_chr.tsv
-          twoBitToFa -seqList=selected_chr.tsv $0 "${0%%.*}".fa
-          rm selected_chr.tsv $0
-        else
           twoBitToFa $0 "${0%%.*}".fa
           rm $0
-        fi
+      fi
+      if [ "$#" -gt 1 ]; then
+          samtools faidx ${@:2} "${0%%.*}".fa > temp.fa
+          mv temp.fa "${0%%.*}".fa
       fi
     inputBinding:
       position: 5
