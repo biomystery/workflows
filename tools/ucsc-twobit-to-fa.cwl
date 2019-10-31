@@ -9,16 +9,17 @@ hints:
 
 requirements:
 - class: InlineJavascriptRequirement
-  expressionLib:
-  - var default_output_filename = function() {
-          if (inputs.output_filename == ""){
-            var root = inputs.twobit_file.basename.split('.').slice(0,-1).join('.');
-            return (root == "")?inputs.twobit_file.basename+".fa":root+".fa";
-          } else {
-            return inputs.output_filename;
-          }
-        };
-
+- class: InitialWorkDirRequirement
+  listing: |
+    ${
+      return  [
+                {
+                  "entry": inputs.reference_file,
+                  "entryname": inputs.reference_file.basename,
+                  "writable": true
+                }
+              ]
+    }
 
 inputs:
 
@@ -26,30 +27,31 @@ inputs:
     type: string?
     default: |
       #!/bin/bash
-      if [ "$#" -gt 2 ]; then
-        echo ${@:2} | tr " " "\n" > selected_chr.tsv
-        twoBitToFa -seqList=selected_chr.tsv $0 $1 
+      if [[ $0 == *.fasta ]] || [[ $0 == *.fa ]]; then
+        echo "Skipping"
+      elif [[ $0 == *.gz ]]; then
+          gunzip -c $0 > "${0%%.*}".fa
+          rm $0
       else
-        twoBitToFa $0 $1
+        if [ "$#" -gt 2 ]; then
+          echo ${@:2} | tr " " "\n" > selected_chr.tsv
+          twoBitToFa -seqList=selected_chr.tsv $0 "${0%%.*}".fa
+          rm selected_chr.tsv $0
+        else
+          twoBitToFa $0 "${0%%.*}".fa
+          rm $0
+        fi
       fi
     inputBinding:
       position: 5
     doc: |
       Bash function to run twoBitToFa with optional chromosome filtering
 
-  twobit_file:
+  reference_file:
     type: File
     inputBinding:
       position: 6
-    doc: "Reference genome 2bit file"
-
-  output_filename:
-    type: string?
-    default: ""
-    inputBinding:
-      position: 7
-      valueFrom: $(default_output_filename())
-    doc: "Output file name"
+    doc: "Reference genome *.2bit, *.fasta, *.fa, *.fa.gz, *.fasta.gz file"
 
   chr_list:
     type:
@@ -57,26 +59,18 @@ inputs:
       - string[]
     inputBinding:
       position: 8
-    doc: "List of the chromosomes to be included into the output file"
+    doc: "List of the chromosomes to be included into the output file. Valid only for 2bit"
 
 outputs:
 
   fasta_file:
     type: File
     outputBinding:
-      glob: $(default_output_filename())
+      glob: "*"
     doc: "Reference genome FASTA file"
-
-  stdout_log:
-    type: stdout
-
-  stderr_log:
-    type: stderr
 
 
 baseCommand: ["bash", "-c"]
-stdout: twobit_to_fa_stdout.log
-stderr: twobit_to_fa_stderr.log
 
 
 $namespaces:
@@ -126,6 +120,8 @@ doc: |
   twoBitToFa - Convert all or part of .2bit file to fasta.
   Outputs only those chromosomes that are set in chr_list intput.
   Tool will fail if you include in chr_list those chromosomes that are absent in 2bit file.
+  If gz is provided - use gunzip instead of twoBitToFa
+  If FASTA file is provided, do nothing
 
 s:about: |
   usage:

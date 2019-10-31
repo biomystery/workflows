@@ -4792,35 +4792,38 @@
     fasta_file:
       class: File
       location: chr4.fa
-    stdout_log:
-      class: File
-      location: twobit_to_fa_stdout.log
-    stderr_log:
-      class: File
-      location: twobit_to_fa_stderr.log
 
 - job: ./ucsc-twobit-to-fa-2.json
   tool: ../tools/ucsc-twobit-to-fa.cwl
   output:
     fasta_file:
       class: File
-      location: genome.fa
-    stdout_log:
-      class: File
-      location: twobit_to_fa_stdout.log
-    stderr_log:
-      class: File
-      location: twobit_to_fa_stderr.log
+      location: chr4.fa
 
 - job: ./ucsc-twobit-to-fa-3.json
   tool: ../tools/ucsc-twobit-to-fa.cwl
   output:
     fasta_file:
       class: File
-      location: genome.fa
-    stdout_log:
+      location: chr4.fa
+
+- job: ./ucsc-twobit-to-fa-4.json
+  tool: ../tools/ucsc-twobit-to-fa.cwl
+  output:
+    fasta_file:
       class: File
-      location: twobit_to_fa_stdout.log
-    stderr_log:
+      location: chr4.fasta
+
+- job: ./ucsc-twobit-to-fa-5.json
+  tool: ../tools/ucsc-twobit-to-fa.cwl
+  output:
+    fasta_file:
       class: File
-      location: twobit_to_fa_stderr.log
+      location: chr4.fa
+
+- job: ./ucsc-twobit-to-fa-6.json
+  tool: ../tools/ucsc-twobit-to-fa.cwl
+  output:
+    fasta_file:
+      class: File
+      location: chr4.fa

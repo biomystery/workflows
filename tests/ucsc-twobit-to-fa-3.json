@@ -1,8 +1,7 @@
 {
-    "twobit_file": {
+    "reference_file": {
         "class": "File",
-        "location": "./data/dm3_chr4/generated_inputs/twobit/chr4.2bit"
+        "location": "./data/dm3_chr4/main_inputs/fasta/chr4.fa"
     },
-    "output_filename": "genome.fa",
     "chr_list": ["chr4"]
 }
