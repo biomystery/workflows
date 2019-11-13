@@ -81,6 +81,10 @@ outputs:
     type: File
     outputSource: remove_chrM/filtered_bam_bai_pair
 
+  genome_coverage:
+    type: File
+    outputSource: sorted_bedgraph_to_bigwig/bigwig_file
+
   reads_per_chr_report:
     type: File
     outputSource: count_reads_per_chr/output_file
@@ -338,7 +342,43 @@ steps:
       output_filename:
         source: sort_and_index_after_filtering/bam_bai_pair
         valueFrom: $(get_root(self.basename)+"_bam_statistics_report_after_filtering.txt")
-    out: [log_file]
+    out: [log_file, reads_mapped]
+
+  get_chr_name_length:
+    run: ../../tools/get-file-by-name.cwl
+    in:
+      input_files: indices_folder
+      basename_regex:
+        default: "chrNameLength.txt"
+    out: [selected_file]
+
+  bam_to_bedgraph:
+    run: ../../tools/bedtools-genomecov.cwl
+    in:
+      input_file: sort_and_index_after_filtering/bam_bai_pair
+      depth:
+        default: "-bg"
+      split:
+        default: true
+      pairchip:
+        default: true
+      mapped_reads_number: get_bam_statistics_after_filtering/reads_mapped
+    out: [genome_coverage_file]
+
+  sort_bedgraph:
+    run: ../../tools/linux-sort.cwl
+    in:
+      unsorted_file: bam_to_bedgraph/genome_coverage_file
+      key:
+        default: ["1,1","2,2n"]
+    out: [sorted_file]
+
+  sorted_bedgraph_to_bigwig:
+    run: ../../tools/ucsc-bedgraphtobigwig.cwl
+    in:
+      bedgraph_file: sort_bedgraph/sorted_file
+      chrom_length_file: get_chr_name_length/selected_file
+    out: [bigwig_file]
 
   convert_bam_to_bed:
     run: ../../tools/bedtools-bamtobed.cwl
