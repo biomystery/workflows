@@ -1,0 +1,20 @@
+{
+  "fasta_file": {
+    "class": "File",
+    "location":  "./data/dm3_chr4/main_inputs/fasta/meme.fa"
+  },
+  "motif_file": [
+    {
+      "class": "File",
+      "location":  "./data/dm3_chr4/main_inputs/meme/JASPAR2018_CORE_vertebrates_non-redundant.meme"
+    },
+    {
+      "class": "File",
+      "location":  "./data/dm3_chr4/main_inputs/meme/jolma2013.meme"
+    }
+  ],
+  "skip_spamo": true,
+  "skip_fimo": true,
+  "threads": 2,
+  "output_folder_name": "meme"
+}
