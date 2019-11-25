@@ -3809,7 +3809,6 @@
     genome_wide_methylation_report:
       class: File
       location: upstream_bismark_bt2.CpG_report.txt
-      size: 2209922
     splitting_report:
       class: File
       location: upstream_bismark_bt2_splitting_report.txt
