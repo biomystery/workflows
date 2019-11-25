@@ -26,8 +26,9 @@ ENV DEBIAN_FRONTEND noninteractive
 
 ENV VER_MEME 5.1.0
 ENV URL_MEME http://meme-suite.org/meme-software/${VER_MEME}/meme-${VER_MEME}.tar.gz
+ENV DIR_MEME /opt/meme
 
-ENV PATH /root/meme/bin:/root/meme/libexec/meme-${VER_MEME}:$PATH
+ENV PATH ${DIR_MEME}/bin:${DIR_MEME}/libexec/meme-${VER_MEME}:$PATH
 
 ################## BEGIN INSTALLATION ######################
 WORKDIR /tmp
@@ -49,7 +50,7 @@ RUN apt-get update && \
 ### Installing MEME Suite
     wget -q -O - $URL_MEME | tar -zxv && \
     cd meme-${VER_MEME} && \
-    ./configure --prefix=/root/meme --with-url=http://meme-suite.org/ --enable-build-libxml2 --enable-build-libxslt && \
+    ./configure --prefix=${DIR_MEME} --with-url=http://meme-suite.org/ --enable-build-libxml2 --enable-build-libxslt && \
     make && \
     make install && \
     cd .. && \
