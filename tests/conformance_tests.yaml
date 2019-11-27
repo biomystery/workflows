@@ -4203,6 +4203,75 @@
       location: thor_stdout.log
       size: 0
 
+- job: ./rgt-thor-2.json
+  tool: ../tools/rgt-thor.cwl
+  doc: Shouldn't produce any results
+  output:
+    cond_1_bigwig_file: null
+    cond_2_bigwig_file: null
+    diffpeaks_bed_file: null
+    diffpeaks_narrowpeak_file: null
+    uncor_diffpeaks_bed_file: null
+    uncor_diffpeaks_narrowpeak_file: null
+    setup_info_file:
+      class: File
+      location: dummy-setup.info
+      size: 78
+    stderr_log:
+      class: File
+      location: thor_stderr.log
+      size: 287
+    stdout_log:
+      class: File
+      location: thor_stdout.log
+      size: 0
+
+- job: ./rgt-thor-3.json
+  tool: ../tools/rgt-thor.cwl
+  doc: Shouldn't produce any results
+  output:
+    cond_1_bigwig_file: null
+    cond_2_bigwig_file: null
+    diffpeaks_bed_file: null
+    diffpeaks_narrowpeak_file: null
+    uncor_diffpeaks_bed_file: null
+    uncor_diffpeaks_narrowpeak_file: null
+    setup_info_file:
+      class: File
+      location: dummy-setup.info
+      size: 78
+    stderr_log:
+      class: File
+      location: thor_stderr.log
+      size: 287
+    stdout_log:
+      class: File
+      location: thor_stdout.log
+      size: 0
+
+- job: ./rgt-thor-4.json
+  tool: ../tools/rgt-thor.cwl
+  doc: Shouldn't produce any results
+  output:
+    cond_1_bigwig_file: null
+    cond_2_bigwig_file: null
+    diffpeaks_bed_file: null
+    diffpeaks_narrowpeak_file: null
+    uncor_diffpeaks_bed_file: null
+    uncor_diffpeaks_narrowpeak_file: null
+    setup_info_file:
+      class: File
+      location: dummy-setup.info
+      size: 78
+    stderr_log:
+      class: File
+      location: thor_stderr.log
+      size: 287
+    stdout_log:
+      class: File
+      location: thor_stdout.log
+      size: 0
+
 # ========================================================
 # satscript
 # ========================================================
