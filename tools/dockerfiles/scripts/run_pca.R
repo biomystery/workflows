@@ -84,16 +84,16 @@ write.table(result_df,
             col.names=TRUE,
             quote=FALSE)
 
-plot(result[,1], result[,2], col=icolor, xlab="PCA1", ylab="PCA2", main="")
+plot(result[,1], result[,2], col=icolor, xlab="PCA1", ylab="PCA2", main="", pch=19, cex=2)
 legend("bottomright", text.col=icolor, bg="white", legend = args$name, yjust=0, horiz=F, bty='n', cex=0.8)
 
-plot(result[,2], result[,3], col=icolor, xlab="PCA2", ylab="PCA3", main="")
+plot(result[,2], result[,3], col=icolor, xlab="PCA2", ylab="PCA3", main="", pch=19, cex=2)
 legend("bottomright", text.col=icolor, bg="white", legend = args$name, yjust=0, horiz=F, bty='n', cex=0.8)
 
-plot(pca, type="lines")
+plot(pca, type="lines", pch=19, cex=2)
 
 s3d <- scatterplot3d(result[,1], result[,2], result[,3], xlab="PC1", ylab="PC2", zlab="PC3", main="",
-	                 color=icolor, col.axis="blue", sub="", box=T, lwd=5, type="p")
+	                 color=icolor, col.axis="blue", sub="", box=T, lwd=5, type="p", pch=19, cex.symbols=2)
 
 legend("bottomright", inset=c(0.03,0.03), text.col=icolor, bg="white", legend=args$name, yjust=0, horiz=F, bty='n', cex=0.8)
 
