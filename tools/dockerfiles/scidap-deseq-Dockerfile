@@ -2,7 +2,7 @@
 # Dockerfile
 #
 # Software:         BioWardrobe DESeq/DESeq2 script
-# Software Version: v0.0.8
+# Software Version: v0.0.9
 # Description:      Dockerized version of DESeq/DESeq2 script from BioWardrobe
 # Website:          https://github.com/Barski-lab/workflows
 # Provides:         run_deseq.R
@@ -14,10 +14,15 @@
 #                   argparse          latest
 #                   pheatmap          latest
 # Base Image:       r-base:3.6.0 
-# Build Cmd:        docker build --rm -t biowardrobe2/scidap-deseq:v0.0.8 -f scidap-deseq-Dockerfile .
-# Pull Cmd:         docker pull biowardrobe2/scidap-deseq:v0.0.8
-# Run Cmd:          docker run --rm -ti biowardrobe2/scidap-deseq:v0.0.8 /bin/bash
+# Build Cmd:        docker build --rm -t biowardrobe2/scidap-deseq:v0.0.9 -f scidap-deseq-Dockerfile .
+# Pull Cmd:         docker pull biowardrobe2/scidap-deseq:v0.0.9
+# Run Cmd:          docker run --rm -ti biowardrobe2/scidap-deseq:v0.0.9 /bin/bash
 #################################################################
+#
+# v0.0.9
+#
+# - update run_deseq.R (v0.0.6)
+#   * proper way to set custom column names for outputs
 #
 # v0.0.8
 #   switch to r-base:3.6.0
@@ -70,7 +75,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 WORKDIR /tmp
 
-ENV VERSION_BIOCMANAGER 1.30.4
+ENV VERSION_BIOCMANAGER 1.30.10
 ENV URL_BIOCMANAGER "https://cran.r-project.org/src/contrib/BiocManager_${VERSION_BIOCMANAGER}.tar.gz"
 
 COPY ./scripts/install_from_source.R /tmp/install_from_source.R
