@@ -4915,226 +4915,220 @@
   tool: ../tools/meme-chip.cwl
   output:
     html_report_file:
+      class: File
       location: meme-chip.html
-      class: File
     identified_motifs_file:
-      location: combined.meme
       class: File
+      location: combined.meme
     results_folder:
-      basename: meme
+      basename: memechip_out
       class: Directory
       listing:
-      - class: File
-        location: background
-      - class: Directory
-        basename: dreme_out
+      - basename: meme_tomtom_out
+        class: Directory
         listing:
-        - class: File
-          location: m01rc_GGGTGKGG.png
-        - class: File
-          location: m01nc_CCMCACCC.png
-        - class: File
-          location: dreme.xml
-        - class: File
-          location: dreme.html
-        - class: File
-          location: dreme.txt
-      - class: File
-        location: seqs-shuffled
-      - class: File
-        location: seqs-centered
-      - class: Directory
-        basename: meme_tomtom_out
+        - basename: tomtom.tsv
+          class: File
+        - basename: tomtom.xml
+          class: File
+        - basename: tomtom.html
+          class: File
+      - basename: seqs-centered
+        class: File
+      - basename: combined.meme
+        class: File
+      - basename: seqs-shuffled
+        class: File
+      - basename: meme.fa
+        class: File
+      - basename: centrimo_out
+        class: Directory
         listing:
-        - class: File
-          location: tomtom.html
-        - class: File
-          location: tomtom.xml
-        - class: File
-          location: tomtom.tsv
-      - class: File
-        location: meme-chip.html
-      - class: File
-        location: combined.meme
-      - class: Directory
-        basename: centrimo_out
+        - basename: site_counts.txt
+          class: File
+        - basename: centrimo.html
+          class: File
+        - basename: centrimo.tsv
+          class: File
+      - basename: summary.tsv
+        class: File
+      - basename: motif_alignment.txt
+        class: File
+      - basename: spamo_out_1
+        class: Directory
         listing:
-        - class: File
-          location: site_counts.txt
-        - class: File
-          location: centrimo.html
-        - class: File
-          location: centrimo.tsv
-      - class: File
-        location: motif_alignment.txt
-      - class: File
-        location: meme.fa
-      - class: File
-        location: progress_log.txt
-      - class: Directory
-        basename: meme_out
+        - basename: spamo.html
+          class: File
+        - basename: spamo.tsv
+          class: File
+      - basename: background
+        class: File
+      - basename: meme-chip.html
+        class: File
+      - basename: fimo_out_1
+        class: Directory
         listing:
-        - class: File
-          location: meme.txt
-        - class: File
-          location: logo_rc1.eps
-        - class: File
-          location: logo1.eps
-        - class: File
-          location: meme.xml
-        - class: File
-          location: logo_rc2.eps
-        - class: File
-          location: logo3.eps
-        - class: File
-          location: logo2.eps
-        - class: File
-          location: logo_rc3.eps
-        - class: File
-          location: meme.html
-        - class: File
-          location: logo_rc1.png
-        - class: File
-          location: logo1.png
-        - class: File
-          location: logo3.png
-        - class: File
-          location: logo_rc2.png
-        - class: File
-          location: logo_rc3.png
-        - class: File
-          location: logo2.png
-      - class: Directory
-        basename: dreme_tomtom_out
+        - basename: fimo.xml
+          class: File
+        - basename: fimo.html
+          class: File
+        - basename: cisml.xml
+          class: File
+        - basename: fimo.gff
+          class: File
+        - basename: fimo.tsv
+          class: File
+      - basename: dreme_out
+        class: Directory
         listing:
-        - class: File
-          location: tomtom.html
-        - class: File
-          location: tomtom.xml
-        - class: File
-          location: tomtom.tsv
-      - class: File
-        location: summary.tsv
+        - basename: dreme.xml
+          class: File
+        - basename: dreme.txt
+          class: File
+        - basename: dreme.html
+          class: File
+      - basename: progress_log.txt
+        class: File
+      - basename: meme_out
+        class: Directory
+        listing:
+        - basename: meme.html
+          class: File
+        - basename: logo2.eps
+          class: File
+        - basename: meme.xml
+          class: File
+        - basename: logo1.png
+          class: File
+        - basename: logo_rc1.eps
+          class: File
+        - basename: logo3.eps
+          class: File
+        - basename: logo3.png
+          class: File
+        - basename: logo_rc1.png
+          class: File
+        - basename: meme.txt
+          class: File
+        - basename: logo_rc2.eps
+          class: File
+        - basename: logo_rc2.png
+          class: File
+        - basename: logo1.eps
+          class: File
+        - basename: logo_rc3.eps
+          class: File
+        - basename: logo_rc3.png
+          class: File
+        - basename: logo2.png
+          class: File
     stderr_log:
+      class: File
       location: meme_chip_stderr.log
-      class: File
     stdout_log:
+      class: File
       location: meme_chip_stdout.log
-      class: File
     summary_file:
-      location: summary.tsv
       class: File
+      location: summary.tsv
 
 - job: ./meme-chip-2.json
   tool: ../tools/meme-chip.cwl
   output:
     html_report_file:
+      class: File
       location: meme-chip.html
-      class: File
     identified_motifs_file:
-      location: combined.meme
       class: File
+      location: combined.meme
     results_folder:
       basename: meme
       class: Directory
       listing:
-      - class: File
-        location: background
-      - class: Directory
-        basename: dreme_out
+      - basename: meme_tomtom_out
+        class: Directory
         listing:
-        - class: File
-          location: m01rc_GGGTGKGG.png
-        - class: File
-          location: m01nc_CCMCACCC.png
-        - class: File
-          location: dreme.xml
-        - class: File
-          location: dreme.html
-        - class: File
-          location: dreme.txt
-      - class: File
-        location: seqs-shuffled
-      - class: File
-        location: seqs-centered
-      - class: Directory
-        basename: meme_tomtom_out
+        - basename: tomtom.tsv
+          class: File
+        - basename: tomtom.xml
+          class: File
+        - basename: tomtom.html
+          class: File
+      - basename: seqs-centered
+        class: File
+      - basename: combined.meme
+        class: File
+      - basename: seqs-shuffled
+        class: File
+      - basename: meme.fa
+        class: File
+      - basename: centrimo_out
+        class: Directory
         listing:
-        - class: File
-          location: tomtom.html
-        - class: File
-          location: tomtom.xml
-        - class: File
-          location: tomtom.tsv
-      - class: File
-        location: meme-chip.html
-      - class: File
-        location: combined.meme
-      - class: Directory
-        basename: centrimo_out
+        - basename: site_counts.txt
+          class: File
+        - basename: centrimo.html
+          class: File
+        - basename: centrimo.tsv
+          class: File
+      - basename: summary.tsv
+        class: File
+      - basename: motif_alignment.txt
+        class: File
+      - basename: background
+        class: File
+      - basename: meme-chip.html
+        class: File
+      - basename: dreme_out
+        class: Directory
         listing:
-        - class: File
-          location: site_counts.txt
-        - class: File
-          location: centrimo.html
-        - class: File
-          location: centrimo.tsv
-      - class: File
-        location: motif_alignment.txt
-      - class: File
-        location: meme.fa
-      - class: File
-        location: progress_log.txt
-      - class: Directory
-        basename: meme_out
+        - basename: dreme.xml
+          class: File
+        - basename: dreme.txt
+          class: File
+        - basename: dreme.html
+          class: File
+      - basename: progress_log.txt
+        class: File
+      - basename: meme_out
+        class: Directory
         listing:
-        - class: File
-          location: meme.txt
-        - class: File
-          location: logo_rc1.eps
-        - class: File
-          location: logo1.eps
-        - class: File
-          location: meme.xml
-        - class: File
-          location: logo_rc2.eps
-        - class: File
-          location: logo3.eps
-        - class: File
-          location: logo2.eps
-        - class: File
-          location: logo_rc3.eps
-        - class: File
-          location: meme.html
-        - class: File
-          location: logo_rc1.png
-        - class: File
-          location: logo1.png
-        - class: File
-          location: logo3.png
-        - class: File
-          location: logo_rc2.png
-        - class: File
-          location: logo_rc3.png
-        - class: File
-          location: logo2.png
-      - class: Directory
-        basename: dreme_tomtom_out
-        listing:
-        - class: File
-          location: tomtom.html
-        - class: File
-          location: tomtom.xml
-        - class: File
-          location: tomtom.tsv
-      - class: File
-        location: summary.tsv
+        - basename: meme.html
+          class: File
+        - basename: logo2.eps
+          class: File
+        - basename: meme.xml
+          class: File
+        - basename: logo1.png
+          class: File
+        - basename: logo_rc1.eps
+          class: File
+        - basename: logo3.eps
+          class: File
+        - basename: logo3.png
+          class: File
+        - basename: logo_rc1.png
+          class: File
+        - basename: meme.txt
+          class: File
+        - basename: logo_rc2.eps
+          class: File
+        - basename: logo_rc2.png
+          class: File
+        - basename: logo1.eps
+          class: File
+        - basename: logo_rc3.eps
+          class: File
+        - basename: logo_rc3.png
+          class: File
+        - basename: logo2.png
+          class: File
     stderr_log:
+      class: File
       location: meme_chip_stderr.log
-      class: File
     stdout_log:
+      class: File
       location: meme_chip_stdout.log
-      class: File
     summary_file:
-      location: summary.tsv
       class: File
+      location: summary.tsv    
