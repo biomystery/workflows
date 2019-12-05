@@ -4921,13 +4921,13 @@
       location: combined.meme
       class: File
     results_folder:
-      location: meme
+      basename: meme
       class: Directory
       listing:
       - class: File
         location: background
       - class: Directory
-        location: dreme_out
+        basename: dreme_out
         listing:
         - class: File
           location: m01rc_GGGTGKGG.png
@@ -4944,7 +4944,7 @@
       - class: File
         location: seqs-centered
       - class: Directory
-        location: meme_tomtom_out
+        basename: meme_tomtom_out
         listing:
         - class: File
           location: tomtom.html
@@ -4957,7 +4957,7 @@
       - class: File
         location: combined.meme
       - class: Directory
-        location: centrimo_out
+        basename: centrimo_out
         listing:
         - class: File
           location: site_counts.txt
@@ -4972,7 +4972,7 @@
       - class: File
         location: progress_log.txt
       - class: Directory
-        location: meme_out
+        basename: meme_out
         listing:
         - class: File
           location: meme.txt
@@ -5005,7 +5005,7 @@
         - class: File
           location: logo2.png
       - class: Directory
-        location: dreme_tomtom_out
+        basename: dreme_tomtom_out
         listing:
         - class: File
           location: tomtom.html
@@ -5035,13 +5035,13 @@
       location: combined.meme
       class: File
     results_folder:
-      location: meme
+      basename: meme
       class: Directory
       listing:
       - class: File
         location: background
       - class: Directory
-        location: dreme_out
+        basename: dreme_out
         listing:
         - class: File
           location: m01rc_GGGTGKGG.png
@@ -5058,7 +5058,7 @@
       - class: File
         location: seqs-centered
       - class: Directory
-        location: meme_tomtom_out
+        basename: meme_tomtom_out
         listing:
         - class: File
           location: tomtom.html
@@ -5071,7 +5071,7 @@
       - class: File
         location: combined.meme
       - class: Directory
-        location: centrimo_out
+        basename: centrimo_out
         listing:
         - class: File
           location: site_counts.txt
@@ -5086,7 +5086,7 @@
       - class: File
         location: progress_log.txt
       - class: Directory
-        location: meme_out
+        basename: meme_out
         listing:
         - class: File
           location: meme.txt
@@ -5119,7 +5119,7 @@
         - class: File
           location: logo2.png
       - class: Directory
-        location: dreme_tomtom_out
+        basename: dreme_tomtom_out
         listing:
         - class: File
           location: tomtom.html
