@@ -2481,7 +2481,6 @@
     diff_expr_file:
       class: File
       location: deseq_results.tsv
-      size: 123030
     plot_lfc_vs_mean:
       class: File
       location: deseq_results_001.png
@@ -2495,7 +2494,6 @@
     diff_expr_file:
       class: File
       location: deseq_results.tsv
-      size: 98403
     plot_lfc_vs_mean:
       class: File
       location: deseq_results_001.png
@@ -2509,7 +2507,6 @@
     diff_expr_file:
       class: File
       location: deseq_results.tsv
-      size: 97596
     plot_lfc_vs_mean:
       class: File
       location: deseq_results_001.png
@@ -2523,7 +2520,6 @@
     diff_expr_file:
       class: File
       location: deseq_results.tsv
-      size: 97597
     plot_lfc_vs_mean:
       class: File
       location: deseq_results_001.png
@@ -2537,7 +2533,6 @@
     diff_expr_file:
       class: File
       location: deseq_genes.tsv
-      size: 108233
     plot_lfc_vs_mean:
       class: File
       location: deseq_genes_001.png
@@ -2551,7 +2546,6 @@
     diff_expr_file:
       class: File
       location: deseq_common_tss.tsv
-      size: 118190
     plot_lfc_vs_mean:
       class: File
       location: deseq_common_tss_001.png
