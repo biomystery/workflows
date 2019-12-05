@@ -417,7 +417,7 @@
   output:
     indices_folder:
       class: Directory
-      location: dm3_chr4
+      basename: dm3_chr4
       listing:
       - class: File
         location: dm3_chr4.1.ebwt
@@ -1029,7 +1029,7 @@
       size: 7870
     stat_folder:
       class: Directory
-      location: upstream.stat
+      basename: upstream.stat
       listing:
       - class: File
         location: upstream.model
@@ -1075,7 +1075,7 @@
       size: 7793
     stat_folder:
       class: Directory
-      location: upstream.stat
+      basename: upstream.stat
       listing:
       - class: File
         location: upstream.model
@@ -1121,7 +1121,7 @@
       size: 7793
     stat_folder:
       class: Directory
-      location: upstream.stat
+      basename: upstream.stat
       listing:
       - class: File
         location: upstream.model
@@ -1167,7 +1167,7 @@
       size: 7793
     stat_folder:
       class: Directory
-      location: output.stat
+      basename: output.stat
       listing:
       - class: File
         location: output.theta
@@ -3698,7 +3698,7 @@
   output:
     indices_folder:
       class: Directory
-      location: fasta
+      basename: fasta
       listing:
       - class: File
         location: chr4.fa
@@ -3709,10 +3709,10 @@
       - class: File
         location: chr4.fa.fai
       - class: Directory
-        location: Bisulfite_Genome
+        basename: Bisulfite_Genome
         listing:
         - class: Directory
-          location: CT_conversion
+          basename: CT_conversion
           listing:
           - class: File
             location: genome_mfa.CT_conversion.fa
@@ -3730,7 +3730,7 @@
           - class: File
             location: BS_CT.rev.2.bt2
         - class: Directory
-          location: GA_conversion
+          basename: GA_conversion
           listing:
           - class: File
             location: genome_mfa.GA_conversion.fa
@@ -4583,7 +4583,7 @@
   output:
     indices_folder:
       class: Directory
-      location: star_indices
+      basename: star_indices
       listing:
       - class: File
         location: chrStart.txt
@@ -4642,7 +4642,7 @@
   output:
     indices_folder:
       class: Directory
-      location: dm3
+      basename: dm3
       listing:
       - class: File
         location: chrStart.txt
