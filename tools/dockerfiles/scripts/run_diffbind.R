@@ -155,7 +155,7 @@ cat(paste("\nExport binding heatmap based on DB sites to", filename, sep=" "))
 
 
 # Export PCA plot using affinity data for only differentially bound sites
-filename <- paste(args$output, "_db_sites_pca.png", sep="")
+filename <- paste(args$output, "_pca.png", sep="")
 png(filename=filename, width=800, height=800)
 dba.plotPCA(diff_dba, attributes=DBA_CONDITION, contrast=1, label=DBA_ID, method=args$method)
 cat(paste("\nExport PCA plot using affinity data for only differentially bound sites to", filename, sep=" "))
