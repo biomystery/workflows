@@ -8,6 +8,9 @@ suppressMessages(library(DiffBind))
 
 ##########################################################################################
 #
+# v0.0.4
+# - increased default padding for generated heatmaps
+#
 # v0.0.3
 # - allows to control threads number
 #
@@ -87,8 +90,9 @@ get_args <- function(){
     parser$add_argument("-rd", "--removedup",   help='Remove reads that map to exactly the same genomic position. Default: false', action='store_true')
     parser$add_argument("-me", "--method",      help='Method by which to analyze differential binding affinity. Default: deseq2', type="character", choices=c("edger","deseq2"), default="deseq2")
 
-    parser$add_argument("-th", "--threads",     help='Threads to use',                   type="integer",   default=1)
-    parser$add_argument("-o", "--output",       help='Output prefix. Default: diffbind', type="character", default="./diffbind")
+    parser$add_argument("-th", "--threads",     help='Threads to use',                              type="integer",   default=1)
+    parser$add_argument("-pa", "--padding",     help='Padding for generated heatmaps. Default: 20', type="integer",   default=20)
+    parser$add_argument("-o",  "--output",      help='Output prefix. Default: diffbind',            type="character", default="./diffbind")
     args <- assert_args(parser$parse_args(commandArgs(trailingOnly = TRUE)))
     return (args)
 }
@@ -114,7 +118,7 @@ diff_dba
 # Export peak overlap correlation heatmap
 filename <- paste(args$output, "_peak_overlap_correlation_heatmap.png", sep="")
 png(filename=filename, width=800, height=800)
-dba.plotHeatmap(diff_dba, method=args$method)
+dba.plotHeatmap(diff_dba, method=args$method, margin=args$padding)
 cat(paste("\nExport peak overlap correlation heatmap to", filename, sep=" "))
 
 
@@ -126,7 +130,7 @@ diff_dba <- dba.count(diff_dba, fragmentSize=args$fragmentsize, bRemoveDuplicate
 # Export counts correlation heatmap
 filename <- paste(args$output, "_counts_correlation_heatmap.png", sep="")
 png(filename=filename, width=800, height=800)
-dba.plotHeatmap(diff_dba, method=args$method)
+dba.plotHeatmap(diff_dba, method=args$method, margin=args$padding)
 cat(paste("\nExport counts correlation heatmap to", filename, "\n", sep=" "))
 
 
@@ -142,21 +146,21 @@ diff_dba
 # Export correlation heatmap based on all normalized data
 filename <- paste(args$output, "_correlation_heatmap_based_on_all_normalized_data.png", sep="")
 png(filename=filename, width=800, height=800)
-dba.plotHeatmap(diff_dba, contrast=1, th=1, method=args$method)
+dba.plotHeatmap(diff_dba, contrast=1, th=1, method=args$method, margin=args$padding)
 cat(paste("\nExport correlation heatmap based on all normalized data to", filename, sep=" "))
 
 
 # Export correlation heatmap based on DB sites only
 filename <- paste(args$output, "_correlation_heatmap_based_on_db_sites_only.png", sep="")
 png(filename=filename, width=800, height=800)
-dba.plotHeatmap(diff_dba, contrast=1, method=args$method)
+dba.plotHeatmap(diff_dba, contrast=1, method=args$method, margin=args$padding)
 cat(paste("\nExport correlation heatmap based on DB sites only to", filename, sep=" "))
 
 
 # Export binding heatmap based on DB sites
 filename <- paste(args$output, "_binding_heatmap_based_on_db_sites.png", sep="")
 png(filename=filename, width=800, height=800)
-dba.plotHeatmap(diff_dba, contrast=1, correlations=FALSE, method=args$method)
+dba.plotHeatmap(diff_dba, contrast=1, correlations=FALSE, method=args$method, margin=args$padding)
 cat(paste("\nExport binding heatmap based on DB sites to", filename, sep=" "))
 
 

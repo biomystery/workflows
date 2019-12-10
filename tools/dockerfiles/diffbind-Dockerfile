@@ -2,15 +2,18 @@
 # Dockerfile
 #
 # Software:         diffbind
-# Software Version: v0.0.3
+# Software Version: v0.0.4
 # Description:      Differential Binding Analysis of ChIP-Seq Peak Data
 # Website:          http://www.bioconductor.org/packages/release/bioc/html/DiffBind.html
 # Provides:         diffbind 2.14.0
 # Base Image:       r-base:3.6.0
-# Build Cmd:        docker build --rm -t biowardrobe2/diffbind:v0.0.3 -f diffbind-Dockerfile .
-# Pull Cmd:         docker pull biowardrobe2/diffbind:v0.0.3
-# Run Cmd:          docker run --rm -ti biowardrobe2/diffbind:v0.0.3 /bin/bash
+# Build Cmd:        docker build --rm -t biowardrobe2/diffbind:v0.0.4 -f diffbind-Dockerfile .
+# Pull Cmd:         docker pull biowardrobe2/diffbind:v0.0.4
+# Run Cmd:          docker run --rm -ti biowardrobe2/diffbind:v0.0.4 /bin/bash
 #################################################################
+#
+# v0.0.4
+# - increased default padding for generated heatmaps
 #
 # v0.0.3
 # - allows to control threads number
