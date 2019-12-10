@@ -8,6 +8,9 @@ suppressMessages(library(DiffBind))
 
 ##########################################################################################
 #
+# v0.0.5
+# - add P-value cutoff for reported results
+#
 # v0.0.4
 # - increased default padding for generated heatmaps
 #
@@ -90,9 +93,10 @@ get_args <- function(){
     parser$add_argument("-rd", "--removedup",   help='Remove reads that map to exactly the same genomic position. Default: false', action='store_true')
     parser$add_argument("-me", "--method",      help='Method by which to analyze differential binding affinity. Default: deseq2', type="character", choices=c("edger","deseq2"), default="deseq2")
 
-    parser$add_argument("-th", "--threads",     help='Threads to use',                              type="integer",   default=1)
-    parser$add_argument("-pa", "--padding",     help='Padding for generated heatmaps. Default: 20', type="integer",   default=20)
-    parser$add_argument("-o",  "--output",      help='Output prefix. Default: diffbind',            type="character", default="./diffbind")
+    parser$add_argument("-cu", "--cutoff",      help='P-value cutoff for reported results. Default: 0.05', type="double",     default=0.05)
+    parser$add_argument("-th", "--threads",     help='Threads to use',                                     type="integer",   default=1)
+    parser$add_argument("-pa", "--padding",     help='Padding for generated heatmaps. Default: 20',        type="integer",   default=20)
+    parser$add_argument("-o",  "--output",      help='Output prefix. Default: diffbind',                   type="character", default="./diffbind")
     args <- assert_args(parser$parse_args(commandArgs(trailingOnly = TRUE)))
     return (args)
 }
@@ -192,7 +196,7 @@ dba.plotBox(diff_dba, method=args$method)
 cat(paste("\nExport box plots of read distributions for significantly differentially bound (DB) sites to", filename, sep=" "))
 
 
-diff_dba.DB <- dba.report(diff_dba, DataType=DBA_DATA_FRAME, method=args$method)
+diff_dba.DB <- dba.report(diff_dba, DataType=DBA_DATA_FRAME, method=args$method, bCalled=TRUE, bCounts=TRUE, th=args$cutoff, bUsePval=TRUE)
 
 
 # Export main results to TSV
