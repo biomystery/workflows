@@ -8,6 +8,9 @@ suppressMessages(library(DiffBind))
 
 ##########################################################################################
 #
+# v0.0.6
+# - filtering by P-value or FDR
+#
 # v0.0.5
 # - add P-value cutoff for reported results
 #
@@ -71,6 +74,13 @@ assert_args <- function(args){
     } else if (args$method == "edger") {
         args$method <- DBA_EDGER
     }
+
+    if (args$cparam == "fdr"){
+        args$cparam <- FALSE
+    } else if (args$cparam == "pvalue") {
+        args$cparam <- TRUE
+    }
+
     return (args)
 }
 
@@ -93,7 +103,9 @@ get_args <- function(){
     parser$add_argument("-rd", "--removedup",   help='Remove reads that map to exactly the same genomic position. Default: false', action='store_true')
     parser$add_argument("-me", "--method",      help='Method by which to analyze differential binding affinity. Default: deseq2', type="character", choices=c("edger","deseq2"), default="deseq2")
 
-    parser$add_argument("-cu", "--cutoff",      help='P-value cutoff for reported results. Default: 0.05', type="double",     default=0.05)
+    parser$add_argument("-cu", "--cutoff",      help='Cutoff for reported results. Applied to the parameter set with -cp. Default: 0.05', type="double",    default=0.05)
+    parser$add_argument("-cp", "--cparam",      help='Parameter to which cutoff should be applied (fdr or pvalue). Default: fdr',         type="character", choices=c("pvalue","fdr"), default="fdr")
+
     parser$add_argument("-th", "--threads",     help='Threads to use',                                     type="integer",   default=1)
     parser$add_argument("-pa", "--padding",     help='Padding for generated heatmaps. Default: 20',        type="integer",   default=20)
     parser$add_argument("-o",  "--output",      help='Output prefix. Default: diffbind',                   type="character", default="./diffbind")
@@ -196,7 +208,7 @@ dba.plotBox(diff_dba, method=args$method)
 cat(paste("\nExport box plots of read distributions for significantly differentially bound (DB) sites to", filename, sep=" "))
 
 
-diff_dba.DB <- dba.report(diff_dba, DataType=DBA_DATA_FRAME, method=args$method, bCalled=TRUE, bCounts=TRUE, th=args$cutoff, bUsePval=TRUE)
+diff_dba.DB <- dba.report(diff_dba, DataType=DBA_DATA_FRAME, method=args$method, bCalled=TRUE, bCounts=TRUE, th=args$cutoff, bUsePval=args$cparam)
 
 
 # Export main results to TSV
