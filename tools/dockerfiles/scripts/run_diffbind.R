@@ -8,6 +8,9 @@ suppressMessages(library(DiffBind))
 
 ##########################################################################################
 #
+# v0.0.3
+# - allows to control threads number
+#
 # v0.0.2
 # - exports
 #   * peak overlap correlation heatmap
@@ -84,7 +87,8 @@ get_args <- function(){
     parser$add_argument("-rd", "--removedup",   help='Remove reads that map to exactly the same genomic position. Default: false', action='store_true')
     parser$add_argument("-me", "--method",      help='Method by which to analyze differential binding affinity. Default: deseq2', type="character", choices=c("edger","deseq2"), default="deseq2")
 
-    parser$add_argument("-o", "--output",       help='Output prefix. Default: diffbind',                            type="character", default="./diffbind")
+    parser$add_argument("-th", "--threads",     help='Threads to use',                   type="integer",   default=1)
+    parser$add_argument("-o", "--output",       help='Output prefix. Default: diffbind', type="character", default="./diffbind")
     args <- assert_args(parser$parse_args(commandArgs(trailingOnly = TRUE)))
     return (args)
 }
@@ -101,6 +105,7 @@ for (i in 1:length(args$read2)){
     diff_dba <- load_data_set(diff_dba, args$peak2[i], args$read2[i], args$name2[i], args$condition2, args$peakformat)
 }
 
+diff_dba$config$cores <- args$threads
 
 cat("\nLoaded data\n")
 diff_dba
@@ -114,6 +119,7 @@ cat(paste("\nExport peak overlap correlation heatmap to", filename, sep=" "))
 
 
 # Count reads in binding site intervals
+cat(paste("\nCounting reads using", diff_dba$config$cores, "threads\n", sep=" "))
 diff_dba <- dba.count(diff_dba, fragmentSize=args$fragmentsize, bRemoveDuplicates=args$removedup)
 
 
