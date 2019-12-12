@@ -8,6 +8,9 @@ suppressMessages(library(DiffBind))
 
 ##########################################################################################
 #
+# v0.0.7
+# - add tryCatch to all optional outputs
+#
 # v0.0.6
 # - filtering by P-value or FDR
 #
@@ -132,10 +135,17 @@ diff_dba
 
 
 # Export peak overlap correlation heatmap
-filename <- paste(args$output, "_peak_overlap_correlation_heatmap.png", sep="")
-png(filename=filename, width=800, height=800)
-dba.plotHeatmap(diff_dba, method=args$method, margin=args$padding)
-cat(paste("\nExport peak overlap correlation heatmap to", filename, sep=" "))
+tryCatch(
+    expr = {
+        filename <- paste(args$output, "_peak_overlap_correlation_heatmap.png", sep="")
+        png(filename=filename, width=800, height=800)
+        dba.plotHeatmap(diff_dba, method=args$method, margin=args$padding)
+        cat(paste("\nExport peak overlap correlation heatmap to", filename, sep=" "))
+    },
+    error = function(e){ 
+        cat("\nFailed to export peak overlap correlation heatmap")
+    }
+)
 
 
 # Count reads in binding site intervals
@@ -144,10 +154,17 @@ diff_dba <- dba.count(diff_dba, fragmentSize=args$fragmentsize, bRemoveDuplicate
 
 
 # Export counts correlation heatmap
-filename <- paste(args$output, "_counts_correlation_heatmap.png", sep="")
-png(filename=filename, width=800, height=800)
-dba.plotHeatmap(diff_dba, method=args$method, margin=args$padding)
-cat(paste("\nExport counts correlation heatmap to", filename, "\n", sep=" "))
+tryCatch(
+    expr = {
+        filename <- paste(args$output, "_counts_correlation_heatmap.png", sep="")
+        png(filename=filename, width=800, height=800)
+        dba.plotHeatmap(diff_dba, method=args$method, margin=args$padding)
+        cat(paste("\nExport counts correlation heatmap to", filename, "\n", sep=" "))
+    },
+    error = function(e){ 
+        cat("\nFailed to export counts correlation heatmap")
+    }
+)
 
 
 diff_dba$contrasts <- NULL
@@ -160,52 +177,101 @@ diff_dba
 
 
 # Export correlation heatmap based on all normalized data
-filename <- paste(args$output, "_correlation_heatmap_based_on_all_normalized_data.png", sep="")
-png(filename=filename, width=800, height=800)
-dba.plotHeatmap(diff_dba, contrast=1, th=1, method=args$method, margin=args$padding)
-cat(paste("\nExport correlation heatmap based on all normalized data to", filename, sep=" "))
+tryCatch(
+    expr = {
+        filename <- paste(args$output, "_correlation_heatmap_based_on_all_normalized_data.png", sep="")
+        png(filename=filename, width=800, height=800)
+        dba.plotHeatmap(diff_dba, contrast=1, th=1, method=args$method, margin=args$padding)
+        cat(paste("\nExport correlation heatmap based on all normalized data to", filename, sep=" "))
+    },
+    error = function(e){ 
+        cat("\nFailed to export correlation heatmap based on all normalized data")
+    }
+)
 
 
 # Export correlation heatmap based on DB sites only
-filename <- paste(args$output, "_correlation_heatmap_based_on_db_sites_only.png", sep="")
-png(filename=filename, width=800, height=800)
-dba.plotHeatmap(diff_dba, contrast=1, method=args$method, margin=args$padding)
-cat(paste("\nExport correlation heatmap based on DB sites only to", filename, sep=" "))
+tryCatch(
+    expr = {
+        filename <- paste(args$output, "_correlation_heatmap_based_on_db_sites_only.png", sep="")
+        png(filename=filename, width=800, height=800)
+        dba.plotHeatmap(diff_dba, contrast=1, method=args$method, margin=args$padding)
+        cat(paste("\nExport correlation heatmap based on DB sites only to", filename, sep=" "))
+    },
+    error = function(e){ 
+        cat("\nFailed to export correlation heatmap based on DB sites only")
+    }
+)
 
 
 # Export binding heatmap based on DB sites
-filename <- paste(args$output, "_binding_heatmap_based_on_db_sites.png", sep="")
-png(filename=filename, width=800, height=800)
-dba.plotHeatmap(diff_dba, contrast=1, correlations=FALSE, method=args$method, margin=args$padding)
-cat(paste("\nExport binding heatmap based on DB sites to", filename, sep=" "))
+tryCatch(
+    expr = {
+        filename <- paste(args$output, "_binding_heatmap_based_on_db_sites.png", sep="")
+        png(filename=filename, width=800, height=800)
+        dba.plotHeatmap(diff_dba, contrast=1, correlations=FALSE, method=args$method, margin=args$padding)
+        cat(paste("\nExport binding heatmap based on DB sites to", filename, sep=" "))
+    },
+    error = function(e){ 
+        cat("\nFailed to export binding heatmap based on DB sites")
+    }
+)
 
 
 # Export PCA plot using affinity data for only differentially bound sites
-filename <- paste(args$output, "_pca.png", sep="")
-png(filename=filename, width=800, height=800)
-dba.plotPCA(diff_dba, attributes=DBA_CONDITION, contrast=1, label=DBA_ID, method=args$method)
-cat(paste("\nExport PCA plot using affinity data for only differentially bound sites to", filename, sep=" "))
+tryCatch(
+    expr = {
+        filename <- paste(args$output, "_pca.png", sep="")
+        png(filename=filename, width=800, height=800)
+        dba.plotPCA(diff_dba, attributes=DBA_CONDITION, contrast=1, label=DBA_ID, method=args$method)
+        cat(paste("\nExport PCA plot using affinity data for only differentially bound sites to", filename, sep=" "))
+    },
+    error = function(e){ 
+        cat("\nFailed to export PCA plot using affinity data for only differentially bound sites")
+    }
+)
 
 
 # Export MA plot for conditions
-filename <- paste(args$output, "_ma.png", sep="")
-png(filename=filename, width=800, height=800)
-dba.plotMA(diff_dba, method=args$method)
-cat(paste("\nExport MA plot for conditions", args$condition1, "and", args$condition2, "to", filename, sep=" "))
+tryCatch(
+    expr = {
+        filename <- paste(args$output, "_ma.png", sep="")
+        png(filename=filename, width=800, height=800)
+        dba.plotMA(diff_dba, method=args$method)
+        cat(paste("\nExport MA plot for conditions", args$condition1, "and", args$condition2, "to", filename, sep=" "))
+    },
+    error = function(e){ 
+        cat("\nFailed to export MA plot for tested conditions")
+    }
+)
 
 
 # Export Volcano plot for conditions
-filename <- paste(args$output, "_volcano.png", sep="")
-png(filename=filename, width=800, height=800)
-dba.plotVolcano(diff_dba, method=args$method)
-cat(paste("\nExport volcano plot for conditions", args$condition1, "and", args$condition2, "to", filename, sep=" "))
+tryCatch(
+    expr = {
+        filename <- paste(args$output, "_volcano.png", sep="")
+        png(filename=filename, width=800, height=800)
+        dba.plotVolcano(diff_dba, method=args$method)
+        cat(paste("\nExport volcano plot for conditions", args$condition1, "and", args$condition2, "to", filename, sep=" "))
+    },
+    error = function(e){ 
+        cat("\nFailed to export volcano plot for tested conditions")
+    }
+)
 
 
 # Export box plots of read distributions for significantly differentially bound (DB) sites
-filename <- paste(args$output, "_boxplot.png", sep="")
-png(filename=filename, width=800, height=800)
-dba.plotBox(diff_dba, method=args$method)
-cat(paste("\nExport box plots of read distributions for significantly differentially bound (DB) sites to", filename, sep=" "))
+tryCatch(
+    expr = {
+        filename <- paste(args$output, "_boxplot.png", sep="")
+        png(filename=filename, width=800, height=800)
+        dba.plotBox(diff_dba, method=args$method)
+        cat(paste("\nExport box plots of read distributions for significantly differentially bound (DB) sites to", filename, sep=" "))
+    },
+    error = function(e){ 
+        cat("\nFailed to export box plots of read distributions for significantly differentially bound (DB) sites")
+    }
+)
 
 
 diff_dba.DB <- dba.report(diff_dba, DataType=DBA_DATA_FRAME, method=args$method, bCalled=TRUE, bCounts=TRUE, th=args$cutoff, bUsePval=args$cparam)
