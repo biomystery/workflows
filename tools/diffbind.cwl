@@ -4,7 +4,7 @@ class: CommandLineTool
 
 requirements:
 - class: DockerRequirement
-  dockerPull: biowardrobe2/diffbind:v0.0.6
+  dockerPull: biowardrobe2/diffbind:v0.0.7
 
 
 inputs:
