@@ -2817,15 +2817,15 @@
   tool: ../workflows/heatmap.cwl
   output:
     heatmap_file_raw:
-      - class: File
-        location: default.tsv
+      class: File
+      location: default.tsv
 
 - job: ./heatmap-2.json
   tool: ../workflows/heatmap.cwl
   output:
     heatmap_file_raw:
-      - class: File
-        location: default.tsv
+      class: File
+      location: default.tsv
 
 # ========================================================
 # chipseq-se
