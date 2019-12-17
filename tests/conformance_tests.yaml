@@ -2816,21 +2816,16 @@
 - job: ./heatmap-1.json
   tool: ../workflows/heatmap.cwl
   output:
-    heatmap_file:
+    heatmap_file_raw:
       - class: File
-        location: chr4_100_mapped_reads.Aligned.out.json
-        size: 289146
+        location: default.tsv
 
 - job: ./heatmap-2.json
   tool: ../workflows/heatmap.cwl
   output:
-    heatmap_file:
+    heatmap_file_raw:
       - class: File
-        location: chr4_100_mapped_reads.Aligned.out.json
-        size: 289146
-      - class: File
-        location: copy_chr4_100_mapped_reads.Aligned.out.json
-        size: 289146
+        location: default.tsv
 
 # ========================================================
 # chipseq-se
