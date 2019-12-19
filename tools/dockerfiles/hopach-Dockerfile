@@ -2,15 +2,20 @@
 # Dockerfile
 #
 # Software:         hopach
-# Software Version: v0.0.6
+# Software Version: v0.0.7
 # Description:      Hierarchical Ordered Partitioning and Collapsing Hybrid (HOPACH)
 # Website:          https://www.bioconductor.org/packages/release/bioc/html/hopach.html
-# Provides:         hopach 2.44.0
+# Provides:         hopach 2.46.0
 # Base Image:       r-base:3.6.0
-# Build Cmd:        docker build --rm -t biowardrobe2/hopach:v0.0.6 -f hopach-Dockerfile .
-# Pull Cmd:         docker pull biowardrobe2/hopach:v0.0.6
-# Run Cmd:          docker run --rm -ti biowardrobe2/hopach:v0.0.6 /bin/bash
+# Build Cmd:        docker build --rm -t biowardrobe2/hopach:v0.0.7 -f hopach-Dockerfile .
+# Pull Cmd:         docker pull biowardrobe2/hopach:v0.0.7
+# Run Cmd:          docker run --rm -ti biowardrobe2/hopach:v0.0.7 /bin/bash
 #################################################################
+#
+# v0.0.7
+#   Add packages
+#   - ggplot2
+#   - reshape2
 #
 # v0.0.6
 #   Update hopach_order.R script.
@@ -60,7 +65,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 WORKDIR /tmp
 
-ENV VERSION_BIOCMANAGER 1.30.4
+ENV VERSION_BIOCMANAGER 1.30.10
 ENV URL_BIOCMANAGER "https://cran.r-project.org/src/contrib/BiocManager_${VERSION_BIOCMANAGER}.tar.gz"
 
 COPY ./scripts/install_from_source.R /tmp/install_from_source.R
@@ -76,6 +81,8 @@ RUN apt-get update && \
     R -e 'install.packages("gplots", repo = "https://cloud.r-project.org/")' && \
     R -e 'install.packages("RColorBrewer", repo = "https://cloud.r-project.org/")' && \
     R -e 'install.packages("pheatmap", repo = "https://cloud.r-project.org/")' && \
+    R -e 'install.packages("ggplot2", repo = "https://cloud.r-project.org/")' && \
+    R -e 'install.packages("reshape2", repo = "https://cloud.r-project.org/")' && \
     R -e "BiocManager::install(c('hopach'))" && \
 ### Installing hopach_order.R script
     chmod +x /usr/local/bin/hopach_order.R && \
