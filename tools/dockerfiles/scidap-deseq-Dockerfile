@@ -2,22 +2,28 @@
 # Dockerfile
 #
 # Software:         BioWardrobe DESeq/DESeq2 script
-# Software Version: v0.0.9
+# Software Version: v0.0.10
 # Description:      Dockerized version of DESeq/DESeq2 script from BioWardrobe
 # Website:          https://github.com/Barski-lab/workflows
 # Provides:         run_deseq.R
+#                   run_deseq_lrt.R
 #                   get_gene_n_tss.R 
-#                   BiocManager       1.30.4
+#                   BiocManager       1.30.10
 #                   BiocParallel      1.18.0
 #                   DESeq             1.36.0
 #                   DESeq2            1.24.0
 #                   argparse          latest
 #                   pheatmap          latest
 # Base Image:       r-base:3.6.0 
-# Build Cmd:        docker build --rm -t biowardrobe2/scidap-deseq:v0.0.9 -f scidap-deseq-Dockerfile .
-# Pull Cmd:         docker pull biowardrobe2/scidap-deseq:v0.0.9
-# Run Cmd:          docker run --rm -ti biowardrobe2/scidap-deseq:v0.0.9 /bin/bash
+# Build Cmd:        docker build --rm -t biowardrobe2/scidap-deseq:v0.0.10 -f scidap-deseq-Dockerfile .
+# Pull Cmd:         docker pull biowardrobe2/scidap-deseq:v0.0.10
+# Run Cmd:          docker run --rm -ti biowardrobe2/scidap-deseq:v0.0.10 /bin/bash
 #################################################################
+#
+# v0.0.10
+#
+# - add run_deseq_lrt.R (v0.0.1)
+#   * Run DeSeq2 for multi-factor analysis using LRT (likelihood ratio or chi-squared test)
 #
 # v0.0.9
 #
@@ -80,6 +86,7 @@ ENV URL_BIOCMANAGER "https://cran.r-project.org/src/contrib/BiocManager_${VERSIO
 
 COPY ./scripts/install_from_source.R /tmp/install_from_source.R
 COPY ./scripts/run_deseq.R /usr/local/bin/run_deseq.R
+COPY ./scripts/run_deseq_lrt.R /usr/local/bin/run_deseq_lrt.R
 COPY ./scripts/get_gene_n_tss.R /usr/local/bin/get_gene_n_tss.R
 
 ### Installing python3, pip3 and argparse
@@ -91,8 +98,9 @@ RUN apt-get update && \
     R -e "BiocManager::install(c('BiocParallel', 'DESeq', 'DESeq2'))" && \
     R -e 'install.packages("argparse", repo = "https://cloud.r-project.org/")' && \
     R -e 'install.packages("pheatmap", repo = "https://cloud.r-project.org/")' && \
-### Installing run_deseq.R and get_gene_n_tss.R scripts
+### Installing run_deseq.R, get_gene_n_tss.R and run_deseq_lrt.R scripts
     chmod +x /usr/local/bin/run_deseq.R && \
+    chmod +x /usr/local/bin/run_deseq_lrt.R && \
     chmod +x /usr/local/bin/get_gene_n_tss.R && \
 ### Cleaning
     apt-get clean && \
