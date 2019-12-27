@@ -5132,4 +5132,56 @@
       location: meme_chip_stdout.log
     summary_file:
       class: File
-      location: summary.tsv    
+      location: summary.tsv
+
+# ========================================================
+# deseq-lrt
+# ========================================================
+
+- job: ./deseq-lrt-1.json
+  tool: ../tools/deseq-lrt.cwl
+  output:
+    diff_expr_file:
+      class: File
+      location: deseq_table.tsv
+    ma_plot:
+      class: File
+      location: deseq_ma_plot.png
+    stdout_log:
+      class: File
+      location: deseq_stdout.log
+    stderr_log:
+      class: File
+      location: deseq_stderr.log
+
+- job: ./deseq-lrt-2.json
+  tool: ../tools/deseq-lrt.cwl
+  output:
+    diff_expr_file:
+      class: File
+      location: deseq_table.tsv
+    ma_plot:
+      class: File
+      location: deseq_ma_plot.png
+    stdout_log:
+      class: File
+      location: deseq_stdout.log
+    stderr_log:
+      class: File
+      location: deseq_stderr.log
+
+- job: ./deseq-lrt-3.json
+  tool: ../tools/deseq-lrt.cwl
+  output:
+    diff_expr_file:
+      class: File
+      location: results_table.tsv
+    ma_plot:
+      class: File
+      location: results_ma_plot.png
+    stdout_log:
+      class: File
+      location: deseq_stdout.log
+    stderr_log:
+      class: File
+      location: deseq_stderr.log
