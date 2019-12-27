@@ -163,10 +163,26 @@ expression_data_df <- load_expression_data(args$input, args$name, READ_COL, RPKM
 print("Expression data")
 print(head(expression_data_df))
 
-# Select all columns with read counts data
+# Select all columns with read counts data, reorder them based on the row names from metadata_df
 read_counts_columns = grep(paste(READ_COL, sep=""), colnames(expression_data_df), value = TRUE, ignore.case = TRUE)
 read_counts_data_df = expression_data_df[read_counts_columns]
 colnames(read_counts_data_df) <- lapply(colnames(read_counts_data_df), function(s){paste(head(unlist(strsplit(s," ",fixed=TRUE)),-1), collapse=" ")})
+print("Read counts data")
+print(head(read_counts_data_df))
+tryCatch(
+    expr = {
+        # Try reorder columns in read_counts_data_df based on metadata_df rownames
+        print("Reorder read count columns based on the row names from the provided metadata file")
+        read_counts_data_df = read_counts_data_df[,rownames(metadata_df)]
+        print(head(read_counts_data_df))
+    },
+    error = function(e){ 
+        print("Exiting: failed to reorder read count columns based on the row names from the provided metadata file")
+        print(paste("Count data columns -", paste(colnames(read_counts_data_df), collapse=" "), sep=" "))
+        print(paste("Metadata file rows -", paste(rownames(metadata_df), collapse=" "), sep=" "))
+        quit(save = "no", status = 1, runLast = FALSE)
+    }
+)
 
 print("Run DESeq2 using LRT")
 dse <- DESeqDataSetFromMatrix(countData=read_counts_data_df, colData=metadata_df, design=design_formula)
