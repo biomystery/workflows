@@ -7,8 +7,10 @@ suppressMessages(library(BiocParallel))
 suppressMessages(library(pheatmap))
 suppressMessages(library(DESeq2))
 
-##########################################################################################
+################################################################################################
 # v0.0.1
+#
+# Note: at least two biological replicates are required for every compared category.
 #
 # All input CSV/TSV files should have the following header (case-sensitive)
 # <RefseqId,GeneId,Chrom,TxStart,TxEnd,Strand,TotalReads,Rpkm>         - CSV
@@ -27,7 +29,26 @@ suppressMessages(library(DESeq2))
 #
 # Additionally we calculate -LOG10(pval) and -LOG10(padj)
 #
-##########################################################################################
+# Example of CSV metadata file set with --meta
+#
+# ,time,condition
+# DH1,day5,WT
+# DH2,day5,KO
+# DH3,day7,WT
+# DH4,day7,KO
+# DH5,day7,KO
+#
+# where time, condition, day5, day7, WT, KO should be a single words (without spaces)
+# and DH1, DH2, DH3, DH4, DH5 correspond to the --names (spaces are allowed)
+#
+# --contrast should be set based on your metadata file in a form of Factor Numerator Denominator
+# where Factor      - columns name from metadata file
+#       Numerator   - category from metadata file to be used as numerator in fold change calculation
+#       Denominator - category from metadata file to be used as denominator in fold change calculation
+# for example condition WT KO
+# if --contrast is set as a single string "condition WT KO" then is will be splitted by space
+#
+################################################################################################
 
 
 READ_COL <- "TotalReads"
@@ -69,8 +90,13 @@ assert_args <- function(args){
             quit(save = "no", status = 1, runLast = FALSE)
     }
     if ( length(args$contrast) != 3 ){
-            print("Exiting: --contrast should have exaclty three values")
-            quit(save = "no", status = 1, runLast = FALSE)
+            args$contrast = unlist(strsplit(args$contrast,"\\s+",fixed=FALSE))  # split by any number of spaces
+            print("Split --contrast by spaces")
+            print(args$contrast)
+            if ( length(args$contrast) != 3 ){
+                print("Exiting: --contrast should have exaclty three values")
+                quit(save = "no", status = 1, runLast = FALSE)
+            }
     }
     tryCatch(
         expr = {
@@ -98,14 +124,14 @@ assert_args <- function(args){
 
 get_args <- function(){
     parser <- ArgumentParser(description="Run DeSeq2 for multi-factor analysis using LRT (likelihood ratio or chi-squared test)")
-    parser$add_argument("-i", "--input",    help='Grouped by Gene/TSS/Isoform expression files, CSV/TSV',        type="character", required="True", nargs='+')
-    parser$add_argument("-n", "--name",     help='Unique names for input files, only letters and numbers',       type="character", required="True", nargs='+')
-    parser$add_argument("-m", "--meta",     help='Metadata file to describe relation between samples, where first column corresponds to --name, CSV/TSV', type="character", required="True")
-    parser$add_argument("-d", "--design",   help='Design formula. Should start with ~',                          type="character", required="True")
-    parser$add_argument("-r", "--reduced",  help='Reduced formula to compare against with the term(s) of interest removed. Should start with ~', type="character", required="True")
-    parser$add_argument("-c", "--contrast", help='Contrast to be saved in output. Factor Numerator Denominator', type="character", required="True", nargs='+')
-    parser$add_argument("-o", "--output",   help='Output files prefix',                                          type="character", default="./deseq")
-    parser$add_argument("-p", "--threads",  help='Threads number',                                               type="integer",   default=1)
+    parser$add_argument("-i", "--input",    help='Grouped by gene / TSS/ isoform expression files, formatted as CSV/TSV',                                                       type="character", required="True", nargs='+')
+    parser$add_argument("-n", "--name",     help='Unique names for input files, no special characters, spaces are allowed. Number and order corresponds to --input',            type="character", required="True", nargs='+')
+    parser$add_argument("-m", "--meta",     help='Metadata file to describe relation between samples, where first column corresponds to --name, formatted as CSV/TSV',          type="character", required="True")
+    parser$add_argument("-d", "--design",   help='Design formula. Should start with ~. See DeSeq2 manual for details',                                                          type="character", required="True")
+    parser$add_argument("-r", "--reduced",  help='Reduced formula to compare against with the term(s) of interest removed. Should start with ~. See DeSeq2 manual for details', type="character", required="True")
+    parser$add_argument("-c", "--contrast", help='Contrast to be be applied for output, formatted as Factor Numerator Denominator or "Factor Numerator Denominator"',           type="character", required="True", nargs='+')
+    parser$add_argument("-o", "--output",   help='Output prefix for generated files', type="character", default="./deseq")
+    parser$add_argument("-p", "--threads",  help='Threads number',                    type="integer",   default=1)
     args <- assert_args(parser$parse_args(commandArgs(trailingOnly = TRUE)))
     return (args)
 }
