@@ -24,6 +24,8 @@ suppressMessages(library(pheatmap))
 # if --method is "both" heatmap is built using expression_data_row. The column order is
 # taken from the expression_data_col.
 #
+# cdt, atr and gtr files are exported with GeneId as a row names
+#
 ##########################################################################################
 
 
@@ -121,7 +123,7 @@ cluster <- function(expression_data, logtransform, center, normalize, dist, outp
     labels_df = cbind(labels_df, "L" = outer(labels_df$label, 10^c((nchar(trunc(labels_df$label))[1]-1):0), function(a, b) a %/% b %% 10))
     labels_df = labels_df[, c(-1), drop = FALSE]
 
-    return( list(expression=expression_data, labels=labels_df) )
+    return( list(expression=expression_data, labels=labels_df, hopach_results=hopach_results, distance_matrix=distance_matrix) )
 
 }
 
@@ -274,5 +276,34 @@ pheatmap(heatmap_data,
         filename=heatmap_name)
 print(paste("Export heatmap to ", heatmap_name, sep=""))
 
+
+
+# Create and export file for Mapple Tree Viewer
+tree_name = paste(args$output, "_tree", sep="")
+tree_data <- data.matrix(expression_data)
+if (args$method == "both"){
+    hopach2tree(data=tree_data,
+                file=tree_name,
+                hopach.genes=cluster_row$hopach_results,
+                hopach.arrays=cluster_col$hopach_results,
+                dist.genes=cluster_row$distance_matrix,
+                dist.arrays=cluster_col$distance_matrix,
+                gene.names=input_data[filtered_rows, "GeneId"]
+                )
+} else if (args$method == "row"){
+    hopach2tree(data=tree_data,
+                file=tree_name,
+                hopach.genes=cluster_row$hopach_results,
+                dist.genes=cluster_row$distance_matrix,
+                gene.names=input_data[filtered_rows, "GeneId"]
+                )
+} else if (args$method == "column"){
+    hopach2tree(data=tree_data,
+                file=tree_name,
+                hopach.arrays=cluster_col$hopach_results,
+                dist.arrays=cluster_col$distance_matrix,
+                gene.names=input_data[filtered_rows, "GeneId"]
+                )
+}
 
 dev.off()
