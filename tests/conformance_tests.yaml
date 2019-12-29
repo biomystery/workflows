@@ -4077,6 +4077,13 @@
       class: File
       location: hopach_clustering.tsv
       size: 91339
+    clustering_matrix:
+      class: File
+      location: hopach_tree.cdt
+    clustering_row_dendogram:
+      class: File
+      location: hopach_tree.gtr
+    clustering_column_dendogram: null
     column_clustering_labels:
       class: File
       location: hopach_column_clustering_labels.tsv
@@ -4104,6 +4111,13 @@
       class: File
       location: results_clustering.tsv
       size: 42300
+    clustering_matrix:
+      class: File
+      location: results_tree.cdt
+    clustering_row_dendogram:
+      class: File
+      location: results_tree.gtr
+    clustering_column_dendogram: null
     column_clustering_labels:
       class: File
       location: results_column_clustering_labels.tsv
@@ -4131,6 +4145,13 @@
       class: File
       location: results_clustering.tsv
       size: 73297
+    clustering_matrix:
+      class: File
+      location: results_tree.cdt
+    clustering_row_dendogram:
+      class: File
+      location: results_tree.gtr
+    clustering_column_dendogram: null
     column_clustering_labels: null
     row_distance_matrix_png:
       class: File
@@ -4153,6 +4174,11 @@
       class: File
       location: hopach_clustering.tsv
       size: 61273
+    clustering_matrix:
+      class: File
+      location: hopach_tree.cdt
+    clustering_row_dendogram: null
+    clustering_column_dendogram: null
     column_clustering_labels:
       class: File
       location: hopach_column_clustering_labels.tsv
