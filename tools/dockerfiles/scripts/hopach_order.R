@@ -26,6 +26,10 @@ suppressMessages(library(pheatmap))
 #
 # cdt, atr and gtr files are exported with GeneId as a row names
 #
+# If --genelist file is provided, all input data will be filtered by GeneId columns.
+# Only genes from --genelist will be used in the analysis.
+# Gene list file should be either csv of tsv formatted with one gene per line. Headerless.
+#
 ##########################################################################################
 
 
@@ -39,7 +43,7 @@ get_file_type <- function (filename) {
 }
 
 
-load_data_set <- function(filenames, suffixes, target_colname, intersect_by) {
+load_data_set <- function(filenames, suffixes, target_colname, intersect_by, genelist) {
     selected_data <- NULL
     updated_colnames <- c()
     for (i in 1:length(filenames)) {
@@ -58,6 +62,12 @@ load_data_set <- function(filenames, suffixes, target_colname, intersect_by) {
                 selected_data <- merge(selected_data, raw_data, by=intersect_by, sort = FALSE)
             }
         }
+    }
+    print(paste("Total number of rows loaded", nrow(selected_data), sep=" "))
+    if (!is.null(genelist_data)){
+        print("Apply filter by gene name")
+        selected_data <- selected_data[selected_data[,"GeneId"] %in% genelist[,1],]
+        print(paste("Number of rows after filtering by gene name", nrow(selected_data), sep=" "))
     }
     return (selected_data[,c(intersect_by, updated_colnames)])
 }
@@ -135,6 +145,7 @@ parser$add_argument("--target",          help='Target column to be used by hopac
 parser$add_argument("--combine",         help='Combine inputs by columns names. Default: RefseqId, GeneId, Chrom, TxStart, TxEnd, Strand', type="character", nargs='+', default=c("RefseqId", "GeneId", "Chrom", "TxStart", "TxEnd", "Strand"))
 parser$add_argument("--method",          help='Cluster method. Default: both',                          type="character", choices=c("row","column","both"), default="both")
 parser$add_argument("--palette",         help='Palette color names. Default: red, black, green',        type="character", nargs='+', default=c("red", "black", "green"))
+parser$add_argument("--genelist",        help='Filter genes by the list from the file. Headerless, 1 gene per line', type="character")
 parser$add_argument("--output",          help='Output prefix. Default: hopach',                         type="character", default="./hopach")
 
 
@@ -168,15 +179,23 @@ if(is.null(args$name)){
     }
 }
 
+# Load gene list to filter inputs. Only genes from the gene list will be included in calculation
+genelist_data <- NULL
+if(!is.null(args$genelist)){
+    print(paste("Load gene list from the file", args$genelist, sep=" "))
+    genelist_data <- read.table(args$genelist, sep=get_file_type(args$genelist), header=FALSE, stringsAsFactors=FALSE)
+    print(paste("Clustering will be limited to", nrow(genelist_data), "genes", sep=" "))
+}
+
 
 # Load and combine input data
-input_data <- load_data_set(args$input, args$name, args$target, args$combine)
+input_data <- load_data_set(args$input, args$name, args$target, args$combine, genelist_data)
 expression_columns = c((length(args$combine)+1):ncol(input_data))
 
 # Get rows to be filtered out from input data
-print(paste("Apply filter to input data ", args$target, " >= ", args$rowmin, sep=""))
+print(paste("Apply filter by ", args$target, " >= ", args$rowmin, sep=""))
 filtered_rows <- rownames(input_data[!rowSums(input_data[,expression_columns] < args$rowmin),])
-print(paste("Number of rows after filtering ", length(filtered_rows), sep=""))
+print(paste("Number of rows after filtering by", args$target, length(filtered_rows), sep=" "))
 
 # Extract expression data
 print("Extract expression data")

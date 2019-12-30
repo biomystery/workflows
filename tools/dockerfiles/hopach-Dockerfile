@@ -2,15 +2,19 @@
 # Dockerfile
 #
 # Software:         hopach
-# Software Version: v0.0.8
+# Software Version: v0.0.9
 # Description:      Hierarchical Ordered Partitioning and Collapsing Hybrid (HOPACH)
 # Website:          https://www.bioconductor.org/packages/release/bioc/html/hopach.html
 # Provides:         hopach 2.46.0
 # Base Image:       r-base:3.6.0
-# Build Cmd:        docker build --rm -t biowardrobe2/hopach:v0.0.8 -f hopach-Dockerfile .
-# Pull Cmd:         docker pull biowardrobe2/hopach:v0.0.8
-# Run Cmd:          docker run --rm -ti biowardrobe2/hopach:v0.0.8 /bin/bash
+# Build Cmd:        docker build --rm -t biowardrobe2/hopach:v0.0.9 -f hopach-Dockerfile .
+# Pull Cmd:         docker pull biowardrobe2/hopach:v0.0.9
+# Run Cmd:          docker run --rm -ti biowardrobe2/hopach:v0.0.9 /bin/bash
 #################################################################
+#
+# v0.0.9
+#   Update hopach_order.R script.
+#   - supports optional filtering by gene name
 #
 # v0.0.8
 #   Update hopach_order.R script.
