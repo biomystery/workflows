@@ -4076,7 +4076,6 @@
     clustering_results:
       class: File
       location: hopach_clustering.tsv
-      size: 91339
     clustering_matrix:
       class: File
       location: hopach_tree.cdt
@@ -4087,7 +4086,6 @@
     column_clustering_labels:
       class: File
       location: hopach_column_clustering_labels.tsv
-      size: 58
     row_distance_matrix_png:
       class: File
       location: hopach_row_dist_matrix.png
