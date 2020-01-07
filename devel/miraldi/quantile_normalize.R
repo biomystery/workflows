@@ -100,7 +100,7 @@ get_args <- function(){
 args <- get_args()
 
 # Set default output for generated plots
-png(filename=paste(args$prefix, "plot_%03d.png", sep=""))
+png(filename=paste(args$prefix, "plot", args$suffix, "_%03d.png", sep=""))
 
 # Load coverage data from bigwigs
 print(paste("Load data from", length(args$input), "bigwig(s) for quantile normalization",sep=" "))
