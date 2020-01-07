@@ -62,9 +62,9 @@ build_plots <- function(score_data, colors, reference_score_data){
     legend("topleft", legend=legend_names, col=legend_colors, lwd=3)
     
     if (!is.null(reference_score_data)){
-        boxplot(cbind(score_data, reference_score_data), main="Distribution boxplot", names=legend_names)
+        boxplot(cbind(score_data, reference_score_data), main="Distribution boxplot", names=legend_names, outline=FALSE)
     } else {
-        boxplot(score_data, main="Distribution boxplot", names=legend_names)
+        boxplot(score_data, main="Distribution boxplot", names=legend_names, outline=FALSE)
     }
     
 
