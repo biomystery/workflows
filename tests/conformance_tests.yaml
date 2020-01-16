@@ -4032,6 +4032,9 @@
     log_file:
       class: File
       location: chr4_100_mapped_reads.Aligned.out.log
+    ext_is_section:
+      class: File
+      location: is_section.tsv
     average_length: 37
     raw_total_sequences: 188
     reads_mapped: 188
@@ -4042,6 +4045,9 @@
     log_file:
       class: File
       location: statistics.log
+    ext_is_section:
+      class: File
+      location: is_section.tsv
     average_length: 37
     raw_total_sequences: 188
     reads_mapped: 188
