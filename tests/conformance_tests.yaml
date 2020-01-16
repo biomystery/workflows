@@ -4445,6 +4445,32 @@
       class: File
       location: pca_stderr.log
 
+- job: ./pca-2.json
+  tool: ../tools/pca.cwl
+  output:
+    pca1_vs_pca2_plot:
+      class: File
+      location: dummy_001.png
+    pca2_vs_pca3_plot:
+      class: File
+      location: dummy_002.png
+    variance_plot:
+      class: File
+      location: dummy_003.png
+    pca_3d_plot:
+      class: File
+      location: dummy_004.png
+    pca_file:
+      class: File
+      location: dummy_pca.tsv
+      size: 730
+    stdout_log:
+      class: File
+      location: pca_stdout.log
+    stderr_log:
+      class: File
+      location: pca_stderr.log
+
 # ========================================================
 # clip-toolkit-tag2peak
 # ========================================================

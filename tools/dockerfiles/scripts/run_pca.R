@@ -29,7 +29,7 @@ get_file_type <- function (filename) {
 }
 
 
-load_data_set <- function(filenames, prefixes, target_colname, intersect_by) {
+load_data_set <- function(filenames, prefixes, target_colname, intersect_by, genelist_data) {
     selected_data <- NULL
     for (i in 1:length(filenames)) {
         raw_data <- read.table(filenames[i], sep=get_file_type(filenames[i]), header=TRUE, stringsAsFactors=FALSE)
@@ -45,6 +45,11 @@ load_data_set <- function(filenames, prefixes, target_colname, intersect_by) {
             }
         }
     }
+    if (!is.null(genelist_data)){
+        print("Apply filter by gene name")
+        selected_data <- selected_data[selected_data[,"GeneId"] %in% genelist_data[,1],]
+        print(paste("Number of rows after filtering by gene name", nrow(selected_data), sep=" "))
+    }
     return (selected_data[,prefixes])
 }
 
@@ -55,6 +60,7 @@ parser$add_argument("-i", "--input",     help='Input CSV/TSV files',            
 parser$add_argument("-n", "--name",      help='Input aliases, the order corresponds to --input order. Default: basename of --input files', type="character", nargs='+')
 parser$add_argument("-t", "--target",    help='Target column name to be used by PCA',  type="character", default="Rpkm")
 parser$add_argument("-c", "--combine",   help='Combine inputs by columns names. Default: RefseqId, GeneId, Chrom, TxStart, TxEnd, Strand', type="character", nargs='+', default=c("RefseqId", "GeneId", "Chrom", "TxStart", "TxEnd", "Strand"))
+parser$add_argument("-g", "--genelist",  help='Filter genes by the list from the file. Headerless, 1 gene per line', type="character")
 parser$add_argument("-o", "--output",    help='Output prefix. Default: pca_',          type="character", default="./pca_")
 args <- parser$parse_args(commandArgs(trailingOnly = TRUE))
 
@@ -66,7 +72,15 @@ if(is.null(args$name)){
 }
 
 png(filename=paste(args$output, "%03d.png", sep=""), width=800, height=800)
-target_data <- load_data_set(args$input, args$name, args$target, args$combine)
+
+genelist_data <- NULL
+if(!is.null(args$genelist)){
+    print(paste("Load gene list from the file", args$genelist, sep=" "))
+    genelist_data <- read.table(args$genelist, sep=get_file_type(args$genelist), header=FALSE, stringsAsFactors=FALSE)
+    print(paste("PCA will be limited to", nrow(genelist_data), "genes", sep=" "))
+}
+
+target_data <- load_data_set(args$input, args$name, args$target, args$combine, genelist_data)
 filtered_target_data <- target_data[rowSums(target_data) != 0,]
 
 icolor <- colorRampPalette(c("red", "black", "green", "yellow", "blue", "pink", "brown"))(length(colnames(filtered_target_data)))
