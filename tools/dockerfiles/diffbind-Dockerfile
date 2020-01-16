@@ -71,7 +71,7 @@ RUN apt-get update && \
     Rscript /tmp/install_from_source.R "${URL_BIOCMANAGER}" && \
     R -e 'install.packages("argparse", repo = "https://cloud.r-project.org/")' && \
     R -e "BiocManager::install(c('DiffBind'))" && \
-### Installing hopach_order.R script
+### Installing run_diffbind.R script
     chmod +x /usr/local/bin/run_diffbind.R && \
 ### Cleaning
     apt-get clean && \

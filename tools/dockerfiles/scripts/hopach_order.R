@@ -64,7 +64,7 @@ load_data_set <- function(filenames, suffixes, target_colname, intersect_by, gen
         }
     }
     print(paste("Total number of rows loaded", nrow(selected_data), sep=" "))
-    if (!is.null(genelist_data)){
+    if (!is.null(genelist)){
         print("Apply filter by gene name")
         selected_data <- selected_data[selected_data[,"GeneId"] %in% genelist[,1],]
         print(paste("Number of rows after filtering by gene name", nrow(selected_data), sep=" "))
