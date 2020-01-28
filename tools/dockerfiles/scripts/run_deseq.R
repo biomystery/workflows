@@ -149,13 +149,15 @@ print(paste("Number of rows common for all input files ", nrow(collected_isoform
 print(head(collected_isoforms))
 print("DESeq categories")
 print(column_data)
-
+print("DESeq count data")
+countData = collected_isoforms[read_count_cols]
+print(head(countData))
 
 # Run DESeq or DESeq2
 if (length(args$treated) > 1 && length(args$untreated) > 1){
     print("Run DESeq2")
     suppressMessages(library(DESeq2))
-    dse <- DESeqDataSetFromMatrix(countData=collected_isoforms[read_count_cols], colData=column_data, design=~conditions)
+    dse <- DESeqDataSetFromMatrix(countData=countData, colData=column_data, design=~conditions)
     dsq <- DESeq(dse)
     normCounts <- counts(dsq, normalized=TRUE)
     res <- results(dsq, contrast=c("conditions", args$tname, args$uname))
@@ -170,7 +172,7 @@ if (length(args$treated) > 1 && length(args$untreated) > 1){
 } else {
     print("Run DESeq")
     suppressMessages(library(DESeq))
-    cds <- newCountDataSet(collected_isoforms[read_count_cols], conditions)
+    cds <- newCountDataSet(countData, column_data[,"conditions"])
     cdsF <- estimateSizeFactors(cds)
     cdsD <- estimateDispersions(cdsF, method="blind", sharingMode="fit-only", fitType="local")
     normCounts <- counts(cdsD, normalized=TRUE)
