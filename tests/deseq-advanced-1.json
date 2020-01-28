@@ -27,5 +27,7 @@
       "location": "./data/dm3_chr4/main_inputs/geep/t3_1000.isoforms.csv"
     }
   ],
-  "output_filename": "deseq_results.tsv"
+  "output_prefix": "custom",
+  "untreated_sample_names": ["uu1", "uu2", "uu3"],
+  "treated_sample_names": ["tt1", "tt2", "tt3"]
 }

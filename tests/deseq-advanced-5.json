@@ -26,6 +26,5 @@
       "class": "File",
       "location": "./data/dm3_chr4/generated_inputs/group_isoforms/t3_1000.genes.tsv"
     }
-  ],
-  "output_filename": "deseq_genes.tsv"
+  ]
 }

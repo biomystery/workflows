@@ -15,6 +15,5 @@
       "location": "./data/dm3_chr4/main_inputs/geep/t1_1000.isoforms.csv"
     }
   ],
-  "untreated_name": "_WT",
-  "output_filename": "deseq_results.tsv"
+  "untreated_name": "WT"
 }
