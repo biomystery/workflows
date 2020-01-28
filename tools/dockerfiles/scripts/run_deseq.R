@@ -1,6 +1,6 @@
 #!/usr/bin/env Rscript
 options(warn=-1)
-options("width"=200)
+options("width"=300)
 
 
 suppressMessages(library(argparse))
@@ -8,7 +8,7 @@ suppressMessages(library(BiocParallel))
 suppressMessages(library(pheatmap))
 
 ##########################################################################################
-# v0.0.6
+# v0.0.7
 #
 # All input CSV/TSV files should have the following header (case-sensitive)
 # <RefseqId,GeneId,Chrom,TxStart,TxEnd,Strand,TotalReads,Rpkm>         - CSV
@@ -31,6 +31,9 @@ suppressMessages(library(pheatmap))
 #
 # Use -un and -tn to set custom names for treated and untreated conditions
 #
+# Use -ua and -ta to set aliases for input expression files. Should be unique
+# Export GCT file to be used by GSEA
+#
 ##########################################################################################
 
 
@@ -48,52 +51,104 @@ get_file_type <- function (filename) {
     return (separator)
 }
 
-load_isoform_set <- function(filenames, prefix, read_colname, rpkm_colname, gname_suffix, intersect_by, collected_isoforms=NULL) {
+
+load_isoform_set <- function(filenames, prefixes, read_colname, rpkm_colname, conditions, intersect_by, collected_data=NULL) {
     for (i in 1:length(filenames)) {
         isoforms <- read.table(filenames[i], sep=get_file_type(filenames[i]), header=TRUE, stringsAsFactors=FALSE)
-        print(paste("Load ", nrow(isoforms), " rows from ", filenames[i], sep=""))
-        colnames(isoforms)[colnames(isoforms) == read_colname] <- paste(prefix, i, read_colname, sep=" ")
-        colnames(isoforms)[colnames(isoforms) == rpkm_colname] <- paste(prefix, i, rpkm_colname, sep=" ")
-        if (is.null(collected_isoforms)){
-            collected_isoforms <- isoforms
+        new_read_colname = paste(prefixes[i], " [", conditions, "]", sep="")
+        print(paste("Load", nrow(isoforms), "rows from", filenames[i], "as", new_read_colname, sep=" "))
+        colnames(isoforms)[colnames(isoforms) == read_colname] <- new_read_colname
+        colnames(isoforms)[colnames(isoforms) == rpkm_colname] <- paste(conditions, i, rpkm_colname, sep=" ")
+        if (is.null(collected_data)){
+            collected_data = list(collected_isoforms=isoforms, read_colnames=c(new_read_colname), column_data=data.frame(conditions, row.names=c(new_read_colname)))
         } else {
-            collected_isoforms <- merge(collected_isoforms, isoforms, by=intersect_by, sort = FALSE)
+            collected_data$collected_isoforms <- merge(collected_data$collected_isoforms, isoforms, by=intersect_by, sort = FALSE)
+            collected_data$read_colnames = c(collected_data$read_colnames, new_read_colname)
+            collected_data$column_data <- rbind(collected_data$column_data, data.frame(conditions, row.names=c(new_read_colname)))
         }
     }
-    rpkm_columns = grep(paste("^", prefix, " [0-9]+ ", rpkm_colname, sep=""), colnames(collected_isoforms), value = TRUE, ignore.case = TRUE)
-    collected_isoforms[paste(rpkm_colname, gname_suffix, sep=" ")] = rowSums(collected_isoforms[, rpkm_columns, drop = FALSE]) / length(filenames)
-    collected_isoforms <- collected_isoforms[, !colnames(collected_isoforms) %in% rpkm_columns]
-    return (collected_isoforms)
+    rpkm_columns = grep(paste("^", conditions, " [0-9]+ ", rpkm_colname, sep=""), colnames(collected_data$collected_isoforms), value = TRUE, ignore.case = TRUE)
+    collected_data$collected_isoforms[paste(rpkm_colname, " [", conditions, "]", sep="")] = rowSums(collected_data$collected_isoforms[, rpkm_columns, drop = FALSE]) / length(filenames)
+    collected_data$collected_isoforms <- collected_data$collected_isoforms[, !colnames(collected_data$collected_isoforms) %in% rpkm_columns]
+    return( collected_data )
 }
 
 
-# Parser
-parser <- ArgumentParser(description='Run BioWardrobe DESeq/DESeq2 for untreated-vs-treated groups')
-parser$add_argument("-u", "--untreated", help='Untreated CSV/TSV isoforms expression files',    type="character", required="True", nargs='+')
-parser$add_argument("-t", "--treated",   help='Treated CSV/TSV isoforms expression files',      type="character", required="True", nargs='+')
-parser$add_argument("-un","--uname",     help='Name for untreated condition, use only letters and numbers', type="character", default="untreated")
-parser$add_argument("-tn","--tname",     help='Name for treated condition, use only letters and numbers',   type="character", default="treated")
-parser$add_argument("-o", "--output",    help='Output TSV filename',    type="character", default="./deseq_results.tsv")
-parser$add_argument("-p", "--threads",   help='Threads',            type="integer",   default=1)
-args <- parser$parse_args(commandArgs(trailingOnly = TRUE))
+write.gct <- function(gct, filename) {
+	rows <- dim(gct$data)[1]
+	columns <- dim(gct$data)[2]
+	rowDescriptions <- gct$rowDescriptions
+	m <- cbind(row.names(gct$data), rowDescriptions, gct$data)
+	f <- file(filename, "w")
+	on.exit(close(f))
+	cat("#1.2", "\n", file=f, append=TRUE, sep="")
+	cat(rows, "\t", columns, "\n", file=f, append=TRUE, sep="")
+	cat("Name", "\t", file=f, append=TRUE, sep="")
+	cat("Description", file=f, append=TRUE, sep="")
+	names <- colnames(gct$data)
+	for(j in 1:length(names)) {
+		cat("\t", names[j], file=f, append=TRUE, sep="")
+	}
+	cat("\n", file=f, append=TRUE, sep="")
+	write.table(m, file=f, append=TRUE, quote=FALSE, sep="\t", eol="\n", col.names=FALSE, row.names=FALSE)
+}
+
+
+assert_args <- function(args){
+    print("Check input parameters")
+    if (is.null(args$ualias) | is.null(args$talias)){
+        print("--ualias or --talias were not set, use default values based on the expression file names")
+        for (i in 1:length(args$untreated)) {
+            args$ualias = append(args$ualias, head(unlist(strsplit(basename(args$untreated[i]), ".", fixed = TRUE)), 1))
+        }
+        for (i in 1:length(args$treated)) {
+            args$talias = append(args$talias, head(unlist(strsplit(basename(args$treated[i]), ".", fixed = TRUE)), 1))
+        }
+    } else {
+        if ( (length(args$ualias) != length(args$untreated)) | (length(args$talias) != length(args$treated)) ){
+            cat("\nNot correct number of inputs provided as -u, -t, -ua, -ut")
+            quit(save = "no", status = 1, runLast = FALSE)
+        }
+    }
+    return (args)
+}
+
+
+get_args <- function(){
+    parser <- ArgumentParser(description='Run BioWardrobe DESeq/DESeq2 for untreated-vs-treated groups')
+    parser$add_argument("-u",  "--untreated", help='Untreated CSV/TSV isoforms expression files',    type="character", required="True", nargs='+')
+    parser$add_argument("-t",  "--treated",   help='Treated CSV/TSV isoforms expression files',      type="character", required="True", nargs='+')
+    parser$add_argument("-ua", "--ualias",    help='Unique aliases for untreated expression files. Default: basenames of -u without extensions', type="character", nargs='*')
+    parser$add_argument("-ta", "--talias",    help='Unique aliases for treated expression files. Default: basenames of -t without extensions',   type="character", nargs='*')
+    parser$add_argument("-un", "--uname",     help='Name for untreated condition, use only letters and numbers', type="character", default="untreated")
+    parser$add_argument("-tn", "--tname",     help='Name for treated condition, use only letters and numbers',   type="character", default="treated")
+    parser$add_argument("-o",  "--output",    help='Output prefix. Default: deseq',    type="character", default="./deseq")
+    parser$add_argument("-p",  "--threads",   help='Threads',            type="integer",   default=1)
+    args <- assert_args(parser$parse_args(commandArgs(trailingOnly = TRUE)))
+    return (args)
+}
+
+
+args <- get_args()
 
 
 # Set threads
 register(MulticoreParam(args$threads))
 
+
 # Set graphics output
-output_nameroot = head(unlist(strsplit(basename(args$output), ".", fixed = TRUE)), 1)
-png(filename=paste(output_nameroot, "_%03d.png", sep=""))
-
-# Define conditions for DESeq
-conditions <- c(rep(args$uname, length(args$untreated)), rep(args$tname, length(args$treated)))
-column_data <- data.frame(conditions, row.names=c(paste(args$uname, 1:length(args$untreated), READ_COL, sep=" "), paste(args$tname, 1:length(args$treated), READ_COL, sep=" ")))
+png(filename=paste(args$output, "_plot_%03d.png", sep=""))
 
 
-# Load isoforms/genes/tss files. Select columns with read data
-collected_isoforms <- load_isoform_set(args$treated, args$tname, READ_COL, RPKM_COL, args$tname, INTERSECT_BY, load_isoform_set(args$untreated, args$uname, READ_COL, RPKM_COL, args$uname, INTERSECT_BY))
-read_count_cols = grep(paste("^", args$uname, " [0-9]+ ", READ_COL, "|^", args$tname, " [0-9]+ ", READ_COL, sep=""), colnames(collected_isoforms), value = TRUE, ignore.case = TRUE)
+# Load isoforms/genes/tss files
+raw_data <- load_isoform_set(args$treated, args$talias, READ_COL, RPKM_COL, args$tname, INTERSECT_BY, load_isoform_set(args$untreated, args$ualias, READ_COL, RPKM_COL, args$uname, INTERSECT_BY))
+collected_isoforms <- raw_data$collected_isoforms
+read_count_cols = raw_data$read_colnames
+column_data = raw_data$column_data
 print(paste("Number of rows common for all input files ", nrow(collected_isoforms), sep=""))
+print(head(collected_isoforms))
+print("DESeq categories")
+print(column_data)
 
 
 # Run DESeq or DESeq2
@@ -102,6 +157,7 @@ if (length(args$treated) > 1 && length(args$untreated) > 1){
     suppressMessages(library(DESeq2))
     dse <- DESeqDataSetFromMatrix(countData=collected_isoforms[read_count_cols], colData=column_data, design=~conditions)
     dsq <- DESeq(dse)
+    normCounts <- counts(dsq, normalized=TRUE)
     res <- results(dsq, contrast=c("conditions", args$tname, args$uname))
 
     plotMA(res)
@@ -117,6 +173,7 @@ if (length(args$treated) > 1 && length(args$untreated) > 1){
     cds <- newCountDataSet(collected_isoforms[read_count_cols], conditions)
     cdsF <- estimateSizeFactors(cds)
     cdsD <- estimateDispersions(cdsF, method="blind", sharingMode="fit-only", fitType="local")
+    normCounts <- counts(cdsD, normalized=TRUE)
     res <- nbinomTest(cdsD, args$uname, args$tname)
     infLFC <- is.infinite(res$log2FoldChange)
     res$log2FoldChange[infLFC] <- log2((res$baseMeanB[infLFC]+0.1)/(res$baseMeanA[infLFC]+0.1))
@@ -130,6 +187,11 @@ if (length(args$treated) > 1 && length(args$untreated) > 1){
     DESeqRes <- res[,c(6,7,8)]
 }
 
+
+# Normalized counts table for GCT export
+normCountsGct <- list(rowDescriptions=c(rep("n/a", times=length(row.names(normCounts)))), data=as.matrix(normCounts))
+
+
 # Expression data heatmap of the 30 most highly expressed genes
 pheatmap(mat=mat,
          annotation_col=column_data,
@@ -137,21 +199,32 @@ pheatmap(mat=mat,
          show_rownames=TRUE,
          cluster_cols=FALSE)
 
+
 # Filter DESeq/DESeq2 output
 DESeqRes$log2FoldChange[is.na(DESeqRes$log2FoldChange)] <- 0;
 DESeqRes[is.na(DESeqRes)] <- 1;
 
 
-# Export results to file
+# Add metadata columns to the DESeq results
 collected_isoforms <- data.frame(cbind(collected_isoforms[, !colnames(collected_isoforms) %in% read_count_cols], DESeqRes), check.names=F, check.rows=F)
 collected_isoforms[,"-LOG10(pval)"] <- -log(as.numeric(collected_isoforms$pval), 10)
 collected_isoforms[,"-LOG10(padj)"] <- -log(as.numeric(collected_isoforms$padj), 10)
 
+
+# Export DESeq results to file
+collected_isoforms_filename <- paste(args$output, "_report.tsv", sep="")
 write.table(collected_isoforms,
-            file=args$output,
+            file=collected_isoforms_filename,
             sep="\t",
             row.names=FALSE,
             col.names=TRUE,
             quote=FALSE)
-print(paste("Export results to ", args$output, sep=""))
+print(paste("Export DESeq report to ", collected_isoforms_filename, sep=""))
+
+
+# Export DESeq normalized counts to GSEA compatible file
+gct_filename <- paste(args$output, "_counts.gct", sep="")
+write.gct(normCountsGct, file=gct_filename)
+print(paste("Export normalized counts to ", gct_filename, sep=""))
+
 graphics.off()
