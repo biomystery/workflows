@@ -222,7 +222,7 @@ normCountsGct <- list(rowDescriptions=c(rep("n/a", times=length(row.names(normCo
 
 
 # Create phenotype table for CLS export
-phenotype_data <- column_data[colnames(normCounts), "conditions"]
+phenotype_data <- as.factor(gsub("\\s|\\t", "_", column_data[colnames(normCounts), "conditions"]))
 
 
 # Expression data heatmap of the 30 most highly expressed genes
