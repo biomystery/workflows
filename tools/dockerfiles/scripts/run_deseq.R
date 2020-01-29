@@ -32,7 +32,7 @@ suppressMessages(library(pheatmap))
 # Use -un and -tn to set custom names for treated and untreated conditions
 #
 # Use -ua and -ta to set aliases for input expression files. Should be unique
-# Exports GCT and CLS files to be used by GSEA
+# Exports GCT and CLS files to be used by GSEA. GCT files is always with uppercase GeneId
 # 
 ##########################################################################################
 
@@ -187,6 +187,7 @@ if (length(args$treated) > 1 && length(args$untreated) > 1){
     dse <- DESeqDataSetFromMatrix(countData=countData, colData=column_data, design=~conditions)
     dsq <- DESeq(dse)
     normCounts <- counts(dsq, normalized=TRUE)
+    rownames(normCounts) <- toupper(collected_isoforms[,c("GeneId")])
     res <- results(dsq, contrast=c("conditions", args$tname, args$uname))
 
     plotMA(res)
@@ -203,6 +204,7 @@ if (length(args$treated) > 1 && length(args$untreated) > 1){
     cdsF <- estimateSizeFactors(cds)
     cdsD <- estimateDispersions(cdsF, method="blind", sharingMode="fit-only", fitType="local")
     normCounts <- counts(cdsD, normalized=TRUE)
+    rownames(normCounts) <- toupper(collected_isoforms[,c("GeneId")])
     res <- nbinomTest(cdsD, args$uname, args$tname)
     infLFC <- is.infinite(res$log2FoldChange)
     res$log2FoldChange[infLFC] <- log2((res$baseMeanB[infLFC]+0.1)/(res$baseMeanA[infLFC]+0.1))
