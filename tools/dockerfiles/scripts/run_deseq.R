@@ -8,7 +8,7 @@ suppressMessages(library(BiocParallel))
 suppressMessages(library(pheatmap))
 
 ##########################################################################################
-# v0.0.7
+# v0.0.8
 #
 # All input CSV/TSV files should have the following header (case-sensitive)
 # <RefseqId,GeneId,Chrom,TxStart,TxEnd,Strand,TotalReads,Rpkm>         - CSV
@@ -32,8 +32,8 @@ suppressMessages(library(pheatmap))
 # Use -un and -tn to set custom names for treated and untreated conditions
 #
 # Use -ua and -ta to set aliases for input expression files. Should be unique
-# Export GCT file to be used by GSEA
-#
+# Exports GCT and CLS files to be used by GSEA
+# 
 ##########################################################################################
 
 
@@ -91,6 +91,33 @@ write.gct <- function(gct, filename) {
 	}
 	cat("\n", file=f, append=TRUE, sep="")
 	write.table(m, file=f, append=TRUE, quote=FALSE, sep="\t", eol="\n", col.names=FALSE, row.names=FALSE)
+}
+
+
+write.cls <- function(factor, filename) {
+	file <- file(filename, "w")
+	on.exit(close(file))
+ 	codes <- unclass(factor)
+	cat(file=file, length(codes), length(levels(factor)), "1\n")
+	levels <- levels(factor)
+	cat(file=file, "# ")
+	num.levels <- length(levels)
+    if(num.levels-1 != 0) {
+	    for(i in 1:(num.levels-1)) {
+		    cat(file=file, levels[i])
+		    cat(file=file, " ")
+	    }
+	}
+	cat(file=file, levels[num.levels])
+	cat(file=file, "\n")
+	num.samples <- length(codes)
+	if(num.samples-1 != 0) {
+	    for(i in 1:(num.samples-1)) {
+		    cat(file=file, codes[i]-1)
+		    cat(file=file, " ")
+	    }
+	}
+	cat(file=file, codes[num.samples]-1)
 }
 
 
@@ -194,6 +221,10 @@ if (length(args$treated) > 1 && length(args$untreated) > 1){
 normCountsGct <- list(rowDescriptions=c(rep("n/a", times=length(row.names(normCounts)))), data=as.matrix(normCounts))
 
 
+# Create phenotype table for CLS export
+phenotype_data <- column_data[colnames(normCounts), "conditions"]
+
+
 # Expression data heatmap of the 30 most highly expressed genes
 pheatmap(mat=mat,
          annotation_col=column_data,
@@ -228,5 +259,12 @@ print(paste("Export DESeq report to ", collected_isoforms_filename, sep=""))
 gct_filename <- paste(args$output, "_counts.gct", sep="")
 write.gct(normCountsGct, file=gct_filename)
 print(paste("Export normalized counts to ", gct_filename, sep=""))
+
+
+# Export phenotype data to GSEA compatible file
+cls_filename <- paste(args$output, "_phenotypes.cls", sep="")
+write.cls(phenotype_data, file=cls_filename)
+print(paste("Export phenotype data to ", cls_filename, sep=""))
+
 
 graphics.off()
