@@ -4535,7 +4535,6 @@
     pca_file:
       class: File
       location: dummy_pca.tsv
-      size: 730
     stdout_log:
       class: File
       location: pca_stdout.log
