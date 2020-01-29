@@ -2484,6 +2484,9 @@
     read_counts_file:
       class: File
       location: custom_counts.gct
+    phenotypes_file:
+      class: File
+      location: custom_phenotypes.cls
     plot_lfc_vs_mean:
       class: File
       location: custom_plot_001.png
@@ -2506,6 +2509,9 @@
     read_counts_file:
       class: File
       location: deseq_counts.gct
+    phenotypes_file:
+      class: File
+      location: deseq_phenotypes.cls
     plot_lfc_vs_mean:
       class: File
       location: deseq_plot_001.png
@@ -2528,6 +2534,9 @@
     read_counts_file:
       class: File
       location: deseq_counts.gct
+    phenotypes_file:
+      class: File
+      location: deseq_phenotypes.cls
     plot_lfc_vs_mean:
       class: File
       location: deseq_plot_001.png
@@ -2550,6 +2559,9 @@
     read_counts_file:
       class: File
       location: deseq_counts.gct
+    phenotypes_file:
+      class: File
+      location: deseq_phenotypes.cls
     plot_lfc_vs_mean:
       class: File
       location: deseq_plot_001.png
@@ -2572,6 +2584,9 @@
     read_counts_file:
       class: File
       location: deseq_counts.gct
+    phenotypes_file:
+      class: File
+      location: deseq_phenotypes.cls
     plot_lfc_vs_mean:
       class: File
       location: deseq_plot_001.png
@@ -2594,6 +2609,9 @@
     read_counts_file:
       class: File
       location: deseq_counts.gct
+    phenotypes_file:
+      class: File
+      location: deseq_phenotypes.cls
     plot_lfc_vs_mean:
       class: File
       location: deseq_plot_001.png
