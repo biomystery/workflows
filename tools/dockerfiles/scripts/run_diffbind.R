@@ -342,7 +342,7 @@ diff_dba <- dba.count(diff_dba, fragmentSize=args$fragmentsize, bRemoveDuplicate
 
 
 # Export raw counts correlation heatmap
-export_raw_counts_correlation_heatmap(diff_dba, paste(args$output, "_counts_correlation_heatmap.png", sep=""), args$padding)
+export_raw_counts_correlation_heatmap(diff_dba, paste(args$output, "_raw_counts_correlation_heatmap.png", sep=""), args$padding)
 
 
 # Export consensus peak venn diagram
@@ -474,7 +474,7 @@ export_ma_plot(diff_dba,
                args$cutoff,
                args$cparam)
 export_ma_plot(diff_dba,
-               paste(args$output, "_filtered_ma_edger_block.png", sep=""),
+               paste(args$output, "_filtered_ma_plot_edger_block.png", sep=""),
                DBA_EDGER_BLOCK,
                args$cutoff,
                args$cparam)
