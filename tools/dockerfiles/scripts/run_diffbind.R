@@ -8,6 +8,9 @@ suppressMessages(library(DiffBind))
 
 ##########################################################################################
 #
+# v0.0.8
+# - supports blocking analyses for DESeq2 and EdgeR
+#
 # v0.0.7
 # - add tryCatch to all optional outputs
 #
@@ -76,6 +79,8 @@ assert_args <- function(args){
         args$method <- DBA_DESEQ2
     } else if (args$method == "edger") {
         args$method <- DBA_EDGER
+    } else if (args$method == "all") {
+        args$method <- DBA_ALL_METHODS_BLOCK
     }
 
     if (args$cparam == "fdr"){
@@ -84,34 +89,207 @@ assert_args <- function(args){
         args$cparam <- TRUE
     }
 
+    if (is.null(args$block)){
+        args$block = rep(FALSE,length(args$read1)+length(args$read2))
+    } else {
+        blocked_attributes = as.logical(args$block)
+        if (is.na(blocked_attributes) | length(blocked_attributes) != length(args$read1)+length(args$read2) ){
+            args$block = is.element(c(args$name1, args$name2), args$block)
+        } else {
+            args$block = blocked_attributes
+        }
+    }
+
     return (args)
+}
+
+
+export_raw_counts_correlation_heatmap <- function(dba_data, filename, padding, width=800, height=800){
+    tryCatch(
+        expr = {
+            png(filename=filename, width=width, height=height)
+            dba.plotHeatmap(dba_data, margin=padding)
+            cat(paste("\nExport raw counts correlation heatmap to", filename, sep=" "))
+        },
+        error = function(e){ 
+            cat(paste("\nFailed to export raw counts correlation heatmap to", filename, sep=" "))
+        }
+    )
+}
+
+
+export_peak_overlap_correlation_heatmap <- function(dba_data, filename, padding, width=800, height=800){
+    tryCatch(
+        expr = {
+            png(filename=filename, width=width, height=height)
+            dba.plotHeatmap(dba_data, margin=padding)
+            cat(paste("\nExport peak overlap correlation heatmap to", filename, sep=" "))
+        },
+        error = function(e){ 
+            cat(paste("\nFailed to export peak overlap correlation heatmap to", filename, sep=" "))
+        }
+    )
+}
+
+
+export_peak_overlap_rate_plot <- function(peak_overlap_rate, filename, width=800, height=800){
+    tryCatch(
+        expr = {
+            png(filename=filename, width=width, height=height)
+            plot(peak_overlap_rate, type='b', ylab='# peaks', xlab='Overlap at least this many peaksets', pch=19, cex=2)
+            cat(paste("\nExport peak overlap rate plot to", filename, sep=" "))
+        },
+        error = function(e){ 
+            cat(paste("\nFailed to export peak overlap rate plot to", filename, sep=" "))
+        }
+    )
+}
+
+
+export_normalized_counts_correlation_heatmap <- function(dba_data, filename, method, padding, th=1, use_pval=FALSE, width=800, height=800){
+    tryCatch(
+        expr = {
+            png(filename=filename, width=width, height=height)
+            dba.plotHeatmap(dba_data, contrast=1, th=th, bUsePval=use_pval, method=method, margin=padding)
+            cat(paste("\nExport normalized counts correlation heatmap to", filename, sep=" "))
+        },
+        error = function(e){ 
+            cat(paste("\nFailed to export normalized counts correlation heatmap to", filename, sep=" "))
+        }
+    )
+}
+
+
+export_binding_heatmap <- function(dba_data, filename, method, padding, th=1, use_pval=FALSE, width=800, height=800){
+    tryCatch(
+        expr = {
+            png(filename=filename, width=width, height=height)
+            dba.plotHeatmap(dba_data, contrast=1, correlations=FALSE, th=th, bUsePval=use_pval, method=method, margin=padding, scale="row")
+            cat(paste("\nExport binding heatmap based to", filename, sep=" "))
+        },
+        error = function(e){ 
+            cat(paste("\nFailed to export binding heatmap to", filename, sep=" "))
+        }
+    )
+}
+
+
+export_pca_plot <- function(dba_data, filename, method, th=1, use_pval=FALSE, width=800, height=800){
+    tryCatch(
+        expr = {
+            png(filename=filename, width=width, height=height)
+            dba.plotPCA(dba_data, attributes=DBA_CONDITION, contrast=1, th=th, bUsePval=use_pval, label=DBA_ID, method=method)
+            cat(paste("\nExport PCA plot to", filename, sep=" "))
+        },
+        error = function(e){ 
+            cat(paste("\nFailed to export PCA plot to", filename, sep=" "))
+        }
+    )
+}
+
+
+export_ma_plot <- function(dba_data, filename, method, th=1, use_pval=FALSE, width=800, height=800){
+    tryCatch(
+        expr = {
+            png(filename=filename, width=width, height=height)
+            dba.plotMA(dba_data, contrast=1, method=method, th=th, bUsePval=use_pval)
+            cat(paste("\nExport MA plot to", filename, sep=" "))
+        },
+        error = function(e){ 
+            cat(paste("\nFailed to export MA plot to", filename, sep=" "))
+        }
+    )
+}
+
+
+export_volcano_plot <- function(dba_data, filename, method, th=1, use_pval=FALSE, width=800, height=800){
+    tryCatch(
+        expr = {
+            png(filename=filename, width=width, height=height)
+            dba.plotVolcano(dba_data, contrast=1, method=method, th=th, bUsePval=use_pval)
+            cat(paste("\nExport volcano plot to", filename, sep=" "))
+        },
+        error = function(e){ 
+            cat(paste("\nFailed to export volcano plot to", filename, sep=" "))
+        }
+    )
+}
+
+
+export_box_plot <- function(dba_data, filename, method, th=1, use_pval=FALSE, width=800, height=800){
+    tryCatch(
+        expr = {
+            png(filename=filename, width=width, height=height)
+            dba.plotBox(dba_data, method=method, th=th, bUsePval=use_pval)
+            cat(paste("\nExport box plot to", filename, sep=" "))
+        },
+        error = function(e){ 
+            cat(paste("\nFailed to export box plot to", filename, sep=" "))
+        }
+    )
+}
+
+
+export_consensus_peak_venn_diagram <- function(dba_data, filename, width=800, height=800){
+    tryCatch(
+        expr = {
+            png(filename=filename, width=width, height=height)
+            dba.plotVenn(dba_data, dba_data$masks$Consensus)
+            cat(paste("\nExport consensus peak venn diagram to", filename, sep=" "))
+        },
+        error = function(e){ 
+            cat(paste("\nFailed to export consensus peak venn diagram to", filename, sep=" "))
+        }
+    )
+}
+
+
+export_results <- function(dba_data, filename, method, th=1, use_pval=FALSE){
+    tryCatch(
+        expr = {
+            diff_dba.DB <- dba.report(dba_data, contrast=1, DataType=DBA_DATA_FRAME, method=method, bCalled=TRUE, bCounts=TRUE, th=th, bUsePval=use_pval)
+            write.table(diff_dba.DB,
+                        file=filename,
+                        sep="\t",
+                        row.names=FALSE,
+                        col.names=TRUE,
+                        quote=FALSE)
+            cat(paste("\nExport differential binding analysis results as TSV to", filename, sep=" "))
+        },
+        error = function(e){ 
+            cat(paste("\nFailed to export differential binding analysis results as TSV to", filename, sep=" "))
+        }
+    )
 }
 
 
 get_args <- function(){
     parser <- ArgumentParser(description='Differential binding analysis of ChIP-Seq experiments using affinity (read count) data')
-    parser$add_argument("-r1", "--read1",       help='Read files for condition 1. Minimim 2 files in BAM format', type="character", required="True",  nargs='+')
-    parser$add_argument("-r2", "--read2",       help='Read files for condition 2. Minimim 2 files in BAM format', type="character", required="True",  nargs='+')
-    parser$add_argument("-p1", "--peak1",       help='Peak files for condition 1. Minimim 2 files in format set with -pf', type="character", required="True",  nargs='+')
-    parser$add_argument("-p2", "--peak2",       help='Peak files for condition 2. Minimim 2 files in format set with -pf', type="character", required="True",  nargs='+')
+    parser$add_argument("-r1", "--read1",        help='Read files for condition 1. Minimim 2 files in BAM format', type="character", required="True",  nargs='+')
+    parser$add_argument("-r2", "--read2",        help='Read files for condition 2. Minimim 2 files in BAM format', type="character", required="True",  nargs='+')
+    parser$add_argument("-p1", "--peak1",        help='Peak files for condition 1. Minimim 2 files in format set with -pf', type="character", required="True",  nargs='+')
+    parser$add_argument("-p2", "--peak2",        help='Peak files for condition 2. Minimim 2 files in format set with -pf', type="character", required="True",  nargs='+')
 
-    parser$add_argument("-n1", "--name1",       help='Sample names for condition 1. Default: basenames of -r1 without extensions', type="character", nargs='*')
-    parser$add_argument("-n2", "--name2",       help='Sample names for condition 2. Default: basenames of -r2 without extensions', type="character", nargs='*')
+    parser$add_argument("-n1", "--name1",        help='Sample names for condition 1. Default: basenames of -r1 without extensions', type="character", nargs='*')
+    parser$add_argument("-n2", "--name2",        help='Sample names for condition 2. Default: basenames of -r2 without extensions', type="character", nargs='*')
 
-    parser$add_argument("-pf",  "--peakformat", help='Peak files format. One of [raw, bed, narrow, macs, bayes, tpic, sicer, fp4, swembl, csv, report]. Default: macs', type="character", choices=c("raw","bed","narrow","macs","bayes","tpic","sicer","fp4","swembl","csv","report"), default="macs")
+    parser$add_argument("-bl", "--block",        help='Blocking attribute for multi-factor analysis. Minimum 2. Either names from --name1 or/and --name2 or array of bool based on [read1]+[read2]. Default: not applied', type="character", nargs='*')
 
-    parser$add_argument("-c1","--condition1",   help='Condition 1 name, single word with letters and numbers only. Default: condition_1', type="character", default="condition_1")
-    parser$add_argument("-c2","--condition2",   help='Condition 2 name, single word with letters and numbers only. Default: condition_2', type="character", default="condition_2")
-    parser$add_argument("-fs","--fragmentsize", help='Extended each read from its endpoint along the appropriate strand. Default: 125bp', type="integer", default=125)
-    parser$add_argument("-rd", "--removedup",   help='Remove reads that map to exactly the same genomic position. Default: false', action='store_true')
-    parser$add_argument("-me", "--method",      help='Method by which to analyze differential binding affinity. Default: deseq2', type="character", choices=c("edger","deseq2"), default="deseq2")
+    parser$add_argument("-pf", "--peakformat",   help='Peak files format. One of [raw, bed, narrow, macs, bayes, tpic, sicer, fp4, swembl, csv, report]. Default: macs', type="character", choices=c("raw","bed","narrow","macs","bayes","tpic","sicer","fp4","swembl","csv","report"), default="macs")
 
-    parser$add_argument("-cu", "--cutoff",      help='Cutoff for reported results. Applied to the parameter set with -cp. Default: 0.05', type="double",    default=0.05)
-    parser$add_argument("-cp", "--cparam",      help='Parameter to which cutoff should be applied (fdr or pvalue). Default: fdr',         type="character", choices=c("pvalue","fdr"), default="fdr")
+    parser$add_argument("-c1", "--condition1",   help='Condition 1 name, single word with letters and numbers only. Default: condition_1', type="character", default="condition_1")
+    parser$add_argument("-c2", "--condition2",   help='Condition 2 name, single word with letters and numbers only. Default: condition_2', type="character", default="condition_2")
+    parser$add_argument("-fs", "--fragmentsize", help='Extended each read from its endpoint along the appropriate strand. Default: 125bp', type="integer", default=125)
+    parser$add_argument("-rd", "--removedup",    help='Remove reads that map to exactly the same genomic position. Default: false', action='store_true')
+    parser$add_argument("-me", "--method",       help='Method by which to analyze differential binding affinity. Default: all', type="character", choices=c("edger","deseq2","all"), default="all")
+    parser$add_argument("-mo", "--minoverlap",   help='Min peakset overlap. Only include peaks in at least this many peaksets when generating consensus peakset. Default: 2', type="integer", default=2)
 
-    parser$add_argument("-th", "--threads",     help='Threads to use',                                     type="integer",   default=1)
-    parser$add_argument("-pa", "--padding",     help='Padding for generated heatmaps. Default: 20',        type="integer",   default=20)
-    parser$add_argument("-o",  "--output",      help='Output prefix. Default: diffbind',                   type="character", default="./diffbind")
+    parser$add_argument("-cu", "--cutoff",       help='Cutoff for reported results. Applied to the parameter set with -cp. Default: 0.05', type="double",    default=0.05)
+    parser$add_argument("-cp", "--cparam",       help='Parameter to which cutoff should be applied (fdr or pvalue). Default: fdr',         type="character", choices=c("pvalue","fdr"), default="fdr")
+
+    parser$add_argument("-th", "--threads",      help='Threads to use',                                     type="integer",   default=1)
+    parser$add_argument("-pa", "--padding",      help='Padding for generated heatmaps. Default: 20',        type="integer",   default=20)
+    parser$add_argument("-o",  "--output",       help='Output prefix. Default: diffbind',                   type="character", default="./diffbind")
     args <- assert_args(parser$parse_args(commandArgs(trailingOnly = TRUE)))
     return (args)
 }
@@ -128,47 +306,54 @@ for (i in 1:length(args$read2)){
     diff_dba <- load_data_set(diff_dba, args$peak2[i], args$read2[i], args$name2[i], args$condition2, args$peakformat)
 }
 
+
 diff_dba$config$cores <- args$threads
+
 
 cat("\nLoaded data\n")
 diff_dba
 
 
+# Get peak overlap rates
+peak_overlap_rate_all = dba.overlap(diff_dba, mode=DBA_OLAP_RATE)
+peak_overlap_rate_cond_1 = dba.overlap(diff_dba, dba.mask(diff_dba, DBA_CONDITION, args$condition1), mode=DBA_OLAP_RATE)
+peak_overlap_rate_cond_2 = dba.overlap(diff_dba, dba.mask(diff_dba, DBA_CONDITION, args$condition2), mode=DBA_OLAP_RATE)
+cat("\nPeak overlap rate for all peaksets\n")
+peak_overlap_rate_all
+cat(paste("\nPeak overlap rate for", args$condition1, "\n", sep=" "))
+peak_overlap_rate_cond_1
+cat(paste("\nPeak overlap rate for", args$condition2, "\n", sep=" "))
+peak_overlap_rate_cond_2
+
+
+# Export peak overlap rate plots
+export_peak_overlap_rate_plot(peak_overlap_rate_all, paste(args$output, "_all_peak_overlap_rate.png", sep=""))
+export_peak_overlap_rate_plot(peak_overlap_rate_cond_1, paste(args$output, "_condition_1_peak_overlap_rate.png", sep=""))
+export_peak_overlap_rate_plot(peak_overlap_rate_cond_2, paste(args$output, "_condition_2_peak_overlap_rate.png", sep=""))
+
+
 # Export peak overlap correlation heatmap
-tryCatch(
-    expr = {
-        filename <- paste(args$output, "_peak_overlap_correlation_heatmap.png", sep="")
-        png(filename=filename, width=800, height=800)
-        dba.plotHeatmap(diff_dba, method=args$method, margin=args$padding)
-        cat(paste("\nExport peak overlap correlation heatmap to", filename, sep=" "))
-    },
-    error = function(e){ 
-        cat("\nFailed to export peak overlap correlation heatmap")
-    }
-)
+export_peak_overlap_correlation_heatmap(diff_dba, paste(args$output, "_peak_overlap_correlation_heatmap.png", sep=""), args$padding)
 
 
 # Count reads in binding site intervals
-cat(paste("\nCounting reads using", diff_dba$config$cores, "threads\n", sep=" "))
-diff_dba <- dba.count(diff_dba, fragmentSize=args$fragmentsize, bRemoveDuplicates=args$removedup)
+cat(paste("\nCount reads using", diff_dba$config$cores, "threads. Min peakset overlap is set to", args$minoverlap, sep=" "))
+diff_dba <- dba.count(diff_dba, fragmentSize=args$fragmentsize, bRemoveDuplicates=args$removedup, minOverlap=args$minoverlap)
 
 
-# Export counts correlation heatmap
-tryCatch(
-    expr = {
-        filename <- paste(args$output, "_counts_correlation_heatmap.png", sep="")
-        png(filename=filename, width=800, height=800)
-        dba.plotHeatmap(diff_dba, method=args$method, margin=args$padding)
-        cat(paste("\nExport counts correlation heatmap to", filename, "\n", sep=" "))
-    },
-    error = function(e){ 
-        cat("\nFailed to export counts correlation heatmap")
-    }
-)
+# Export raw counts correlation heatmap
+export_raw_counts_correlation_heatmap(diff_dba, paste(args$output, "_counts_correlation_heatmap.png", sep=""), args$padding)
 
 
+# Export consensus peak venn diagram
+export_consensus_peak_venn_diagram(diff_dba, paste(args$output, "_consensus_peak_venn_diagram.png", sep=""))
+
+
+# Establish contrast
+metadata = dba.show(diff_dba)
+cat(paste("\nEstablish contrast [", paste(metadata[metadata["Condition"]==args$condition1, "ID"], collapse=", "), "] vs [", paste(metadata[metadata["Condition"]==args$condition2, "ID"], collapse=", "), "], blocked attributes [", paste(metadata[args$block, "ID"], collapse=", "), "]", "\n", sep=""))
 diff_dba$contrasts <- NULL
-diff_dba <- dba.contrast(diff_dba, dba.mask(diff_dba, DBA_CONDITION, args$condition1), dba.mask(diff_dba, DBA_CONDITION, args$condition2), args$condition1, args$condition2)
+diff_dba <- dba.contrast(diff_dba, dba.mask(diff_dba, DBA_CONDITION, args$condition1), dba.mask(diff_dba, DBA_CONDITION, args$condition2), args$condition1, args$condition2, block=args$block)
 diff_dba <- dba.analyze(diff_dba, method=args$method)
 
 
@@ -176,115 +361,192 @@ cat("\nAnalyzed data\n")
 diff_dba
 
 
-# Export correlation heatmap based on all normalized data
-tryCatch(
-    expr = {
-        filename <- paste(args$output, "_correlation_heatmap_based_on_all_normalized_data.png", sep="")
-        png(filename=filename, width=800, height=800)
-        dba.plotHeatmap(diff_dba, contrast=1, th=1, method=args$method, margin=args$padding)
-        cat(paste("\nExport correlation heatmap based on all normalized data to", filename, sep=" "))
-    },
-    error = function(e){ 
-        cat("\nFailed to export correlation heatmap based on all normalized data")
-    }
-)
+# Export all normalized counts correlation heatmaps
+export_normalized_counts_correlation_heatmap(diff_dba,
+                                             paste(args$output, "_all_normalized_counts_correlation_heatmap_deseq.png", sep=""),
+                                             DBA_DESEQ2,
+                                             args$padding)
+export_normalized_counts_correlation_heatmap(diff_dba,
+                                             paste(args$output, "_all_normalized_counts_correlation_heatmap_deseq_block.png", sep=""),
+                                             DBA_DESEQ2_BLOCK,
+                                             args$padding)                                             
+export_normalized_counts_correlation_heatmap(diff_dba,
+                                             paste(args$output, "_all_normalized_counts_correlation_heatmap_edger.png", sep=""),
+                                             DBA_EDGER,
+                                             args$padding)
+export_normalized_counts_correlation_heatmap(diff_dba,
+                                             paste(args$output, "_all_normalized_counts_correlation_heatmap_edger_block.png", sep=""),
+                                             DBA_EDGER_BLOCK,
+                                             args$padding)
 
 
-# Export correlation heatmap based on DB sites only
-tryCatch(
-    expr = {
-        filename <- paste(args$output, "_correlation_heatmap_based_on_db_sites_only.png", sep="")
-        png(filename=filename, width=800, height=800)
-        dba.plotHeatmap(diff_dba, contrast=1, method=args$method, margin=args$padding)
-        cat(paste("\nExport correlation heatmap based on DB sites only to", filename, sep=" "))
-    },
-    error = function(e){ 
-        cat("\nFailed to export correlation heatmap based on DB sites only")
-    }
-)
+# Export filtered normalized counts correlation heatmaps
+export_normalized_counts_correlation_heatmap(diff_dba,
+                                             paste(args$output, "_filtered_normalized_counts_correlation_heatmap_deseq.png", sep=""),
+                                             DBA_DESEQ2,
+                                             args$padding,
+                                             args$cutoff,
+                                             args$cparam)
+export_normalized_counts_correlation_heatmap(diff_dba,
+                                             paste(args$output, "_filtered_normalized_counts_correlation_heatmap_deseq_block.png", sep=""),
+                                             DBA_DESEQ2_BLOCK,
+                                             args$padding,
+                                             args$cutoff,
+                                             args$cparam)                                             
+export_normalized_counts_correlation_heatmap(diff_dba,
+                                             paste(args$output, "_filtered_normalized_counts_correlation_heatmap_edger.png", sep=""),
+                                             DBA_EDGER,
+                                             args$padding,
+                                             args$cutoff,
+                                             args$cparam)
+export_normalized_counts_correlation_heatmap(diff_dba,
+                                             paste(args$output, "_filtered_normalized_counts_correlation_heatmap_edger_block.png", sep=""),
+                                             DBA_EDGER_BLOCK,
+                                             args$padding,
+                                             args$cutoff,
+                                             args$cparam)
 
 
-# Export binding heatmap based on DB sites
-tryCatch(
-    expr = {
-        filename <- paste(args$output, "_binding_heatmap_based_on_db_sites.png", sep="")
-        png(filename=filename, width=800, height=800)
-        dba.plotHeatmap(diff_dba, contrast=1, correlations=FALSE, method=args$method, margin=args$padding)
-        cat(paste("\nExport binding heatmap based on DB sites to", filename, sep=" "))
-    },
-    error = function(e){ 
-        cat("\nFailed to export binding heatmap based on DB sites")
-    }
-)
+# Export filtered binding heatmaps
+export_binding_heatmap(diff_dba,
+                       paste(args$output, "_filtered_binding_heatmap_deseq.png", sep=""),
+                       DBA_DESEQ2,
+                       args$padding,
+                       args$cutoff,
+                       args$cparam)
+export_binding_heatmap(diff_dba,
+                       paste(args$output, "_filtered_binding_heatmap_deseq_block.png", sep=""),
+                       DBA_DESEQ2_BLOCK,
+                       args$padding,
+                       args$cutoff,
+                       args$cparam)
+export_binding_heatmap(diff_dba,
+                       paste(args$output, "_filtered_binding_heatmap_edger.png", sep=""),
+                       DBA_EDGER,
+                       args$padding,
+                       args$cutoff,
+                       args$cparam)
+export_binding_heatmap(diff_dba,
+                       paste(args$output, "_filtered_binding_heatmap_edger_block.png", sep=""),
+                       DBA_EDGER_BLOCK,
+                       args$padding,
+                       args$cutoff,
+                       args$cparam)
 
 
-# Export PCA plot using affinity data for only differentially bound sites
-tryCatch(
-    expr = {
-        filename <- paste(args$output, "_pca.png", sep="")
-        png(filename=filename, width=800, height=800)
-        dba.plotPCA(diff_dba, attributes=DBA_CONDITION, contrast=1, label=DBA_ID, method=args$method)
-        cat(paste("\nExport PCA plot using affinity data for only differentially bound sites to", filename, sep=" "))
-    },
-    error = function(e){ 
-        cat("\nFailed to export PCA plot using affinity data for only differentially bound sites")
-    }
-)
+# Export filtered PCA plots
+export_pca_plot(diff_dba,
+                paste(args$output, "_filtered_pca_plot_deseq.png", sep=""),
+                DBA_DESEQ2,
+                args$cutoff,
+                args$cparam)
+export_pca_plot(diff_dba,
+                paste(args$output, "_filtered_pca_plot_deseq_block.png", sep=""),
+                DBA_DESEQ2_BLOCK,
+                args$cutoff,
+                args$cparam)
+export_pca_plot(diff_dba,
+                paste(args$output, "_filtered_pca_plot_edger.png", sep=""),
+                DBA_EDGER,
+                args$cutoff,
+                args$cparam)
+export_pca_plot(diff_dba,
+                paste(args$output, "_filtered_pca_plot_edger_block.png", sep=""),
+                DBA_EDGER_BLOCK,
+                args$cutoff,
+                args$cparam)
 
 
-# Export MA plot for conditions
-tryCatch(
-    expr = {
-        filename <- paste(args$output, "_ma.png", sep="")
-        png(filename=filename, width=800, height=800)
-        dba.plotMA(diff_dba, method=args$method)
-        cat(paste("\nExport MA plot for conditions", args$condition1, "and", args$condition2, "to", filename, sep=" "))
-    },
-    error = function(e){ 
-        cat("\nFailed to export MA plot for tested conditions")
-    }
-)
+# Export filtered MA plot
+export_ma_plot(diff_dba,
+               paste(args$output, "_filtered_ma_plot_deseq.png", sep=""),
+               DBA_DESEQ2,
+               args$cutoff,
+               args$cparam)
+export_ma_plot(diff_dba,
+               paste(args$output, "_filtered_ma_plot_deseq_block.png", sep=""),
+               DBA_DESEQ2_BLOCK,
+               args$cutoff,
+               args$cparam)
+export_ma_plot(diff_dba,
+               paste(args$output, "_filtered_ma_plot_edger.png", sep=""),
+               DBA_EDGER,
+               args$cutoff,
+               args$cparam)
+export_ma_plot(diff_dba,
+               paste(args$output, "_filtered_ma_edger_block.png", sep=""),
+               DBA_EDGER_BLOCK,
+               args$cutoff,
+               args$cparam)
 
 
-# Export Volcano plot for conditions
-tryCatch(
-    expr = {
-        filename <- paste(args$output, "_volcano.png", sep="")
-        png(filename=filename, width=800, height=800)
-        dba.plotVolcano(diff_dba, method=args$method)
-        cat(paste("\nExport volcano plot for conditions", args$condition1, "and", args$condition2, "to", filename, sep=" "))
-    },
-    error = function(e){ 
-        cat("\nFailed to export volcano plot for tested conditions")
-    }
-)
+# Export filtered volcano plots
+export_volcano_plot(diff_dba,
+                    paste(args$output, "_filtered_volcano_plot_deseq.png", sep=""),
+                    DBA_DESEQ2,
+                    args$cutoff,
+                    args$cparam)
+export_volcano_plot(diff_dba,
+                    paste(args$output, "_filtered_volcano_plot_deseq_block.png", sep=""),
+                    DBA_DESEQ2_BLOCK,
+                    args$cutoff,
+                    args$cparam)
+export_volcano_plot(diff_dba,
+                    paste(args$output, "_filtered_volcano_plot_edger.png", sep=""),
+                    DBA_EDGER,
+                    args$cutoff,
+                    args$cparam)
+export_volcano_plot(diff_dba,
+                    paste(args$output, "_filtered_volcano_plot_edger_block.png", sep=""),
+                    DBA_EDGER_BLOCK,
+                    args$cutoff,
+                    args$cparam)
 
 
-# Export box plots of read distributions for significantly differentially bound (DB) sites
-tryCatch(
-    expr = {
-        filename <- paste(args$output, "_boxplot.png", sep="")
-        png(filename=filename, width=800, height=800)
-        dba.plotBox(diff_dba, method=args$method)
-        cat(paste("\nExport box plots of read distributions for significantly differentially bound (DB) sites to", filename, sep=" "))
-    },
-    error = function(e){ 
-        cat("\nFailed to export box plots of read distributions for significantly differentially bound (DB) sites")
-    }
-)
+# Export filtered box plots
+export_box_plot(diff_dba,
+                paste(args$output, "_filtered_box_plot_deseq.png", sep=""),
+                DBA_DESEQ2,
+                args$cutoff,
+                args$cparam)
+export_box_plot(diff_dba,
+                paste(args$output, "_filtered_box_plot_deseq_block.png", sep=""),
+                DBA_DESEQ2_BLOCK,
+                args$cutoff,
+                args$cparam)
+export_box_plot(diff_dba,
+                paste(args$output, "_filtered_box_plot_edger.png", sep=""),
+                DBA_EDGER,
+                args$cutoff,
+                args$cparam)
+export_box_plot(diff_dba,
+                paste(args$output, "_filtered_box_plot_edger_block.png", sep=""),
+                DBA_EDGER_BLOCK,
+                args$cutoff,
+                args$cparam)
 
 
-diff_dba.DB <- dba.report(diff_dba, DataType=DBA_DATA_FRAME, method=args$method, bCalled=TRUE, bCounts=TRUE, th=args$cutoff, bUsePval=args$cparam)
+# Export results
+export_results(diff_dba,
+               paste(args$output, "_report_deseq.tsv", sep=""),
+               DBA_DESEQ2,
+               args$cutoff,
+               args$cparam)
+export_results(diff_dba,
+               paste(args$output, "_report_deseq_block.tsv", sep=""),
+               DBA_DESEQ2_BLOCK,
+               args$cutoff,
+               args$cparam)
+export_results(diff_dba,
+               paste(args$output, "_report_edger.tsv", sep=""),
+               DBA_EDGER,
+               args$cutoff,
+               args$cparam)
+export_results(diff_dba,
+               paste(args$output, "_report_edger_block.tsv", sep=""),
+               DBA_EDGER_BLOCK,
+               args$cutoff,
+               args$cparam)
 
-
-# Export main results to TSV
-filename = paste(args$output, "_diffpeaks.tsv", sep="")
-write.table(diff_dba.DB,
-            file=filename,
-            sep="\t",
-            row.names=FALSE,
-            col.names=TRUE,
-            quote=FALSE)
-cat(paste("\nExport differential binding analysis results as TSV to", filename, "\n", sep=" "))
 
 graphics.off()
