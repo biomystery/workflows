@@ -278,7 +278,7 @@ get_args <- function(){
 
     parser$add_argument("-c1", "--condition1",   help='Condition 1 name, single word with letters and numbers only. Default: condition_1', type="character", default="condition_1")
     parser$add_argument("-c2", "--condition2",   help='Condition 2 name, single word with letters and numbers only. Default: condition_2', type="character", default="condition_2")
-    parser$add_argument("-fs", "--fragmentsize", help='Extended each read from its endpoint along the appropriate strand. Default: 125bp', type="integer", default=125)
+    parser$add_argument("-fs", "--fragmentsize", help='Extend each read from its endpoint along the appropriate strand. Default: 125bp', type="integer", default=125)
     parser$add_argument("-rd", "--removedup",    help='Remove reads that map to exactly the same genomic position. Default: false', action='store_true')
     parser$add_argument("-me", "--method",       help='Method by which to analyze differential binding affinity. Default: all', type="character", choices=c("edger","deseq2","all"), default="all")
     parser$add_argument("-mo", "--minoverlap",   help='Min peakset overlap. Only include peaks in at least this many peaksets when generating consensus peakset. Default: 2', type="integer", default=2)

@@ -13,25 +13,25 @@ inputs:
     type: File[]
     inputBinding:
       prefix: "-r1"
-    doc: "Read files for condition 1"
+    doc: "Read files for condition 1. Minimim 2 files in BAM format"
 
   read_files_cond_2:
     type: File[]
     inputBinding:
       prefix: "-r2"
-    doc: "Read files for condition 2"
+    doc: "Read files for condition 2. Minimim 2 files in BAM format"
 
   peak_files_cond_1:
     type: File[]
     inputBinding:
       prefix: "-p1"
-    doc: "Peak files for condition 1. Format corresponds to -pf"
+    doc: "Peak files for condition 1. Minimim 2 files in format set with -pf"
 
   peak_files_cond_2:
     type: File[]
     inputBinding:
       prefix: "-p2"
-    doc: "Peak files for condition 2. Format corresponds to -pf"
+    doc: "Peak files for condition 2. Minimim 2 files in format set with -pf"
 
   sample_names_cond_1:
     type:
@@ -87,7 +87,7 @@ inputs:
     type: int?
     inputBinding:
       prefix: "-fs"
-    doc: "Extended each read from its endpoint along the appropriate strand. Default: 125bp"
+    doc: "Extend each read from its endpoint along the appropriate strand. Default: 125bp"
 
   cutoff_value:
     type: float?
@@ -146,13 +146,13 @@ outputs:
     type: File?
     outputBinding:
       glob: "*_report_deseq.tsv"
-    doc: "Differential binding analysis report exported as TSV, DESeq"
+    doc: "Differential binding analysis report exported as TSV, DESeq2"
 
   report_deseq_blocked:
     type: File?
     outputBinding:
       glob: "*_report_deseq_block.tsv"
-    doc: "Differential binding analysis report exported as TSV, DESeq Blocked"
+    doc: "Differential binding analysis report exported as TSV, DESeq2 Blocked"
 
   report_edger:
     type: File?
@@ -170,13 +170,13 @@ outputs:
     type: File?
     outputBinding:
       glob: "*_filtered_box_plot_deseq.png"
-    doc: "Box plots of read distributions for significantly differentially bound sites, DESeq"
+    doc: "Box plots of read distributions for significantly differentially bound sites, DESeq2"
 
   boxplot_deseq_blocked:
     type: File?
     outputBinding:
       glob: "*_filtered_box_plot_deseq_block.png"
-    doc: "Box plots of read distributions for significantly differentially bound sites, DESeq Blocked"
+    doc: "Box plots of read distributions for significantly differentially bound sites, DESeq2 Blocked"
 
   boxplot_edger:
     type: File?
@@ -194,133 +194,133 @@ outputs:
     type: File?
     outputBinding:
       glob: "*_filtered_volcano_plot_deseq.png"
-    doc: "Volcano plot for tested conditions, DESeq"
+    doc: "Volcano plot for significantly differentially bound sites, DESeq2"
 
   volcano_plot_deseq_blocked:
     type: File?
     outputBinding:
       glob: "*_filtered_volcano_plot_deseq_block.png"
-    doc: "Volcano plot for tested conditions, DESeq Blocked"
+    doc: "Volcano plot for for significantly differentially bound sites, DESeq2 Blocked"
 
   volcano_plot_edger:
     type: File?
     outputBinding:
       glob: "*_filtered_volcano_plot_edger.png"
-    doc: "Volcano plot for tested conditions, EdgeR"
+    doc: "Volcano plot for for significantly differentially bound sites, EdgeR"
 
   volcano_plot_edger_blocked:
     type: File?
     outputBinding:
       glob: "*_filtered_volcano_plot_edger_block.png"
-    doc: "Volcano plot for tested conditions, EdgeR Blocked"
+    doc: "Volcano plot for for significantly differentially bound sites, EdgeR Blocked"
 
   ma_plot_deseq:
     type: File?
     outputBinding:
       glob: "*_filtered_ma_plot_deseq.png"
-    doc: "MA plot for tested conditions, DESeq"
+    doc: "MA plot for significantly differentially bound sites, DESeq2"
 
   ma_plot_deseq_blocked:
     type: File?
     outputBinding:
       glob: "*_filtered_ma_plot_deseq_block.png"
-    doc: "MA plot for tested conditions, DESeq Blocked"
+    doc: "MA plot for significantly differentially bound sites, DESeq2 Blocked"
 
   ma_plot_edger:
     type: File?
     outputBinding:
       glob: "*_filtered_ma_plot_edger.png"
-    doc: "MA plot for tested conditions, EdgeR"
+    doc: "MA plot for significantly differentially bound sites, EdgeR"
 
   ma_plot_edger_blocked:
     type: File?
     outputBinding:
       glob: "*_filtered_ma_plot_edger_block.png"
-    doc: "MA plot for tested conditions, EdgeR Blocked"
+    doc: "MA plot for significantly differentially bound sites, EdgeR Blocked"
 
   pca_plot_deseq:
     type: File?
     outputBinding:
       glob: "*_filtered_pca_plot_deseq.png"
-    doc: "PCA plot using affinity data for only differentially bound sites, DESeq"
+    doc: "PCA plot for significantly differentially bound sites, DESeq2"
 
   pca_plot_deseq_blocked:
     type: File?
     outputBinding:
       glob: "*_filtered_pca_plot_deseq_block.png"
-    doc: "PCA plot using affinity data for only differentially bound sites, DESeq Blocked"
+    doc: "PCA plot for significantly differentially bound sites, DESeq2 Blocked"
 
   pca_plot_edger:
     type: File?
     outputBinding:
       glob: "*_filtered_pca_plot_edger.png"
-    doc: "PCA plot using affinity data for only differentially bound sites, EdgeR"
+    doc: "PCA plot for significantly differentially bound sites, EdgeR"
 
   pca_plot_edger_blocked:
     type: File?
     outputBinding:
       glob: "*_filtered_pca_plot_edger_block.png"
-    doc: "PCA plot using affinity data for only differentially bound sites, EdgeR Blocked"
+    doc: "PCA plot for significantly differentially bound sites, EdgeR Blocked"
 
   binding_heatmap_deseq:
     type: File?
     outputBinding:
       glob: "*_filtered_binding_heatmap_deseq.png"
-    doc: "Binding heatmap based on differentially bound sites, DESeq"
+    doc: "Binding heatmap for significantly differentially bound sites, DESeq2"
 
   binding_heatmap_deseq_blocked:
     type: File?
     outputBinding:
       glob: "*_filtered_binding_heatmap_deseq_block.png"
-    doc: "Binding heatmap based on differentially bound sites, DESeq Blocked"
+    doc: "Binding heatmap for significantly differentially bound sites, DESeq2 Blocked"
 
   binding_heatmap_edger:
     type: File?
     outputBinding:
       glob: "*_filtered_binding_heatmap_edger.png"
-    doc: "Binding heatmap based on differentially bound sites, EdgeR"
+    doc: "Binding heatmap for significantly differentially bound sites, EdgeR"
 
   binding_heatmap_edger_blocked:
     type: File?
     outputBinding:
       glob: "*_filtered_binding_heatmap_edger_block.png"
-    doc: "Binding heatmap based on differentially bound sites, EdgeR Blocked"
+    doc: "Binding heatmap for significantly differentially bound sites, EdgeR Blocked"
 
   diff_filtered_norm_counts_corr_heatmap_deseq:
     type: File?
     outputBinding:
       glob: "*_filtered_normalized_counts_correlation_heatmap_deseq.png"
-    doc: "Normalized counts correlation heatmap filtered by differentially bound sites, DESeq"
+    doc: "Normalized counts correlation heatmap for significantly differentially bound sites, DESeq2"
 
   diff_filtered_norm_counts_corr_heatmap_deseq_blocked:
     type: File?
     outputBinding:
       glob: "*_filtered_normalized_counts_correlation_heatmap_deseq_block.png"
-    doc: "Normalized counts correlation heatmap filtered by differentially bound sites, DESeq Blocked"
+    doc: "Normalized counts correlation heatmap for significantly differentially bound sites, DESeq2 Blocked"
 
   diff_filtered_norm_counts_corr_heatmap_edger:
     type: File?
     outputBinding:
       glob: "*_filtered_normalized_counts_correlation_heatmap_edger.png"
-    doc: "Normalized counts correlation heatmap filtered by differentially bound sites, EdgeR"
+    doc: "Normalized counts correlation heatmap for significantly differentially bound sites, EdgeR"
 
   diff_filtered_norm_counts_corr_heatmap_edger_blocked:
     type: File?
     outputBinding:
       glob: "*_filtered_normalized_counts_correlation_heatmap_edger_block.png"
-    doc: "Normalized counts correlation heatmap filtered by differentially bound sites, EdgeR Blocked"
+    doc: "Normalized counts correlation heatmap for significantly differentially bound sites, EdgeR Blocked"
 
   all_norm_counts_corr_heatmap_deseq:
     type: File?
     outputBinding:
       glob: "*_all_normalized_counts_correlation_heatmap_deseq.png"
-    doc: "Not filtered normalized counts correlation heatmap, DESeq"
+    doc: "Not filtered normalized counts correlation heatmap, DESeq2"
 
   all_norm_counts_corr_heatmap_deseq_blocked:
     type: File?
     outputBinding:
       glob: "*_all_normalized_counts_correlation_heatmap_deseq_block.png"
-    doc: "Not filtered normalized counts correlation heatmap, DESeq Blocked"
+    doc: "Not filtered normalized counts correlation heatmap, DESeq2 Blocked"
 
   all_norm_counts_corr_heatmap_edger:
     type: File?
