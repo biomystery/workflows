@@ -332,7 +332,7 @@ outputs:
     type: File?
     outputBinding:
       glob: "*_all_normalized_counts_correlation_heatmap_edger_block.png"
-    doc: " Not filtered normalized counts correlation heatmap, EdgeR Blocked"
+    doc: "Not filtered normalized counts correlation heatmap, EdgeR Blocked"
 
   consensus_peak_venn_diagram:
     type: File?
