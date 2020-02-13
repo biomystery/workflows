@@ -250,9 +250,9 @@ export_results <- function(dba_data, filename, method, th=1, use_pval=FALSE){
             diff_dba.DB <- dba.report(dba_data, contrast=1, DataType=DBA_DATA_FRAME, method=method, bCalled=TRUE, bCounts=TRUE, th=th, bUsePval=use_pval)
             if (!is.null(diff_dba.DB)){
                 write.table(diff_dba.DB, file=filename, sep="\t", row.names=FALSE, col.names=TRUE, quote=FALSE)
-                cat(paste("\nExport differential binding analysis results as TSV to", filename, "[no data]", sep=" "))
+                cat(paste("\nExport differential binding analysis results as TSV to", filename, sep=" "))
             } else {
-                cat(paste("\nSkip exporting differential binding analysis results as TSV to", filename, sep=" "))
+                cat(paste("\nSkip exporting differential binding analysis results as TSV to", filename, "[no data]", sep=" "))
             }
         },
         error = function(e){ 
