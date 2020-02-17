@@ -8,6 +8,9 @@ suppressMessages(library(DiffBind))
 
 ##########################################################################################
 #
+# v0.0.9
+# - export not filtered TSV results
+#
 # v0.0.8
 # - supports blocking analyses for DESeq2 and EdgeR
 #
@@ -525,27 +528,42 @@ export_box_plot(diff_dba,
                 args$cparam)
 
 
-# Export results
+# Export filtered results
 export_results(diff_dba,
-               paste(args$output, "_report_deseq.tsv", sep=""),
+               paste(args$output, "_filtered_report_deseq.tsv", sep=""),
                DBA_DESEQ2,
                args$cutoff,
                args$cparam)
 export_results(diff_dba,
-               paste(args$output, "_report_deseq_block.tsv", sep=""),
+               paste(args$output, "_filtered_report_deseq_block.tsv", sep=""),
                DBA_DESEQ2_BLOCK,
                args$cutoff,
                args$cparam)
 export_results(diff_dba,
-               paste(args$output, "_report_edger.tsv", sep=""),
+               paste(args$output, "_filtered_report_edger.tsv", sep=""),
                DBA_EDGER,
                args$cutoff,
                args$cparam)
 export_results(diff_dba,
-               paste(args$output, "_report_edger_block.tsv", sep=""),
+               paste(args$output, "_filtered_report_edger_block.tsv", sep=""),
                DBA_EDGER_BLOCK,
                args$cutoff,
                args$cparam)
+
+
+# Export not filtered results
+export_results(diff_dba,
+               paste(args$output, "_all_report_deseq.tsv", sep=""),
+               DBA_DESEQ2)
+export_results(diff_dba,
+               paste(args$output, "_all_report_deseq_block.tsv", sep=""),
+               DBA_DESEQ2_BLOCK)
+export_results(diff_dba,
+               paste(args$output, "_all_report_edger.tsv", sep=""),
+               DBA_EDGER)
+export_results(diff_dba,
+               paste(args$output, "_all_report_edger_block.tsv", sep=""),
+               DBA_EDGER_BLOCK)
 
 
 graphics.off()
