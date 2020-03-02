@@ -1,12 +1,16 @@
 #!/usr/bin/env Rscript
 options(warn=-1)
-options("width"=200)
+options(width=200)
+options(scipen=999)
 
 suppressMessages(library(argparse))
 suppressMessages(library(DiffBind))
 
 
 ##########################################################################################
+#
+# v0.0.10
+# - suppress scientific notation when exporting to TSV
 #
 # v0.0.9
 # - export not filtered TSV results
