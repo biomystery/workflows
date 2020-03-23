@@ -9,6 +9,9 @@ suppressMessages(library(DiffBind))
 
 ##########################################################################################
 #
+# v0.0.11
+# - add occupancy based consensus peak selection
+#
 # v0.0.10
 # - suppress scientific notation when exporting to TSV
 #
@@ -53,9 +56,9 @@ suppressMessages(library(DiffBind))
 ##########################################################################################
 
 
-load_data_set <- function(diff_dba, peaks, reads, name, condition, peakformat) {
-    cat(paste("\nLoading data for condition '", condition, "' as '", name, "'\n - ", reads, "\n - ", peaks, "\n", sep=""))
-    diff_dba <- dba.peakset(DBA=diff_dba, sampID=name, peaks=peaks, bamReads=reads, condition=condition, peak.caller=peakformat)
+load_data_set <- function(diff_dba, peaks, reads, name, condition, peakformat, replicate) {
+    cat(paste("\nLoading data for condition '", condition, "' as '", name, "', replicate = ", replicate, "\n - ", reads, "\n - ", peaks, "\n", sep=""))
+    diff_dba <- dba.peakset(DBA=diff_dba, sampID=name, peaks=peaks, bamReads=reads, replicate=replicate, condition=condition, peak.caller=peakformat)
     return (diff_dba)
 }
 
@@ -96,6 +99,10 @@ assert_args <- function(args){
         args$cparam <- TRUE
     }
 
+    if (args$usecommon){
+        args$minoverlap = 1
+    }
+
     if (is.null(args$block)){
         args$block = rep(FALSE,length(args$read1)+length(args$read2))
     } else {
@@ -115,7 +122,7 @@ export_raw_counts_correlation_heatmap <- function(dba_data, filename, padding, w
     tryCatch(
         expr = {
             png(filename=filename, width=width, height=height)
-            dba.plotHeatmap(dba_data, margin=padding)
+            dba.plotHeatmap(dba_data, margin=padding, score=DBA_SCORE_READS)
             cat(paste("\nExport raw counts correlation heatmap to", filename, sep=" "))
         },
         error = function(e){ 
@@ -129,7 +136,7 @@ export_peak_overlap_correlation_heatmap <- function(dba_data, filename, padding,
     tryCatch(
         expr = {
             png(filename=filename, width=width, height=height)
-            dba.plotHeatmap(dba_data, margin=padding)
+            dba.plotHeatmap(dba_data, attributes=DBA_CONDITION, margin=padding)
             cat(paste("\nExport peak overlap correlation heatmap to", filename, sep=" "))
         },
         error = function(e){ 
@@ -289,6 +296,7 @@ get_args <- function(){
     parser$add_argument("-rd", "--removedup",    help='Remove reads that map to exactly the same genomic position. Default: false', action='store_true')
     parser$add_argument("-me", "--method",       help='Method by which to analyze differential binding affinity. Default: all', type="character", choices=c("edger","deseq2","all"), default="all")
     parser$add_argument("-mo", "--minoverlap",   help='Min peakset overlap. Only include peaks in at least this many peaksets when generating consensus peakset. Default: 2', type="integer", default=2)
+    parser$add_argument("-uc", "--usecommon",    help='Derive consensus peaks only from the common peaks within each condition. Min peakset overlap is ignored. Default: false', action='store_true')
 
     parser$add_argument("-cu", "--cutoff",       help='Cutoff for reported results. Applied to the parameter set with -cp. Default: 0.05', type="double",    default=0.05)
     parser$add_argument("-cp", "--cparam",       help='Parameter to which cutoff should be applied (fdr or pvalue). Default: fdr',         type="character", choices=c("pvalue","fdr"), default="fdr")
@@ -306,36 +314,56 @@ args <- get_args()
 
 diff_dba <- NULL
 for (i in 1:length(args$read1)){
-    diff_dba <- load_data_set(diff_dba, args$peak1[i], args$read1[i], args$name1[i], args$condition1, args$peakformat)
+    diff_dba <- load_data_set(diff_dba, args$peak1[i], args$read1[i], args$name1[i], args$condition1, args$peakformat, i)
 }
 for (i in 1:length(args$read2)){
-    diff_dba <- load_data_set(diff_dba, args$peak2[i], args$read2[i], args$name2[i], args$condition2, args$peakformat)
+    diff_dba <- load_data_set(diff_dba, args$peak2[i], args$read2[i], args$name2[i], args$condition2, args$peakformat, i)
 }
 
 
 diff_dba$config$cores <- args$threads
 
 
-cat("\nLoaded data\n")
-diff_dba
+cat("\nLoaded data\n - chrM removed\n - intersected peaks merged\n\n")
+print(diff_dba)
 
 
-# Get peak overlap rates
-peak_overlap_rate_all = dba.overlap(diff_dba, mode=DBA_OLAP_RATE)
-peak_overlap_rate_cond_1 = dba.overlap(diff_dba, dba.mask(diff_dba, DBA_CONDITION, args$condition1), mode=DBA_OLAP_RATE)
-peak_overlap_rate_cond_2 = dba.overlap(diff_dba, dba.mask(diff_dba, DBA_CONDITION, args$condition2), mode=DBA_OLAP_RATE)
-cat("\nPeak overlap rate for all peaksets\n")
-peak_overlap_rate_all
+mask_cond_1 <- dba.mask(diff_dba, DBA_CONDITION, args$condition1)
+mask_cond_2 <- dba.mask(diff_dba, DBA_CONDITION, args$condition2)
+mask_cond_both <- as.logical(mask_cond_1 + mask_cond_2)
+
+if (args$usecommon){
+    cat("\nDeriving consensus peaks only from the common peaks within each condition. Min peakset overlap is ignored.\n")
+    diff_dba_consensus <- dba.peakset(diff_dba, consensus=-DBA_REPLICATE, minOverlap=0.99)  # use 0.99 to include all intersected peaks within condition
+    diff_dba_consensus <- dba(diff_dba_consensus, mask=diff_dba_consensus$masks$Consensus, minOverlap=args$minoverlap)
+    cat("\nDerived consensus data\n - intersected peaks merged\n\n")
+    print(diff_dba_consensus)
+    consensus_peaks <- dba.peakset(diff_dba_consensus, bRetrieve=TRUE, minOverlap=args$minoverlap)
+    cat("\nConsensus peaks\n\n")
+    print(consensus_peaks)
+    export_consensus_peak_venn_diagram(diff_dba_consensus, paste(args$output, "_consensus_peak_venn_diagram.png", sep=""))
+}
+
+
+# Get peak overlap rates, export plots
+cat("\n")
 cat(paste("\nPeak overlap rate for", args$condition1, "\n", sep=" "))
-peak_overlap_rate_cond_1
+peak_overlap_rate_cond_1 = dba.overlap(diff_dba, mask_cond_1, mode=DBA_OLAP_RATE)
+print(peak_overlap_rate_cond_1)
+
 cat(paste("\nPeak overlap rate for", args$condition2, "\n", sep=" "))
-peak_overlap_rate_cond_2
+peak_overlap_rate_cond_2 = dba.overlap(diff_dba, mask_cond_2, mode=DBA_OLAP_RATE)
+print(peak_overlap_rate_cond_2)
 
-
-# Export peak overlap rate plots
-export_peak_overlap_rate_plot(peak_overlap_rate_all, paste(args$output, "_all_peak_overlap_rate.png", sep=""))
 export_peak_overlap_rate_plot(peak_overlap_rate_cond_1, paste(args$output, "_condition_1_peak_overlap_rate.png", sep=""))
 export_peak_overlap_rate_plot(peak_overlap_rate_cond_2, paste(args$output, "_condition_2_peak_overlap_rate.png", sep=""))
+
+if (!args$usecommon){
+    peak_overlap_rate_all = dba.overlap(diff_dba, mode=DBA_OLAP_RATE)
+    cat("\n\nPeak overlap rate for all peaksets\n")
+    print(peak_overlap_rate_all)
+    export_peak_overlap_rate_plot(peak_overlap_rate_all, paste(args$output, "_all_peak_overlap_rate.png", sep=""))
+}
 
 
 # Export peak overlap correlation heatmap
@@ -343,8 +371,16 @@ export_peak_overlap_correlation_heatmap(diff_dba, paste(args$output, "_peak_over
 
 
 # Count reads in binding site intervals
-cat(paste("\nCount reads using", diff_dba$config$cores, "threads. Min peakset overlap is set to", args$minoverlap, sep=" "))
-diff_dba <- dba.count(diff_dba, fragmentSize=args$fragmentsize, bRemoveDuplicates=args$removedup, minOverlap=args$minoverlap)
+cat(paste("\n\nCount reads using", diff_dba$config$cores, "threads. Min peakset overlap is set to", args$minoverlap, "\n", sep=" "))
+
+if (args$usecommon){
+    diff_dba <- dba.count(diff_dba, peaks=consensus_peaks, fragmentSize=args$fragmentsize, bRemoveDuplicates=args$removedup, minOverlap=args$minoverlap)
+} else {
+    diff_dba <- dba.count(diff_dba, fragmentSize=args$fragmentsize, bRemoveDuplicates=args$removedup, minOverlap=args$minoverlap)
+}
+
+cat("\nCounted data\n\n")
+print(diff_dba)
 
 
 # Export raw counts correlation heatmap
@@ -352,19 +388,21 @@ export_raw_counts_correlation_heatmap(diff_dba, paste(args$output, "_raw_counts_
 
 
 # Export consensus peak venn diagram
-export_consensus_peak_venn_diagram(diff_dba, paste(args$output, "_consensus_peak_venn_diagram.png", sep=""))
+if (!args$usecommon){
+    export_consensus_peak_venn_diagram(diff_dba, paste(args$output, "_consensus_peak_venn_diagram.png", sep=""))
+}
 
 
 # Establish contrast
 metadata = dba.show(diff_dba)
-cat(paste("\nEstablish contrast [", paste(metadata[metadata["Condition"]==args$condition1, "ID"], collapse=", "), "] vs [", paste(metadata[metadata["Condition"]==args$condition2, "ID"], collapse=", "), "], blocked attributes [", paste(metadata[args$block, "ID"], collapse=", "), "]", "\n", sep=""))
+cat(paste("\n\nEstablish contrast [", paste(metadata[metadata["Condition"]==args$condition1, "ID"], collapse=", "), "] vs [", paste(metadata[metadata["Condition"]==args$condition2, "ID"], collapse=", "), "], blocked attributes [", paste(metadata[args$block, "ID"], collapse=", "), "]", "\n\n", sep=""))
 diff_dba$contrasts <- NULL
-diff_dba <- dba.contrast(diff_dba, dba.mask(diff_dba, DBA_CONDITION, args$condition1), dba.mask(diff_dba, DBA_CONDITION, args$condition2), args$condition1, args$condition2, block=args$block)
+diff_dba <- dba.contrast(diff_dba, mask_cond_1, mask_cond_2, args$condition1, args$condition2, block=args$block)
 diff_dba <- dba.analyze(diff_dba, method=args$method)
 
 
-cat("\nAnalyzed data\n")
-diff_dba
+cat("\nAnalyzed data\n\n")
+print(diff_dba)
 
 
 # Export all normalized counts correlation heatmaps
@@ -438,6 +476,21 @@ export_binding_heatmap(diff_dba,
                        args$padding,
                        args$cutoff,
                        args$cparam)
+
+
+# Export not filtered PCA plots
+export_pca_plot(diff_dba,
+                paste(args$output, "_all_pca_plot_deseq.png", sep=""),
+                DBA_DESEQ2)
+export_pca_plot(diff_dba,
+                paste(args$output, "_all_pca_plot_deseq_block.png", sep=""),
+                DBA_DESEQ2_BLOCK)
+export_pca_plot(diff_dba,
+                paste(args$output, "_all_pca_plot_edger.png", sep=""),
+                DBA_EDGER)
+export_pca_plot(diff_dba,
+                paste(args$output, "_all_pca_plot_edger_block.png", sep=""),
+                DBA_EDGER_BLOCK)
 
 
 # Export filtered PCA plots
