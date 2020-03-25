@@ -5387,3 +5387,33 @@
     shuffled_bed_file:
       class: File
       location: shuffled_incl.bed
+
+# ========================================================
+# homer-find-motifs
+# ========================================================
+
+- job: ./homer-find-motifs-1.json
+  tool: ../tools/homer-find-motifs.cwl
+  output:
+    results_folder:
+      class: Directory
+      basename: meme
+    stdout_log:
+      class: File
+      location: homer_find_motifs_stdout.log
+    stderr_log:
+      class: File
+      location: homer_find_motifs_stderr.log
+
+- job: ./homer-find-motifs-2.json
+  tool: ../tools/homer-find-motifs.cwl
+  output:
+    results_folder:
+      class: Directory
+      basename: motifs
+    stdout_log:
+      class: File
+      location: homer_find_motifs_stdout.log
+    stderr_log:
+      class: File
+      location: homer_find_motifs_stderr.log

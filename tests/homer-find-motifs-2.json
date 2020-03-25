@@ -1,0 +1,13 @@
+{
+  "target_fasta_file": {
+    "class": "File",
+    "location":  "./data/dm3_chr4/main_inputs/fasta/meme.fa"
+  },
+  "background_fasta_file": {
+    "class": "File",
+    "location":  "./data/dm3_chr4/main_inputs/fasta/meme.fa"
+  },
+  "output_folder": "motifs",
+  "use_binomial": true,
+  "threads": 1
+}
