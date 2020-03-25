@@ -5355,3 +5355,35 @@
     difference_bed_file:
       class: File
       location: difference.bed
+
+# ========================================================
+# bedtools-shuffle
+# ========================================================
+
+- job: ./bedtools-shuffle-1.json
+  tool: ../tools/bedtools-shuffle.cwl
+  output:
+    shuffled_bed_file:
+      class: File
+      location: chr4_100_mapped_reads.Aligned.out_macs_peaks.narrowPeak
+
+- job: ./bedtools-shuffle-2.json
+  tool: ../tools/bedtools-shuffle.cwl
+  output:
+    shuffled_bed_file:
+      class: File
+      location: shuffled.bed
+
+- job: ./bedtools-shuffle-3.json
+  tool: ../tools/bedtools-shuffle.cwl
+  output:
+    shuffled_bed_file:
+      class: File
+      location: shuffled_excl.bed
+
+- job: ./bedtools-shuffle-4.json
+  tool: ../tools/bedtools-shuffle.cwl
+  output:
+    shuffled_bed_file:
+      class: File
+      location: shuffled_incl.bed
