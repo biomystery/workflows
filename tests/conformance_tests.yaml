@@ -5417,3 +5417,14 @@
     stderr_log:
       class: File
       location: homer_find_motifs_stderr.log
+
+# ========================================================
+# tar-compress
+# ========================================================
+
+- job: ./tar-compress-1.json
+  tool: ../tools/tar-compress.cwl
+  output:
+    compressed_folder:
+      class: File
+      location: rsem_bowtie2_dm3_chr4.tar.gz
