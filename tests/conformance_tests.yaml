@@ -5312,3 +5312,28 @@
     stderr_log:
       class: File
       location: deseq_stderr.log
+
+# ========================================================
+# bedtools-slop
+# ========================================================
+
+- job: ./bedtools-slop-1.json
+  tool: ../tools/bedtools-slop.cwl
+  output:
+    extended_bed_file:
+      class: File
+      location: chr4_100_mapped_reads.Aligned.out_macs_peaks.narrowPeak
+
+- job: ./bedtools-slop-2.json
+  tool: ../tools/bedtools-slop.cwl
+  output:
+    extended_bed_file:
+      class: File
+      location: extended.narrowPeak
+
+- job: ./bedtools-slop-3.json
+  tool: ../tools/bedtools-slop.cwl
+  output:
+    extended_bed_file:
+      class: File
+      location: left_right_extended.narrowPeak
