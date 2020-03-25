@@ -162,10 +162,12 @@ s:creator:
         s:sameAs:
         - id: http://orcid.org/0000-0002-6486-3898
 
+
 doc: |
   Increases the size of each feature in a feature file by a user-defined number of bases.
   If not using -b, then -l and -r should be used together
 
+  
 s:about: |
   Usage:   bedtools slop [OPTIONS] -i <bed/gff/vcf> -g <genome> [-b <int> or (-l and -r)]
 

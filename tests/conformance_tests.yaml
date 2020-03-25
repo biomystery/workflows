@@ -5337,3 +5337,21 @@
     extended_bed_file:
       class: File
       location: left_right_extended.narrowPeak
+
+# ========================================================
+# bedtools-subtract
+# ========================================================
+
+- job: ./bedtools-subtract-1.json
+  tool: ../tools/bedtools-subtract.cwl
+  output:
+    difference_bed_file:
+      class: File
+      location: chr4_100_mapped_reads.Aligned.out.bed
+
+- job: ./bedtools-subtract-2.json
+  tool: ../tools/bedtools-subtract.cwl
+  output:
+    difference_bed_file:
+      class: File
+      location: difference.bed
