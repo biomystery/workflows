@@ -90,12 +90,12 @@ inputs:
       - type: enum
         name: "motifs"
         symbols: ["vertebrates", "insects", "worms", "plants", "yeast", "all"]
-    default: "all"
+    default: "vertebrates"
     inputBinding:
       position: 12
       prefix: "-mset"
     doc: |
-      Set motifs DB to check against. Default: all
+      Set motifs DB to check against. Default: vertebrates
 
   threads:
     type: int?
