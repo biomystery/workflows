@@ -5395,154 +5395,9 @@
 - job: ./homer-find-motifs-1.json
   tool: ../tools/homer-find-motifs.cwl
   output:
-    results_folder:
-      basename: meme
-      class: Directory
-      listing:
-      - class: File
-        location: motifFindingParameters.txt
-      - class: File
-        location: homerResults.html
-      - class: File
-        location: homerMotifs.motifs10
-      - class: File
-        location: homerMotifs.motifs8
-      - class: File
-        location: knownResults.html
-      - class: Directory
-        location: knownResults
-        listing: []
-      - class: Directory
-        location: homerResults
-        listing:
-        - class: File
-          location: motif7.logo.svg
-        - class: File
-          location: motif6.logo.svg
-        - class: File
-          location: motif3RV.logo.svg
-        - class: File
-          location: motif2.motif
-        - class: File
-          location: motif2.info.html
-        - class: File
-          location: motif7.similar.html
-        - class: File
-          location: motif9RV.motif
-        - class: File
-          location: motif4.motif
-        - class: File
-          location: motif4.info.html
-        - class: File
-          location: motif8RV.motif
-        - class: File
-          location: motif9.info.html
-        - class: File
-          location: motif6RV.logo.svg
-        - class: File
-          location: motif1RV.motif
-        - class: File
-          location: motif1.similar.html
-        - class: File
-          location: motif6.motif
-        - class: File
-          location: motif6.similar.html
-        - class: File
-          location: motif1.motif
-        - class: File
-          location: motif1RV.logo.svg
-        - class: File
-          location: motif3.info.html
-        - class: File
-          location: motif3.motif
-        - class: File
-          location: motif3RV.motif
-        - class: File
-          location: motif1.logo.svg
-        - class: File
-          location: motif5.info.html
-        - class: File
-          location: motif7.motif
-        - class: File
-          location: motif9RV.logo.svg
-        - class: File
-          location: motif2RV.motif
-        - class: File
-          location: motif8.info.html
-        - class: File
-          location: motif5.motif
-        - class: File
-          location: motif4RV.logo.svg
-        - class: File
-          location: motif1.similar2.motif
-        - class: File
-          location: motif9.motif
-        - class: File
-          location: motif8.similar.html
-        - class: File
-          location: motif6.similar2.motif
-        - class: File
-          location: motif7RV.motif
-        - class: File
-          location: motif7RV.logo.svg
-        - class: File
-          location: motif9.similar.html
-        - class: File
-          location: motif2RV.logo.svg
-        - class: File
-          location: motif6RV.motif
-        - class: File
-          location: motif6.info.html
-        - class: File
-          location: motif4.similar1.motif
-        - class: File
-          location: motif4.logo.svg
-        - class: File
-          location: motif5.logo.svg
-        - class: File
-          location: motif4RV.motif
-        - class: File
-          location: motif9.similar1.motif
-        - class: File
-          location: motif9.logo.svg
-        - class: File
-          location: motif8.logo.svg
-        - class: File
-          location: motif1.info.html
-        - class: File
-          location: motif8RV.logo.svg
-        - class: File
-          location: motif1.similar1.motif
-        - class: File
-          location: motif3.logo.svg
-        - class: File
-          location: motif2.logo.svg
-        - class: File
-          location: motif6.similar1.motif
-        - class: File
-          location: motif4.similar.html
-        - class: File
-          location: motif3.similar.html
-        - class: File
-          location: motif8.motif
-        - class: File
-          location: motif5RV.logo.svg
-        - class: File
-          location: motif7.info.html
-        - class: File
-          location: motif2.similar.html
-        - class: File
-          location: motif5RV.motif
-        - class: File
-          location: motif5.similar.html
-      - class: File
-        location: homerMotifs.all.motifs
-      - class: File
-        location: knownResults.txt
-      - class: File
-        location: seq.autonorm.tsv
-      - class: File
-        location: homerMotifs.motifs12
+    compressed_results_folder:
+      location: meme.tar.gz
+      class: File
     stderr_log:
       location: homer_find_motifs_stderr.log
       class: File
@@ -5553,162 +5408,9 @@
 - job: ./homer-find-motifs-2.json
   tool: ../tools/homer-find-motifs.cwl
   output:
-    results_folder:
-      basename: motifs
-      class: Directory
-      listing:
-      - class: File
-        location: motifFindingParameters.txt
-      - class: File
-        location: homerResults.html
-      - class: File
-        location: homerMotifs.motifs10
-      - class: File
-        location: homerMotifs.motifs8
-      - class: File
-        location: knownResults.html
-      - class: Directory
-        location: knownResults
-        listing: []
-      - class: Directory
-        location: homerResults
-        listing:
-        - class: File
-          location: motif7.logo.svg
-        - class: File
-          location: motif6.logo.svg
-        - class: File
-          location: motif10.info.html
-        - class: File
-          location: motif3RV.logo.svg
-        - class: File
-          location: motif2.motif
-        - class: File
-          location: motif2.info.html
-        - class: File
-          location: motif7.similar.html
-        - class: File
-          location: motif9RV.motif
-        - class: File
-          location: motif4.motif
-        - class: File
-          location: motif4.info.html
-        - class: File
-          location: motif8RV.motif
-        - class: File
-          location: motif9.info.html
-        - class: File
-          location: motif6RV.logo.svg
-        - class: File
-          location: motif1RV.motif
-        - class: File
-          location: motif1.similar.html
-        - class: File
-          location: motif6.motif
-        - class: File
-          location: motif6.similar.html
-        - class: File
-          location: motif10.motif
-        - class: File
-          location: motif10.similar.html
-        - class: File
-          location: motif1.motif
-        - class: File
-          location: motif1RV.logo.svg
-        - class: File
-          location: motif3.info.html
-        - class: File
-          location: motif3.motif
-        - class: File
-          location: motif3RV.motif
-        - class: File
-          location: motif10RV.motif
-        - class: File
-          location: motif1.logo.svg
-        - class: File
-          location: motif5.info.html
-        - class: File
-          location: motif7.motif
-        - class: File
-          location: motif9RV.logo.svg
-        - class: File
-          location: motif2RV.motif
-        - class: File
-          location: motif8.info.html
-        - class: File
-          location: motif5.motif
-        - class: File
-          location: motif4RV.logo.svg
-        - class: File
-          location: motif1.similar2.motif
-        - class: File
-          location: motif2.similar1.motif
-        - class: File
-          location: motif9.motif
-        - class: File
-          location: motif8.similar.html
-        - class: File
-          location: motif7RV.motif
-        - class: File
-          location: motif7RV.logo.svg
-        - class: File
-          location: motif9.similar.html
-        - class: File
-          location: motif2RV.logo.svg
-        - class: File
-          location: motif6RV.motif
-        - class: File
-          location: motif6.info.html
-        - class: File
-          location: motif4.logo.svg
-        - class: File
-          location: motif5.logo.svg
-        - class: File
-          location: motif4RV.motif
-        - class: File
-          location: motif9.logo.svg
-        - class: File
-          location: motif8.logo.svg
-        - class: File
-          location: motif1.info.html
-        - class: File
-          location: motif8RV.logo.svg
-        - class: File
-          location: motif1.similar1.motif
-        - class: File
-          location: motif3.logo.svg
-        - class: File
-          location: motif2.logo.svg
-        - class: File
-          location: motif6.similar1.motif
-        - class: File
-          location: motif4.similar.html
-        - class: File
-          location: motif3.similar.html
-        - class: File
-          location: motif8.motif
-        - class: File
-          location: motif5RV.logo.svg
-        - class: File
-          location: motif10RV.logo.svg
-        - class: File
-          location: motif7.info.html
-        - class: File
-          location: motif10.logo.svg
-        - class: File
-          location: motif2.similar.html
-        - class: File
-          location: motif5RV.motif
-        - class: File
-          location: motif5.similar.html
-      - class: File
-        location: homerMotifs.all.motifs
-      - class: File
-        location: knownResults.txt
-      - class: File
-        location: seq.autonorm.tsv
-      - class: File
-        location: homerMotifs.motifs12
+    compressed_results_folder:
+      location: motifs.tar.gz
+      class: File
     stderr_log:
       location: homer_find_motifs_stderr.log
       class: File
@@ -5716,6 +5418,31 @@
       location: homer_find_motifs_stdout.log
       class: File
     
+- job: ./homer-find-motifs-3.json
+  tool: ../tools/homer-find-motifs.cwl
+  output:
+    compressed_results_folder:
+      location: motifs
+      class: File
+    stderr_log:
+      location: homer_find_motifs_stderr.log
+      class: File
+    stdout_log:
+      location: homer_find_motifs_stdout.log
+      class: File
+
+- job: ./homer-find-motifs-4.json
+  tool: ../tools/homer-find-motifs.cwl
+  output:
+    compressed_results_folder:
+      location: meme.tar.gz
+      class: File
+    stderr_log:
+      location: homer_find_motifs_stderr.log
+      class: File
+    stdout_log:
+      location: homer_find_motifs_stdout.log
+      class: File
 
 # ========================================================
 # tar-compress

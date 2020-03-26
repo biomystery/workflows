@@ -7,5 +7,6 @@
     "class": "File",
     "location":  "./data/dm3_chr4/main_inputs/fasta/meme.fa"
   },
-  "output_filename": "motifs.tar.gz"
+  "output_filename": "motifs",
+  "skip_known": true
 }
