@@ -705,6 +705,3 @@ export_results(diff_dba,
 export_results(diff_dba,
                paste(args$output, "_all_report_edger_block.tsv", sep=""),
                DBA_EDGER_BLOCK)
-
-
-graphics.off()
