@@ -148,11 +148,11 @@ export_peak_overlap_correlation_heatmap <- function(dba_data, rootname, padding,
         expr = {
 
             png(filename=paste(rootname, ".png", sep=""), width=width, height=height, res=res)
-            dba.plotHeatmap(dba_data, attributes=DBA_CONDITION, margin=padding)
+            dba.plotHeatmap(dba_data, margin=padding)
             dev.off()
 
             pdf(file=paste(rootname, ".pdf", sep=""), width=round(width/res), height=round(height/res))
-            dba.plotHeatmap(dba_data, attributes=DBA_CONDITION, margin=padding)
+            dba.plotHeatmap(dba_data, margin=padding)
             dev.off()
 
             cat(paste("\nExport peak overlap correlation heatmap to ", rootname, ".(png/pdf)", sep=""))
@@ -353,7 +353,6 @@ export_results <- function(dba_data, filename, method, th=1, use_pval=FALSE){
             }
         },
         error = function(e){
-            dev.off()
             cat(paste("\nFailed to export differential binding analysis results as TSV to", filename, sep=" "))
         }
     )
