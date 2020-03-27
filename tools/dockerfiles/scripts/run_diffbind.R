@@ -9,6 +9,9 @@ suppressMessages(library(DiffBind))
 
 ##########################################################################################
 #
+# v0.0.12
+# - export all graphics to pdf too
+#
 # v0.0.11
 # - add occupancy based consensus peak selection
 #
@@ -118,141 +121,221 @@ assert_args <- function(args){
 }
 
 
-export_raw_counts_correlation_heatmap <- function(dba_data, filename, padding, width=800, height=800){
+export_raw_counts_correlation_heatmap <- function(dba_data, rootname, padding, width=800, height=800, res=72){
     tryCatch(
         expr = {
-            png(filename=filename, width=width, height=height)
+
+            png(filename=paste(rootname, ".png", sep=""), width=width, height=height, res=res)
             dba.plotHeatmap(dba_data, margin=padding, score=DBA_SCORE_READS)
-            cat(paste("\nExport raw counts correlation heatmap to", filename, sep=" "))
+            dev.off()
+
+            pdf(file=paste(rootname, ".pdf", sep=""), width=round(width/res), height=round(height/res))
+            dba.plotHeatmap(dba_data, margin=padding, score=DBA_SCORE_READS)
+            dev.off()
+
+            cat(paste("\nExport raw counts correlation heatmap to ", rootname, ".(png/pdf)", sep=""))
         },
-        error = function(e){ 
-            cat(paste("\nFailed to export raw counts correlation heatmap to", filename, sep=" "))
+        error = function(e){
+            dev.off()
+            cat(paste("\nFailed to export raw counts correlation heatmap to ", rootname, ".(png/pdf)",  sep=""))
         }
     )
 }
 
 
-export_peak_overlap_correlation_heatmap <- function(dba_data, filename, padding, width=800, height=800){
+export_peak_overlap_correlation_heatmap <- function(dba_data, rootname, padding, width=800, height=800, res=72){
     tryCatch(
         expr = {
-            png(filename=filename, width=width, height=height)
+
+            png(filename=paste(rootname, ".png", sep=""), width=width, height=height, res=res)
             dba.plotHeatmap(dba_data, attributes=DBA_CONDITION, margin=padding)
-            cat(paste("\nExport peak overlap correlation heatmap to", filename, sep=" "))
+            dev.off()
+
+            pdf(file=paste(rootname, ".pdf", sep=""), width=round(width/res), height=round(height/res))
+            dba.plotHeatmap(dba_data, attributes=DBA_CONDITION, margin=padding)
+            dev.off()
+
+            cat(paste("\nExport peak overlap correlation heatmap to ", rootname, ".(png/pdf)", sep=""))
         },
-        error = function(e){ 
-            cat(paste("\nFailed to export peak overlap correlation heatmap to", filename, sep=" "))
+        error = function(e){
+            dev.off()
+            cat(paste("\nFailed to export peak overlap correlation heatmap to ", rootname, ".(png/pdf)", sep=""))
         }
     )
 }
 
 
-export_peak_overlap_rate_plot <- function(peak_overlap_rate, filename, width=800, height=800){
+export_peak_overlap_rate_plot <- function(peak_overlap_rate, rootname, width=800, height=800, res=72){
     tryCatch(
         expr = {
-            png(filename=filename, width=width, height=height)
+
+            png(filename=paste(rootname, ".png", sep=""), width=width, height=height, res=res)
             plot(peak_overlap_rate, type='b', ylab='# peaks', xlab='Overlap at least this many peaksets', pch=19, cex=2)
-            cat(paste("\nExport peak overlap rate plot to", filename, sep=" "))
+            dev.off()
+
+            pdf(file=paste(rootname, ".pdf", sep=""), width=round(width/res), height=round(height/res))
+            plot(peak_overlap_rate, type='b', ylab='# peaks', xlab='Overlap at least this many peaksets', pch=19, cex=2)
+            dev.off()
+
+            cat(paste("\nExport peak overlap rate plot to ", rootname, ".(png/pdf)", sep=""))
         },
-        error = function(e){ 
-            cat(paste("\nFailed to export peak overlap rate plot to", filename, sep=" "))
+        error = function(e){
+            dev.off()
+            cat(paste("\nFailed to export peak overlap rate plot to ", rootname, ".(png/pdf)", sep=""))
         }
     )
 }
 
 
-export_normalized_counts_correlation_heatmap <- function(dba_data, filename, method, padding, th=1, use_pval=FALSE, width=800, height=800){
+export_normalized_counts_correlation_heatmap <- function(dba_data, rootname, method, padding, th=1, use_pval=FALSE, width=800, height=800, res=72){
     tryCatch(
         expr = {
-            png(filename=filename, width=width, height=height)
+
+            png(filename=paste(rootname, ".png", sep=""), width=width, height=height, res=res)
             dba.plotHeatmap(dba_data, contrast=1, th=th, bUsePval=use_pval, method=method, margin=padding)
-            cat(paste("\nExport normalized counts correlation heatmap to", filename, sep=" "))
+            dev.off()
+
+            pdf(file=paste(rootname, ".pdf", sep=""), width=round(width/res), height=round(height/res))
+            dba.plotHeatmap(dba_data, contrast=1, th=th, bUsePval=use_pval, method=method, margin=padding)
+            dev.off()
+
+            cat(paste("\nExport normalized counts correlation heatmap to ", rootname, ".(png/pdf)", sep=""))
         },
-        error = function(e){ 
-            cat(paste("\nFailed to export normalized counts correlation heatmap to", filename, sep=" "))
+        error = function(e){
+            dev.off()
+            cat(paste("\nFailed to export normalized counts correlation heatmap to ", rootname, ".(png/pdf)", sep=""))
         }
     )
 }
 
 
-export_binding_heatmap <- function(dba_data, filename, method, padding, th=1, use_pval=FALSE, width=800, height=800){
+export_binding_heatmap <- function(dba_data, rootname, method, padding, th=1, use_pval=FALSE, width=800, height=800, res=72){
     tryCatch(
         expr = {
-            png(filename=filename, width=width, height=height)
+            
+            png(filename=paste(rootname, ".png", sep=""), width=width, height=height, res=res)
             dba.plotHeatmap(dba_data, contrast=1, correlations=FALSE, th=th, bUsePval=use_pval, method=method, margin=padding, scale="row")
-            cat(paste("\nExport binding heatmap based to", filename, sep=" "))
+            dev.off()
+
+            pdf(file=paste(rootname, ".pdf", sep=""), width=round(width/res), height=round(height/res))
+            dba.plotHeatmap(dba_data, contrast=1, correlations=FALSE, th=th, bUsePval=use_pval, method=method, margin=padding, scale="row")
+            dev.off()
+
+            cat(paste("\nExport binding heatmap to ", rootname, ".(png/pdf)", sep=""))
         },
-        error = function(e){ 
-            cat(paste("\nFailed to export binding heatmap to", filename, sep=" "))
+        error = function(e){
+            dev.off()
+            cat(paste("\nFailed to export binding heatmap to ", rootname, ".(png/pdf)", sep=""))
         }
     )
 }
 
 
-export_pca_plot <- function(dba_data, filename, method, th=1, use_pval=FALSE, width=800, height=800){
+export_pca_plot <- function(dba_data, rootname, method, th=1, use_pval=FALSE, width=800, height=800, res=72){
     tryCatch(
         expr = {
-            png(filename=filename, width=width, height=height)
+
+            png(filename=paste(rootname, ".png", sep=""), width=width, height=height, res=res)
             dba.plotPCA(dba_data, attributes=DBA_CONDITION, contrast=1, th=th, bUsePval=use_pval, label=DBA_ID, method=method)
-            cat(paste("\nExport PCA plot to", filename, sep=" "))
+            dev.off()
+
+            pdf(file=paste(rootname, ".pdf", sep=""), width=round(width/res), height=round(height/res))
+            dba.plotPCA(dba_data, attributes=DBA_CONDITION, contrast=1, th=th, bUsePval=use_pval, label=DBA_ID, method=method)
+            dev.off()
+
+            cat(paste("\nExport PCA plot to ", rootname, ".(png/pdf)", sep=""))
         },
-        error = function(e){ 
-            cat(paste("\nFailed to export PCA plot to", filename, sep=" "))
+        error = function(e){
+            dev.off()
+            cat(paste("\nFailed to export PCA plot to ", rootname, ".(png/pdf)", sep=""))
         }
     )
 }
 
 
-export_ma_plot <- function(dba_data, filename, method, th=1, use_pval=FALSE, width=800, height=800){
+export_ma_plot <- function(dba_data, rootname, method, th=1, use_pval=FALSE, width=800, height=800, res=72){
     tryCatch(
         expr = {
-            png(filename=filename, width=width, height=height)
+            
+            png(filename=paste(rootname, ".png", sep=""), width=width, height=height, res=res)
             dba.plotMA(dba_data, contrast=1, method=method, th=th, bUsePval=use_pval)
-            cat(paste("\nExport MA plot to", filename, sep=" "))
+            dev.off()
+
+            pdf(file=paste(rootname, ".pdf", sep=""), width=round(width/res), height=round(height/res))
+            dba.plotMA(dba_data, contrast=1, method=method, th=th, bUsePval=use_pval)
+            dev.off()
+
+            cat(paste("\nExport MA plot to ", rootname, ".(png/pdf)", sep=""))
         },
-        error = function(e){ 
-            cat(paste("\nFailed to export MA plot to", filename, sep=" "))
+        error = function(e){
+            dev.off()
+            cat(paste("\nFailed to export MA plot to ", rootname, ".(png/pdf)", sep=""))
         }
     )
 }
 
 
-export_volcano_plot <- function(dba_data, filename, method, th=1, use_pval=FALSE, width=800, height=800){
+export_volcano_plot <- function(dba_data, rootname, method, th=1, use_pval=FALSE, width=800, height=800, res=72){
     tryCatch(
         expr = {
-            png(filename=filename, width=width, height=height)
+
+            png(filename=paste(rootname, ".png", sep=""), width=width, height=height, res=res)
             dba.plotVolcano(dba_data, contrast=1, method=method, th=th, bUsePval=use_pval)
-            cat(paste("\nExport volcano plot to", filename, sep=" "))
+            dev.off()
+
+            pdf(file=paste(rootname, ".pdf", sep=""), width=round(width/res), height=round(height/res))
+            dba.plotVolcano(dba_data, contrast=1, method=method, th=th, bUsePval=use_pval)
+            dev.off()
+
+            cat(paste("\nExport volcano plot to ", rootname, ".(png/pdf)", sep=""))
         },
-        error = function(e){ 
-            cat(paste("\nFailed to export volcano plot to", filename, sep=" "))
+        error = function(e){
+            dev.off()
+            cat(paste("\nFailed to export volcano plot to ", rootname, ".(png/pdf)", sep=""))
         }
     )
 }
 
 
-export_box_plot <- function(dba_data, filename, method, th=1, use_pval=FALSE, width=800, height=800){
+export_box_plot <- function(dba_data, rootname, method, th=1, use_pval=FALSE, width=800, height=800, res=72){
     tryCatch(
         expr = {
-            png(filename=filename, width=width, height=height)
+
+            png(filename=paste(rootname, ".png", sep=""), width=width, height=height, res=res)
             dba.plotBox(dba_data, method=method, th=th, bUsePval=use_pval)
-            cat(paste("\nExport box plot to", filename, sep=" "))
+            dev.off()
+
+            pdf(file=paste(rootname, ".pdf", sep=""), width=round(width/res), height=round(height/res))
+            dba.plotBox(dba_data, method=method, th=th, bUsePval=use_pval)
+            dev.off()
+
+            cat(paste("\nExport box plot to", rootname, ".(png/pdf)", sep=""))
         },
-        error = function(e){ 
-            cat(paste("\nFailed to export box plot to", filename, sep=" "))
+        error = function(e){
+            dev.off()
+            cat(paste("\nFailed to export box plot to ", rootname, ".(png/pdf)", sep=""))
         }
     )
 }
 
 
-export_consensus_peak_venn_diagram <- function(dba_data, filename, width=800, height=800){
+export_consensus_peak_venn_diagram <- function(dba_data, rootname, width=800, height=800, res=72){
     tryCatch(
         expr = {
-            png(filename=filename, width=width, height=height)
+
+            png(filename=paste(rootname, ".png", sep=""), width=width, height=height, res=res)
             dba.plotVenn(dba_data, dba_data$masks$Consensus)
-            cat(paste("\nExport consensus peak venn diagram to", filename, sep=" "))
+            dev.off()
+
+            pdf(file=paste(rootname, ".pdf", sep=""), width=round(width/res), height=round(height/res))
+            dba.plotVenn(dba_data, dba_data$masks$Consensus)
+            dev.off()
+
+            cat(paste("\nExport consensus peak venn diagram to ", rootname, ".(png/pdf)", sep=""))
         },
-        error = function(e){ 
-            cat(paste("\nFailed to export consensus peak venn diagram to", filename, sep=" "))
+        error = function(e){
+            dev.off()
+            cat(paste("\nFailed to export consensus peak venn diagram to ", rootname, ".(png/pdf)", sep=""))
         }
     )
 }
@@ -269,7 +352,8 @@ export_results <- function(dba_data, filename, method, th=1, use_pval=FALSE){
                 cat(paste("\nSkip exporting differential binding analysis results as TSV to", filename, "[no data]", sep=" "))
             }
         },
-        error = function(e){ 
+        error = function(e){
+            dev.off()
             cat(paste("\nFailed to export differential binding analysis results as TSV to", filename, sep=" "))
         }
     )
@@ -341,7 +425,7 @@ if (args$usecommon){
     consensus_peaks <- dba.peakset(diff_dba_consensus, bRetrieve=TRUE, minOverlap=args$minoverlap)
     cat("\nConsensus peaks\n\n")
     print(consensus_peaks)
-    export_consensus_peak_venn_diagram(diff_dba_consensus, paste(args$output, "_consensus_peak_venn_diagram.png", sep=""))
+    export_consensus_peak_venn_diagram(diff_dba_consensus, paste(args$output, "_consensus_peak_venn_diagram", sep=""))
 }
 
 
@@ -355,19 +439,19 @@ cat(paste("\nPeak overlap rate for", args$condition2, "\n", sep=" "))
 peak_overlap_rate_cond_2 = dba.overlap(diff_dba, mask_cond_2, mode=DBA_OLAP_RATE)
 print(peak_overlap_rate_cond_2)
 
-export_peak_overlap_rate_plot(peak_overlap_rate_cond_1, paste(args$output, "_condition_1_peak_overlap_rate.png", sep=""))
-export_peak_overlap_rate_plot(peak_overlap_rate_cond_2, paste(args$output, "_condition_2_peak_overlap_rate.png", sep=""))
+export_peak_overlap_rate_plot(peak_overlap_rate_cond_1, paste(args$output, "_condition_1_peak_overlap_rate", sep=""))
+export_peak_overlap_rate_plot(peak_overlap_rate_cond_2, paste(args$output, "_condition_2_peak_overlap_rate", sep=""))
 
 if (!args$usecommon){
     peak_overlap_rate_all = dba.overlap(diff_dba, mode=DBA_OLAP_RATE)
     cat("\n\nPeak overlap rate for all peaksets\n")
     print(peak_overlap_rate_all)
-    export_peak_overlap_rate_plot(peak_overlap_rate_all, paste(args$output, "_all_peak_overlap_rate.png", sep=""))
+    export_peak_overlap_rate_plot(peak_overlap_rate_all, paste(args$output, "_all_peak_overlap_rate", sep=""))
 }
 
 
 # Export peak overlap correlation heatmap
-export_peak_overlap_correlation_heatmap(diff_dba, paste(args$output, "_peak_overlap_correlation_heatmap.png", sep=""), args$padding)
+export_peak_overlap_correlation_heatmap(diff_dba, paste(args$output, "_peak_overlap_correlation_heatmap", sep=""), args$padding)
 
 
 # Count reads in binding site intervals
@@ -384,12 +468,12 @@ print(diff_dba)
 
 
 # Export raw counts correlation heatmap
-export_raw_counts_correlation_heatmap(diff_dba, paste(args$output, "_raw_counts_correlation_heatmap.png", sep=""), args$padding)
+export_raw_counts_correlation_heatmap(diff_dba, paste(args$output, "_raw_counts_correlation_heatmap", sep=""), args$padding)
 
 
 # Export consensus peak venn diagram
 if (!args$usecommon){
-    export_consensus_peak_venn_diagram(diff_dba, paste(args$output, "_consensus_peak_venn_diagram.png", sep=""))
+    export_consensus_peak_venn_diagram(diff_dba, paste(args$output, "_consensus_peak_venn_diagram", sep=""))
 }
 
 
@@ -407,44 +491,44 @@ print(diff_dba)
 
 # Export all normalized counts correlation heatmaps
 export_normalized_counts_correlation_heatmap(diff_dba,
-                                             paste(args$output, "_all_normalized_counts_correlation_heatmap_deseq.png", sep=""),
+                                             paste(args$output, "_all_normalized_counts_correlation_heatmap_deseq", sep=""),
                                              DBA_DESEQ2,
                                              args$padding)
 export_normalized_counts_correlation_heatmap(diff_dba,
-                                             paste(args$output, "_all_normalized_counts_correlation_heatmap_deseq_block.png", sep=""),
+                                             paste(args$output, "_all_normalized_counts_correlation_heatmap_deseq_block", sep=""),
                                              DBA_DESEQ2_BLOCK,
                                              args$padding)                                             
 export_normalized_counts_correlation_heatmap(diff_dba,
-                                             paste(args$output, "_all_normalized_counts_correlation_heatmap_edger.png", sep=""),
+                                             paste(args$output, "_all_normalized_counts_correlation_heatmap_edger", sep=""),
                                              DBA_EDGER,
                                              args$padding)
 export_normalized_counts_correlation_heatmap(diff_dba,
-                                             paste(args$output, "_all_normalized_counts_correlation_heatmap_edger_block.png", sep=""),
+                                             paste(args$output, "_all_normalized_counts_correlation_heatmap_edger_block", sep=""),
                                              DBA_EDGER_BLOCK,
                                              args$padding)
 
 
 # Export filtered normalized counts correlation heatmaps
 export_normalized_counts_correlation_heatmap(diff_dba,
-                                             paste(args$output, "_filtered_normalized_counts_correlation_heatmap_deseq.png", sep=""),
+                                             paste(args$output, "_filtered_normalized_counts_correlation_heatmap_deseq", sep=""),
                                              DBA_DESEQ2,
                                              args$padding,
                                              args$cutoff,
                                              args$cparam)
 export_normalized_counts_correlation_heatmap(diff_dba,
-                                             paste(args$output, "_filtered_normalized_counts_correlation_heatmap_deseq_block.png", sep=""),
+                                             paste(args$output, "_filtered_normalized_counts_correlation_heatmap_deseq_block", sep=""),
                                              DBA_DESEQ2_BLOCK,
                                              args$padding,
                                              args$cutoff,
                                              args$cparam)                                             
 export_normalized_counts_correlation_heatmap(diff_dba,
-                                             paste(args$output, "_filtered_normalized_counts_correlation_heatmap_edger.png", sep=""),
+                                             paste(args$output, "_filtered_normalized_counts_correlation_heatmap_edger", sep=""),
                                              DBA_EDGER,
                                              args$padding,
                                              args$cutoff,
                                              args$cparam)
 export_normalized_counts_correlation_heatmap(diff_dba,
-                                             paste(args$output, "_filtered_normalized_counts_correlation_heatmap_edger_block.png", sep=""),
+                                             paste(args$output, "_filtered_normalized_counts_correlation_heatmap_edger_block", sep=""),
                                              DBA_EDGER_BLOCK,
                                              args$padding,
                                              args$cutoff,
@@ -453,25 +537,25 @@ export_normalized_counts_correlation_heatmap(diff_dba,
 
 # Export filtered binding heatmaps
 export_binding_heatmap(diff_dba,
-                       paste(args$output, "_filtered_binding_heatmap_deseq.png", sep=""),
+                       paste(args$output, "_filtered_binding_heatmap_deseq", sep=""),
                        DBA_DESEQ2,
                        args$padding,
                        args$cutoff,
                        args$cparam)
 export_binding_heatmap(diff_dba,
-                       paste(args$output, "_filtered_binding_heatmap_deseq_block.png", sep=""),
+                       paste(args$output, "_filtered_binding_heatmap_deseq_block", sep=""),
                        DBA_DESEQ2_BLOCK,
                        args$padding,
                        args$cutoff,
                        args$cparam)
 export_binding_heatmap(diff_dba,
-                       paste(args$output, "_filtered_binding_heatmap_edger.png", sep=""),
+                       paste(args$output, "_filtered_binding_heatmap_edger", sep=""),
                        DBA_EDGER,
                        args$padding,
                        args$cutoff,
                        args$cparam)
 export_binding_heatmap(diff_dba,
-                       paste(args$output, "_filtered_binding_heatmap_edger_block.png", sep=""),
+                       paste(args$output, "_filtered_binding_heatmap_edger_block", sep=""),
                        DBA_EDGER_BLOCK,
                        args$padding,
                        args$cutoff,
@@ -480,37 +564,37 @@ export_binding_heatmap(diff_dba,
 
 # Export not filtered PCA plots
 export_pca_plot(diff_dba,
-                paste(args$output, "_all_pca_plot_deseq.png", sep=""),
+                paste(args$output, "_all_pca_plot_deseq", sep=""),
                 DBA_DESEQ2)
 export_pca_plot(diff_dba,
-                paste(args$output, "_all_pca_plot_deseq_block.png", sep=""),
+                paste(args$output, "_all_pca_plot_deseq_block", sep=""),
                 DBA_DESEQ2_BLOCK)
 export_pca_plot(diff_dba,
-                paste(args$output, "_all_pca_plot_edger.png", sep=""),
+                paste(args$output, "_all_pca_plot_edger", sep=""),
                 DBA_EDGER)
 export_pca_plot(diff_dba,
-                paste(args$output, "_all_pca_plot_edger_block.png", sep=""),
+                paste(args$output, "_all_pca_plot_edger_block", sep=""),
                 DBA_EDGER_BLOCK)
 
 
 # Export filtered PCA plots
 export_pca_plot(diff_dba,
-                paste(args$output, "_filtered_pca_plot_deseq.png", sep=""),
+                paste(args$output, "_filtered_pca_plot_deseq", sep=""),
                 DBA_DESEQ2,
                 args$cutoff,
                 args$cparam)
 export_pca_plot(diff_dba,
-                paste(args$output, "_filtered_pca_plot_deseq_block.png", sep=""),
+                paste(args$output, "_filtered_pca_plot_deseq_block", sep=""),
                 DBA_DESEQ2_BLOCK,
                 args$cutoff,
                 args$cparam)
 export_pca_plot(diff_dba,
-                paste(args$output, "_filtered_pca_plot_edger.png", sep=""),
+                paste(args$output, "_filtered_pca_plot_edger", sep=""),
                 DBA_EDGER,
                 args$cutoff,
                 args$cparam)
 export_pca_plot(diff_dba,
-                paste(args$output, "_filtered_pca_plot_edger_block.png", sep=""),
+                paste(args$output, "_filtered_pca_plot_edger_block", sep=""),
                 DBA_EDGER_BLOCK,
                 args$cutoff,
                 args$cparam)
@@ -518,22 +602,22 @@ export_pca_plot(diff_dba,
 
 # Export filtered MA plot
 export_ma_plot(diff_dba,
-               paste(args$output, "_filtered_ma_plot_deseq.png", sep=""),
+               paste(args$output, "_filtered_ma_plot_deseq", sep=""),
                DBA_DESEQ2,
                args$cutoff,
                args$cparam)
 export_ma_plot(diff_dba,
-               paste(args$output, "_filtered_ma_plot_deseq_block.png", sep=""),
+               paste(args$output, "_filtered_ma_plot_deseq_block", sep=""),
                DBA_DESEQ2_BLOCK,
                args$cutoff,
                args$cparam)
 export_ma_plot(diff_dba,
-               paste(args$output, "_filtered_ma_plot_edger.png", sep=""),
+               paste(args$output, "_filtered_ma_plot_edger", sep=""),
                DBA_EDGER,
                args$cutoff,
                args$cparam)
 export_ma_plot(diff_dba,
-               paste(args$output, "_filtered_ma_plot_edger_block.png", sep=""),
+               paste(args$output, "_filtered_ma_plot_edger_block", sep=""),
                DBA_EDGER_BLOCK,
                args$cutoff,
                args$cparam)
@@ -541,22 +625,22 @@ export_ma_plot(diff_dba,
 
 # Export filtered volcano plots
 export_volcano_plot(diff_dba,
-                    paste(args$output, "_filtered_volcano_plot_deseq.png", sep=""),
+                    paste(args$output, "_filtered_volcano_plot_deseq", sep=""),
                     DBA_DESEQ2,
                     args$cutoff,
                     args$cparam)
 export_volcano_plot(diff_dba,
-                    paste(args$output, "_filtered_volcano_plot_deseq_block.png", sep=""),
+                    paste(args$output, "_filtered_volcano_plot_deseq_block", sep=""),
                     DBA_DESEQ2_BLOCK,
                     args$cutoff,
                     args$cparam)
 export_volcano_plot(diff_dba,
-                    paste(args$output, "_filtered_volcano_plot_edger.png", sep=""),
+                    paste(args$output, "_filtered_volcano_plot_edger", sep=""),
                     DBA_EDGER,
                     args$cutoff,
                     args$cparam)
 export_volcano_plot(diff_dba,
-                    paste(args$output, "_filtered_volcano_plot_edger_block.png", sep=""),
+                    paste(args$output, "_filtered_volcano_plot_edger_block", sep=""),
                     DBA_EDGER_BLOCK,
                     args$cutoff,
                     args$cparam)
@@ -564,22 +648,22 @@ export_volcano_plot(diff_dba,
 
 # Export filtered box plots
 export_box_plot(diff_dba,
-                paste(args$output, "_filtered_box_plot_deseq.png", sep=""),
+                paste(args$output, "_filtered_box_plot_deseq", sep=""),
                 DBA_DESEQ2,
                 args$cutoff,
                 args$cparam)
 export_box_plot(diff_dba,
-                paste(args$output, "_filtered_box_plot_deseq_block.png", sep=""),
+                paste(args$output, "_filtered_box_plot_deseq_block", sep=""),
                 DBA_DESEQ2_BLOCK,
                 args$cutoff,
                 args$cparam)
 export_box_plot(diff_dba,
-                paste(args$output, "_filtered_box_plot_edger.png", sep=""),
+                paste(args$output, "_filtered_box_plot_edger", sep=""),
                 DBA_EDGER,
                 args$cutoff,
                 args$cparam)
 export_box_plot(diff_dba,
-                paste(args$output, "_filtered_box_plot_edger_block.png", sep=""),
+                paste(args$output, "_filtered_box_plot_edger_block", sep=""),
                 DBA_EDGER_BLOCK,
                 args$cutoff,
                 args$cparam)
