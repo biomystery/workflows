@@ -11,6 +11,7 @@ suppressMessages(library(DiffBind))
 #
 # v0.0.12
 # - export all graphics to pdf too
+# - allow to filter out intervals with low raw read counts
 #
 # v0.0.11
 # - add occupancy based consensus peak selection
@@ -379,7 +380,8 @@ get_args <- function(){
     parser$add_argument("-rd", "--removedup",    help='Remove reads that map to exactly the same genomic position. Default: false', action='store_true')
     parser$add_argument("-me", "--method",       help='Method by which to analyze differential binding affinity. Default: all', type="character", choices=c("edger","deseq2","all"), default="all")
     parser$add_argument("-mo", "--minoverlap",   help='Min peakset overlap. Only include peaks in at least this many peaksets when generating consensus peakset. Default: 2', type="integer", default=2)
-    parser$add_argument("-uc", "--usecommon",    help='Derive consensus peaks only from the common peaks within each condition. Min peakset overlap is ignored. Default: false', action='store_true')
+    parser$add_argument("-uc", "--usecommon",    help='Derive consensus peaks only from the common peaks within each condition. Min peakset overlap and min read counts are ignored. Default: false', action='store_true')
+    parser$add_argument("-mc", "--mincounts",    help='Min read counts. Exclude all merged intervals where the MAX raw read counts among all of the samples is smaller than the specified value. Default: 0', type="integer", default=0)
 
     parser$add_argument("-cu", "--cutoff",       help='Cutoff for reported results. Applied to the parameter set with -cp. Default: 0.05', type="double",    default=0.05)
     parser$add_argument("-cp", "--cparam",       help='Parameter to which cutoff should be applied (fdr or pvalue). Default: fdr',         type="character", choices=c("pvalue","fdr"), default="fdr")
@@ -459,7 +461,11 @@ cat(paste("\n\nCount reads using", diff_dba$config$cores, "threads. Min peakset 
 if (args$usecommon){
     diff_dba <- dba.count(diff_dba, peaks=consensus_peaks, fragmentSize=args$fragmentsize, bRemoveDuplicates=args$removedup, minOverlap=args$minoverlap)
 } else {
-    diff_dba <- dba.count(diff_dba, fragmentSize=args$fragmentsize, bRemoveDuplicates=args$removedup, minOverlap=args$minoverlap)
+    if (args$mincounts > 0){
+        cat(paste("\n\nExclude all merged intervals where the MAX of raw read counts is smaller than", args$mincounts, "\n", sep=" "))
+        args$mincounts <- args$mincounts + 1  # looks like I need to do it because of a bug in diffbind
+    }
+    diff_dba <- dba.count(diff_dba, fragmentSize=args$fragmentsize, bRemoveDuplicates=args$removedup, minOverlap=args$minoverlap, filter=args$mincounts, score=DBA_SCORE_READS)
 }
 
 cat("\nCounted data\n\n")
