@@ -24,8 +24,8 @@ load_data_set <- function(input_file, gene_labels, cutoff, param, log2fc) {
         for (i in 1:nrow(data_set)) {
             genes = unlist(strsplit(data_set[i,"Gene_id"], ","))
             intersected_genes = intersect(genes, gene_labels)
-            # if (length(intersected_genes) == 0 || data_set[i,param] > cutoff || (data_set[i,"Fold"] < log2fc & data_set[i,"Fold"] > -log2fc) ){
-            if (length(intersected_genes) == 0 || data_set[i,param] > cutoff || data_set[i,"Fold"] < log2fc ){
+            # if (length(intersected_genes) == 0 || data_set[i,param] > cutoff || data_set[i,"Fold"] < log2fc ){
+            if (length(intersected_genes) == 0 || data_set[i,param] > cutoff || (data_set[i,"Fold"] < log2fc & data_set[i,"Fold"] > -log2fc) ){
                 data_set[i, "Gene_id"] = ""
                 pointsize = c(pointsize, 0.01)
             } else {
@@ -33,6 +33,20 @@ load_data_set <- function(input_file, gene_labels, cutoff, param, log2fc) {
                 data_set[i, "Gene_id"] = new_gene_id
                 labels = c(labels, new_gene_id)
                 pointsize = c(pointsize, 2)
+            }
+        }
+        print("Remove duplicate genes")
+        small_data_set <- data_set[data_set["Gene_id"] != "",]
+        for (i in 1:nrow(small_data_set)) {
+            target_gene_id = small_data_set[i, "Gene_id"]
+            if (target_gene_id != "" & nrow(small_data_set[small_data_set["Gene_id"] == target_gene_id,]) > 1){
+                print(paste("Found duplicates for gene(s): ", target_gene_id, sep=""))
+                fold_changes = small_data_set[small_data_set["Gene_id"] == target_gene_id, "Fold"]
+                print(fold_changes)
+                max_abs_fold_change = max(abs(fold_changes))
+                print(paste ("Max Abs Fold Change: ", max_abs_fold_change, sep=""))
+                small_data_set[small_data_set["Gene_id"] == target_gene_id & abs(small_data_set["Fold"]) < max_abs_fold_change, "Gene_id"] = ""
+                data_set[data_set["Gene_id"] == target_gene_id & abs(data_set["Fold"]) < max_abs_fold_change, "Gene_id"] = ""
             }
         }
     }
