@@ -54,6 +54,37 @@ assert_args <- function(args){
 }
 
 
+build_volcano_plot <- function(){
+    EnhancedVolcano(raw_data,
+                    title = "TSLP treated vs Untreated",
+                    subtitle = "E115, E132, E134, E135, E137",
+                    lab = raw_data[,"Gene_id"],
+                    selectLab=labels,
+                    x = "Fold",
+                    ylim=c(0,6),
+                    xlim=c(-3.5,3.5),
+                    FCcutoff = args$log2fc,
+                    y = args$yparam,
+                    ylab=args$ylabel,
+                    pCutoff = args$pvalue,
+                    legend=args$legend,
+                    boxedlabels=TRUE,
+                    transcriptLabSize=3,
+                    colAlpha=0.5,
+                    shape=c(20,20,20,19),
+                    transcriptLabFace="bold",
+                    transcriptPointSize=raw$pointsize,
+                    # lengthConnectors=unit(0.001, 'npc'),
+                    drawConnectors=TRUE,
+                    widthConnectors=0.2,
+                    endsConnectors="last",
+                    typeConnectors="open")
+}
+
+
+
+
+
 get_args <- function(){
     parser <- ArgumentParser(description='Build volcano plot from combined diffbind and iaintersect report file')
     parser$add_argument("--input",        help='Combined not filtered iaintersect and diffbind report file', type="character", required="True")
@@ -61,14 +92,16 @@ get_args <- function(){
     parser$add_argument("--log2fc",       help='Log2FC cutoff. Default: 1',             type="double", default=1)
     parser$add_argument("--usefdr",       help='Use FDR instead of pvalue. Default: false', action='store_true')
     parser$add_argument("--genelist",     help='Display labels for genes from the file. Headerless, 1 gene per line', type="character")
-    parser$add_argument("--output",       help='Output filename. Default: volcano_plot.png', type="character", default="./volcano_plot.png")
+    parser$add_argument("--resolution",   help='Output png file resolution. Default: 300 dpi', type="integer", default=300)
+    parser$add_argument("--width",        help='Output png file width. Default: 2000 px', type="integer", default=2000)
+    parser$add_argument("--height",       help='Output png file height. Default: 2500 px', type="integer", default=2500)
+    parser$add_argument("--output",       help='Output rootname. Default: volcano_plot', type="character", default="./volcano_plot")
     args <- assert_args(parser$parse_args(commandArgs(trailingOnly = TRUE)))
     return (args)
 }
 
 
 args <- get_args()
-png(filename=args$output, width=2000, height=2500, res=300)
 
 
 gene_labels <- NULL
@@ -82,30 +115,10 @@ raw_data = raw$data_set
 labels = raw$labels
 
 
-EnhancedVolcano(raw_data,
-                title = "TSLP treated vs Untreated",
-                subtitle = "E115 and E132",
-                lab = raw_data[,"Gene_id"],
-                selectLab=labels,
-                x = "Fold",
-                ylim=c(0,13),
-                xlim=c(-4,4),
-                FCcutoff = args$log2fc,
-                y = args$yparam,
-                ylab=args$ylabel,
-                pCutoff = args$pvalue,
-                legend=args$legend,
-                boxedlabels=TRUE,
-                transcriptLabSize=3,
-                colAlpha=0.5,
-                shape=c(20,20,20,19),
-                transcriptLabFace="bold",
-                transcriptPointSize=raw$pointsize,
-                # lengthConnectors=unit(0.001, 'npc'),
-                drawConnectors=TRUE,
-                widthConnectors=0.2,
-                endsConnectors="last",
-                typeConnectors="open")
+png(filename=paste(args$output, ".png", sep=""), width=args$width, height=args$height, res=args$resolution)
+build_volcano_plot()
+dev.off()
 
-
-graphics.off()
+pdf(file=paste(args$output, ".pdf", sep=""), width=round(args$width/args$resolution), height=round(args$height/args$resolution))
+build_volcano_plot()
+dev.off()
