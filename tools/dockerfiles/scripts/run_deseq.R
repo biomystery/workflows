@@ -8,6 +8,12 @@ suppressMessages(library(BiocParallel))
 suppressMessages(library(pheatmap))
 
 ##########################################################################################
+#
+# v0.0.13
+#
+# - Fix bug in phenotype.cls column order
+# - Fix bug in logFC sign for DESeq2
+#
 # v0.0.8
 #
 # All input CSV/TSV files should have the following header (case-sensitive)
@@ -188,7 +194,7 @@ if (length(args$treated) > 1 && length(args$untreated) > 1){
     dsq <- DESeq(dse)
     normCounts <- counts(dsq, normalized=TRUE)
     rownames(normCounts) <- toupper(collected_isoforms[,c("GeneId")])
-    res <- results(dsq, contrast=c("conditions", args$tname, args$uname))
+    res <- results(dsq, contrast=c("conditions", args$uname, args$tname))
 
     plotMA(res)
 
@@ -224,8 +230,9 @@ normCountsGct <- list(rowDescriptions=c(rep("n/a", times=length(row.names(normCo
 
 
 # Create phenotype table for CLS export
-phenotype_data <- as.factor(gsub("\\s|\\t", "_", column_data[colnames(normCounts), "conditions"]))
-
+phenotype_labels <- gsub("\\s|\\t", "_", column_data[colnames(normCounts), "conditions"])
+phenotype_data <- as.factor(phenotype_labels)
+phenotype_data <- factor(phenotype_data, levels=unique(phenotype_labels))
 
 # Expression data heatmap of the 30 most highly expressed genes
 pheatmap(mat=mat,
