@@ -6,8 +6,13 @@ options("width"=300)
 suppressMessages(library(argparse))
 suppressMessages(library(BiocParallel))
 suppressMessages(library(pheatmap))
+suppressMessages(library(ggplot2))
 
 ##########################################################################################
+#
+# v0.0.14
+#
+# - add PCA plot
 #
 # v0.0.13
 #
@@ -127,6 +132,101 @@ write.cls <- function(factor, filename) {
 }
 
 
+export_ma_plot <- function(data, rootname, width=800, height=800, resolution=72){
+    tryCatch(
+        expr = {
+
+            png(filename=paste(rootname, ".png", sep=""), width=width, height=height, res=resolution)
+            plotMA(data)
+            dev.off()
+
+            pdf(file=paste(rootname, ".pdf", sep=""), width=round(width/resolution), height=round(height/resolution))
+            plotMA(data)
+            dev.off()
+
+            cat(paste("\nExport MA-plot to ", rootname, ".(png/pdf)", "\n", sep=""))
+        },
+        error = function(e){
+            dev.off()
+            cat(paste("\nFailed to export MA-plot to ", rootname, ".(png/pdf)", "\n",  sep=""))
+        }
+    )
+}
+
+
+export_pca_plot <- function(data, rootname, width=800, height=800, resolution=72){
+    tryCatch(
+        expr = {
+
+            pca_data <- plotPCA(data, intgroup="conditions", returnData=TRUE)
+            percentVar <- round(100 * attr(pca_data, "percentVar"))
+
+            png(filename=paste(rootname, ".png", sep=""), width=width, height=height, res=resolution)
+            print(
+                ggplot(pca_data, aes(PC1, PC2, color=conditions)) +
+                geom_point(size=5, shape=19) +
+                xlab(paste0("PC1: ",percentVar[1], "% variance")) +
+                ylab(paste0("PC2: ",percentVar[2], "% variance")) + 
+                geom_label(aes(label=name), nudge_x = 0.25, nudge_y = 0.25, check_overlap = TRUE, show.legend = FALSE) +
+                coord_fixed()
+            )
+            dev.off()
+
+            pdf(file=paste(rootname, ".pdf", sep=""), width=round(width/resolution), height=round(height/resolution))
+            print(
+                ggplot(pca_data, aes(PC1, PC2, color=conditions)) +
+                geom_point(size=5, shape=19) +
+                xlab(paste0("PC1: ",percentVar[1], "% variance")) +
+                ylab(paste0("PC2: ",percentVar[2], "% variance")) + 
+                geom_label(aes(label=name), nudge_x = 0.25, nudge_y = 0.25, check_overlap = TRUE, show.legend = FALSE) +
+                coord_fixed()
+            )
+            dev.off()
+
+            cat(paste("\nExport PCA-plot to ", rootname, ".(png/pdf)", "\n", sep=""))
+        },
+        error = function(e){
+            dev.off()
+            cat(paste("\nFailed to export PCA-plot to ", rootname, ".(png/pdf)", "\n", sep=""))
+        }
+    )
+}
+
+
+export_heatmap <- function(mat_data, column_data, rootname, width=800, height=800, resolution=72){
+    tryCatch(
+        expr = {
+
+            png(filename=paste(rootname, ".png", sep=""), width=width, height=height, res=resolution)
+            pheatmap(
+                mat=mat_data,
+                annotation_col=column_data,
+                cluster_rows=FALSE,
+                show_rownames=TRUE,
+                cluster_cols=FALSE
+            )
+            dev.off()
+
+            pdf(file=paste(rootname, ".pdf", sep=""), width=round(width/resolution), height=round(height/resolution))
+            pheatmap(
+                mat=mat_data,
+                annotation_col=column_data,
+                cluster_rows=FALSE,
+                show_rownames=TRUE,
+                cluster_cols=FALSE
+            )
+            dev.off()
+
+            cat(paste("\nExport expression heatmap to ", rootname, ".(png/pdf)", "\n", sep=""))
+        },
+        error = function(e){
+            dev.off()
+            cat(paste("\nFailed to export expression heatmap to ", rootname, ".(png/pdf)", "\n", sep=""))
+        }
+    )
+}
+
+
 assert_args <- function(args){
     print("Check input parameters")
     if (is.null(args$ualias) | is.null(args$talias)){
@@ -169,10 +269,6 @@ args <- get_args()
 register(MulticoreParam(args$threads))
 
 
-# Set graphics output
-png(filename=paste(args$output, "_plot_%03d.png", sep=""))
-
-
 # Load isoforms/genes/tss files
 raw_data <- load_isoform_set(args$treated, args$talias, READ_COL, RPKM_COL, args$tname, INTERSECT_BY, load_isoform_set(args$untreated, args$ualias, READ_COL, RPKM_COL, args$uname, INTERSECT_BY))
 collected_isoforms <- raw_data$collected_isoforms
@@ -196,11 +292,14 @@ if (length(args$treated) > 1 && length(args$untreated) > 1){
     rownames(normCounts) <- toupper(collected_isoforms[,c("GeneId")])
     res <- results(dsq, contrast=c("conditions", args$uname, args$tname))
 
-    plotMA(res)
+    export_ma_plot(res, paste(args$output, "_ma_plot", sep=""))
 
-    vsd <- assay(varianceStabilizingTransformation(dse))
+    vst <- varianceStabilizingTransformation(dse)
+    vsd <- assay(vst)
     rownames(vsd) <- collected_isoforms[,c("GeneId")]
     mat <- vsd[order(rowMeans(counts(dsq, normalized=TRUE)), decreasing=TRUE)[1:30],]
+
+    export_pca_plot(vst, paste(args$output, "_pca_plot", sep=""))
 
     DESeqRes <- as.data.frame(res[,c(2,5,6)])
 } else {
@@ -215,7 +314,7 @@ if (length(args$treated) > 1 && length(args$untreated) > 1){
     infLFC <- is.infinite(res$log2FoldChange)
     res$log2FoldChange[infLFC] <- log2((res$baseMeanB[infLFC]+0.1)/(res$baseMeanA[infLFC]+0.1))
 
-    plotMA(res)
+    export_ma_plot(res, paste(args$output, "_ma_plot", sep=""))
 
     vsd <- exprs(varianceStabilizingTransformation(cdsD))
     rownames(vsd) <- collected_isoforms[,c("GeneId")]
@@ -235,12 +334,7 @@ phenotype_data <- as.factor(phenotype_labels)
 phenotype_data <- factor(phenotype_data, levels=unique(phenotype_labels))
 
 # Expression data heatmap of the 30 most highly expressed genes
-pheatmap(mat=mat,
-         annotation_col=column_data,
-         cluster_rows=FALSE,
-         show_rownames=TRUE,
-         cluster_cols=FALSE)
-
+export_heatmap(mat, column_data, paste(args$output, "_expression_heatmap", sep=""))
 
 # Filter DESeq/DESeq2 output
 DESeqRes$log2FoldChange[is.na(DESeqRes$log2FoldChange)] <- 0;
@@ -274,6 +368,3 @@ print(paste("Export normalized counts to ", gct_filename, sep=""))
 cls_filename <- paste(args$output, "_phenotypes.cls", sep="")
 write.cls(phenotype_data, file=cls_filename)
 print(paste("Export phenotype data to ", cls_filename, sep=""))
-
-
-graphics.off()
