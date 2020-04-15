@@ -167,8 +167,7 @@ export_pca_plot <- function(data, rootname, width=800, height=800, resolution=72
                 geom_point(size=5, shape=19) +
                 xlab(paste0("PC1: ",percentVar[1], "% variance")) +
                 ylab(paste0("PC2: ",percentVar[2], "% variance")) + 
-                geom_label(aes(label=name), nudge_x = 0.25, nudge_y = 0.25, check_overlap = TRUE, show.legend = FALSE) +
-                coord_fixed()
+                geom_label(aes(label=name), nudge_y = 1, check_overlap = TRUE, show.legend = FALSE)
             )
             dev.off()
 
@@ -178,8 +177,7 @@ export_pca_plot <- function(data, rootname, width=800, height=800, resolution=72
                 geom_point(size=5, shape=19) +
                 xlab(paste0("PC1: ",percentVar[1], "% variance")) +
                 ylab(paste0("PC2: ",percentVar[2], "% variance")) + 
-                geom_label(aes(label=name), nudge_x = 0.25, nudge_y = 0.25, check_overlap = TRUE, show.legend = FALSE) +
-                coord_fixed()
+                geom_label(aes(label=name), nudge_y = 1, check_overlap = TRUE, show.legend = FALSE)
             )
             dev.off()
 
