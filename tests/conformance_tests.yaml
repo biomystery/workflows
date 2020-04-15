@@ -2489,10 +2489,22 @@
       location: custom_phenotypes.cls
     plot_lfc_vs_mean:
       class: File
-      location: custom_plot_001.png
+      location: custom_ma_plot.png
     gene_expr_heatmap:
       class: File
-      location: custom_plot_002.png
+      location: custom_expression_heatmap.png
+    plot_pca:
+      class: File
+      location: custom_pca_plot.png
+    plot_lfc_vs_mean_pdf:
+      class: File
+      location: custom_ma_plot.pdf
+    gene_expr_heatmap_pdf:
+      class: File
+      location: custom_expression_heatmap.pdf
+    plot_pca_pdf:
+      class: File
+      location: custom_pca_plot.pdf
     stdout_log:
       class: File
       location: deseq_stdout.log
@@ -2514,10 +2526,18 @@
       location: deseq_phenotypes.cls
     plot_lfc_vs_mean:
       class: File
-      location: deseq_plot_001.png
+      location: deseq_ma_plot.png
     gene_expr_heatmap:
       class: File
-      location: deseq_plot_002.png
+      location: deseq_expression_heatmap.png
+    plot_pca: null
+    plot_lfc_vs_mean_pdf:
+      class: File
+      location: deseq_ma_plot.pdf
+    gene_expr_heatmap_pdf:
+      class: File
+      location: deseq_expression_heatmap.pdf
+    plot_pca_pdf: null
     stdout_log:
       class: File
       location: deseq_stdout.log
@@ -2539,10 +2559,18 @@
       location: deseq_phenotypes.cls
     plot_lfc_vs_mean:
       class: File
-      location: deseq_plot_001.png
+      location: deseq_ma_plot.png
     gene_expr_heatmap:
       class: File
-      location: deseq_plot_002.png
+      location: deseq_expression_heatmap.png
+    plot_pca: null
+    plot_lfc_vs_mean_pdf:
+      class: File
+      location: deseq_ma_plot.pdf
+    gene_expr_heatmap_pdf:
+      class: File
+      location: deseq_expression_heatmap.pdf
+    plot_pca_pdf: null
     stdout_log:
       class: File
       location: deseq_stdout.log
@@ -2564,10 +2592,18 @@
       location: deseq_phenotypes.cls
     plot_lfc_vs_mean:
       class: File
-      location: deseq_plot_001.png
+      location: deseq_ma_plot.png
     gene_expr_heatmap:
       class: File
-      location: deseq_plot_002.png
+      location: deseq_expression_heatmap.png
+    plot_pca: null
+    plot_lfc_vs_mean_pdf:
+      class: File
+      location: deseq_ma_plot.pdf
+    gene_expr_heatmap_pdf:
+      class: File
+      location: deseq_expression_heatmap.pdf
+    plot_pca_pdf: null
     stdout_log:
       class: File
       location: deseq_stdout.log
@@ -2589,10 +2625,22 @@
       location: deseq_phenotypes.cls
     plot_lfc_vs_mean:
       class: File
-      location: deseq_plot_001.png
+      location: deseq_ma_plot.png
     gene_expr_heatmap:
       class: File
-      location: deseq_plot_002.png
+      location: deseq_expression_heatmap.png
+    plot_pca:
+      class: File
+      location: deseq_pca_plot.png
+    plot_lfc_vs_mean_pdf:
+      class: File
+      location: deseq_ma_plot.pdf
+    gene_expr_heatmap_pdf:
+      class: File
+      location: deseq_expression_heatmap.pdf
+    plot_pca_pdf:
+      class: File
+      location: deseq_pca_plot.pdf
     stdout_log:
       class: File
       location: deseq_stdout.log
@@ -2614,10 +2662,22 @@
       location: deseq_phenotypes.cls
     plot_lfc_vs_mean:
       class: File
-      location: deseq_plot_001.png
+      location: deseq_ma_plot.png
     gene_expr_heatmap:
       class: File
-      location: deseq_plot_002.png
+      location: deseq_expression_heatmap.png
+    plot_pca:
+      class: File
+      location: deseq_pca_plot.png
+    plot_lfc_vs_mean_pdf:
+      class: File
+      location: deseq_ma_plot.pdf
+    gene_expr_heatmap_pdf:
+      class: File
+      location: deseq_expression_heatmap.pdf
+    plot_pca_pdf:
+      class: File
+      location: deseq_pca_plot.pdf
     stdout_log:
       class: File
       location: deseq_stdout.log
