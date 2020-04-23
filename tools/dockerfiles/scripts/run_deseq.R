@@ -10,6 +10,10 @@ suppressMessages(library(ggplot2))
 
 ##########################################################################################
 #
+# v0.0.15
+#
+# - fix bug with " and ' in arguments. Replace all with ""
+#
 # v0.0.14
 #
 # - add PCA plot
@@ -255,7 +259,7 @@ get_args <- function(){
     parser$add_argument("-tn", "--tname",     help='Name for treated condition, use only letters and numbers',   type="character", default="treated")
     parser$add_argument("-o",  "--output",    help='Output prefix. Default: deseq',    type="character", default="./deseq")
     parser$add_argument("-p",  "--threads",   help='Threads',            type="integer",   default=1)
-    args <- assert_args(parser$parse_args(commandArgs(trailingOnly = TRUE)))
+    args <- assert_args(parser$parse_args(gsub("'|\"", "", commandArgs(trailingOnly = TRUE))))
     return (args)
 }
 
