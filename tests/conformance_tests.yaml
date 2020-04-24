@@ -5551,3 +5551,33 @@
     compressed_folder:
       class: File
       location: rsem_bowtie2_dm3_chr4.tar.gz
+
+# ========================================================
+# kallisto-index
+# ========================================================
+
+- job: ./kallisto-index-1.json
+  tool: ../tools/kallisto-index.cwl
+  output:
+    kallisto_index:
+      class: File
+      location: chr4.idx
+    stdout_log:
+      class: File
+      location: kallisto_index_stdout.log
+    stderr_log:
+      class: File
+      location: kallisto_index_stderr.log
+
+- job: ./kallisto-index-2.json
+  tool: ../tools/kallisto-index.cwl
+  output:
+    kallisto_index:
+      class: File
+      location: kallisto.idx
+    stdout_log:
+      class: File
+      location: kallisto_index_stdout.log
+    stderr_log:
+      class: File
+      location: kallisto_index_stderr.log
