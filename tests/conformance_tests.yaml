@@ -5581,3 +5581,16 @@
     stderr_log:
       class: File
       location: kallisto_index_stderr.log
+
+- job: ./kallisto-index-3.json
+  tool: ../tools/kallisto-index.cwl
+  output:
+    kallisto_index:
+      class: File
+      location: kallisto.idx
+    stdout_log:
+      class: File
+      location: kallisto_index_stdout.log
+    stderr_log:
+      class: File
+      location: kallisto_index_stderr.log

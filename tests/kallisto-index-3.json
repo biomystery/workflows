@@ -1,0 +1,9 @@
+{
+    "transcriptome_fasta_file": {
+        "class": "File",
+        "location": "./data/dm3_chr4/main_inputs/fasta/chr4.fa.gz"
+    },
+    "output_filename": "kallisto.idx",
+    "make_unique": true,
+    "kmer_size": 29
+}
