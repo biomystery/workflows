@@ -5624,3 +5624,39 @@
     stderr_log:
       class: File
       location: gffread_stderr.log
+
+# ========================================================
+# genome-kallisto-index.cwl
+# ========================================================
+
+- job: ./genome-kallisto-index-1.json
+  tool: ../tools/genome-kallisto-index.cwl
+  output:
+    transcriptome_fasta_file:
+      class: File
+      location: chr4.fa
+    kallisto_index:
+      class: File
+      location: chr4.idx
+    kallisto_stdout_log:
+      class: File
+      location: kallisto_index_stdout.log
+    kallisto_stderr_log:
+      class: File
+      location: kallisto_index_stderr.log
+
+- job: ./genome-kallisto-index-2.json
+  tool: ../tools/genome-kallisto-index.cwl
+  output:
+    transcriptome_fasta_file:
+      class: File
+      location: chr4.fa
+    kallisto_index:
+      class: File
+      location: kallisto.idx
+    kallisto_stdout_log:
+      class: File
+      location: kallisto_index_stdout.log
+    kallisto_stderr_log:
+      class: File
+      location: kallisto_index_stderr.log

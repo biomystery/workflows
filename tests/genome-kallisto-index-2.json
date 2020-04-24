@@ -1,0 +1,19 @@
+{
+    "genome_fasta_file": {
+        "class": "File",
+        "location": "./data/dm3_chr4/main_inputs/fasta/chr4.fa",
+        "secondaryFiles": [
+            {
+              "class": "File",
+              "location": "./data/dm3_chr4/main_inputs/fasta/chr4.fa.fai"
+            }
+          ]
+    },
+    "annotation_gtf_file": {
+        "class": "File",
+        "location": "./data/dm3_chr4/main_inputs/gtf/dm3_chr4.gtf"
+    },
+    "index_output_filename": "kallisto.idx",
+    "make_unique": true,
+    "kmer_size": 29
+}
