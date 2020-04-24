@@ -5594,3 +5594,33 @@
     stderr_log:
       class: File
       location: kallisto_index_stderr.log
+
+# ========================================================
+# gffread.cwl
+# ========================================================
+
+- job: ./gffread-1.json
+  tool: ../tools/gffread.cwl
+  output:
+    transcriptome_fasta_file:
+      class: File
+      location: chr4.fa
+    stdout_log:
+      class: File
+      location: gffread_stdout.log
+    stderr_log:
+      class: File
+      location: gffread_stderr.log
+
+- job: ./gffread-2.json
+  tool: ../tools/gffread.cwl
+  output:
+    transcriptome_fasta_file:
+      class: File
+      location: transcriptome.fa
+    stdout_log:
+      class: File
+      location: gffread_stdout.log
+    stderr_log:
+      class: File
+      location: gffread_stderr.log
