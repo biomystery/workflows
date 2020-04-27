@@ -10,6 +10,11 @@ suppressMessages(library(ggplot2))
 
 ##########################################################################################
 #
+#
+# v0.0.16
+#
+# - Add max(rpkm) cutoff filtering
+#
 # v0.0.15
 #
 # - fix bug with " and ' in arguments. Replace all with ""
@@ -83,7 +88,9 @@ load_isoform_set <- function(filenames, prefixes, read_colname, rpkm_colname, co
         }
     }
     rpkm_columns = grep(paste("^", conditions, " [0-9]+ ", rpkm_colname, sep=""), colnames(collected_data$collected_isoforms), value = TRUE, ignore.case = TRUE)
-    collected_data$collected_isoforms[paste(rpkm_colname, " [", conditions, "]", sep="")] = rowSums(collected_data$collected_isoforms[, rpkm_columns, drop = FALSE]) / length(filenames)
+    new_rpkm_colname = paste(rpkm_colname, " [", conditions, "]", sep="")
+    collected_data$collected_isoforms[new_rpkm_colname] = rowSums(collected_data$collected_isoforms[, rpkm_columns, drop = FALSE]) / length(filenames)
+    collected_data$rpkm_colnames = c(collected_data$rpkm_colnames, new_rpkm_colname)
     collected_data$collected_isoforms <- collected_data$collected_isoforms[, !colnames(collected_data$collected_isoforms) %in% rpkm_columns]
     return( collected_data )
 }
@@ -229,6 +236,13 @@ export_heatmap <- function(mat_data, column_data, rootname, width=800, height=80
 }
 
 
+apply_cutoff <- function(data, cutoff, colnames){
+    print(paste("Apply rpkm cutoff ", cutoff, sep=""))
+    data = data[data[,colnames[1]] >= cutoff | data[,colnames[2]] >= cutoff,]
+    return( data )
+}
+
+
 assert_args <- function(args){
     print("Check input parameters")
     if (is.null(args$ualias) | is.null(args$talias)){
@@ -257,6 +271,7 @@ get_args <- function(){
     parser$add_argument("-ta", "--talias",    help='Unique aliases for treated expression files. Default: basenames of -t without extensions',   type="character", nargs='*')
     parser$add_argument("-un", "--uname",     help='Name for untreated condition, use only letters and numbers', type="character", default="untreated")
     parser$add_argument("-tn", "--tname",     help='Name for treated condition, use only letters and numbers',   type="character", default="treated")
+    parser$add_argument("-cu", "--cutoff",    help='Minimum threshold for rpkm filtering. Default: 5', type="double", default=5)
     parser$add_argument("-o",  "--output",    help='Output prefix. Default: deseq',    type="character", default="./deseq")
     parser$add_argument("-p",  "--threads",   help='Threads',            type="integer",   default=1)
     args <- assert_args(parser$parse_args(gsub("'|\"", "", commandArgs(trailingOnly = TRUE))))
@@ -273,7 +288,7 @@ register(MulticoreParam(args$threads))
 
 # Load isoforms/genes/tss files
 raw_data <- load_isoform_set(args$treated, args$talias, READ_COL, RPKM_COL, args$tname, INTERSECT_BY, load_isoform_set(args$untreated, args$ualias, READ_COL, RPKM_COL, args$uname, INTERSECT_BY))
-collected_isoforms <- raw_data$collected_isoforms
+collected_isoforms <- apply_cutoff(raw_data$collected_isoforms, args$cutoff, raw_data$rpkm_colnames)
 read_count_cols = raw_data$read_colnames
 column_data = raw_data$column_data
 print(paste("Number of rows common for all input files ", nrow(collected_isoforms), sep=""))
