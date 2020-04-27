@@ -27,6 +27,7 @@
       "location": "./data/dm3_chr4/main_inputs/geep/t3_1000.isoforms.csv"
     }
   ],
+  "rpkm_cutoff": 3,
   "output_prefix": "custom",
   "untreated_sample_names": ["u'u1", "u'u2", "u'u3"],
   "treated_sample_names": ["t\"t1", "t\"t2", "t\"t3"]
