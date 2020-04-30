@@ -10,6 +10,9 @@ suppressMessages(library(ggplot2))
 
 ##########################################################################################
 #
+# v0.0.17
+#
+# - Update labels in cls, replaces n/a with na in gct files
 #
 # v0.0.16
 #
@@ -119,7 +122,7 @@ write.gct <- function(gct, filename) {
 write.cls <- function(factor, filename) {
 	file <- file(filename, "w")
 	on.exit(close(file))
- 	codes <- unclass(factor)
+ 	codes <- as.character(factor)
 	cat(file=file, length(codes), length(levels(factor)), "1\n")
 	levels <- levels(factor)
 	cat(file=file, "# ")
@@ -135,11 +138,11 @@ write.cls <- function(factor, filename) {
 	num.samples <- length(codes)
 	if(num.samples-1 != 0) {
 	    for(i in 1:(num.samples-1)) {
-		    cat(file=file, codes[i]-1)
+		    cat(file=file, codes[i])
 		    cat(file=file, " ")
 	    }
 	}
-	cat(file=file, codes[num.samples]-1)
+	cat(file=file, codes[num.samples])
 }
 
 
@@ -274,7 +277,7 @@ get_args <- function(){
     parser$add_argument("-cu", "--cutoff",    help='Minimum threshold for rpkm filtering. Default: 5', type="double", default=5)
     parser$add_argument("-o",  "--output",    help='Output prefix. Default: deseq',    type="character", default="./deseq")
     parser$add_argument("-p",  "--threads",   help='Threads',            type="integer",   default=1)
-    args <- assert_args(parser$parse_args(gsub("'|\"", "", commandArgs(trailingOnly = TRUE))))
+    args <- assert_args(parser$parse_args(gsub("'|\"| ", "_", commandArgs(trailingOnly = TRUE))))
     return (args)
 }
 
@@ -342,7 +345,7 @@ if (length(args$treated) > 1 && length(args$untreated) > 1){
 
 
 # Normalized counts table for GCT export
-normCountsGct <- list(rowDescriptions=c(rep("n/a", times=length(row.names(normCounts)))), data=as.matrix(normCounts))
+normCountsGct <- list(rowDescriptions=c(rep("na", times=length(row.names(normCounts)))), data=as.matrix(normCounts))
 
 
 # Create phenotype table for CLS export
