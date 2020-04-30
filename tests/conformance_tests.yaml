@@ -5495,6 +5495,12 @@
     compressed_results_folder:
       location: meme.tar.gz
       class: File
+    known_motifs:
+      location: knownResults.html
+      class: File
+    denovo_motifs:
+      location: HomerResults.html
+      class: File
     stderr_log:
       location: homer_find_motifs_stderr.log
       class: File
@@ -5507,6 +5513,12 @@
   output:
     compressed_results_folder:
       location: motifs.tar.gz
+      class: File
+    known_motifs:
+      location: knownResults.html
+      class: File
+    denovo_motifs:
+      location: HomerResults.html
       class: File
     stderr_log:
       location: homer_find_motifs_stderr.log
@@ -5521,6 +5533,10 @@
     compressed_results_folder:
       location: motifs
       class: File
+    known_motifs: null
+    denovo_motifs:
+      location: HomerResults.html
+      class: File
     stderr_log:
       location: homer_find_motifs_stderr.log
       class: File
@@ -5534,6 +5550,10 @@
     compressed_results_folder:
       location: meme.tar.gz
       class: File
+    known_motifs:
+      location: knownResults.html
+      class: File
+    denovo_motifs: null
     stderr_log:
       location: homer_find_motifs_stderr.log
       class: File

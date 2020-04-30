@@ -31,6 +31,7 @@ inputs:
       findMotifs.pl $0 dummy homer_results ${@:2}
       echo tar -czf $1 homer_results
       tar -czf $1 homer_results
+      ls -la
     inputBinding:
       position: 5
     doc: |
@@ -114,6 +115,20 @@ outputs:
       glob: $(get_output_filename())
     doc: |
       Compressed folder with all generated results
+
+  known_motifs:
+    type: File?
+    outputBinding:
+      glob: "homer_results/knownResults.html"
+    doc: |
+      Known motifs html file
+
+  denovo_motifs:
+    type: File?
+    outputBinding:
+      glob: "homer_results/HomerResults.html"
+    doc: |
+      de novo motifs html file
 
   stdout_log:
     type: stdout
