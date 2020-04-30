@@ -5,7 +5,7 @@
 # Software Version: v0.0.1
 # Description:      Gene Set Enrichment Analysis in Python
 # Website:          https://gseapy.readthedocs.io/en/latest/index.html
-# Provides:         GSEApy 0.9.18
+# Provides:         GSEApy 0.9.18 (modified: works without Internet)
 # Base Image:       python:3.7
 # Build Cmd:        docker build --rm -t biowardrobe2/gseapy:v0.0.1 -f gseapy-Dockerfile .
 # Pull Cmd:         docker pull biowardrobe2/gseapy:v0.0.1
@@ -14,17 +14,26 @@
 
 ### Base Image
 FROM python:3.7
-MAINTAINER Michael Kotliar "misha.kotliar@gmail.com"
+LABEL maintainer="misha.kotliar@gmail.com"
 ENV DEBIAN_FRONTEND noninteractive
 
 ################## BEGIN INSTALLATION ######################
 
 WORKDIR /tmp
 
-ENV VERSION_GSEAPY 0.9.18
+ENV COMMIT_GSEAPY "6135cb9f0618f293b2f7586b81d56d97f3040c46"
+ENV URL_GSEAPY "https://github.com/michael-kotliar/GSEApy.git"
+
+COPY ./scripts/gseapy_download_datasets.py /tmp/gseapy_download_datasets.py
 
 ### Installing GSEApy
-RUN pip install GSEApy==${VERSION_GSEAPY} && \
+RUN git clone ${URL_GSEAPY} && \
+    cd GSEApy && \
+    git checkout ${COMMIT_GSEAPY} && \
+    pip install . && \
+    cd .. && \
+### Downloading genesets
+    python gseapy_download_datasets.py && \
 ### Cleaning
     apt-get clean && \
     apt-get purge && \
