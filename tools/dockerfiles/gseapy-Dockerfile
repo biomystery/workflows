@@ -21,7 +21,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 WORKDIR /tmp
 
-ENV COMMIT_GSEAPY "6135cb9f0618f293b2f7586b81d56d97f3040c46"
+ENV COMMIT_GSEAPY "6ade1b0b829c08a0a16012694086706c46e985ff"
 ENV URL_GSEAPY "https://github.com/michael-kotliar/GSEApy.git"
 
 COPY ./scripts/gseapy_download_datasets.py /tmp/gseapy_download_datasets.py
