@@ -5596,7 +5596,7 @@
       location: kallisto_index_stderr.log
 
 # ========================================================
-# gffread.cwl
+# gffread
 # ========================================================
 
 - job: ./gffread-1.json
@@ -5626,7 +5626,7 @@
       location: gffread_stderr.log
 
 # ========================================================
-# genome-kallisto-index.cwl
+# genome-kallisto-index
 # ========================================================
 
 - job: ./genome-kallisto-index-1.json
@@ -5660,3 +5660,30 @@
     kallisto_stderr_log:
       class: File
       location: kallisto_index_stderr.log
+
+# ========================================================
+# gseapy
+# ========================================================
+
+- job: ./gseapy-1.json
+  tool: ../tools/gseapy.cwl
+  output:
+    enrichment_heatmaps:
+    - class: File
+      location: eyecup.heatmap.pdf
+    - class: File
+      location: follicular%20B-cells.heatmap.pdf
+    enrichment_plots:
+    - class: File
+      location: eyecup.gsea.pdf
+    - class: File
+      location: follicular%20B-cells.gsea.pdf
+    enrichment_report:
+      class: File
+      location: gseapy.gsea.gene_set.report.csv
+    stdout_log:
+      class: File
+      location: gseapy_index_stdout.log
+    stderr_log:
+      class: File
+      location: gseapy_index_stderr.log
