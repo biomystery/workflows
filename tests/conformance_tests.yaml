@@ -5672,12 +5672,12 @@
     - class: File
       location: eyecup.heatmap.pdf
     - class: File
-      location: follicular%20B-cells.heatmap.pdf
+      location: follicular_B-cells.heatmap.pdf
     enrichment_plots:
     - class: File
       location: eyecup.gsea.pdf
     - class: File
-      location: follicular%20B-cells.gsea.pdf
+      location: follicular_B-cells.gsea.pdf
     enrichment_report:
       class: File
       location: gseapy.gsea.gene_set.report.csv
