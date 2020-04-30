@@ -31,7 +31,6 @@ inputs:
       findMotifs.pl $0 dummy homer_results ${@:2}
       echo tar -czf $1 homer_results
       tar -czf $1 homer_results
-      ls -la
     inputBinding:
       position: 5
     doc: |
