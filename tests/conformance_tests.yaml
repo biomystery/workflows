@@ -5499,7 +5499,7 @@
       location: knownResults.html
       class: File
     denovo_motifs:
-      location: HomerResults.html
+      location: homerResults.html
       class: File
     stderr_log:
       location: homer_find_motifs_stderr.log
@@ -5518,7 +5518,7 @@
       location: knownResults.html
       class: File
     denovo_motifs:
-      location: HomerResults.html
+      location: homerResults.html
       class: File
     stderr_log:
       location: homer_find_motifs_stderr.log
@@ -5535,7 +5535,7 @@
       class: File
     known_motifs: null
     denovo_motifs:
-      location: HomerResults.html
+      location: homerResults.html
       class: File
     stderr_log:
       location: homer_find_motifs_stderr.log
