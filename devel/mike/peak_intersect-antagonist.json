@@ -1,0 +1,19 @@
+{
+    "regions_file_a": {
+        "class": "File",
+        "location": "./data/STAT6.narrowPeak"
+    },
+    "regions_file_a_name": "STAT6",
+
+    "regions_file_b": {
+        "class": "File",
+        "location": "./data/VDR.narrowPeak"
+    },
+    "regions_file_b_name": "VDR",
+    
+    "target_regions": {
+        "class": "File",
+        "location": "./data/antagonist_genes.bed"
+    },
+    "target_regions_name": "Antagonist Genes"
+}

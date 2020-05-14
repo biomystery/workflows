@@ -36,6 +36,7 @@ eggs/
 *.fai
 *.bed
 *.bedGraph
+*.narrowPeak
 *.bw
 *.bigWig
 *.amb
