@@ -21,6 +21,13 @@
         "class": "File",
         "location": "./data/hg19_chrNameLength.txt"
     },
+
+    "annotation_file": {
+        "class": "File",
+        "location": "./data/hg19_refgene.tsv"
+    },
+
+    "annotate_dist": 50000,
     "recenter_target_regions": "TSS",
-    "max_distance": 50000
+    "max_distance": 500000000
 }

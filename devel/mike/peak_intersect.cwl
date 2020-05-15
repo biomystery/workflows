@@ -47,6 +47,12 @@ inputs:
   chrom_length_file:
     type: File
 
+  annotation_file:
+    type: File
+
+  annotate_dist:
+    type: int
+
 
 outputs:
 
@@ -65,6 +71,20 @@ outputs:
   recentered_target_regions:
     type: File
     outputSource: recenter_target_regions/output_file
+
+
+
+  annotated_unique_from_a:
+    type: File
+    outputSource: filter_annotated_unique_a_within_max_distance_from_target_regions/output_file
+
+  annotated_unique_from_b:
+    type: File
+    outputSource: filter_annotated_unique_b_within_max_distance_from_target_regions/output_file
+
+  annotated_merged_overlapped_a_and_b:
+    type: File
+    outputSource: filter_annotated_merged_overlapped_a_and_b_within_max_distance_from_target_regions/output_file
 
 
 
@@ -303,6 +323,110 @@ steps:
       report_from_a_once:
         default: true
     out: [intersected_file]
+
+
+
+
+  convert_to_xls_unique_a_within_max_distance_from_target_regions:
+    run: ../../tools/custom-bash.cwl
+    in:
+      input_file: get_unique_a_within_max_distance_from_target_regions/intersected_file
+      script:
+        default: >
+          cat $0 | awk
+          'BEGIN {print "chr\tstart\tend\tlength\tabs_summit\tpileup\t-log10(pvalue)\tfold_enrichment\t-log10(qvalue)\tname"}
+          {print $1"\t"$2"\t"$3"\t"$3-$2+1"\t0\t0\t0\t0\t0\t0"}' > `basename $0`
+    out: [output_file]
+
+  annotate_unique_a_within_max_distance_from_target_regions:
+      run: ../../tools/iaintersect.cwl
+      in:
+        input_filename: convert_to_xls_unique_a_within_max_distance_from_target_regions/output_file
+        annotation_filename: annotation_file
+        promoter_bp: annotate_dist
+        upstream_bp:
+          default: 100
+        output_filename:
+          default: "annotated_filtered_by_max_distance_unique_from_a.tsv"
+      out: [result_file]
+
+  filter_annotated_unique_a_within_max_distance_from_target_regions:
+    run: ../../tools/custom-bash.cwl
+    in:
+      input_file: annotate_unique_a_within_max_distance_from_target_regions/result_file
+      script:
+        default: >
+          cat $0 | grep -v "intergenic" | awk
+          '{print $6"\t"$7"\t"$8"\t"$2"\t"$1}' > `basename $0`
+    out: [output_file]
+
+
+  convert_to_xls_unique_b_within_max_distance_from_target_regions:
+    run: ../../tools/custom-bash.cwl
+    in:
+      input_file: get_unique_b_within_max_distance_from_target_regions/intersected_file
+      script:
+        default: >
+          cat $0 | awk
+          'BEGIN {print "chr\tstart\tend\tlength\tabs_summit\tpileup\t-log10(pvalue)\tfold_enrichment\t-log10(qvalue)\tname"}
+          {print $1"\t"$2"\t"$3"\t"$3-$2+1"\t0\t0\t0\t0\t0\t0"}' > `basename $0`
+    out: [output_file]
+
+  annotate_unique_b_within_max_distance_from_target_regions:
+      run: ../../tools/iaintersect.cwl
+      in:
+        input_filename: convert_to_xls_unique_b_within_max_distance_from_target_regions/output_file
+        annotation_filename: annotation_file
+        promoter_bp: annotate_dist
+        upstream_bp:
+          default: 100
+        output_filename:
+          default: "annotated_filtered_by_max_distance_unique_from_b.tsv"
+      out: [result_file]
+
+  filter_annotated_unique_b_within_max_distance_from_target_regions:
+    run: ../../tools/custom-bash.cwl
+    in:
+      input_file: annotate_unique_b_within_max_distance_from_target_regions/result_file
+      script:
+        default: >
+          cat $0 | grep -v "intergenic" | awk
+          '{print $6"\t"$7"\t"$8"\t"$2"\t"$1}' > `basename $0`
+    out: [output_file]
+
+
+  convert_to_xls_merged_overlapped_a_and_b_within_max_distance_from_target_regions:
+    run: ../../tools/custom-bash.cwl
+    in:
+      input_file: get_merged_overlapped_a_and_b_within_max_distance_from_target_regions/intersected_file
+      script:
+        default: >
+          cat $0 | awk
+          'BEGIN {print "chr\tstart\tend\tlength\tabs_summit\tpileup\t-log10(pvalue)\tfold_enrichment\t-log10(qvalue)\tname"}
+          {print $1"\t"$2"\t"$3"\t"$3-$2+1"\t0\t0\t0\t0\t0\t0"}' > `basename $0`
+    out: [output_file]
+
+  annotate_merged_overlapped_a_and_b_within_max_distance_from_target_regions:
+      run: ../../tools/iaintersect.cwl
+      in:
+        input_filename: convert_to_xls_merged_overlapped_a_and_b_within_max_distance_from_target_regions/output_file
+        annotation_filename: annotation_file
+        promoter_bp: annotate_dist
+        upstream_bp:
+          default: 100
+        output_filename:
+          default: "annotated_filtered_by_max_distance_merged_overlapped_a_and_b.tsv"
+      out: [result_file]
+
+  filter_annotated_merged_overlapped_a_and_b_within_max_distance_from_target_regions:
+    run: ../../tools/custom-bash.cwl
+    in:
+      input_file: annotate_merged_overlapped_a_and_b_within_max_distance_from_target_regions/result_file
+      script:
+        default: >
+          cat $0 | grep -v "intergenic" | awk
+          '{print $6"\t"$7"\t"$8"\t"$2"\t"$1}' > `basename $0`
+    out: [output_file]
 
 
 
