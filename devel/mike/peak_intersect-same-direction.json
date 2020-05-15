@@ -16,5 +16,11 @@
         "location": "./data/same_direction_genes.bed"
     },
     "target_regions_name": "Same Direction Genes",
-    "recenter_target_regions": "TSS"
+
+    "chrom_length_file": {
+        "class": "File",
+        "location": "./data/hg19_chrNameLength.txt"
+    },
+    "recenter_target_regions": "TSS",
+    "max_distance": 50000
 }

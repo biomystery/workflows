@@ -40,19 +40,27 @@ inputs:
     default: "Skip"
 
 
+
+  max_distance:
+    type: int
+
+  chrom_length_file:
+    type: File
+
+
 outputs:
 
   unique_from_a:
     type: File
-    outputSource: sort_unique_from_a/sorted_file
+    outputSource: get_unique_a_within_max_distance_from_target_regions/intersected_file
 
   unique_from_b:
     type: File
-    outputSource: sort_unique_from_b/sorted_file
+    outputSource: get_unique_b_within_max_distance_from_target_regions/intersected_file
 
   merged_overlapped_a_and_b:
     type: File
-    outputSource: sort_merged_overlapped_a_and_b/sorted_file
+    outputSource: get_merged_overlapped_a_and_b_within_max_distance_from_target_regions/intersected_file
   
   recentered_target_regions:
     type: File
@@ -145,7 +153,7 @@ steps:
       input_file: regions_file_a
       script:
         default: |
-          cat "$0" | tr -d '\r' | tr "," "\t" | cut -f 1-3 | sort -u | sort -k1,1 -k2,2n > unique_from_a.bed
+          cat "$0" | tr -d '\r' | tr "," "\t" | cut -f 1-3 | sort -u | sort -k1,1 -k2,2n > filtered_by_max_distance_unique_from_a.bed
     out:
       - output_file
 
@@ -155,7 +163,7 @@ steps:
       input_file: regions_file_b
       script:
         default: |
-          cat "$0" | tr -d '\r' | tr "," "\t" | cut -f 1-3 | sort -u | sort -k1,1 -k2,2n > unique_from_b.bed
+          cat "$0" | tr -d '\r' | tr "," "\t" | cut -f 1-3 | sort -u | sort -k1,1 -k2,2n > filtered_by_max_distance_unique_from_b.bed
     out:
       - output_file
 
@@ -221,7 +229,7 @@ steps:
         default: |
           cat "$0" > temp.tsv
           cat "$1" >> temp.tsv
-          cat temp.tsv | sort -u | sort -k1,1 -k2,2n > merged_overlapped_a_and_b.bed
+          cat temp.tsv | sort -u | sort -k1,1 -k2,2n > filtered_by_max_distance_merged_overlapped_a_and_b.bed
           rm temp.tsv
     out:
       - output_file
@@ -260,6 +268,41 @@ steps:
     out:
       - output_file
 
+  extend_recentered_target_regions:
+    run: ../../tools/bedtools-slop.cwl
+    in:
+      bed_file: recenter_target_regions/output_file
+      chrom_length_file: chrom_length_file
+      bi_direction: max_distance
+    out:
+      - extended_bed_file
+
+  get_unique_a_within_max_distance_from_target_regions:
+    run: ../../tools/bedtools-intersect.cwl
+    in:
+      file_a: sort_unique_from_a/sorted_file
+      file_b: extend_recentered_target_regions/extended_bed_file
+      report_from_a_once:
+        default: true
+    out: [intersected_file]
+
+  get_unique_b_within_max_distance_from_target_regions:
+    run: ../../tools/bedtools-intersect.cwl
+    in:
+      file_a: sort_unique_from_b/sorted_file
+      file_b: extend_recentered_target_regions/extended_bed_file
+      report_from_a_once:
+        default: true
+    out: [intersected_file]
+
+  get_merged_overlapped_a_and_b_within_max_distance_from_target_regions:
+    run: ../../tools/bedtools-intersect.cwl
+    in:
+      file_a: sort_merged_overlapped_a_and_b/sorted_file
+      file_b: extend_recentered_target_regions/extended_bed_file
+      report_from_a_once:
+        default: true
+    out: [intersected_file]
 
 
 
@@ -267,7 +310,7 @@ steps:
   get_rel_dist_distr_from_unique_a_to_target_regions:
     run: bedtools-reldist.cwl
     in:
-      file_a: sort_unique_from_a/sorted_file
+      file_a: get_unique_a_within_max_distance_from_target_regions/intersected_file
       file_b: recenter_target_regions/output_file
       detailed_report:
         default: false
@@ -279,7 +322,7 @@ steps:
   get_rel_dist_distr_from_unique_b_to_target_regions:
     run: bedtools-reldist.cwl
     in:
-      file_a: sort_unique_from_b/sorted_file
+      file_a: get_unique_b_within_max_distance_from_target_regions/intersected_file
       file_b: recenter_target_regions/output_file
       detailed_report:
         default: false
@@ -291,7 +334,7 @@ steps:
   get_rel_dist_distr_from_merged_overlapped_a_and_b_to_target_regions:
     run: bedtools-reldist.cwl
     in:
-      file_a: sort_merged_overlapped_a_and_b/sorted_file
+      file_a: get_merged_overlapped_a_and_b_within_max_distance_from_target_regions/intersected_file
       file_b: recenter_target_regions/output_file
       detailed_report:
         default: false
@@ -343,7 +386,7 @@ steps:
     run: bedtools-reldist.cwl
     in:
       file_a: recenter_target_regions/output_file
-      file_b: sort_unique_from_a/sorted_file
+      file_b: get_unique_a_within_max_distance_from_target_regions/intersected_file
       detailed_report:
         default: false
       output_filename:
@@ -355,7 +398,7 @@ steps:
     run: bedtools-reldist.cwl
     in:
       file_a: recenter_target_regions/output_file
-      file_b: sort_unique_from_b/sorted_file
+      file_b: get_unique_b_within_max_distance_from_target_regions/intersected_file
       detailed_report:
         default: false
       output_filename:
@@ -367,7 +410,7 @@ steps:
     run: bedtools-reldist.cwl
     in:
       file_a: recenter_target_regions/output_file
-      file_b: sort_merged_overlapped_a_and_b/sorted_file
+      file_b: get_merged_overlapped_a_and_b_within_max_distance_from_target_regions/intersected_file
       detailed_report:
         default: false
       output_filename:
@@ -418,7 +461,7 @@ steps:
     run: bedtools-reldist.cwl
     in:
       file_a: recenter_target_regions/output_file
-      file_b: sort_unique_from_a/sorted_file
+      file_b: get_unique_a_within_max_distance_from_target_regions/intersected_file
       detailed_report:
         default: true
       output_filename:
@@ -430,7 +473,7 @@ steps:
     run: bedtools-reldist.cwl
     in:
       file_a: recenter_target_regions/output_file
-      file_b: sort_unique_from_b/sorted_file
+      file_b: get_unique_b_within_max_distance_from_target_regions/intersected_file
       detailed_report:
         default: true
       output_filename:
@@ -442,7 +485,7 @@ steps:
     run: bedtools-reldist.cwl
     in:
       file_a: recenter_target_regions/output_file
-      file_b: sort_merged_overlapped_a_and_b/sorted_file
+      file_b: get_merged_overlapped_a_and_b_within_max_distance_from_target_regions/intersected_file
       detailed_report:
         default: true
       output_filename:

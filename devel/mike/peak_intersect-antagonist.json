@@ -16,5 +16,11 @@
         "location": "./data/antagonist_genes.bed"
     },
     "target_regions_name": "Antagonist Genes",
-    "recenter_target_regions": "TSS"
+
+    "chrom_length_file": {
+        "class": "File",
+        "location": "./data/hg19_chrNameLength.txt"
+    },
+    "recenter_target_regions": "TSS",
+    "max_distance": 50000
 }
