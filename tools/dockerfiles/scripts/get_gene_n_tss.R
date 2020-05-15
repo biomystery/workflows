@@ -8,6 +8,9 @@ suppressMessages(library(data.table))
 
 
 ##########################################################################################
+# v0.0.3
+# Fix bug: take information related to the first gene in case of duplucates
+#
 # v0.0.2
 # If arguments --gene and --tss are not provided, generate default values based on the
 # --isoforms input
@@ -23,10 +26,10 @@ load_isoform <- function(filename, combine_type) {
     isoforms <- setDT(read.table(filename, sep=",", header=TRUE, stringsAsFactors=FALSE))
     if (combine_type == "gene") {
         isoforms <- isoforms[, .(RefseqId = paste(sort(unique(RefseqId)), collapse = ","),
-                                 Chrom = max(Chrom),
-                                 TxStart = max(TxStart),
-                                 TxEnd = max(TxEnd),
-                                 Strand = max(Strand),
+                                 Chrom = Chrom[1],
+                                 TxStart = TxStart[1],
+                                 TxEnd = TxEnd[1],
+                                 Strand = Strand[1],
                                  TotalReads = sum(TotalReads),
                                  Rpkm = sum(Rpkm)),
                              by = GeneId]
