@@ -3183,7 +3183,7 @@
     rpkm_genes:
       location: "upstream.genes.tsv"
       class: File
-      size: 7182
+      size: 7181
     rpkm_isoforms:
       location: "upstream.isoforms.csv"
       class: File
@@ -3246,7 +3246,7 @@
     rpkm_genes:
       location: "upstream.genes.tsv"
       class: File
-      size: 7228
+      size: 7227
     rpkm_isoforms:
       location: "upstream.isoforms.csv"
       class: File
@@ -3309,7 +3309,7 @@
     rpkm_genes:
       location: "upstream.genes.tsv"
       class: File
-      size: 7142
+      size: 7141
     rpkm_isoforms:
       location: "upstream.isoforms.csv"
       class: File
@@ -3376,7 +3376,7 @@
     rpkm_genes:
       location: "upstream.genes.tsv"
       class: File
-      size: 7173
+      size: 7172
     rpkm_isoforms:
       location: "upstream.isoforms.csv"
       class: File
@@ -3592,7 +3592,7 @@
     rpkm_genes:
       location: "upstream.genes.tsv"
       class: File
-      size: 7180
+      size: 7179
     rpkm_isoforms:
       location: "upstream.isoforms.csv"
       class: File
@@ -3658,7 +3658,7 @@
     rpkm_genes:
       location: "upstream.genes.tsv"
       class: File
-      size: 7203
+      size: 7202
     rpkm_isoforms:
       location: "upstream.isoforms.csv"
       class: File
@@ -3727,7 +3727,7 @@
     rpkm_genes:
       location: "upstream.genes.tsv"
       class: File
-      size: 7142
+      size: 7141
     rpkm_isoforms:
       location: "upstream.isoforms.csv"
       class: File
@@ -3797,7 +3797,7 @@
     rpkm_genes:
       location: "upstream.genes.tsv"
       class: File
-      size: 7147
+      size: 7146
     rpkm_isoforms:
       location: "upstream.isoforms.csv"
       class: File
