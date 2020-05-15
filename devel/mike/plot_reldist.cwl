@@ -26,7 +26,7 @@ inputs:
       output_file = sys.argv[3]
       plt.style.use("ggplot")
       plt.rc("xtick", labelsize=4)
-      raw_data = pd.read_table(raw_data_file, index_col=3, names=["chr", "start", "end", "reldist"], sep="\t")
+      raw_data = pd.read_table(raw_data_file, index_col=3, names=["chr", "start", "end", "score", "strand", "reldist"], sep="\t")
       raw_data.plot(y="reldist", legend=False)
       plt.title("Relative Distance")
       plt.suptitle(header)

@@ -32,6 +32,13 @@ inputs:
   target_regions_name:
     type: string
 
+  recenter_target_regions:
+    type:
+      - "null"
+      - type: enum
+        symbols: ["TSS", "Skip"]
+    default: "Skip"
+
 
 outputs:
 
@@ -46,6 +53,10 @@ outputs:
   merged_overlapped_a_and_b:
     type: File
     outputSource: sort_merged_overlapped_a_and_b/sorted_file
+  
+  recentered_target_regions:
+    type: File
+    outputSource: recenter_target_regions/output_file
 
 
 
@@ -230,6 +241,26 @@ steps:
     out:
       - sorted_file
 
+  recenter_target_regions:
+    run: ../../tools/custom-bash.cwl
+    in:
+      input_file: target_regions
+      param: recenter_target_regions
+      script:
+        default: |
+          if [ "$1" == "TSS" ]
+          then
+            echo "Recenter target regions by TSS"
+            # chrom  start  end  name  score strand
+            cat "$0" | awk '{tss=$2; if ($6=="-") tss=$3; print $1"\t"tss"\t"tss"\t"$4"\t"$5"\t"$6}' > "recentered_by_tss_target_regions.bed"
+          else
+            echo "Skip recentering target regions"
+            cat "$0" > "not_recentered_target_regions.bed"
+          fi
+    out:
+      - output_file
+
+
 
 
 
@@ -237,7 +268,7 @@ steps:
     run: bedtools-reldist.cwl
     in:
       file_a: sort_unique_from_a/sorted_file
-      file_b: target_regions
+      file_b: recenter_target_regions/output_file
       detailed_report:
         default: false
       output_filename:
@@ -249,7 +280,7 @@ steps:
     run: bedtools-reldist.cwl
     in:
       file_a: sort_unique_from_b/sorted_file
-      file_b: target_regions
+      file_b: recenter_target_regions/output_file
       detailed_report:
         default: false
       output_filename:
@@ -261,7 +292,7 @@ steps:
     run: bedtools-reldist.cwl
     in:
       file_a: sort_merged_overlapped_a_and_b/sorted_file
-      file_b: target_regions
+      file_b: recenter_target_regions/output_file
       detailed_report:
         default: false
       output_filename:
@@ -311,7 +342,7 @@ steps:
   get_rel_dist_distr_from_target_regions_to_unique_a:
     run: bedtools-reldist.cwl
     in:
-      file_a: target_regions
+      file_a: recenter_target_regions/output_file
       file_b: sort_unique_from_a/sorted_file
       detailed_report:
         default: false
@@ -323,7 +354,7 @@ steps:
   get_rel_dist_distr_from_target_regions_to_unique_b:
     run: bedtools-reldist.cwl
     in:
-      file_a: target_regions
+      file_a: recenter_target_regions/output_file
       file_b: sort_unique_from_b/sorted_file
       detailed_report:
         default: false
@@ -335,7 +366,7 @@ steps:
   get_rel_dist_distr_from_target_regions_to_merged_overlapped_a_and_b:
     run: bedtools-reldist.cwl
     in:
-      file_a: target_regions
+      file_a: recenter_target_regions/output_file
       file_b: sort_merged_overlapped_a_and_b/sorted_file
       detailed_report:
         default: false
@@ -386,7 +417,7 @@ steps:
   get_rel_dist_from_target_regions_to_unique_a:
     run: bedtools-reldist.cwl
     in:
-      file_a: target_regions
+      file_a: recenter_target_regions/output_file
       file_b: sort_unique_from_a/sorted_file
       detailed_report:
         default: true
@@ -398,7 +429,7 @@ steps:
   get_rel_dist_from_target_regions_to_unique_b:
     run: bedtools-reldist.cwl
     in:
-      file_a: target_regions
+      file_a: recenter_target_regions/output_file
       file_b: sort_unique_from_b/sorted_file
       detailed_report:
         default: true
@@ -410,7 +441,7 @@ steps:
   get_rel_dist_from_target_regions_to_merged_overlapped_a_and_b:
     run: bedtools-reldist.cwl
     in:
-      file_a: target_regions
+      file_a: recenter_target_regions/output_file
       file_b: sort_merged_overlapped_a_and_b/sorted_file
       detailed_report:
         default: true

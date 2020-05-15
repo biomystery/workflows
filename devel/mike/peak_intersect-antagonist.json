@@ -15,5 +15,6 @@
         "class": "File",
         "location": "./data/antagonist_genes.bed"
     },
-    "target_regions_name": "Antagonist Genes"
+    "target_regions_name": "Antagonist Genes",
+    "recenter_target_regions": "TSS"
 }
