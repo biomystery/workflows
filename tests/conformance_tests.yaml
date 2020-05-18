@@ -4378,6 +4378,40 @@
       class: File
       location: hopach_stderr.log
 
+- job: ./hopach-5.json
+  tool: ../tools/hopach.cwl
+  output:
+    clustering_results:
+      class: File
+      location: results_clustering.tsv
+      size: 42300
+    clustering_matrix:
+      class: File
+      location: results_tree.cdt
+    clustering_row_dendogram:
+      class: File
+      location: results_tree.gtr
+    clustering_column_dendogram: null
+    column_clustering_labels:
+      class: File
+      location: results_column_clustering_labels.tsv
+      size: 73
+    row_distance_matrix_png:
+      class: File
+      location: results_row_dist_matrix.png
+    col_distance_matrix_png:
+      class: File
+      location: results_column_dist_matrix.png
+    heatmap_png:
+      class: File
+      location: results_heatmap.png
+    stdout_log:
+      class: File
+      location: hopach_stdout.log
+    stderr_log:
+      class: File
+      location: hopach_stderr.log
+
 # ========================================================
 # rgt-thor
 # ========================================================

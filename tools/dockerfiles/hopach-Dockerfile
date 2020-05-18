@@ -2,15 +2,19 @@
 # Dockerfile
 #
 # Software:         hopach
-# Software Version: v0.0.9
+# Software Version: v0.0.10
 # Description:      Hierarchical Ordered Partitioning and Collapsing Hybrid (HOPACH)
 # Website:          https://www.bioconductor.org/packages/release/bioc/html/hopach.html
 # Provides:         hopach 2.46.0
 # Base Image:       r-base:3.6.0
-# Build Cmd:        docker build --rm -t biowardrobe2/hopach:v0.0.9 -f hopach-Dockerfile .
-# Pull Cmd:         docker pull biowardrobe2/hopach:v0.0.9
-# Run Cmd:          docker run --rm -ti biowardrobe2/hopach:v0.0.9 /bin/bash
+# Build Cmd:        docker build --rm -t biowardrobe2/hopach:v0.0.10 -f hopach-Dockerfile .
+# Pull Cmd:         docker pull biowardrobe2/hopach:v0.0.10
+# Run Cmd:          docker run --rm -ti biowardrobe2/hopach:v0.0.10 /bin/bash
 #################################################################
+#
+# v0.0.10
+#   Bug fix in hopach_order.R script.
+#   - doesn't fail if any of the input has ' or "
 #
 # v0.0.9
 #   Update hopach_order.R script.
@@ -81,7 +85,7 @@ COPY ./scripts/hopach_order.R /usr/local/bin/hopach_order.R
 
 ### Installing dependencies
 RUN apt-get update && \
-    apt-get install -y python3-dev python3-pip libxml2-dev libcurl4-openssl-dev && \
+    apt-get install -y libgcc-8-dev python3-dev python3-pip libxml2-dev libcurl4-openssl-dev && \
     pip3 install argparse && \
 ### Installing biocmanager, argparse, gplots, RColorBrewer, hopach, 
     Rscript /tmp/install_from_source.R "${URL_BIOCMANAGER}" && \

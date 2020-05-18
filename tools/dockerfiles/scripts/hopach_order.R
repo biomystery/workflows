@@ -168,8 +168,7 @@ parser$add_argument("--colcenter",       help='Center columns prior to running c
 parser$add_argument("--rownorm",         help='Normalize rows prior to running row clustering. Default: not normalized',    action='store_true' )
 parser$add_argument("--colnorm",         help='Normalize columns prior to running column clustering. Default: not normalized', action='store_true' )
 
-
-args <- parser$parse_args(commandArgs(trailingOnly = TRUE))
+args <- parser$parse_args(gsub("'|\"| ", "_", commandArgs(trailingOnly = TRUE)))
 
 
 # Set default value for --name if it wasn't provided
