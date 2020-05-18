@@ -4395,7 +4395,7 @@
     column_clustering_labels:
       class: File
       location: results_column_clustering_labels.tsv
-      size: 73
+      size: 76
     row_distance_matrix_png:
       class: File
       location: results_row_dist_matrix.png
