@@ -5604,6 +5604,48 @@
       class: File
 
 # ========================================================
+# homer-find-motifs-genome
+# ========================================================
+
+- job: ./homer-find-motifs-genome-1.json
+  tool: ../tools/homer-find-motifs-genome.cwl
+  output:
+    compressed_results_folder:
+      location: chr4_100_mapped_reads.Aligned.out_macs_peaks.tar.gz
+      class: File
+    known_motifs:
+      location: knownResults.html
+      class: File
+    denovo_motifs:
+      location: homerResults.html
+      class: File
+    stderr_log:
+      location: homer_find_motifs_genome_stderr.log
+      class: File
+    stdout_log:
+      location: homer_find_motifs_genome_stdout.log
+      class: File
+
+- job: ./homer-find-motifs-genome-2.json
+  tool: ../tools/homer-find-motifs-genome.cwl
+  output:
+    compressed_results_folder:
+      location: motifs.tar.gz
+      class: File
+    known_motifs:
+      location: knownResults.html
+      class: File
+    denovo_motifs:
+      location: homerResults.html
+      class: File
+    stderr_log:
+      location: homer_find_motifs_genome_stderr.log
+      class: File
+    stdout_log:
+      location: homer_find_motifs_genome_stdout.log
+      class: File
+
+# ========================================================
 # tar-compress
 # ========================================================
 

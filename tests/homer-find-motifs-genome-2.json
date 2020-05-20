@@ -1,0 +1,21 @@
+{
+  "target_regions_file": {
+    "class": "File",
+    "location":  "./data/dm3_chr4/generated_inputs/macs_peaks/chr4_100_mapped_reads.Aligned.out_macs_peaks.narrowPeak"
+  },
+  "genome_fasta_file": {
+    "class": "File",
+    "location":  "./data/dm3_chr4/main_inputs/fasta/chr4.fa"
+  },
+  "background_regions_file": {
+    "class": "File",
+    "location":  "./data/dm3_chr4/generated_inputs/genelist/chr4.isoforms.genelist.bed"
+  },
+  "skip_denovo": true,
+  "apply_mask_on_genome": true,
+  "use_hypergeometric": true,
+  "chopify_background_regions": true,
+  "output_filename": "motifs.tar.gz",
+  "search_size": "-50,100",
+  "motif_length": "4"
+}
