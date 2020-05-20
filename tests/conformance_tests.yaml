@@ -5616,9 +5616,7 @@
     known_motifs:
       location: knownResults.html
       class: File
-    denovo_motifs:
-      location: homerResults.html
-      class: File
+    denovo_motifs: null
     stderr_log:
       location: homer_find_motifs_genome_stderr.log
       class: File
@@ -5635,9 +5633,7 @@
     known_motifs:
       location: knownResults.html
       class: File
-    denovo_motifs:
-      location: homerResults.html
-      class: File
+    denovo_motifs: null
     stderr_log:
       location: homer_find_motifs_genome_stderr.log
       class: File
