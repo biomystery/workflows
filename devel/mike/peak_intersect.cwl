@@ -173,7 +173,7 @@ steps:
       input_file: regions_file_a
       script:
         default: |
-          cat "$0" | tr -d '\r' | tr "," "\t" | cut -f 1-3 | sort -u | sort -k1,1 -k2,2n > filtered_by_max_distance_unique_from_a.bed
+          cat "$0" | tr -d '\r' | tr "," "\t" | cut -f 1-3 | sort -u -k1,1 -k2,2n -k3,3n > filtered_by_max_distance_unique_from_a.bed
     out:
       - output_file
 
@@ -183,7 +183,7 @@ steps:
       input_file: regions_file_b
       script:
         default: |
-          cat "$0" | tr -d '\r' | tr "," "\t" | cut -f 1-3 | sort -u | sort -k1,1 -k2,2n > filtered_by_max_distance_unique_from_b.bed
+          cat "$0" | tr -d '\r' | tr "," "\t" | cut -f 1-3 | sort -u -k1,1 -k2,2n -k3,3n > filtered_by_max_distance_unique_from_b.bed
     out:
       - output_file
 
