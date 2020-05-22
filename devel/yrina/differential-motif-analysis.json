@@ -1,0 +1,69 @@
+{
+    "regions_files_a": [
+        {
+            "class": "File",
+            "location": "/Users/kot4or/temp/ting/ATAC/E115_TSLP_treated.narrowPeak"
+        },
+        {
+            "class": "File",
+            "location": "/Users/kot4or/temp/ting/ATAC/E132_TSLP_treated.narrowPeak"
+        },
+        {
+            "class": "File",
+            "location": "/Users/kot4or/temp/ting/ATAC/E134_TSLP_treated.narrowPeak"
+        },
+        {
+            "class": "File",
+            "location": "/Users/kot4or/temp/ting/ATAC/E135_TSLP_treated.narrowPeak"
+        },
+        {
+            "class": "File",
+            "location": "/Users/kot4or/temp/ting/ATAC/E137_TSLP_treated.narrowPeak"
+        }
+    ],
+    "regions_files_b": [
+        {
+            "class": "File",
+            "location": "/Users/kot4or/temp/ting/ATAC/E115_untreated.narrowPeak"
+        },
+        {
+            "class": "File",
+            "location": "/Users/kot4or/temp/ting/ATAC/E132_untreated.narrowPeak"
+        },
+        {
+            "class": "File",
+            "location": "/Users/kot4or/temp/ting/ATAC/E134_untreated.narrowPeak"
+        },
+        {
+            "class": "File",
+            "location": "/Users/kot4or/temp/ting/ATAC/E135_untreated.narrowPeak"
+        },
+        {
+            "class": "File",
+            "location": "/Users/kot4or/temp/ting/ATAC/E137_untreated.narrowPeak"
+        }
+    ],
+    "diff_regions_file_a": {
+        "class": "File",
+        "location": "/Users/kot4or/temp/ting/MOTIFS/diffbind_regions_TSLP_treated_log2FC_bigger_than_1_nonintergenic.bed"
+    },
+    "diff_regions_file_b": {
+        "class": "File",
+        "location": "/Users/kot4or/temp/ting/MOTIFS/diffbind_regions_Untreated_log2FC_smaller_than_minus_1_nonintergenic.bed"
+    },
+    "genome_fasta_file": {
+        "class": "File",
+        "location": "/Users/kot4or/temp/ting/MOTIFS/hg38.fa"
+    },
+    "min_signal_regions_a": "10",
+    "min_signal_regions_b": "0",
+    "motifs_db": "vertebrates",
+    "chopify_background_regions": false,
+    "apply_mask_on_genome": true,
+    "skip_denovo": true,
+    "skip_known": false,
+    "use_hypergeometric": false,
+    "search_size": "200",
+    "motif_length": "8,10,12",
+    "threads": 8
+}
