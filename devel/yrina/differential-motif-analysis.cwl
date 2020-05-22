@@ -72,14 +72,6 @@ outputs:
     type: File
     outputSource: concat_dedup_and_sort_regions_b/output_file
 
-  concatenated_sorted_merged_unique_regions_from_a:
-      type: File
-      outputSource: merge_concat_dedup_sorted_regions_a/merged_bed_file
-
-  concatenated_sorted_merged_unique_regions_from_b:
-      type: File
-      outputSource: merge_concat_dedup_sorted_regions_b/merged_bed_file
-
   concatenated_sorted_unique_regions_from_a_overlapped_with_diff:
     type: File
     outputSource: get_overlapped_with_diff_regions_a/intersected_file
@@ -87,6 +79,22 @@ outputs:
   concatenated_sorted_unique_regions_from_b_overlapped_with_diff:
     type: File
     outputSource: get_overlapped_with_diff_regions_b/intersected_file
+
+  merged_overlapped_with_diff_concatenated_sorted_unique_regions_from_a:
+    type: File
+    outputSource: merge_overlapped_with_diff_regions_a/merged_bed_file
+
+  merged_overlapped_with_diff_concatenated_sorted_unique_regions_from_b:
+    type: File
+    outputSource: merge_overlapped_with_diff_regions_b/merged_bed_file
+
+  sorted_unique_diff_regions_from_a:
+    type: File
+    outputSource: dedup_and_sort_diff_regions_a/output_file
+
+  sorted_unique_diff_regions_from_b:
+    type: File
+    outputSource: dedup_and_sort_diff_regions_b/output_file
 
   homer_found_motifs:
     type: File
@@ -124,7 +132,7 @@ steps:
   dedup_and_sort_diff_regions_b:
     run: ../../tools/custom-bash.cwl
     in:
-      input_file: diff_regions_file_a
+      input_file: diff_regions_file_b
       script:
         default: |
           cat "$0" | tr -d '\r' | tr "," "\t" | awk NF | sort -u -k1,1 -k2,2n -k3,3n | awk '{print $1"\t"$2"\t"$3"\tp"NR"\t"$5"\t"$6}' > sorted_unique_diff_regions_from_b.bed
@@ -161,26 +169,10 @@ steps:
     out:
       - output_file
 
-  merge_concat_dedup_sorted_regions_a:
-    run: ../../tools/bedtools-merge.cwl
-    in:
-      bed_file: concat_dedup_and_sort_regions_a/output_file
-      output_filename:
-        default: "concatenated_sorted_merged_unique_regions_from_a.bed"
-    out: [merged_bed_file]
-  
-  merge_concat_dedup_sorted_regions_b:
-    run: ../../tools/bedtools-merge.cwl
-    in:
-      bed_file: concat_dedup_and_sort_regions_b/output_file
-      output_filename:
-        default: "concatenated_sorted_merged_unique_regions_from_b.bed"
-    out: [merged_bed_file]
-
   get_overlapped_with_diff_regions_a:
     run: ../../tools/bedtools-intersect.cwl
     in:
-      file_a: merge_concat_dedup_sorted_regions_a/merged_bed_file
+      file_a: concat_dedup_and_sort_regions_a/output_file
       file_b: dedup_and_sort_diff_regions_a/output_file
       report_from_a_once:
         default: true
@@ -191,7 +183,7 @@ steps:
   get_overlapped_with_diff_regions_b:
     run: ../../tools/bedtools-intersect.cwl
     in:
-      file_a: merge_concat_dedup_sorted_regions_b/merged_bed_file
+      file_a: concat_dedup_and_sort_regions_b/output_file
       file_b: dedup_and_sort_diff_regions_b/output_file
       report_from_a_once:
         default: true
@@ -199,11 +191,27 @@ steps:
         default: "concatenated_sorted_unique_regions_from_b_overlapped_with_diff.bed"
     out: [intersected_file]
 
+  merge_overlapped_with_diff_regions_a:
+    run: ../../tools/bedtools-merge.cwl
+    in:
+      bed_file: get_overlapped_with_diff_regions_a/intersected_file
+      output_filename:
+        default: "merged_overlapped_with_diff_concatenated_sorted_unique_regions_from_a.bed"
+    out: [merged_bed_file]
+  
+  merge_overlapped_with_diff_regions_b:
+    run: ../../tools/bedtools-merge.cwl
+    in:
+      bed_file: get_overlapped_with_diff_regions_b/intersected_file
+      output_filename:
+        default: "merged_overlapped_with_diff_concatenated_sorted_unique_regions_from_b.bed"
+    out: [merged_bed_file]
+
   find_motifs:
     run: ../../tools/homer-find-motifs-genome.cwl
     in:
-      target_regions_file: get_overlapped_with_diff_regions_a/intersected_file
-      background_regions_file: get_overlapped_with_diff_regions_b/intersected_file
+      target_regions_file: merge_overlapped_with_diff_regions_a/merged_bed_file
+      background_regions_file: merge_overlapped_with_diff_regions_b/merged_bed_file
       genome_fasta_file: genome_fasta_file
       chopify_background_regions: chopify_background_regions
       search_size: search_size

@@ -45,17 +45,17 @@
     ],
     "diff_regions_file_a": {
         "class": "File",
-        "location": "/Users/kot4or/temp/ting/MOTIFS/diffbind_regions_TSLP_treated_log2FC_bigger_than_1_nonintergenic.bed"
+        "location": "/Users/kot4or/temp/ting/MOTIFS/diffbind_regions_TSLP_treated_log2FC_bigger_than_1.bed"
     },
     "diff_regions_file_b": {
         "class": "File",
-        "location": "/Users/kot4or/temp/ting/MOTIFS/diffbind_regions_Untreated_log2FC_smaller_than_minus_1_nonintergenic.bed"
+        "location": "/Users/kot4or/temp/ting/MOTIFS/diffbind_regions_all_log2FC_smaller_than_1.bed"
     },
     "genome_fasta_file": {
         "class": "File",
         "location": "/Users/kot4or/temp/ting/MOTIFS/hg38.fa"
     },
-    "min_signal_regions_a": "10",
+    "min_signal_regions_a": "0",
     "min_signal_regions_b": "0",
     "motifs_db": "vertebrates",
     "chopify_background_regions": false,
@@ -65,5 +65,5 @@
     "use_hypergeometric": false,
     "search_size": "200",
     "motif_length": "8,10,12",
-    "threads": 8
+    "threads": 5
 }
