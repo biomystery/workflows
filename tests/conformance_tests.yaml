@@ -5787,3 +5787,33 @@
     stderr_log:
       class: File
       location: gseapy_stderr.log
+
+# ========================================================
+# deeptools-computematrix-referencepoint
+# ========================================================
+
+- job: ./deeptools-computematrix-referencepoint-1.json
+  tool: ../tools/deeptools-computematrix-referencepoint.cwl
+  output:
+    scores_matrix:
+    - class: File
+      location: output.gz
+    stdout_log:
+      class: File
+      location: compute_matrix_stdout.log
+    stderr_log:
+      class: File
+      location: compute_matrix_stderr.log
+  
+- job: ./deeptools-computematrix-referencepoint-2.json
+  tool: ../tools/deeptools-computematrix-referencepoint.cwl
+  output:
+    scores_matrix:
+    - class: File
+      location: output.gz
+    stdout_log:
+      class: File
+      location: compute_matrix_stdout.log
+    stderr_log:
+      class: File
+      location: compute_matrix_stderr.log
