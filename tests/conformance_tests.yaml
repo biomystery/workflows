@@ -5796,7 +5796,7 @@
   tool: ../tools/deeptools-computematrix-referencepoint.cwl
   output:
     scores_matrix:
-    - class: File
+      class: File
       location: output.gz
     stdout_log:
       class: File
@@ -5809,7 +5809,7 @@
   tool: ../tools/deeptools-computematrix-referencepoint.cwl
   output:
     scores_matrix:
-    - class: File
+      class: File
       location: output.gz
     stdout_log:
       class: File
@@ -5817,3 +5817,59 @@
     stderr_log:
       class: File
       location: compute_matrix_stderr.log
+
+# ========================================================
+# deeptools-plotheatmap.cwl
+# ========================================================
+
+- job: ./deeptools-plotheatmap-1.json
+  tool: ../tools/deeptools-plotheatmap.cwl
+  output:
+    heatmap_file:
+      class: File
+      location: single_score_heatmap.pdf
+    stdout_log:
+      class: File
+      location: plot_heatmap_stdout.log
+    stderr_log:
+      class: File
+      location: plot_heatmap_stderr.log
+
+- job: ./deeptools-plotheatmap-2.json
+  tool: ../tools/deeptools-plotheatmap.cwl
+  output:
+    heatmap_file:
+      class: File
+      location: single_score_heatmap.pdf
+    stdout_log:
+      class: File
+      location: plot_heatmap_stdout.log
+    stderr_log:
+      class: File
+      location: plot_heatmap_stderr.log
+
+- job: ./deeptools-plotheatmap-3.json
+  tool: ../tools/deeptools-plotheatmap.cwl
+  output:
+    heatmap_file:
+      class: File
+      location: double_score_heatmap.pdf
+    stdout_log:
+      class: File
+      location: plot_heatmap_stdout.log
+    stderr_log:
+      class: File
+      location: plot_heatmap_stderr.log
+
+- job: ./deeptools-plotheatmap-4.json
+  tool: ../tools/deeptools-plotheatmap.cwl
+  output:
+    heatmap_file:
+      class: File
+      location: double_score_heatmap.pdf
+    stdout_log:
+      class: File
+      location: plot_heatmap_stdout.log
+    stderr_log:
+      class: File
+      location: plot_heatmap_stderr.log

@@ -1,0 +1,7 @@
+{
+    "scores_matrix": {
+        "class": "File",
+        "location": "./data/dm3_chr4/generated_inputs/deeptools/score_matrix/single_score_matrix.gz"
+    },
+    "output_filename": "single_score_heatmap.pdf"
+}

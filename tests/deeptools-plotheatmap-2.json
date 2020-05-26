@@ -1,0 +1,24 @@
+{
+    "scores_matrix": {
+        "class": "File",
+        "location": "./data/dm3_chr4/generated_inputs/deeptools/score_matrix/single_score_matrix.gz"
+    },
+    "output_filename": "single_score_heatmap.pdf",
+    "interpolation_method": "bicubic",
+    "dpi": 300,
+    "plot_type": "fill",
+    "sort_regions": "descend",
+    "sort_using": "mean",
+    "average_type_summary_plot": "sum",
+    "what_to_show": "plot and heatmap",
+    "x_axis_label": "dummy x label",
+    "ref_point_label": "custom ref point",
+    "label_rotation_angle": 15,
+    "regions_label": "Region A",
+    "samples_label": "Sample 1",
+    "plot_title": "Title",
+    "y_axisLabel": "dummy y label",
+    "y_min": 0,
+    "y_max": 999,
+    "legend_location": "best"
+}
