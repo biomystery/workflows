@@ -116,10 +116,10 @@ inputs:
     - type: enum
       name: "what_to_show"
       symbols:
-      - plot
-      - heatmap and colorbar
+      - plot, heatmap and colorbar
       - plot and heatmap
       - heatmap only
+      - heatmap and colorbar
     inputBinding:
       position: 13
       prefix: "--whatToShow"
