@@ -17,5 +17,6 @@
   "chopify_background_regions": true,
   "output_filename": "motifs.tar.gz",
   "search_size": "-50,100",
-  "motif_length": "4"
+  "motif_length": "4",
+  "skip_normalization": true
 }
