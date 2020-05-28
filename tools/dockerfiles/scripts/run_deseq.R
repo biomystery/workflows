@@ -10,6 +10,11 @@ suppressMessages(library(ggplot2))
 
 ##########################################################################################
 #
+#
+# v0.0.18
+#
+# - Add --digits parameter to set a precision in output table
+#
 # v0.0.17
 #
 # - Update labels in cls, replaces n/a with na in gct files
@@ -75,7 +80,7 @@ get_file_type <- function (filename) {
 }
 
 
-load_isoform_set <- function(filenames, prefixes, read_colname, rpkm_colname, conditions, intersect_by, collected_data=NULL) {
+load_isoform_set <- function(filenames, prefixes, read_colname, rpkm_colname, conditions, intersect_by, digits, collected_data=NULL) {
     for (i in 1:length(filenames)) {
         isoforms <- read.table(filenames[i], sep=get_file_type(filenames[i]), header=TRUE, stringsAsFactors=FALSE)
         new_read_colname = paste(prefixes[i], " [", conditions, "]", sep="")
@@ -92,7 +97,7 @@ load_isoform_set <- function(filenames, prefixes, read_colname, rpkm_colname, co
     }
     rpkm_columns = grep(paste("^", conditions, " [0-9]+ ", rpkm_colname, sep=""), colnames(collected_data$collected_isoforms), value = TRUE, ignore.case = TRUE)
     new_rpkm_colname = paste(rpkm_colname, " [", conditions, "]", sep="")
-    collected_data$collected_isoforms[new_rpkm_colname] = rowSums(collected_data$collected_isoforms[, rpkm_columns, drop = FALSE]) / length(filenames)
+    collected_data$collected_isoforms[new_rpkm_colname] = format(rowSums(collected_data$collected_isoforms[, rpkm_columns, drop = FALSE]) / length(filenames), digits=digits)
     collected_data$rpkm_colnames = c(collected_data$rpkm_colnames, new_rpkm_colname)
     collected_data$collected_isoforms <- collected_data$collected_isoforms[, !colnames(collected_data$collected_isoforms) %in% rpkm_columns]
     return( collected_data )
@@ -276,6 +281,7 @@ get_args <- function(){
     parser$add_argument("-tn", "--tname",     help='Name for treated condition, use only letters and numbers',   type="character", default="treated")
     parser$add_argument("-cu", "--cutoff",    help='Minimum threshold for rpkm filtering. Default: 5', type="double", default=5)
     parser$add_argument("-o",  "--output",    help='Output prefix. Default: deseq',    type="character", default="./deseq")
+    parser$add_argument("-d",  "--digits",    help='Precision, number of digits to print. Default: 3', type="integer", default=3)
     parser$add_argument("-p",  "--threads",   help='Threads',            type="integer",   default=1)
     args <- assert_args(parser$parse_args(gsub("'|\"| ", "_", commandArgs(trailingOnly = TRUE))))
     return (args)
@@ -290,7 +296,7 @@ register(MulticoreParam(args$threads))
 
 
 # Load isoforms/genes/tss files
-raw_data <- load_isoform_set(args$treated, args$talias, READ_COL, RPKM_COL, args$tname, INTERSECT_BY, load_isoform_set(args$untreated, args$ualias, READ_COL, RPKM_COL, args$uname, INTERSECT_BY))
+raw_data <- load_isoform_set(args$treated, args$talias, READ_COL, RPKM_COL, args$tname, INTERSECT_BY, args$digits, load_isoform_set(args$untreated, args$ualias, READ_COL, RPKM_COL, args$uname, INTERSECT_BY, args$digits))
 collected_isoforms <- apply_cutoff(raw_data$collected_isoforms, args$cutoff, raw_data$rpkm_colnames)
 read_count_cols = raw_data$read_colnames
 column_data = raw_data$column_data
@@ -359,12 +365,13 @@ export_heatmap(mat, column_data, paste(args$output, "_expression_heatmap", sep="
 # Filter DESeq/DESeq2 output
 DESeqRes$log2FoldChange[is.na(DESeqRes$log2FoldChange)] <- 0;
 DESeqRes[is.na(DESeqRes)] <- 1;
+DESeqRes <- format(DESeqRes, digits=args$digits)
 
 
 # Add metadata columns to the DESeq results
 collected_isoforms <- data.frame(cbind(collected_isoforms[, !colnames(collected_isoforms) %in% read_count_cols], DESeqRes), check.names=F, check.rows=F)
-collected_isoforms[,"-LOG10(pval)"] <- -log(as.numeric(collected_isoforms$pval), 10)
-collected_isoforms[,"-LOG10(padj)"] <- -log(as.numeric(collected_isoforms$padj), 10)
+collected_isoforms[,"'-LOG10(pval)'"] <- format(-log(as.numeric(collected_isoforms$pval), 10), digits=args$digits)
+collected_isoforms[,"'-LOG10(padj)'"] <- format(-log(as.numeric(collected_isoforms$padj), 10), digits=args$digits)
 
 
 # Export DESeq results to file
