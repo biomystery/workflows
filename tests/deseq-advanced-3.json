@@ -8,7 +8,7 @@
   "treated_files": [
     {
       "class": "File",
-      "location": "./data/dm3_chr4/main_inputs/geep/t1_1000.isoforms.csv"
+      "location": "./data/dm3_chr4/main_inputs/geep/t3_1000.isoforms.csv"
     }
   ],
   "treated_name": "KO",
