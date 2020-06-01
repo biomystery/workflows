@@ -454,7 +454,7 @@ mask_cond_both <- as.logical(mask_cond_1 + mask_cond_2)
 
 if (args$usecommon){
     cat("\nDeriving consensus peaks only from the common peaks within each condition. Min peakset overlap is ignored.\n")
-    diff_dba_consensus <- dba.peakset(diff_dba, consensus=-DBA_REPLICATE, minOverlap=0.99)  # use 0.99 to include all intersected peaks within condition
+    diff_dba_consensus <- dba.peakset(diff_dba, consensus=DBA_CONDITION, minOverlap=0.99)  # use 0.99 to include all intersected peaks within condition
     diff_dba_consensus <- dba(diff_dba_consensus, mask=diff_dba_consensus$masks$Consensus, minOverlap=args$minoverlap)
     cat("\nDerived consensus data\n - intersected peaks merged\n\n")
     print(diff_dba_consensus)
