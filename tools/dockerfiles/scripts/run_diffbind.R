@@ -9,6 +9,9 @@ suppressMessages(library(DiffBind))
 
 ##########################################################################################
 #
+# v0.0.13
+# - add --blockfile to set multiple groups for multi-factor analysis
+#
 # v0.0.12
 # - export all graphics to pdf too
 # - allow to filter out intervals with low raw read counts
@@ -60,9 +63,25 @@ suppressMessages(library(DiffBind))
 ##########################################################################################
 
 
-load_data_set <- function(diff_dba, peaks, reads, name, condition, peakformat, replicate) {
-    cat(paste("\nLoading data for condition '", condition, "' as '", name, "', replicate = ", replicate, "\n - ", reads, "\n - ", peaks, "\n", sep=""))
-    diff_dba <- dba.peakset(DBA=diff_dba, sampID=name, peaks=peaks, bamReads=reads, replicate=replicate, condition=condition, peak.caller=peakformat)
+get_file_type <- function (filename) {
+    ext = tools::file_ext(filename)
+    separator = "\t"
+    if (ext == "csv"){
+        separator = ","
+    }
+    return (separator)
+}
+
+
+load_data_set <- function(diff_dba, peaks, reads, name, condition, peakformat, replicate, block) {
+    if (is.vector(block)){
+        cat(paste("\nLoading data for condition '", condition, "' as '", name, "', replicate = ", replicate, "\n - ", reads, "\n - ", peaks, "\n", sep=""))
+        diff_dba <- dba.peakset(DBA=diff_dba, sampID=name, peaks=peaks, bamReads=reads, replicate=replicate, condition=condition, peak.caller=peakformat)
+    } else {  # load group from dataframe
+        group <- block[name, "group"]
+        cat(paste("\nLoading data for condition '", condition, "' as '", name, "', replicate = ", replicate, ", group = '", group, "'\n - ", reads, "\n - ", peaks, "\n", sep=""))
+        diff_dba <- dba.peakset(DBA=diff_dba, sampID=name, peaks=peaks, bamReads=reads, replicate=replicate, condition=condition, tissue=group, peak.caller=peakformat)
+    }
     return (diff_dba)
 }
 
@@ -107,15 +126,30 @@ assert_args <- function(args){
         args$minoverlap = 1
     }
 
-    if (is.null(args$block)){
-        args$block = rep(FALSE,length(args$read1)+length(args$read2))
-    } else {
-        blocked_attributes = as.logical(args$block)
-        if (is.na(blocked_attributes) | length(blocked_attributes) != length(args$read1)+length(args$read2) ){
-            args$block = is.element(c(args$name1, args$name2), args$block)
+    if (!is.null(args$blockfile)){
+        block_metadata <- read.table(
+            args$blockfile,
+            sep=get_file_type(args$blockfile),
+            row.names=1,
+            col.names=c("name", "group"),
+            header=FALSE,
+            stringsAsFactors=FALSE
+        )
+        if (all(is.element(c(args$name1, args$name2), rownames(block_metadata)))){
+            args$block <- block_metadata  # dataframe
         } else {
-            args$block = blocked_attributes
+            cat("\nMissing values in block metadata file. Using non-blocked analysis\n")
+            args$block = rep(FALSE,length(args$read1)+length(args$read2))  # boolean vector
         }
+    } else if (!is.null(args$block)){
+        blocked_attributes = as.logical(args$block)
+        if (any(is.na(blocked_attributes)) | length(blocked_attributes) != length(args$read1)+length(args$read2) ){
+            args$block = is.element(c(args$name1, args$name2), args$block)  # boolean vector
+        } else {
+            args$block = blocked_attributes  # boolean vector
+        }
+    } else {
+        args$block = rep(FALSE,length(args$read1)+length(args$read2))  # boolean vector
     }
 
     return (args)
@@ -371,6 +405,7 @@ get_args <- function(){
     parser$add_argument("-n2", "--name2",        help='Sample names for condition 2. Default: basenames of -r2 without extensions', type="character", nargs='*')
 
     parser$add_argument("-bl", "--block",        help='Blocking attribute for multi-factor analysis. Minimum 2. Either names from --name1 or/and --name2 or array of bool based on [read1]+[read2]. Default: not applied', type="character", nargs='*')
+    parser$add_argument("-bf", "--blockfile",    help='Blocking attribute metadata file for multi-factor analysis. Headerless TSV/CSV file. First column - names from --name1 and --name2, second column - group name. --block is ignored', type="character")
 
     parser$add_argument("-pf", "--peakformat",   help='Peak files format. One of [raw, bed, narrow, macs, bayes, tpic, sicer, fp4, swembl, csv, report]. Default: macs', type="character", choices=c("raw","bed","narrow","macs","bayes","tpic","sicer","fp4","swembl","csv","report"), default="macs")
 
@@ -399,10 +434,10 @@ args <- get_args()
 
 diff_dba <- NULL
 for (i in 1:length(args$read1)){
-    diff_dba <- load_data_set(diff_dba, args$peak1[i], args$read1[i], args$name1[i], args$condition1, args$peakformat, i)
+    diff_dba <- load_data_set(diff_dba, args$peak1[i], args$read1[i], args$name1[i], args$condition1, args$peakformat, i, args$block)
 }
 for (i in 1:length(args$read2)){
-    diff_dba <- load_data_set(diff_dba, args$peak2[i], args$read2[i], args$name2[i], args$condition2, args$peakformat, i)
+    diff_dba <- load_data_set(diff_dba, args$peak2[i], args$read2[i], args$name2[i], args$condition2, args$peakformat, i, args$block)
 }
 
 
@@ -484,9 +519,19 @@ if (!args$usecommon){
 
 # Establish contrast
 metadata = dba.show(diff_dba)
-cat(paste("\n\nEstablish contrast [", paste(metadata[metadata["Condition"]==args$condition1, "ID"], collapse=", "), "] vs [", paste(metadata[metadata["Condition"]==args$condition2, "ID"], collapse=", "), "], blocked attributes [", paste(metadata[args$block, "ID"], collapse=", "), "]", "\n\n", sep=""))
 diff_dba$contrasts <- NULL
-diff_dba <- dba.contrast(diff_dba, mask_cond_1, mask_cond_2, args$condition1, args$condition2, block=args$block)
+cat(paste("\n\nEstablish contrast [", paste(metadata[metadata["Condition"]==args$condition1, "ID"], collapse=", "), "] vs [", paste(metadata[metadata["Condition"]==args$condition2, "ID"], collapse=", "), "]", "\n\n", sep=""))
+if (is.vector(args$block)){
+    cat(paste("Blocked attributes [", paste(metadata[args$block, "ID"], collapse=", "), "]", "\n\n", sep=""))
+    diff_dba <- dba.contrast(diff_dba, mask_cond_1, mask_cond_2, args$condition1, args$condition2, block=args$block)
+} else {
+    cat("Blocked attributes\n")
+    print(args$block)
+    cat("\n")
+    diff_dba <- dba.contrast(diff_dba, mask_cond_1, mask_cond_2, args$condition1, args$condition2, block=DBA_TISSUE)
+}
+
+
 diff_dba <- dba.analyze(diff_dba, method=args$method)
 
 
