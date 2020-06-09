@@ -1,0 +1,37 @@
+{
+  "untreated_files": [
+    {
+      "class": "File",
+      "location": "./data/dm3_chr4/main_inputs/geep/u1_1000.isoforms.csv"
+    },
+    {
+      "class": "File",
+       "location": "./data/dm3_chr4/main_inputs/geep/u2_1000.isoforms.csv"
+    },
+    {
+      "class": "File",
+      "location": "./data/dm3_chr4/main_inputs/geep/u3_1000.isoforms.csv"
+    }
+  ],
+  "treated_files": [
+    {
+      "class": "File",
+      "location": "./data/dm3_chr4/main_inputs/geep/t1_1000.isoforms.csv"
+    },
+    {
+      "class": "File",
+      "location": "./data/dm3_chr4/main_inputs/geep/t2_1000.isoforms.csv"
+    },
+    {
+      "class": "File",
+      "location": "./data/dm3_chr4/main_inputs/geep/t3_1000.isoforms.csv"
+    }
+  ],
+  "batch_file": {
+    "class": "File",
+    "location": "./data/dm3_chr4/main_inputs/geep/batch.tsv"
+  },
+  "output_prefix": "custom",
+  "untreated_sample_names": ["uu1", "uu2", "uu3"],
+  "treated_sample_names": ["tt1", "tt2", "tt3"]
+}
