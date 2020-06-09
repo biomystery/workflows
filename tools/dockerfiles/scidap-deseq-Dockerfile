@@ -2,7 +2,7 @@
 # Dockerfile
 #
 # Software:         BioWardrobe DESeq/DESeq2 script
-# Software Version: v0.0.19
+# Software Version: v0.0.20
 # Description:      Dockerized version of DESeq/DESeq2 script from BioWardrobe
 # Website:          https://github.com/Barski-lab/workflows
 # Provides:         run_deseq.R
@@ -15,10 +15,14 @@
 #                   argparse          latest
 #                   pheatmap          latest
 # Base Image:       r-base:3.6.0 
-# Build Cmd:        docker build --rm -t biowardrobe2/scidap-deseq:v0.0.19 -f scidap-deseq-Dockerfile .
-# Pull Cmd:         docker pull biowardrobe2/scidap-deseq:v0.0.19
-# Run Cmd:          docker run --rm -ti biowardrobe2/scidap-deseq:v0.0.19 /bin/bash
+# Build Cmd:        docker build --rm -t biowardrobe2/scidap-deseq:v0.0.20 -f scidap-deseq-Dockerfile .
+# Pull Cmd:         docker pull biowardrobe2/scidap-deseq:v0.0.20
+# Run Cmd:          docker run --rm -ti biowardrobe2/scidap-deseq:v0.0.20 /bin/bash
 #################################################################
+#
+# v0.0.20
+#
+# - Add --batchfile parameter to run_deseq.R to compensate batch effect
 #
 # v0.0.19
 #

@@ -10,6 +10,9 @@ suppressMessages(library(ggplot2))
 
 ##########################################################################################
 #
+# v0.0.19
+#
+# - Add --batchfile to compensate batch effect. Works only for DESeq2
 #
 # v0.0.18
 #
@@ -80,19 +83,26 @@ get_file_type <- function (filename) {
 }
 
 
-load_isoform_set <- function(filenames, prefixes, read_colname, rpkm_colname, conditions, intersect_by, digits, collected_data=NULL) {
+load_isoform_set <- function(filenames, prefixes, read_colname, rpkm_colname, conditions, intersect_by, digits, batch_metadata, collected_data=NULL) {
     for (i in 1:length(filenames)) {
         isoforms <- read.table(filenames[i], sep=get_file_type(filenames[i]), header=TRUE, stringsAsFactors=FALSE)
         new_read_colname = paste(prefixes[i], " [", conditions, "]", sep="")
-        print(paste("Load", nrow(isoforms), "rows from", filenames[i], "as", new_read_colname, sep=" "))
         colnames(isoforms)[colnames(isoforms) == read_colname] <- new_read_colname
         colnames(isoforms)[colnames(isoforms) == rpkm_colname] <- paste(conditions, i, rpkm_colname, sep=" ")
+        if (!is.null(batch_metadata)){
+            batch <- batch_metadata[prefixes[i], "batch"]
+            print(paste("Load ", nrow(isoforms), " rows from '", filenames[i], "' as '", new_read_colname, "', batch '", batch, "'", sep=""))
+            column_data_frame <- data.frame(conditions, batch, row.names=c(new_read_colname))
+        } else {
+            print(paste("Load ", nrow(isoforms), " rows from '", filenames[i], "' as '", new_read_colname, "'", sep=""))
+            column_data_frame <- data.frame(conditions, row.names=c(new_read_colname))
+        }
         if (is.null(collected_data)){
-            collected_data = list(collected_isoforms=isoforms, read_colnames=c(new_read_colname), column_data=data.frame(conditions, row.names=c(new_read_colname)))
+            collected_data = list(collected_isoforms=isoforms, read_colnames=c(new_read_colname), column_data=column_data_frame)
         } else {
             collected_data$collected_isoforms <- merge(collected_data$collected_isoforms, isoforms, by=intersect_by, sort = FALSE)
             collected_data$read_colnames = c(collected_data$read_colnames, new_read_colname)
-            collected_data$column_data <- rbind(collected_data$column_data, data.frame(conditions, row.names=c(new_read_colname)))
+            collected_data$column_data <- rbind(collected_data$column_data, column_data_frame)
         }
     }
     rpkm_columns = grep(paste("^", conditions, " [0-9]+ ", rpkm_colname, sep=""), colnames(collected_data$collected_isoforms), value = TRUE, ignore.case = TRUE)
@@ -173,16 +183,16 @@ export_ma_plot <- function(data, rootname, width=800, height=800, resolution=72)
 }
 
 
-export_pca_plot <- function(data, rootname, width=800, height=800, resolution=72){
+export_pca_plot <- function(data, rootname, intgroup, width=800, height=800, resolution=72){
     tryCatch(
         expr = {
 
-            pca_data <- plotPCA(data, intgroup="conditions", returnData=TRUE)
+            pca_data <- plotPCA(data, intgroup=intgroup, returnData=TRUE)
             percentVar <- round(100 * attr(pca_data, "percentVar"))
 
             png(filename=paste(rootname, ".png", sep=""), width=width, height=height, res=resolution)
             print(
-                ggplot(pca_data, aes(PC1, PC2, color=conditions)) +
+                ggplot(pca_data, aes(PC1, PC2, color=group)) +
                 geom_point(size=5, shape=19) +
                 xlab(paste0("PC1: ",percentVar[1], "% variance")) +
                 ylab(paste0("PC2: ",percentVar[2], "% variance")) + 
@@ -192,7 +202,7 @@ export_pca_plot <- function(data, rootname, width=800, height=800, resolution=72
 
             pdf(file=paste(rootname, ".pdf", sep=""), width=round(width/resolution), height=round(height/resolution))
             print(
-                ggplot(pca_data, aes(PC1, PC2, color=conditions)) +
+                ggplot(pca_data, aes(PC1, PC2, color=group)) +
                 geom_point(size=5, shape=19) +
                 xlab(paste0("PC1: ",percentVar[1], "% variance")) +
                 ylab(paste0("PC2: ",percentVar[2], "% variance")) + 
@@ -267,6 +277,29 @@ assert_args <- function(args){
             quit(save = "no", status = 1, runLast = FALSE)
         }
     }
+
+    if (length(args$treated) == 1 || length(args$untreated) == 1){
+        args$batchfile <- NULL  # reset batchfile to NULL. We don't need it for DESeq even if it was provided
+    }
+
+    if (!is.null(args$batchfile)){
+        batch_metadata <- read.table(
+            args$batchfile,
+            sep=get_file_type(args$batchfile),
+            row.names=1,
+            col.names=c("name", "batch"),
+            header=FALSE,
+            stringsAsFactors=FALSE
+        )
+        rownames(batch_metadata) <- gsub("'|\"| ", "_", rownames(batch_metadata))
+        if (all(is.element(c(args$ualias, args$talias), rownames(batch_metadata)))){
+            args$batchfile <- batch_metadata  # dataframe
+        } else {
+            cat("\nMissing values in batch metadata file. Skipping multi-factor analysis\n")
+            args$batchfile = NULL
+        }
+    } 
+
     return (args)
 }
 
@@ -279,6 +312,7 @@ get_args <- function(){
     parser$add_argument("-ta", "--talias",    help='Unique aliases for treated expression files. Default: basenames of -t without extensions',   type="character", nargs='*')
     parser$add_argument("-un", "--uname",     help='Name for untreated condition, use only letters and numbers', type="character", default="untreated")
     parser$add_argument("-tn", "--tname",     help='Name for treated condition, use only letters and numbers',   type="character", default="treated")
+    parser$add_argument("-bf", "--batchfile", help='Metadata file for multi-factor analysis. Headerless TSV/CSV file. First column - names from --ualias and --talias, second column - batch group name. Default: None', type="character")
     parser$add_argument("-cu", "--cutoff",    help='Minimum threshold for rpkm filtering. Default: 5', type="double", default=5)
     parser$add_argument("-o",  "--output",    help='Output prefix. Default: deseq',    type="character", default="./deseq")
     parser$add_argument("-d",  "--digits",    help='Precision, number of digits to print. Default: 3', type="integer", default=3)
@@ -296,7 +330,7 @@ register(MulticoreParam(args$threads))
 
 
 # Load isoforms/genes/tss files
-raw_data <- load_isoform_set(args$treated, args$talias, READ_COL, RPKM_COL, args$tname, INTERSECT_BY, args$digits, load_isoform_set(args$untreated, args$ualias, READ_COL, RPKM_COL, args$uname, INTERSECT_BY, args$digits))
+raw_data <- load_isoform_set(args$treated, args$talias, READ_COL, RPKM_COL, args$tname, INTERSECT_BY, args$digits, args$batchfile, load_isoform_set(args$untreated, args$ualias, READ_COL, RPKM_COL, args$uname, INTERSECT_BY, args$digits, args$batchfile))
 collected_isoforms <- apply_cutoff(raw_data$collected_isoforms, args$cutoff, raw_data$rpkm_colnames)
 read_count_cols = raw_data$read_colnames
 column_data = raw_data$column_data
@@ -310,26 +344,45 @@ print(head(countData))
 
 # Run DESeq or DESeq2
 if (length(args$treated) > 1 && length(args$untreated) > 1){
-    print("Run DESeq2")
+    
     suppressMessages(library(DESeq2))
-    dse <- DESeqDataSetFromMatrix(countData=countData, colData=column_data, design=~conditions)
+
+    if (!is.null(args$batchfile)){
+        print("Run DESeq2 multi-factor analysis")
+        design=~batch+conditions  # We use simple +, because batch is not biologically interesting for us.
+    } else {
+        print("Run DESeq2 analysis")
+        design=~conditions
+    }
+    
+    dse <- DESeqDataSetFromMatrix(countData=countData, colData=column_data, design=design)
     dsq <- DESeq(dse)
+
+    # for norm count file. Batch correction doens't influence it
     normCounts <- counts(dsq, normalized=TRUE)
     rownames(normCounts) <- toupper(collected_isoforms[,c("GeneId")])
-    res <- results(dsq, contrast=c("conditions", args$uname, args$tname))
 
+    res <- results(dsq, contrast=c("conditions", args$uname, args$tname))
     export_ma_plot(res, paste(args$output, "_ma_plot", sep=""))
 
+    # for PCA and heatmap
     vst <- varianceStabilizingTransformation(dse)
+
+    if (!is.null(args$batchfile)){
+        assay(vst) <- limma::removeBatchEffect(assay(vst), vst$batch)
+        pca_intgroup <- c("conditions", "batch")
+    } else {
+        pca_intgroup <- c("conditions")
+    }
+    export_pca_plot(vst, paste(args$output, "_pca_plot", sep=""), pca_intgroup)
+
     vsd <- assay(vst)
     rownames(vsd) <- collected_isoforms[,c("GeneId")]
     mat <- vsd[order(rowMeans(counts(dsq, normalized=TRUE)), decreasing=TRUE)[1:30],]
 
-    export_pca_plot(vst, paste(args$output, "_pca_plot", sep=""))
-
     DESeqRes <- as.data.frame(res[,c(2,5,6)])
 } else {
-    print("Run DESeq")
+    print("Run DESeq analysis")
     suppressMessages(library(DESeq))
     cds <- newCountDataSet(countData, column_data[,"conditions"])
     cdsF <- estimateSizeFactors(cds)
