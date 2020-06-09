@@ -139,7 +139,7 @@ RUN apt-get update && \
     pip3 install argparse && \
 ### Installing biocmanager, biocparallel, deseq, deseq2, argparse, pheatmap
     Rscript /tmp/install_from_source.R "${URL_BIOCMANAGER}" && \
-    R -e "BiocManager::install(c('BiocParallel', 'DESeq', 'DESeq2'))" && \
+    R -e "BiocManager::install(c('BiocParallel', 'DESeq', 'DESeq2', 'limma'))" && \
     R -e 'install.packages("argparse", repo = "https://cloud.r-project.org/")' && \
     R -e 'install.packages("pheatmap", repo = "https://cloud.r-project.org/")' && \
 ### Installing run_deseq.R, get_gene_n_tss.R and run_deseq_lrt.R scripts
