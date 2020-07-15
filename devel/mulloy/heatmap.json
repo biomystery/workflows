@@ -2,49 +2,35 @@
     "scores_files": [
         {
             "class": "File",
-            "location": "../../chip/bigwigs/average/flag_mll_af4_set_1_3_average.bigWig"
+            "location": "/Users/kot4or/temp/mulloy/latest/chip/bigwigs/average/flag_mll_af4_set_1_3_average.bigWig"
         },
         {
             "class": "File",
-            "location": "../../chip/bigwigs/average/flag_mll_af9_set_1_3_average.bigWig"
+            "location": "/Users/kot4or/temp/mulloy/latest/chip/bigwigs/average/flag_mll_af9_set_1_3_average.bigWig"
         }
     ],
     "scores_labels": [
-        "FLAG MLL-AF4",
-        "FLAG MLL-AF9"
+        "FLAG MLL-AF4 signal",
+        "FLAG MLL-AF9 signal"
     ],
     "regions_files":[
         {
             "class": "File",
-            "location": "../../chip/genes/common_genes_sorted_by_desc_log2fc_from_deseq_log2FoldChange_from_1_to_inf.tsv"
+            "location": "/Users/kot4or/temp/mulloy/latest/chip/peaks_sorted_by_asc_conc_from_diffbind/AF4_peaks.tsv"
         },
         {
             "class": "File",
-            "location": "../../chip/genes/common_genes_sorted_by_desc_log2fc_from_deseq_log2FoldChange_from_0.6_to_1.tsv"
-        },
-        {
-            "class": "File",
-            "location": "../../chip/genes/common_genes_sorted_by_desc_log2fc_from_deseq_log2FoldChange_from_minus_0.6_to_0.6.tsv"
-        },
-        {
-            "class": "File",
-            "location": "../../chip/genes/common_genes_sorted_by_desc_log2fc_from_deseq_log2FoldChange_from_minus_0.6_to_minus_1.tsv"
-        },
-        {
-            "class": "File",
-            "location": "../../chip/genes/common_genes_sorted_by_desc_log2fc_from_deseq_log2FoldChange_from_minus_1_to_minus_inf.tsv"
+            "location": "/Users/kot4or/temp/mulloy/latest/chip/peaks_sorted_by_asc_conc_from_diffbind/AF9_peaks.tsv"
         }
     ],
     "regions_labels": [
-        "[1, +inf)",
-        "[0.6, 1)",
-        "(-0.6, 0.6)",
-        "(-1, 0.6]",
-        "(-inf, -1]"
+        "MLL-AF4 peaks",
+        "MLL-AF9 peaks"
     ],
-    "before_region_start_length": 20000,
-    "after_region_start_length": 20000,
-    "bin_size": 40,
+    "recentering": "Peak Center",
+    "before_region_start_length": 5000,
+    "after_region_start_length": 5000,
+    "bin_size": 10,
     "plot_type": "lines",
     "what_to_show": "plot, heatmap and colorbar",
     "per_group": true,
