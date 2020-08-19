@@ -264,7 +264,7 @@
       size: 13128
     log_file:
       class: File
-      location: result.bw
+      location: dummy.bw
       size: 250
     mapped_reads_number: 94
     unmapped_reads_number: 31
@@ -289,7 +289,7 @@
       size: 5411
     log_file:
       class: File
-      location: result.bw
+      location: dummy.bw
       size: 250
     mapped_reads_number: 35
     unmapped_reads_number: 90
@@ -397,7 +397,7 @@
     multimapped_fastq: null
     sam_file:
       class: File
-      location: result.txt
+      location: result.sam
       size: 20562
     refout_file: null
     log_file:
@@ -429,7 +429,7 @@
     multimapped_fastq: null
     sam_file:
       class: File
-      location: result.txt
+      location: result.sam
       size: 20562
     refout_file: null
     log_file:
