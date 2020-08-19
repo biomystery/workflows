@@ -196,15 +196,15 @@
 - job: ./bowtie-alignreads-1.json
   tool: ../tools/bowtie-alignreads.cwl
   output:
-    aligned_file:
-      class: File
-      location: aligned.txt
+    aligned_fastq:
+    - class: File
+      location: aligned.fastq
       size: 11626
-    unaligned_file:
-      class: File
-      location: unaligned.txt
+    unaligned_fastq:
+    - class: File
+      location: unaligned.fastq
       size: 3789
-    multimapped_file: null
+    multimapped_fastq: null
     sam_file: null
     refout_file:
     - class: File
@@ -222,15 +222,15 @@
 - job: ./bowtie-alignreads-2.json
   tool: ../tools/bowtie-alignreads.cwl
   output:
-    aligned_file:
-      class: File
-      location: aligned.txt
+    aligned_fastq:
+    - class: File
+      location: aligned.fastq
       size: 11626
-    unaligned_file:
-      class: File
-      location: unaligned.txt
+    unaligned_fastq:
+    - class: File
+      location: unaligned.fastq
       size: 3789
-    multimapped_file: null
+    multimapped_fastq: null
     sam_file: null
     refout_file:
     - class: File
@@ -248,15 +248,15 @@
 - job: ./bowtie-alignreads-3.json
   tool: ../tools/bowtie-alignreads.cwl
   output:
-    aligned_file:
-      class: File
-      location: aligned.txt
+    aligned_fastq:
+    - class: File
+      location: aligned.fastq
       size: 11626
-    unaligned_file:
-      class: File
-      location: unaligned.txt
+    unaligned_fastq:
+    - class: File
+      location: unaligned.fastq
       size: 3789
-    multimapped_file: null
+    multimapped_fastq: null
     sam_file: null
     refout_file:
     - class: File
@@ -273,15 +273,15 @@
 - job: ./bowtie-alignreads-4.json
   tool: ../tools/bowtie-alignreads.cwl
   output:
-    aligned_file:
-      class: File
-      location: aligned.txt
+    aligned_fastq:
+    - class: File
+      location: aligned.fastq
       size: 4326
-    unaligned_file:
-      class: File
-      location: unaligned.txt
+    unaligned_fastq:
+    - class: File
+      location: unaligned.fastq
       size: 11089
-    multimapped_file: null
+    multimapped_fastq: null
     sam_file: null
     refout_file:
     - class: File
@@ -298,15 +298,15 @@
 - job: ./bowtie-alignreads-5.json
   tool: ../tools/bowtie-alignreads.cwl
   output:
-    aligned_file:
-      class: File
-      location: aligned.txt
+    aligned_fastq:
+    - class: File
+      location: aligned.fastq
       size: 11626
-    unaligned_file:
-      class: File
-      location: unaligned.txt
+    unaligned_fastq:
+    - class: File
+      location: unaligned.fastq
       size: 3789
-    multimapped_file: null
+    multimapped_fastq: null
     sam_file:
       class: File
       location: upstream.sam
@@ -323,15 +323,15 @@
 - job: ./bowtie-alignreads-6.json
   tool: ../tools/bowtie-alignreads.cwl
   output:
-    aligned_file:
-      class: File
-      location: aligned.txt
+    aligned_fastq:
+    - class: File
+      location: aligned.fastq
       size: 11626
-    unaligned_file:
-      class: File
-      location: unaligned.txt
+    unaligned_fastq:
+    - class: File
+      location: unaligned.fastq
       size: 3789
-    multimapped_file: null
+    multimapped_fastq: null
     sam_file:
       class: File
       location: result.sam
@@ -348,9 +348,9 @@
 - job: ./bowtie-alignreads-7.json
   tool: ../tools/bowtie-alignreads.cwl
   output:
-    aligned_file: null
-    unaligned_file: null
-    multimapped_file: null
+    aligned_fastq: null
+    unaligned_fastq: null
+    multimapped_fastq: null
     sam_file:
       class: File
       location: result
@@ -367,9 +367,9 @@
 - job: ./bowtie-alignreads-8.json
   tool: ../tools/bowtie-alignreads.cwl
   output:
-    aligned_file: null
-    unaligned_file: null
-    multimapped_file: null
+    aligned_fastq: null
+    unaligned_fastq: null
+    multimapped_fastq: null
     sam_file:
       class: File
       location: upstream.sam
@@ -386,15 +386,15 @@
 - job: ./bowtie-alignreads-9.json
   tool: ../tools/bowtie-alignreads.cwl
   output:
-    aligned_file:
-      class: File
-      location: aligned.txt
+    aligned_fastq:
+    - class: File
+      location: aligned.fastq
       size: 11626
-    unaligned_file:
-      class: File
-      location: unaligned.txt
+    unaligned_fastq:
+    - class: File
+      location: unaligned.fastq
       size: 3789
-    multimapped_file: null
+    multimapped_fastq: null
     sam_file:
       class: File
       location: result.txt
@@ -407,6 +407,39 @@
     mapped_reads_number: 94
     unmapped_reads_number: 31
     total_reads_number: 125
+
+
+- job: ./bowtie-alignreads-10.json
+  tool: ../tools/bowtie-alignreads.cwl
+  output:
+    aligned_fastq:
+    - class: File
+      location: aligned_1.fastq
+      size: 3709
+    - class: File
+      location: aligned_2.fastq
+      size: 3709
+    unaligned_fastq:
+    - class: File
+      location: unaligned_1.fastq
+      size: 11706
+    - class: File
+      location: unaligned_2.fastq
+      size: 11706
+    multimapped_fastq: null
+    sam_file:
+      class: File
+      location: result.txt
+      size: 20562
+    refout_file: null
+    log_file:
+      class: File
+      location: result.bw
+      size: 168
+    mapped_reads_number: 94
+    unmapped_reads_number: 31
+    total_reads_number: 125
+
 
 # ========================================================
 # bowtie-build
