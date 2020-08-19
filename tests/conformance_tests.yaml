@@ -426,8 +426,8 @@
     log_file:
       class: File
       location: result.bw
-    mapped_reads_number: 94
-    unmapped_reads_number: 31
+    mapped_reads_number: 30
+    unmapped_reads_number: 95
     total_reads_number: 125
 
 
