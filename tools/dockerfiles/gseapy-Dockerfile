@@ -13,7 +13,7 @@
 #################################################################
 # 
 # v0.0.2
-# download gene sets from original GSEA
+# download only gene sets from original GSEA
 # 
 #################################################################
 
@@ -40,7 +40,7 @@ RUN git clone ${URL_GSEAPY} && \
     pip install . && \
     cd .. && \
 ### Downloading genesets
-    python gseapy_download_datasets.py && \
+#   python gseapy_download_datasets.py && \
     cd /opt/gseapy/ && \
     chmod +x /tmp/gsea_download_datasets.sh && \
     /tmp/gsea_download_datasets.sh && \
