@@ -2,15 +2,21 @@
 # Dockerfile
 #
 # Software:         GSEApy
-# Software Version: v0.0.1
+# Software Version: v0.0.2
 # Description:      Gene Set Enrichment Analysis in Python
 # Website:          https://gseapy.readthedocs.io/en/latest/index.html
 # Provides:         GSEApy 0.9.18 (modified: works without Internet)
 # Base Image:       python:3.7
-# Build Cmd:        docker build --rm -t biowardrobe2/gseapy:v0.0.1 -f gseapy-Dockerfile .
-# Pull Cmd:         docker pull biowardrobe2/gseapy:v0.0.1
-# Run Cmd:          docker run --rm -ti biowardrobe2/gseapy:v0.0.1 /bin/bash
+# Build Cmd:        docker build --rm -t biowardrobe2/gseapy:v0.0.2 -f gseapy-Dockerfile .
+# Pull Cmd:         docker pull biowardrobe2/gseapy:v0.0.2
+# Run Cmd:          docker run --rm -ti biowardrobe2/gseapy:v0.0.2 /bin/bash
 #################################################################
+# 
+# v0.0.2
+# download gene sets from original GSEA
+# 
+#################################################################
+
 
 ### Base Image
 FROM python:3.7
@@ -25,6 +31,7 @@ ENV COMMIT_GSEAPY "8c386d65f93b31b99796103328bfae1b934f31bb"
 ENV URL_GSEAPY "https://github.com/michael-kotliar/GSEApy.git"
 
 COPY ./scripts/gseapy_download_datasets.py /tmp/gseapy_download_datasets.py
+COPY ./scripts/gsea_download_datasets.sh /tmp/gsea_download_datasets.sh
 
 ### Installing GSEApy
 RUN git clone ${URL_GSEAPY} && \
@@ -34,6 +41,10 @@ RUN git clone ${URL_GSEAPY} && \
     cd .. && \
 ### Downloading genesets
     python gseapy_download_datasets.py && \
+    cd /opt/gseapy/ && \
+    chmod +x /tmp/gsea_download_datasets.sh && \
+    /tmp/gsea_download_datasets.sh && \
+    cd /tmp && \
 ### Cleaning
     apt-get clean && \
     apt-get purge && \
