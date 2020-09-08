@@ -5848,6 +5848,29 @@
       class: File
       location: gseapy_stderr.log
 
+- job: ./gseapy-2.json
+  tool: ../tools/gseapy.cwl
+  output:
+    enrichment_heatmaps:
+    - class: File
+      location: HALLMARK_GLYCOLYSIS.heatmap.pdf
+    - class: File
+      location: HALLMARK_HEME_METABOLISM.heatmap.pdf
+    enrichment_plots:
+    - class: File
+      location: HALLMARK_GLYCOLYSIS.gsea.pdf
+    - class: File
+      location: HALLMARK_HEME_METABOLISM.gsea.pdf
+    enrichment_report:
+      class: File
+      location: gseapy.gsea.gene_set.report.csv
+    stdout_log:
+      class: File
+      location: gseapy_stdout.log
+    stderr_log:
+      class: File
+      location: gseapy_stderr.log
+
 # ========================================================
 # deeptools-computematrix-referencepoint
 # ========================================================
