@@ -5830,14 +5830,14 @@
   output:
     enrichment_heatmaps:
     - class: File
-      location: eyecup.heatmap.pdf
+      location: HALLMARK_GLYCOLYSIS.heatmap.pdf
     - class: File
-      location: follicular_B-cells.heatmap.pdf
+      location: HALLMARK_HEME_METABOLISM.heatmap.pdf
     enrichment_plots:
     - class: File
-      location: eyecup.gsea.pdf
+      location: HALLMARK_GLYCOLYSIS.gsea.pdf
     - class: File
-      location: follicular_B-cells.gsea.pdf
+      location: HALLMARK_HEME_METABOLISM.gsea.pdf
     enrichment_report:
       class: File
       location: gseapy.gsea.gene_set.report.csv
