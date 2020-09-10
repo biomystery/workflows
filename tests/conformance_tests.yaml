@@ -575,6 +575,21 @@
   output:
     trigger: true
 
+- job: ./fastqc-results-trigger-3.json
+  tool: ../tools/fastqc-results-trigger.cwl
+  output:
+    trigger: false
+
+- job: ./fastqc-results-trigger-4.json
+  tool: ../tools/fastqc-results-trigger.cwl
+  output:
+    trigger: false
+
+- job: ./fastqc-results-trigger-5.json
+  tool: ../tools/fastqc-results-trigger.cwl
+  output:
+    trigger: true
+
 # ========================================================
 # fastx-quality-stats
 # ========================================================
