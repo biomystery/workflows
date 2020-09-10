@@ -86,3 +86,6 @@ npm-debug.log
 # webstorm files
 .idea
 
+# vscode files
+.vscode
+
