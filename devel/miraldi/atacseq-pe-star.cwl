@@ -322,7 +322,7 @@ steps:
   filter_reads:
     run: ../../tools/samtools-filter.cwl
     in:
-      bam_bai_pair: 
+      bam_bai_pair: sort_and_index/bam_bai_pair
       exclude_chromosome: exclude_chromosome
     out:
     - filtered_bam_bai_pair
@@ -362,7 +362,7 @@ steps:
   convert_bam_to_bed:
     run: ../../tools/bedtools-bamtobed.cwl
     in:
-      bam_file: sort_and_index_after_filtering/bam_bai_pair
+      bam_file: remove_duplicates/deduplicated_bam_bai_pair
     out: [bed_file]
 
   # Shift reads to Tn5 binding sites. Each read became 40bp long
@@ -391,7 +391,7 @@ steps:
 
   # Sort filtered Tn5 binding sites with -k 1,1 to be able to use it with bedtools genomecov
   sort_bed:
-    run: ../tools/linux-sort.cwl
+    run: ../../tools/linux-sort.cwl
     in:
       unsorted_file: remove_blacklisted/intersected_file
       key:
@@ -411,7 +411,7 @@ steps:
 
   # Get genome coverage from Tn5 binding sites
   convert_bed_to_bedgraph:
-    run: ../tools/bedtools-genomecov.cwl
+    run: ../../tools/bedtools-genomecov.cwl
     in:
       input_file: sort_bed/sorted_file
       depth:
@@ -423,7 +423,7 @@ steps:
 
   # sort genome coverage of Tn5 binding sites
   sort_bedgraph:
-    run: ../tools/linux-sort.cwl
+    run: ../../tools/linux-sort.cwl
     in:
       unsorted_file: convert_bed_to_bedgraph/genome_coverage_file
       key:
@@ -433,7 +433,7 @@ steps:
 
   # Convert sorted genome coverage bedgraph file with Tn5 binding sites to bigwig
   convert_bedgraph_to_bigwig:
-    run: ../tools/ucsc-bedgraphtobigwig.cwl
+    run: ../../tools/ucsc-bedgraphtobigwig.cwl
     in:
       bedgraph_file: sort_bedgraph/sorted_file
       chrom_length_file: get_chr_name_length/selected_file
