@@ -1,0 +1,149 @@
+cwlVersion: v1.0
+class: CommandLineTool
+
+requirements:
+- class: InlineJavascriptRequirement
+
+
+hints:
+- class: DockerRequirement
+  dockerPull: biocontainers/samtools:v1.9-4-deb_cv1
+
+
+inputs:
+
+  script:
+    type: string?
+    default: |
+
+      #!/bin/bash
+      
+      echo "Sorting BAM file by name"
+      echo "samtools sort -n -@ $2 -o namesorted.bam $0"
+      samtools sort -n -@ $2 -o namesorted.bam $0
+      
+      echo "Filling in mate coordinates and inserting size fields"
+      echo "samtools fixmate -m -@ $2 namesorted.bam fixed.bam"
+      samtools fixmate -m -@ $2 namesorted.bam fixed.bam
+
+      echo "Sorting BAM file by coordinates"
+      echo "samtools sort -@ $2 -o positionsorted.bam fixed.bam"
+      samtools sort -@ $2 -o positionsorted.bam fixed.bam
+
+      echo "Removing duplicates"
+      echo "samtools markdup -r -s -@ $2 positionsorted.bam markduped.bam"
+      samtools markdup -r -s -@ $2 positionsorted.bam markduped.bam 2> markdup_report.tsv
+
+      echo "Sorting BAM file"
+      echo "samtools sort -@ $2 markduped.bam -o $1"
+      samtools sort -@ $2 markduped.bam -o $1
+      
+      echo "Indexing BAM file"
+      echo "samtools index $1"
+      samtools index $1
+
+      echo "Removing temporary files"
+      rm -f namesorted.bam fixed.bam positionsorted.bam markduped.bam
+
+    inputBinding:
+      position: 5
+    doc: "Script to remove PCR duplicates"
+
+  bam_bai_pair:
+    type: File
+    inputBinding:
+      position: 6
+    secondaryFiles:
+    - .bai
+    doc: Indexed BAM+BAI files
+
+  output_filename:
+    type: string?
+    inputBinding:
+      position: 7
+      valueFrom: |
+        ${
+          return (self == "")?inputs.bam_bai_pair.basename:self;
+        }
+    default: ""
+    doc: "Output filename for the filtered BAM file"
+
+  threads:
+    type: int?
+    inputBinding:
+      position: 8
+    default: 1
+    doc: "Number of threads to use"
+
+
+outputs:
+
+  deduplicated_bam_bai_pair:
+    type: File
+    outputBinding:
+      glob: "*.bam"
+    secondaryFiles:
+    - .bai
+    doc: "BAM+BAI files with PCR duplicates removed"
+
+  markdup_report:
+    type: File
+    outputBinding:
+      glob: "markdup_report.tsv"
+    doc: "Markdup report"
+
+
+baseCommand: [bash, '-c']
+
+
+$namespaces:
+  s: http://schema.org/
+
+$schemas:
+- http://schema.org/docs/schema_org_rdfa.html
+
+s:mainEntity:
+  $import: ./metadata/samtools-metadata.yaml
+
+s:name: "samtools-markdup"
+s:downloadUrl: https://raw.githubusercontent.com/Barski-lab/workflows/master/tools/samtools-markdup.cwl
+s:codeRepository: https://github.com/Barski-lab/workflows
+s:license: http://www.apache.org/licenses/LICENSE-2.0
+
+s:isPartOf:
+  class: s:CreativeWork
+  s:name: Common Workflow Language
+  s:url: http://commonwl.org/
+
+s:creator:
+- class: s:Organization
+  s:legalName: "Cincinnati Children's Hospital Medical Center"
+  s:location:
+  - class: s:PostalAddress
+    s:addressCountry: "USA"
+    s:addressLocality: "Cincinnati"
+    s:addressRegion: "OH"
+    s:postalCode: "45229"
+    s:streetAddress: "3333 Burnet Ave"
+    s:telephone: "+1(513)636-4200"
+  s:logo: "https://www.cincinnatichildrens.org/-/media/cincinnati%20childrens/global%20shared/childrens-logo-new.png"
+  s:department:
+  - class: s:Organization
+    s:legalName: "Allergy and Immunology"
+    s:department:
+    - class: s:Organization
+      s:legalName: "Barski Research Lab"
+      s:member:
+      - class: s:Person
+        s:name: Michael Kotliar
+        s:email: mailto:misha.kotliar@gmail.com
+        s:sameAs:
+        - id: http://orcid.org/0000-0002-6486-3898
+
+doc: |
+  Removes PCR duplicates from coordinate sorted and indexed BAM files.
+  Returns coordinate sorted and indexed BAM files.
+
+s:about: |
+  Removes PCR duplicates from coordinate sorted and indexed BAM files.
+  Returns coordinate sorted and indexed BAM files.
