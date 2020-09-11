@@ -57,13 +57,13 @@ outputs:
     type: File
     outputSource: rename_fastqc_report_fastq_1/target_file
 
-  trimgalore_report_fastq_1:
-    type: File
-    outputSource: trim_adapters/report_file
-
   fastqc_report_fastq_2:
     type: File
     outputSource: rename_fastqc_report_fastq_2/target_file
+
+  trimgalore_report_fastq_1:
+    type: File
+    outputSource: trim_adapters/report_file
 
   trimgalore_report_fastq_2:
     type: File
@@ -77,39 +77,51 @@ outputs:
     type: File
     outputSource: align_reads/log_progress
 
-  aligned_reads:
-    type: File
-    outputSource: remove_chrM/filtered_bam_bai_pair
-
-  genome_coverage:
-    type: File
-    outputSource: sorted_bedgraph_to_bigwig/bigwig_file
-
-  reads_per_chr_report:
-    type: File
-    outputSource: count_reads_per_chr/output_file
-
-  bam_statistics_report:
+  bam_statistics_report_after_alignment:
     type: File
     outputSource: get_bam_statistics/log_file
 
-  samtools_rmdup_report:
+  samtools_markdup_report:
     type: File
-    outputSource: remove_duplicates/rmdup_log
+    outputSource: remove_duplicates/markdup_report
 
-  bam_statistics_report_after_filtering:
+  bam_statistics_report_after_filtering_and_dedup:
     type: File
     outputSource: get_bam_statistics_after_filtering/log_file
 
-  overall_collected_statistics:
+  filtered_deduplicated_reads_as_bam:
     type: File
-    outputSource: collect_statistics/collected_statistics
+    outputSource: remove_duplicates/deduplicated_bam_bai_pair
+
+  filtered_deduplicated_reads_as_bed:
+    type: File
+    outputSource: convert_bam_to_bed/bed_file
+
+  filtered_deduplicated_shifted_reads_as_bed:
+    type: File
+    outputSource: shift_reads/output_file
+
+  filtered_deduplicated_sorted_shifted_reads_wo_blisted_as_bed:
+    type: File
+    outputSource: sort_bed/sorted_file
+
+  genome_coverage_as_bigwig:
+    type: File
+    outputSource: convert_bedgraph_to_bigwig/bigwig_file
 
   macs2_peak_calling_report:
     type: File
     outputSource: call_peaks/macs_log
 
-  merged_peaks_with_counts:
+  macs2_called_peaks_as_narrow_peak:
+    type: File
+    outputSource: call_peaks/narrow_peak_file
+
+  macs2_called_peaks_merged:
+    type: File
+    outputSource: merge_peaks/merged_bed_file
+
+  tag_counts_within_merged_peaks:
     type: File
     outputSource: count_tags/intersected_file
 
@@ -123,13 +135,14 @@ steps:
 
 # -----------------------------------------------------------------------------------
 
-
+  # try to uncompress input fastq file 1
   extract_fastq_1:
     run: ../../tools/extract-fastq.cwl
     in:
       compressed_file: fastq_file_1
     out: [fastq_file]
 
+  # run QC for uncompressed fastq file 1
   run_fastqc_fastq_1:
     run: ../../tools/fastqc.cwl
     in:
@@ -138,6 +151,7 @@ steps:
       - summary_file
       - html_file
 
+  # technical step to rename output from QC report for fastq file 1
   rename_fastqc_report_fastq_1:
     run: ../../tools/rename.cwl
     in:
@@ -147,22 +161,26 @@ steps:
         valueFrom: $(get_root(self.basename)+"_fastqc_report.html")
     out: [target_file]
 
+  # check if we want to trim adaprters based on QC from fastq file 1
   trigger_adapter_trimming_fastq_1:
     run: ../../tools/fastqc-results-trigger.cwl
     in:
       summary_file: run_fastqc_fastq_1/summary_file
+      criteria:
+        default: ".*Per base sequence quality.*|.*Per sequence quality scores.*|.*Overrepresented sequences.*|.*Adapter Content.*"
     out: [trigger]
 
 
 # -----------------------------------------------------------------------------------
 
-
+  # try to uncompress input fastq file 2
   extract_fastq_2:
     run: ../../tools/extract-fastq.cwl
     in:
       compressed_file: fastq_file_2
     out: [fastq_file]
 
+  # run QC for uncompressed fastq file 2
   run_fastqc_fastq_2:
     run: ../../tools/fastqc.cwl
     in:
@@ -171,6 +189,7 @@ steps:
       - summary_file
       - html_file
 
+  # technical step to rename output from QC report for fastq file 2
   rename_fastqc_report_fastq_2:
     run: ../../tools/rename.cwl
     in:
@@ -179,27 +198,30 @@ steps:
         source: fastq_file_2
         valueFrom: $(get_root(self.basename)+"_fastqc_report.html")
     out: [target_file]
-
+  
+  # check if we want to trim adaprters based on QC from fastq file 2
   trigger_adapter_trimming_fastq_2:
     run: ../../tools/fastqc-results-trigger.cwl
     in:
       summary_file: run_fastqc_fastq_2/summary_file
+      criteria:  # TODO: see what criteria we need to trigger adapter trimming
+        default: ".*Per base sequence quality.*|.*Per sequence quality scores.*|.*Overrepresented sequences.*|.*Adapter Content.*"
     out: [trigger]
 
 
 # -----------------------------------------------------------------------------------
 
-
+  # trim adapters only when at least one of the input fastq files failed QC
   trim_adapters:
     run: ../../tools/trimgalore.cwl
     in:
       trigger:
         source: [trigger_adapter_trimming_fastq_1/trigger, trigger_adapter_trimming_fastq_2/trigger]
-        valueFrom: $(self[0] || self[1])               # run trimgalore if at least one of input fastq files failed quality check
+        valueFrom: $(self[0] || self[1])
       input_file: extract_fastq_1/fastq_file
       input_file_pair: extract_fastq_2/fastq_file
       quality:
-        default: 30      # Why do we need it if default should be 20
+        default: 30      # TODO: Do we really need 30? The default is 20
       dont_gzip:
         default: true    # should make it faster
       length:
@@ -215,7 +237,7 @@ steps:
 
 # -----------------------------------------------------------------------------------
 
-
+  # technical step to rename trimmed fastq file 1
   rename_trimmed_fastq_1:
     run: ../../tools/rename.cwl
     in:
@@ -225,6 +247,7 @@ steps:
         valueFrom: $(get_root(self.basename) + ".fastq")
     out: [target_file]
 
+  # technical step to rename trimmed fastq file 2
   rename_trimmed_fastq_2:
     run: ../../tools/rename.cwl
     in:
@@ -238,6 +261,7 @@ steps:
 # -----------------------------------------------------------------------------------
 
 
+  # Align trimmed fastq files. Skip all multimapped reads. Unmapped reads are not reported.
   align_reads:
     run: ../../tools/star-alignreads.cwl
     in:
@@ -246,26 +270,28 @@ steps:
       outSAMtype:
         default: ["SAM"]
       outSAMunmapped:
-        default: "Within"
-      alignIntronMax:
+        default: "None"      # Do not output unmapped reads
+      alignIntronMax:        # TODO: Is it something specific to make STAR work for ATAC-Seq?
         default: 1
-      alignEndsType:
+      alignEndsType:         # TODO: Is it something specific to make STAR work for ATAC-Seq?
         default: "EndToEnd"
+      alignMatesGapMax:      # TODO: Is it something specific to make STAR work for ATAC-Seq?
+        default: 2000        
       outFilterMultimapNmax:
-        default: 1
+        default: 1           # skip all multimapped reads
       outFilterMismatchNmax:
-        default: 5
-      alignMatesGapMax:
-        default: 2000
+        default: 5           # allow maximum 5 mismatches per read
       outFileNamePrefix:
         source: [rename_trimmed_fastq_1/target_file, rename_trimmed_fastq_2/target_file]
         valueFrom: $(get_root(self[0].basename) + "_" + get_root(self[1].basename) + ".")
       threads: threads
     out:
       - aligned_file
+      - uniquely_mapped_reads_number
       - log_final
       - log_progress
 
+  # Sort and index SAM file. Doesn't change the data
   sort_and_index:
     run: ../../tools/samtools-sort-index.cwl
     in:
@@ -274,126 +300,85 @@ steps:
         source: [rename_trimmed_fastq_1/target_file, rename_trimmed_fastq_2/target_file]
         valueFrom: $(get_root(self[0].basename) + "_" + get_root(self[1].basename) + ".bam")
       threads: threads
-    out: [bam_bai_pair]
+    out:
+    - bam_bai_pair
 
+  # Get bam statistics before applying any read filters
   get_bam_statistics:
     run: ../../tools/samtools-stats.cwl
     in:
       bambai_pair: sort_and_index/bam_bai_pair
       output_filename:
-        source: sort_and_index_after_filtering/bam_bai_pair
+        source: sort_and_index/bam_bai_pair
         valueFrom: $(get_root(self.basename)+"_bam_statistics_report.txt")
     out:
-      - log_file
-      - average_length
+    - log_file
+    - average_length
 
 
 # -----------------------------------------------------------------------------------
 
-
-  count_reads_per_chr:
-    run: ../../tools/custom-bash.cwl
-    in:
-      input_file: align_reads/aligned_file
-      script:
-        default: cat "$0" | grep -v "@" | cut -f 3 | sort | uniq -c | awk '{print $2"\t"$1}' > `basename $0 .Aligned.out.sam`_chr_count_report.txt
-    out: [output_file]
-
-  remove_chrM:                                            # this step is required only to save original BAM without unmapped and chrM
-    run: ../../tools/samtools-filter.cwl
-    in:
-      bam_bai_pair: sort_and_index/bam_bai_pair
-      exclude_chromosome:
-        default: "chrM"
-      negative_flag:
-        default: 4                                        # correspond to -F 4 (read unmapped)
-    out: [filtered_bam_bai_pair]
-
+  # Exlude chromosomes we don't need. Returns sorted by coordinates and indexed file
   filter_reads:
     run: ../../tools/samtools-filter.cwl
     in:
-      bam_bai_pair: remove_chrM/filtered_bam_bai_pair     # if remove_chrM step removed, use sort_and_index/bam_bai_pair
+      bam_bai_pair: 
       exclude_chromosome: exclude_chromosome
-      quality:
-        default: 30                                       # how do we define 30 (range is from 0 to 255)
-      negative_flag:
-        default: 4                                        # correspond to -F 4 (read unmapped)
-    out: [filtered_bam_bai_pair]
-  
-  remove_duplicates:
-    run: ../../tools/samtools-rmdup.cwl
-    in:
-      bam_file: filter_reads/filtered_bam_bai_pair
     out:
-    - rmdup_output
-    - rmdup_log
-
-  sort_and_index_after_filtering:
-    run: ../../tools/samtools-sort-index.cwl
+    - filtered_bam_bai_pair
+  
+  # Get bam statistics after removing unused chromosomes. We need reads_mapped for scaling
+  get_bam_statistics_after_chrom_removal:
+    run: ../../tools/samtools-stats.cwl
     in:
-      sort_input: remove_duplicates/rmdup_output 
-      threads: threads
-    out: [bam_bai_pair]
+      bambai_pair: filter_reads/filtered_bam_bai_pair
+    out:
+    - reads_mapped
 
+  # Remove PCR duplicates. Returns sorted by coordinates and indexed file
+  remove_duplicates:
+    run: ../../tools/samtools-markdup.cwl
+    in:
+      bam_bai_pair: filter_reads/filtered_bam_bai_pair
+      threads: threads
+    out:
+    - deduplicated_bam_bai_pair
+    - markdup_report
+
+  # Get bam statistics after applying read filters
   get_bam_statistics_after_filtering:
     run: ../../tools/samtools-stats.cwl
     in:
-      bambai_pair: sort_and_index_after_filtering/bam_bai_pair
+      bambai_pair: remove_duplicates/deduplicated_bam_bai_pair
       output_filename:
-        source: sort_and_index_after_filtering/bam_bai_pair
+        source: remove_duplicates/deduplicated_bam_bai_pair
         valueFrom: $(get_root(self.basename)+"_bam_statistics_report_after_filtering.txt")
-    out: [log_file, reads_mapped]
+    out:
+    - log_file
+    - reads_mapped
+    - average_length
 
-  get_chr_name_length:
-    run: ../../tools/get-file-by-name.cwl
-    in:
-      input_files: indices_folder
-      basename_regex:
-        default: "chrNameLength.txt"
-    out: [selected_file]
-
-  bam_to_bedgraph:
-    run: ../../tools/bedtools-genomecov.cwl
-    in:
-      input_file: sort_and_index_after_filtering/bam_bai_pair
-      depth:
-        default: "-bg"
-      split:
-        default: true
-      pairchip:
-        default: true
-      mapped_reads_number: get_bam_statistics_after_filtering/reads_mapped
-    out: [genome_coverage_file]
-
-  sort_bedgraph:
-    run: ../../tools/linux-sort.cwl
-    in:
-      unsorted_file: bam_to_bedgraph/genome_coverage_file
-      key:
-        default: ["1,1","2,2n"]
-    out: [sorted_file]
-
-  sorted_bedgraph_to_bigwig:
-    run: ../../tools/ucsc-bedgraphtobigwig.cwl
-    in:
-      bedgraph_file: sort_bedgraph/sorted_file
-      chrom_length_file: get_chr_name_length/selected_file
-    out: [bigwig_file]
-
+  # Convert BAM to BED format. All paired-ends became single-reads. We don't split reads by N or D in CIGAR (do we really have them in ATAC?)
   convert_bam_to_bed:
     run: ../../tools/bedtools-bamtobed.cwl
     in:
-      bam_file: sort_and_index_after_filtering/bam_bai_pair   # do we need to split reads by N
+      bam_file: sort_and_index_after_filtering/bam_bai_pair
     out: [bed_file]
 
+  # Shift reads to Tn5 binding sites. Each read became 40bp long
   shift_reads:
     run: ../../tools/custom-bash.cwl
     in:
       input_file: convert_bam_to_bed/bed_file
+      param:
+        source: convert_bam_to_bed/bed_file
+        valueFrom: $(get_root(self.basename)+"_shifted.bed")
       script:
-        default: cat "$0" | awk 'BEGIN {OFS = "\t"}; {if ($6 == "+") print $1,$2+4,$3+4,$4,$5,$6; else print $1,$2-5,$3-5,$4,$5,$6}' > `basename $0`
-    out: [output_file]
+        default: cat "$0" | awk 'BEGIN {OFS = "\t"} ; {if ($6 == "+") print $1, ($3 + 4) - 20, ($3 + 4) + 20, $4, $5, $6; else print $1, ($2 - 5) - 20, ($2 - 5) + 20, $4, $5, $6}' > $1
+    out:
+    - output_file
 
+  # Remove all blacklisted regions from Tn5 binding sites
   remove_blacklisted:
     run: ../../tools/bedtools-intersect.cwl
     in:
@@ -401,16 +386,68 @@ steps:
       file_b: blacklisted_regions_bed
       no_overlaps:
         default: true
-    out: [intersected_file]
+    out:
+    - intersected_file
+
+  # Sort filtered Tn5 binding sites with -k 1,1 to be able to use it with bedtools genomecov
+  sort_bed:
+    run: ../tools/linux-sort.cwl
+    in:
+      unsorted_file: remove_blacklisted/intersected_file
+      key:
+        default: ["1,1"]
+    out:
+    - sorted_file
+
+  # Technical step to find the file with chromosome lengths
+  get_chr_name_length:
+    run: ../../tools/get-file-by-name.cwl
+    in:
+      input_files: indices_folder
+      basename_regex:
+        default: "chrNameLength.txt"
+    out:
+    - selected_file
+
+  # Get genome coverage from Tn5 binding sites
+  convert_bed_to_bedgraph:
+    run: ../tools/bedtools-genomecov.cwl
+    in:
+      input_file: sort_bed/sorted_file
+      depth:
+        default: "-bg"
+      mapped_reads_number: get_bam_statistics_after_chrom_removal/reads_mapped  # TODO: do we need to take mapped reads number from STAR?
+      chrom_length_file: get_chr_name_length/selected_file
+    out:
+    - genome_coverage_file
+
+  # sort genome coverage of Tn5 binding sites
+  sort_bedgraph:
+    run: ../tools/linux-sort.cwl
+    in:
+      unsorted_file: convert_bed_to_bedgraph/genome_coverage_file
+      key:
+        default: ["1,1","2,2n"]
+    out:
+    - sorted_file
+
+  # Convert sorted genome coverage bedgraph file with Tn5 binding sites to bigwig
+  convert_bedgraph_to_bigwig:
+    run: ../tools/ucsc-bedgraphtobigwig.cwl
+    in:
+      bedgraph_file: sort_bedgraph/sorted_file
+      chrom_length_file: get_chr_name_length/selected_file
+    out:
+    - bigwig_file
 
 
 # -----------------------------------------------------------------------------------
 
-
+  # Call peals with MACS2. Need some explanation of used parameters
   call_peaks:
     run: ../../tools/macs2-callpeak.cwl
     in:
-      treatment_file: remove_blacklisted/intersected_file
+      treatment_file: sort_bed/sorted_file
       format_mode:
         default: "BED"
       genome_size: genome_size
@@ -419,61 +456,47 @@ steps:
       nomodel:
         default: true
       shift:
-        source: get_bam_statistics/average_length
+        source: get_bam_statistics_after_filtering/average_length
         valueFrom: $(-Math.round(self/2))
-      extsize: get_bam_statistics/average_length
+      extsize: get_bam_statistics_after_filtering/average_length
     out:
-      - narrow_peak_file
-      - macs_log
+    - narrow_peak_file
+    - macs_log
 
+  # Sort called peaks in order to use them with bedtools-merge
   sort_peaks:
     run: ../../tools/linux-sort.cwl
     in:
       unsorted_file: call_peaks/narrow_peak_file
       key:
         default: ["1,1","2,2n"]
-    out: [sorted_file]
+    out:
+    - sorted_file
 
+  # Merge sorted peaks
   merge_peaks:
     run: ../../tools/bedtools-merge.cwl
     in:
       bed_file: sort_peaks/sorted_file
-    out: [merged_bed_file]
+    out:
+    - merged_bed_file
 
+  # Count Tn5 binding sites within merged peaks
   count_tags:
     run: ../../tools/bedtools-intersect.cwl
     in:
       file_a: merge_peaks/merged_bed_file
-      file_b: remove_blacklisted/intersected_file
+      file_b: sort_bed/sorted_file
       count:
         default: true
-    out: [intersected_file]
+    out:
+    - intersected_file
 
+  # Get sequences from the merged peaks
   get_sequences:
     run: ../../tools/bedtools-getfasta.cwl
     in:
       genome_fasta_file: genome_fasta_file
       intervals_file: merge_peaks/merged_bed_file
-    out: [sequences_file]
-
-
-  # -----------------------------------------------------------------------------------
-
-
-  collect_statistics:
-      run: get-stat-atacseq-pe-star.cwl
-      in:
-        trimgalore_report_fastq_1: trim_adapters/report_file
-        trimgalore_report_fastq_2: trim_adapters/report_file_pair
-        bam_statistics_report: get_bam_statistics/log_file
-        star_alignment_report: align_reads/log_final
-        reads_per_chr_report: count_reads_per_chr/output_file
-        bam_statistics_report_after_filtering: get_bam_statistics_after_filtering/log_file
-        reads_after_removal_blacklisted: remove_blacklisted/intersected_file
-        peaks_called: call_peaks/narrow_peak_file
-        peaks_merged: merge_peaks/merged_bed_file
-        merged_peaks_with_counts: count_tags/intersected_file
-        output_filename:
-          source: sort_and_index/bam_bai_pair
-          valueFrom: $(get_root(self.basename)+"_collected_statistics_report.txt")
-      out: [collected_statistics]
+    out:
+    - sequences_file
