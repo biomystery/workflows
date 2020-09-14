@@ -1,26 +1,26 @@
 {
   "fastq_file_1": {
     "class": "File",
-    "location": "/Users/kot4or/temp/del/maxatac/data/ENCFF579WLS_10000.fastq"
+    "location": "/Users/kot4or/temp/del/maxatac/inputs/ENCFF579WLS_100000.fastq"
   },
   "fastq_file_2": {
     "class": "File",
-    "location": "/Users/kot4or/temp/del/maxatac/data/ENCFF513OIA_10000.fastq"
+    "location": "/Users/kot4or/temp/del/maxatac/inputs/ENCFF513OIA_100000.fastq"
   },
   "indices_folder": {
     "class": "Directory",
-    "location": "../../tests/data/dm3_chr4/generated_inputs/indices/rsem_bowtie2_dm3_chr4"
+    "location": "/Users/kot4or/temp/del/maxatac/data/star_indices"
   },
   "blacklisted_regions_bed": {
     "class": "File",
-    "location": "../../tests/data/dm3_chr4/generated_inputs/bed/chr4_100_mapped_reads.Aligned.out.bed"
+    "location": "/Users/kot4or/temp/del/maxatac/data/blacklisted_regions/blacklisted_regions_hg38.bed"
   },
   "genome_fasta_file": {
     "class": "File",
-    "location": "../../tests/data/dm3_chr4/main_inputs/fasta/chr4.fa"
+    "location": "/Users/kot4or/temp/del/maxatac/data/fasta/hg38.fa"
   },
-  "genome_size": "dm",
+  "genome_size": "2.74e9",
   "exclude_chromosome": "chrM chrY chrX",
   "trim_adapter_criteria": ".*Per base sequence quality.*|.*Per sequence quality scores.*|.*Overrepresented sequences.*|.*Adapter Content.*",
-  "threads": 2
+  "threads": 4
 }
