@@ -701,6 +701,40 @@
       location: chr4_100_mapped_reads.Aligned.out.raw.txt
       size: 15167
 
+- job: ./geep-4.json
+  tool: ../tools/geep.cwl
+  output:
+    isoforms_file:
+      class: File
+      location: res_isoforms.csv
+      size: 14365
+    genes_file:
+      class: File
+      location: res_genes.csv
+      size: 7221
+    log_file: null
+    raw_file:
+      class: File
+      location: res_raw.txt
+      size: 15239
+
+- job: ./geep-5.json
+  tool: ../tools/geep.cwl
+  output:
+    isoforms_file:
+      class: File
+      location: res_isoforms.csv
+      size: 14407
+    genes_file:
+      class: File
+      location: res_genes.csv
+      size: 7203
+    log_file: null
+    raw_file:
+      class: File
+      location: res_raw.txt
+      size: 15221
+
 # ========================================================
 # get-file-by-name
 # ========================================================
