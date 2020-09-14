@@ -732,7 +732,7 @@
     log_file: null
     raw_file:
       class: File
-      location: res_raw.txt
+      location: res_raw.txt 
       size: 15221
 
 # ========================================================
