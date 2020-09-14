@@ -451,7 +451,7 @@ steps:
       input_file: convert_bam_to_bed/bed_file                         # Uniquely mapped filtered deduped reads as regions
       param:
         source: convert_bam_to_bed/bed_file                           # Sets the output file name to include BED file root name and updated suffix
-        valueFrom: $(get_root(self.basename)+"_tn5.bed")
+        valueFrom: $(get_root(self.basename)+"_shifted.bed")
       script:
         default: cat "$0" | awk 'BEGIN {OFS = "\t"} ; {if ($6 == "+") print $1, ($3 + 4) - 20, ($3 + 4) + 20, $4, $5, $6; else print $1, ($2 - 5) - 20, ($2 - 5) + 20, $4, $5, $6}' | sort -k1,1 -k2,2n -k3,3n> $1
     out:
