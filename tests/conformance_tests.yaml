@@ -5999,3 +5999,33 @@
     markdup_report:
       class: File
       location: markdup_report.tsv
+
+# ========================================================
+# gat-run
+# ========================================================
+
+- job: ./gat-run-1.json
+  tool: ../tools/gat-run.cwl
+  output:
+    report_file:
+      class: File
+      location: segments.tsv
+    stdout_log:
+      class: File
+      location: gat_stdout.log
+    stderr_log:
+      class: File
+      location: gat_stderr.log
+
+- job: ./gat-run-2.json
+  tool: ../tools/gat-run.cwl
+  output:
+    report_file:
+      class: File
+      location: results.tsv
+    stdout_log:
+      class: File
+      location: gat_stdout.log
+    stderr_log:
+      class: File
+      location: gat_stderr.log

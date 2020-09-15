@@ -1,0 +1,14 @@
+{
+    "segment_file": {
+        "class": "File",
+        "location": "./data/dm3_chr4/generated_inputs/gat/segments.bed"
+    },
+    "annotation_file": {
+        "class": "File",
+        "location": "./data/dm3_chr4/generated_inputs/gat/annotations.bed"
+    },
+    "workspace_file": {
+        "class": "File",
+        "location": "./data/dm3_chr4/generated_inputs/gat/workspace.bed"
+    }
+}

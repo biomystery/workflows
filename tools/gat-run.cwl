@@ -7,8 +7,8 @@ requirements:
   expressionLib:
   - var default_output_filename = function() {
           if (inputs.output_filename == ""){
-            var root = inputs.segment_bed_file.basename.split('.').slice(0,-1).join('.');
-            return (root == "")?inputs.segment_bed_file.basename+".tsv":root+".tsv";
+            var root = inputs.segment_file.basename.split('.').slice(0,-1).join('.');
+            return (root == "")?inputs.segment_file.basename+".tsv":root+".tsv";
           } else {
             return inputs.output_filename;
           }
@@ -22,26 +22,29 @@ hints:
 
 inputs:
 
-  segment_bed_file:
+  segment_file:
     type: File
     inputBinding:
       position: 5
       prefix: "-s"
-    doc: "BED file with sets of intervals whose association is tested with annotation_bed_file"
+    doc: |
+      BED file (strictly 3 columns) with sets of intervals whose association is tested with annotation_file
 
-  annotation_bed_file:
+  annotation_file:
     type: File
     inputBinding:
       position: 6
       prefix: "-a"
-    doc: "BED file with sets of intervals that are used for testing association of segment_bed_file"
+    doc: |
+      BED file (strictly 3 columns) with sets of intervals that are used for testing association of segment_file
 
-  workspace_bed_file:
+  workspace_file:
     type: File
     inputBinding:
       position: 7
       prefix: "-w"
-    doc: "The genomic regions accessible for simulation"
+    doc: |
+      BED file (strictly 3 columns) with genomic regions accessible for simulation
 
   output_filename:
     type: string?
@@ -50,21 +53,24 @@ inputs:
       valueFrom: $(default_output_filename())
       prefix: "-S"
     default: ""
-    doc: "Output report file name"
+    doc: |
+      Output report file name
 
   iterations:
     type: int?
     inputBinding:
       position: 9
       prefix: "-n"
-    doc: "Number of iterations"
+    doc: |
+      Number of iterations
 
   threads:
     type: int?
     inputBinding:
       position: 10
       prefix: "-t"
-    doc: "Threads number"
+    doc: |
+      Threads number
 
   seed:
     type: int?
@@ -72,7 +78,8 @@ inputs:
       position: 11
       prefix: "--random-seed="
       separate: false
-    doc: "Random seed to initialize random number generator with"
+    doc: |
+      Random seed to initialize random number generator with
 
 
 outputs:
@@ -81,7 +88,8 @@ outputs:
     type: File
     outputBinding:
       glob: $(default_output_filename())
-    doc: "Report file"
+    doc: |
+      Report file
 
   stdout_log:
     type: stdout

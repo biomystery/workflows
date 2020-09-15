@@ -1,0 +1,18 @@
+{
+    "segment_file": {
+        "class": "File",
+        "location": "./data/dm3_chr4/generated_inputs/gat/segments.bed"
+    },
+    "annotation_file": {
+        "class": "File",
+        "location": "./data/dm3_chr4/generated_inputs/gat/annotations.bed"
+    },
+    "workspace_file": {
+        "class": "File",
+        "location": "./data/dm3_chr4/generated_inputs/gat/workspace.bed"
+    },
+    "iterations": 1000,
+    "output_filename": "results.tsv",
+    "seed": 10,
+    "threads": 2
+}
