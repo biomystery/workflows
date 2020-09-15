@@ -1613,15 +1613,12 @@
     unmapped_mate_1_file:
       class: File
       location: upstream.Unmapped.out.mate1
-      size: 2997
     log_sj:
       class: File
       location: upstream.SJ.out.tab
-      size: 159
     log_progress:
       class: File
       location: upstream.Log.progress.out
-      size: 246
     log_final:
       class: File
       location: upstream.Log.final.out
@@ -1642,11 +1639,9 @@
     log_sj:
       class: File
       location: res_SJ.out.tab
-      size: 159
     log_progress:
       class: File
       location: res_Log.progress.out
-      size: 246
     log_final:
       class: File
       location: res_Log.final.out
@@ -1667,11 +1662,9 @@
     log_sj:
       class: File
       location: chr4_100_mapped_reads.SJ.out.tab
-      size: 190
     log_progress:
       class: File
       location: chr4_100_mapped_reads.Log.progress.out
-      size: 246
     log_final:
       class: File
       location: chr4_100_mapped_reads.Log.final.out
@@ -1692,11 +1685,9 @@
     log_sj:
       class: File
       location: res_SJ.out.tab
-      size: 192
     log_progress:
       class: File
       location: res_Log.progress.out
-      size: 246
     log_final:
       class: File
       location: res_Log.final.out
@@ -1715,19 +1706,15 @@
     unmapped_mate_1_file:
       class: File
       location: res_Unmapped.out.mate1
-      size: 3445
     unmapped_mate_2_file:
       class: File
       location: res_Unmapped.out.mate2
-      size: 3445
     log_sj:
       class: File
       location: res_SJ.out.tab
-      size: 192
     log_progress:
       class: File
       location: res_Log.progress.out
-      size: 246
     log_final:
       class: File
       location: res_Log.final.out
@@ -4963,41 +4950,30 @@
       listing:
       - class: File
         location: chrStart.txt
-        size: 10
       - class: File
         location: chrNameLength.txt
-        size: 13
       - class: File
         location: chrLength.txt
-        size: 8
       - class: File
         location: sjdbList.fromGTF.out.tab
-        size: 19133
       - class: File
         location: exonInfo.tab
-        size: 45281
       - class: File
         location: sjdbList.out.tab
-        size: 19133
       - class: File
         location: SAindex
       - class: File
         location: chrName.txt
-        size: 5
       - class: File
         location: geneInfo.tab
-        size: 3728
       - class: File
         location: SA
       - class: File
         location: sjdbInfo.txt
-        size: 20033
       - class: File
         location: exonGeTrInfo.tab
-        size: 74437
       - class: File
         location: transcriptInfo.tab
-        size: 13759
       - class: File
         location: Genome
       - class: File
@@ -5005,7 +4981,6 @@
     chrom_length:
       class: File
       location: chrNameLength.txt
-      size: 13
     stdout_log:
       class: File
       location: star_build_stdout.log
@@ -5022,22 +4997,16 @@
       listing:
       - class: File
         location: chrStart.txt
-        size: 10
       - class: File
         location: chrNameLength.txt
-        size: 13
       - class: File
         location: chrLength.txt
-        size: 8
       - class: File
         location: sjdbList.fromGTF.out.tab
-        size: 19133
       - class: File
         location: exonInfo.tab
-        size: 45281
       - class: File
         location: sjdbList.out.tab
-        size: 19133
       - class: File
         location: SAindex
       - class: File
@@ -5045,18 +5014,14 @@
         size: 5
       - class: File
         location: geneInfo.tab
-        size: 3728
       - class: File
         location: SA
       - class: File
         location: sjdbInfo.txt
-        size: 20033
       - class: File
         location: exonGeTrInfo.tab
-        size: 74437
       - class: File
         location: transcriptInfo.tab
-        size: 13759
       - class: File
         location: Genome
       - class: File
@@ -5064,7 +5029,6 @@
     chrom_length:
       class: File
       location: chrNameLength.txt
-      size: 13
     stdout_log:
       class: File
       location: star_build_stdout.log
