@@ -125,7 +125,7 @@ s:creator:
         - id: http://orcid.org/0000-0002-6486-3898
 
 doc: |
-  Builds a kallisto index and transcript-to-gene mapping
+  Builds a kallisto index, transcript-to-gene mapping and cDNA fasta files.
 
   Notes:
   --verbose was hardcoded
