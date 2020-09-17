@@ -6029,3 +6029,45 @@
     stderr_log:
       class: File
       location: gat_stderr.log
+
+# ========================================================
+# kb-ref
+# ========================================================
+
+- job: ./kb-ref-1.json
+  tool: ../tools/kb-ref.cwl
+  output:
+    kallisto_index_file:
+      class: File
+      location: chr4.idx
+    transcriptome_fasta_file:
+      class: File
+      location: chr4.fasta
+    transcript_to_gene_mapping_file:
+      class: File
+      location: chr4.tsv
+    stdout_log:
+      class: File
+      location: kb_ref_stdout.log
+    stderr_log:
+      class: File
+      location: kb_ref_stderr.log
+  
+- job: ./kb-ref-2.json
+  tool: ../tools/kb-ref.cwl
+  output:
+    kallisto_index_file:
+      class: File
+      location: kallisto.idx
+    transcriptome_fasta_file:
+      class: File
+      location: kallisto.fasta
+    transcript_to_gene_mapping_file:
+      class: File
+      location: kallisto.tsv
+    stdout_log:
+      class: File
+      location: kb_ref_stdout.log
+    stderr_log:
+      class: File
+      location: kb_ref_stderr.log
