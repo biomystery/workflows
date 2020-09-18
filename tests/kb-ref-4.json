@@ -1,0 +1,12 @@
+{
+    "genome_fasta_file": {
+        "class": "File",
+        "location": "./data/dm3_chr4/main_inputs/fasta/chr4.fa.gz"
+    },
+    "annotation_gtf_file": {
+        "class": "File",
+        "location": "./data/dm3_chr4/main_inputs/gtf/dm3_chr4_correct_gene_id.gtf.gz"
+    },
+    "output_prefix": "kallisto",
+    "workflow_type": "lamanno"
+}

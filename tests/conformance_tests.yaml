@@ -6077,3 +6077,87 @@
     intron_fasta_file: null
     tx_to_capture_mapping_file: null
     intron_tx_to_capture_mapping_file: null
+
+- job: ./kb-ref-3.json
+  tool: ../tools/kb-ref.cwl
+  output:
+    kallisto_index_file:
+      class: File
+      location: kallisto_index.idx
+    tx_fasta_file:
+      class: File
+      location: kallisto_tx.fasta
+    tx_to_gene_mapping_file:
+      class: File
+      location: kallisto_tx_to_gene.tsv
+    stdout_log:
+      class: File
+      location: kb_ref_stdout.log
+    stderr_log:
+      class: File
+      location: kb_ref_stderr.log
+    intron_fasta_file:
+      class: File
+      location: kallisto_intron.fasta
+    tx_to_capture_mapping_file:
+      class: File
+      location: kallisto_tx_to_capture.tsv
+    intron_tx_to_capture_mapping_file:
+      class: File
+      location: kallisto_intron_tx_to_capture.tsv
+
+- job: ./kb-ref-4.json
+  tool: ../tools/kb-ref.cwl
+  output:
+    kallisto_index_file:
+      class: File
+      location: kallisto_index.idx
+    tx_fasta_file:
+      class: File
+      location: kallisto_tx.fasta
+    tx_to_gene_mapping_file:
+      class: File
+      location: kallisto_tx_to_gene.tsv
+    stdout_log:
+      class: File
+      location: kb_ref_stdout.log
+    stderr_log:
+      class: File
+      location: kb_ref_stderr.log
+    intron_fasta_file:
+      class: File
+      location: kallisto_intron.fasta
+    tx_to_capture_mapping_file:
+      class: File
+      location: kallisto_tx_to_capture.tsv
+    intron_tx_to_capture_mapping_file:
+      class: File
+      location: kallisto_intron_tx_to_capture.tsv
+
+- job: ./kb-ref-5.json
+  tool: ../tools/kb-ref.cwl
+  output:
+    kallisto_index_file:
+      class: File
+      location: chr4.fa_index.idx
+    tx_fasta_file:
+      class: File
+      location: chr4.fa_tx.fasta
+    tx_to_gene_mapping_file:
+      class: File
+      location: chr4.fa_tx_to_gene.tsv
+    stdout_log:
+      class: File
+      location: kb_ref_stdout.log
+    stderr_log:
+      class: File
+      location: kb_ref_stderr.log
+    intron_fasta_file:
+      class: File
+      location: chr4.fa_intron.fasta
+    tx_to_capture_mapping_file:
+      class: File
+      location: chr4.fa_tx_to_capture.tsv
+    intron_tx_to_capture_mapping_file:
+      class: File
+      location: chr4.fa_intron_tx_to_capture.tsv
