@@ -153,6 +153,13 @@ baseCommand: ["kb", "count", "--verbose"]
 doc: |
   Uses kallisto to pseudoalign reads and bustools to quantify the data.
 
+  1. Generates BUS file from input fastq files
+  2. Sorts generated BUS file
+  3. Inspects sorted BUS file
+  4. Corrects barcodes in sorted BUS file
+  5. Sorts corrected BUS file
+  6. Generates count matrix from sorted barcode corrected BUS file
+
   Notes:
   --verbose was hardcoded
   --lamanno and --nucleus arguments were skipped, so we don't need -c1, -c2
