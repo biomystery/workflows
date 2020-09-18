@@ -6039,35 +6039,41 @@
   output:
     kallisto_index_file:
       class: File
-      location: chr4.idx
-    transcriptome_fasta_file:
+      location: chr4_index.idx
+    tx_fasta_file:
       class: File
-      location: chr4.fasta
-    transcript_to_gene_mapping_file:
+      location: chr4_tx.fasta
+    tx_to_gene_mapping_file:
       class: File
-      location: chr4.tsv
+      location: chr4_tx_to_gene.tsv
     stdout_log:
       class: File
       location: kb_ref_stdout.log
     stderr_log:
       class: File
       location: kb_ref_stderr.log
+    intron_fasta_file: null
+    tx_to_capture_mapping_file: null
+    intron_tx_to_capture_mapping_file: null
   
 - job: ./kb-ref-2.json
   tool: ../tools/kb-ref.cwl
   output:
     kallisto_index_file:
       class: File
-      location: kallisto.idx
-    transcriptome_fasta_file:
+      location: kallisto_index.idx
+    tx_fasta_file:
       class: File
-      location: kallisto.fasta
-    transcript_to_gene_mapping_file:
+      location: kallisto_tx.fasta
+    tx_to_gene_mapping_file:
       class: File
-      location: kallisto.tsv
+      location: kallisto_tx_to_gene.tsv
     stdout_log:
       class: File
       location: kb_ref_stdout.log
     stderr_log:
       class: File
       location: kb_ref_stderr.log
+    intron_fasta_file: null
+    tx_to_capture_mapping_file: null
+    intron_tx_to_capture_mapping_file: null
