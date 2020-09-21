@@ -42,7 +42,7 @@ inputs:
 
   exclude_chromosome:
     type: string?
-    default: "chrM chrY chrX"
+    default: "chrM chrY"
     doc: "Case-sensitive space-separated chromosome list to be excluded"    
 
   trim_adapter_criteria:  # TODO: see what criteria we need to trigger adapter trimming
