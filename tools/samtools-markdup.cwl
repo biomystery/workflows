@@ -27,10 +27,16 @@ inputs:
     default: |
 
       #!/bin/bash
-      
+      echo "Rename $0 to temp.bam"
+      mv $0 temp.bam
+      if [ -f $0.bai ]; then
+        echo "Rename $0.bai to temp.bam.bai"
+        mv $0.bai temp.bam.bai
+      fi
+
       echo "Sorting BAM file by name"
-      echo "samtools sort -n -@ $2 -o namesorted.bam $0"
-      samtools sort -n -@ $2 -o namesorted.bam $0
+      echo "samtools sort -n -@ $2 -o namesorted.bam temp.bam"
+      samtools sort -n -@ $2 -o namesorted.bam temp.bam
       
       echo "Filling in mate coordinates and inserting size fields"
       echo "samtools fixmate -m -@ $2 namesorted.bam fixed.bam"
@@ -53,7 +59,7 @@ inputs:
       samtools index $1
 
       echo "Removing temporary files"
-      rm -f namesorted.bam fixed.bam positionsorted.bam markduped.bam
+      rm -f namesorted.bam fixed.bam positionsorted.bam markduped.bam temp.bam*
 
     inputBinding:
       position: 5
