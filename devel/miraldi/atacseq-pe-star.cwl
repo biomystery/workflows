@@ -170,7 +170,7 @@ steps:
       source_file: run_fastqc_fastq_1/html_file
       target_filename:
         source: fastq_file_1
-        valueFrom: $(get_root(self.basename)+"_report.html")   # Use root name of the original fastq file 1 and updated suffix
+        valueFrom: $(get_root(self.basename)+"_fastqc_report.html")   # Use root name of the original fastq file 1 and updated suffix
     out:
     - target_file                                                     # Returned as workflow output. Not used in any other calculations
 
@@ -213,7 +213,7 @@ steps:
       source_file: run_fastqc_fastq_2/html_file
       target_filename:
         source: fastq_file_2
-        valueFrom: $(get_root(self.basename)+"_report.html")   # Use root name of the original fastq file 2 and updated suffix
+        valueFrom: $(get_root(self.basename)+"_fastqc_report.html")   # Use root name of the original fastq file 2 and updated suffix
     out:
     - target_file                                                     # Returned as workflow output. Not used in any other calculations
   
@@ -264,7 +264,7 @@ steps:
       source_file: trim_adapters/report_file                          # Adapter trimming report for fastq file 1
       target_filename:                                                # Use basename of the original fastq file 1
         source: fastq_file_1
-        valueFrom: $(get_root(self.basename) + "_report.txt")
+        valueFrom: $(get_root(self.basename) + "_adapter_trimming_report.txt")
     out:
     - target_file                                                     # Renamed adapter trimming report for fastq file 1
 
@@ -277,7 +277,7 @@ steps:
       source_file: trim_adapters/report_file_pair                     # Adapter trimming report for fastq file 2
       target_filename:                                                # Use basename of the original fastq file 2
         source: fastq_file_2
-        valueFrom: $(get_root(self.basename) + "_report.txt")
+        valueFrom: $(get_root(self.basename) + "_adapter_trimming_report.txt")
     out:
     - target_file                                                     # Renamed adapter trimming report for fastq file 2
 
@@ -357,7 +357,7 @@ steps:
         source:
         - rename_trimmed_fastq_1/target_file
         - rename_trimmed_fastq_2/target_file
-        valueFrom: $(get_root(self[0].basename) + "_" + get_root(self[1].basename) + "_1.bam")
+        valueFrom: $(get_root(self[0].basename) + "_" + get_root(self[1].basename) + "_uniquely_mapped_sorted.bam")
       threads: threads
     out:
     - bam_bai_pair                                                    # Coordinate sorted uniquely mapped reads with max 5 mismatches per read pair as BAM file and BAI index
@@ -370,7 +370,7 @@ steps:
       bambai_pair: sort_and_index/bam_bai_pair
       output_filename:                                                # Sets the output file name to include BAM file root name and updated suffix
         source: sort_and_index/bam_bai_pair
-        valueFrom: $(get_root(self.basename)+"_report.txt")
+        valueFrom: $(get_root(self.basename)+"_bam_statistics_report.txt")
     out:
     - log_file                                                        # Returned as workflow output. Not used in any other calculations
 
@@ -386,7 +386,7 @@ steps:
       exclude_chromosome: exclude_chromosome                          # Space-separated chromosome list to be removed
       output_filename:                                                # Sets the output file name to include BAM file root name and updated suffix
         source: sort_and_index/bam_bai_pair
-        valueFrom: $(get_root(self.basename)+"_2.bam")
+        valueFrom: $(get_root(self.basename)+"_filtered.bam")
     out:
     - filtered_bam_bai_pair                                           # Coordinate sorted filtered (with chromosomes removed) BAM file and BAI index
 
@@ -411,7 +411,7 @@ steps:
       threads: threads
       output_filename:                                                # Sets the output file name to include BAM file root name and updated suffix
         source: filter_reads/filtered_bam_bai_pair
-        valueFrom: $(get_root(self.basename)+"_3.bam")      
+        valueFrom: $(get_root(self.basename)+"_deduped.bam")      
     out:
     - deduplicated_bam_bai_pair                                       # Coordinate sorted filtered (with chromosomes removed) and deduplicated BAM file and BAI index
     - markdup_report                                                  # Returned as workflow output. Not used in any other calculations
@@ -424,7 +424,7 @@ steps:
       bambai_pair: remove_duplicates/deduplicated_bam_bai_pair        # Coordinate sorted filtered (with chromosomes removed) and deduplicated BAM file and BAI index
       output_filename:
         source: remove_duplicates/deduplicated_bam_bai_pair           # Sets the output file name to include BAM file root name and updated suffix
-        valueFrom: $(get_root(self.basename)+"_report.txt")
+        valueFrom: $(get_root(self.basename)+"_bam_statistics_report.txt")
     out:
     - log_file                                                        # Returned as workflow output. Not used in any other calculations
     - average_length                                                  # Used by MACS2 in peak calling
@@ -451,7 +451,7 @@ steps:
       input_file: convert_bam_to_bed/bed_file                         # Uniquely mapped filtered deduped reads as regions
       param:
         source: convert_bam_to_bed/bed_file                           # Sets the output file name to include BED file root name and updated suffix
-        valueFrom: $(get_root(self.basename)+"_sh.bed")
+        valueFrom: $(get_root(self.basename)+"_shifted.bed")
       script:
         default: cat "$0" | awk 'BEGIN {OFS = "\t"} ; {if ($6 == "+") print $1, ($3 + 4) - 20, ($3 + 4) + 20, $4, $5, $6; else print $1, ($2 - 5) - 20, ($2 - 5) + 20, $4, $5, $6}' | sort -k1,1 -k2,2n -k3,3n> $1
     out:
@@ -481,7 +481,7 @@ steps:
         default: ["1,1","2,2n","3,3n"]
       output_filename:                                                # Sets the output file name to include BED file root name and updated suffix
         source: remove_blacklisted/intersected_file
-        valueFrom: $(get_root(self.basename)+"_wo_bl.bed")
+        valueFrom: $(get_root(self.basename)+"_wo_blacklisted.bed")
     out:
     - sorted_file                                                     # Coordinate sorted Tn5 binding sites without blacklisted regions
 
@@ -566,7 +566,7 @@ steps:
         default: ["1,1","2,2n","3,3n"]
       output_filename:                                                # Sets the output file name to include narrowpeak file root name and updated suffix
         source: call_peaks/narrow_peak_file
-        valueFrom: $(get_root(self.basename)+"_srtd.narrowPeak")
+        valueFrom: $(get_root(self.basename)+"_sorted.narrowPeak")
     out:
     - sorted_file                                                     # Coordinate sorted peaks as narrowpeak file
 
@@ -578,7 +578,7 @@ steps:
       bed_file: sort_peaks/sorted_file                                # Coordinate sorted peaks as narrowpeak file
       output_filename:                                                # Sets the output file name to include narrowpeak file root name and updated suffix
         source: call_peaks/narrow_peak_file
-        valueFrom: $(get_root(self.basename)+"_mrgd.narrowPeak")
+        valueFrom: $(get_root(self.basename)+"_merged.narrowPeak")
     out:
     - merged_bed_file                                                 # Merged unsorted peaks as narrowpeak file
 
@@ -592,7 +592,7 @@ steps:
         default: ["1,1","2,2n","3,3n"]
       output_filename:                                                # Sets the output file name to include narrowpeak file root name and updated suffix
         source: merge_peaks/merged_bed_file
-        valueFrom: $(get_root(self.basename)+"_srtd.narrowPeak")
+        valueFrom: $(get_root(self.basename)+"_sorted.narrowPeak")
     out:
     - sorted_file                                                     # Merged coordinate sorted peaks as narrowpeak file
 
@@ -608,7 +608,7 @@ steps:
         default: true
       output_filename:                                                # Sets the output file name to include narrowpeak file root name and updated suffix
         source: sort_merged_peaks/sorted_file
-        valueFrom: $(get_root(self.basename)+"_counts.bed")
+        valueFrom: $(get_root(self.basename)+"_tag_counts.bed")
     out:
     - intersected_file
 
