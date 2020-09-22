@@ -3,7 +3,17 @@ class: CommandLineTool
 
 requirements:
 - class: InlineJavascriptRequirement
-
+- class: InitialWorkDirRequirement
+  listing: |
+    ${
+      return  [
+                {
+                  "entry": inputs.bam_bai_pair,
+                  "entryname": inputs.bam_bai_pair.basename,
+                  "writable": true
+                }
+              ]
+    }
 
 hints:
 - class: DockerRequirement
@@ -53,9 +63,7 @@ inputs:
     type: File
     inputBinding:
       position: 6
-    secondaryFiles:
-    - .bai
-    doc: Indexed BAM+BAI files
+    doc: BAM (optionally BAI) files
 
   output_filename:
     type: string?
@@ -143,6 +151,7 @@ s:creator:
 doc: |
   Removes PCR duplicates from coordinate sorted and indexed BAM files.
   Returns coordinate sorted and indexed BAM files.
+  Stages input bam_bai_pair to workdir. Otherwise samtools sort fails.
 
 s:about: |
   Removes PCR duplicates from coordinate sorted and indexed BAM files.
