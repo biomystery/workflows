@@ -17,7 +17,7 @@ requirements:
 
 hints:
 - class: DockerRequirement
-  dockerPull: biocontainers/samtools:v1.9-4-deb_cv1
+  dockerPull: biowardrobe2/samtools:v1.11
 
 
 inputs:
