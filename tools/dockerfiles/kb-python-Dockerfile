@@ -2,24 +2,21 @@
 # Dockerfile
 #
 # Software:         kb-python
-# Software Version: v0.0.3
+# Software Version: v0.0.2
 # Description:      kallisto | bustools is a workflow for pre-processing single-cell RNA-seq data
 # Website:          https://www.kallistobus.tools/about
 # Provides:         kb-python (commit 3ce4d8e655da2da74a5114c680c9d2cf3a2b328c)
 # Base Image:       scidap/scidap:v0.0.4
-# Build Cmd:        docker build --rm -t biowardrobe2/kb-python:v0.0.3 -f kb-python-Dockerfile .
-# Pull Cmd:         docker pull biowardrobe2/kb-python:v0.0.3
-# Run Cmd:          docker run --rm -ti biowardrobe2/kb-python:v0.0.3 /bin/bash
+# Build Cmd:        docker build --rm -t biowardrobe2/kb-python:v0.0.2 -f kb-python-Dockerfile .
+# Pull Cmd:         docker pull biowardrobe2/kb-python:v0.0.2
+# Run Cmd:          docker run --rm -ti biowardrobe2/kb-python:v0.0.2 /bin/bash
 #################################################################
 #
 # v0.0.1
-#   - Uses latest from Pypi version of kb-python 0.24.4
+#   - uses latest from Pypi version of kb-python 0.24.4
 #
 # v0.0.2
-#   - Uses latest commit from kb-python repository
-#
-# v0.0.3
-#   - Build from the patched version
+#   - uses latest commit from kb-python repository
 #
 #################################################################
 
@@ -29,8 +26,8 @@ FROM scidap/scidap:v0.0.4
 LABEL maintainer="misha.kotliar@gmail.com"
 ENV DEBIAN_FRONTEND noninteractive
 
-ENV COMMIT "270b8cd5ca96a2af210a443819675140aaacb9f6"
-ENV URL "https://github.com/michael-kotliar/kb_python.git"
+ENV COMMIT "3ce4d8e655da2da74a5114c680c9d2cf3a2b328c"
+ENV URL "https://github.com/pachterlab/kb_python.git"
 
 ################## BEGIN INSTALLATION ######################
 WORKDIR /tmp
