@@ -58,73 +58,73 @@ inputs:
 
 outputs:
 
-  fastqc_report_fastq_1:
+  fastqc_report_fastq_1:                                                     # report
     type: File
     outputSource: rename_fastqc_report_fastq_1/target_file
 
-  fastqc_report_fastq_2:
+  fastqc_report_fastq_2:                                                     # report
     type: File
     outputSource: rename_fastqc_report_fastq_2/target_file
 
-  adapter_trimming_report_fastq_1:
+  adapter_trimming_report_fastq_1:                                           # report
     type: File
     outputSource: rename_adapter_trimming_report_fastq_1/target_file
 
-  adapter_trimming_report_fastq_2:
+  adapter_trimming_report_fastq_2:                                           # report
     type: File
     outputSource: rename_adapter_trimming_report_fastq_2/target_file
   
-  star_alignment_statistics_report:
+  star_alignment_statistics_report:                                          # report
     type: File
     outputSource: align_reads/log_final
 
-  star_alignment_progress_report:
+  star_alignment_progress_report:                                            # report
     type: File
     outputSource: align_reads/log_progress
 
-  uniquely_mapped_sorted_reads_as_bam:
+  uniquely_mapped_sorted_reads_as_bam:                                       # data
     type: File
     outputSource: sort_and_index/bam_bai_pair
 
-  uniquely_mapped_sorted_reads_as_bam_statistics_report:
+  uniquely_mapped_sorted_reads_as_bam_statistics_report:                     # report
     type: File
     outputSource: get_bam_statistics/log_file
 
-  samtools_deduplication_report:
+  samtools_deduplication_report:                                             # report
     type: File
     outputSource: remove_duplicates/markdup_report
 
-  uniquely_mapped_sorted_filtered_deduped_reads_as_bam_statistics_report:
+  uniquely_mapped_sorted_filtered_deduped_reads_as_bam_statistics_report:    # report
     type: File
     outputSource: get_bam_statistics_after_filtering/log_file
 
-  filtered_deduplicated_sorted_shifted_reads_wo_blacklisted_as_bed:
+  filtered_deduplicated_sorted_shifted_reads_wo_blacklisted_as_bed_bz2:      # data
     type: File
-    outputSource: sort_bed/sorted_file
+    outputSource: compress_tn5_binding_sites/output_file
 
-  genome_coverage_as_bigwig:
+  genome_coverage_as_bigwig:                                                 # data
     type: File
     outputSource: convert_bedgraph_to_bigwig/bigwig_file
 
-  macs2_peak_calling_report:
+  macs2_peak_calling_report:                                                 # report
     type: File
     outputSource: call_peaks/macs_log
 
-  macs2_called_peaks_as_sorted_narrow_peak:
+  macs2_called_peaks_as_sorted_narrow_peak_bz2:                              # data
     type: File
-    outputSource: sort_peaks/sorted_file
+    outputSource: compress_sorted_narrowpeak/output_file
 
-  macs2_called_peaks_merged_sorted_narrow_peak:
+  macs2_called_peaks_merged_sorted_narrow_peak_bz2:                          # data
     type: File
-    outputSource: sort_merged_peaks/sorted_file
+    outputSource: compress_merged_sorted_narrowpeak/output_file
 
-  tag_counts_within_merged_sorted_peaks:
+  tag_counts_within_merged_sorted_peaks_bz2:                                 # data
     type: File
-    outputSource: count_tags/intersected_file
+    outputSource: compress_tn5_tag_counts/output_file
 
-  sequences_within_merged_sorted_peaks:
+  sequences_within_merged_sorted_peaks_bz2:                                  # data
     type: File
-    outputSource: get_sequences/sequences_file
+    outputSource: compress_peak_sequences/output_file
 
 
 steps:
@@ -598,7 +598,7 @@ steps:
         source: sort_merged_peaks/sorted_file
         valueFrom: $(get_root(self.basename)+"_tag_counts.bed")
     out:
-    - intersected_file
+    - intersected_file                                                # Tn5 tag counts within merged coordinate sorted peaks
 
   get_sequences:
     doc: |
@@ -608,4 +608,51 @@ steps:
       genome_fasta_file: genome_fasta_file
       intervals_file: sort_merged_peaks/sorted_file                   # Merged coordinate sorted peaks as narrowpeak file
     out:
-    - sequences_file                                                  # Sequences as fasta file
+    - sequences_file                                                  # Sequences of merged coordinate sorted peaks as fasta file
+
+# -----------------------------------------------------------------------------------
+  
+  compress_tn5_binding_sites:
+    doc: |
+      Compresses coordinate sorted Tn5 binding sites without blacklisted regions
+    run: ../../tools/bzip2-compress.cwl
+    in:
+      input_file: sort_bed/sorted_file                                # Coordinate sorted Tn5 binding sites without blacklisted regions
+    out:
+    - output_file                                                     # Compressed coordinate sorted Tn5 binding sites without blacklisted regions
+
+  compress_sorted_narrowpeak:
+    doc: |
+      Compresses coordinate sorted peaks as narrowpeak file
+    run: ../../tools/bzip2-compress.cwl
+    in:
+      input_file: sort_peaks/sorted_file                              # Coordinate sorted peaks as narrowpeak file
+    out:
+    - output_file                                                     # Compressed coordinate sorted peaks as narrowpeak file
+
+  compress_merged_sorted_narrowpeak:
+    doc: |
+      Compresses merged coordinate sorted peaks as narrowpeak file
+    run: ../../tools/bzip2-compress.cwl
+    in:
+      input_file: sort_merged_peaks/sorted_file                       # Merged coordinate sorted peaks as narrowpeak file
+    out:
+    - output_file                                                     # Compressed merged coordinate sorted peaks as narrowpeak file
+
+  compress_tn5_tag_counts:
+    doc: |
+      Compresses Tn5 tag counts within merged coordinate sorted peaks
+    run: ../../tools/bzip2-compress.cwl
+    in:
+      input_file: count_tags/intersected_file                         # Tn5 tag counts within merged coordinate sorted peaks
+    out:
+    - output_file                                                     # Compressed Tn5 tag counts within merged coordinate sorted peaks
+    
+  compress_peak_sequences:
+    doc: |
+      Compresses sequences of merged coordinate sorted peaks as fasta file
+    run: ../../tools/bzip2-compress.cwl
+    in:
+      input_file: get_sequences/sequences_file                        # Sequences of merged coordinate sorted peaks as fasta file
+    out:
+    - output_file                                                     # Compressed sequences of merged coordinate sorted peaks as fasta file
