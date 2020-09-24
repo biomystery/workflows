@@ -94,21 +94,9 @@ outputs:
     type: File
     outputSource: remove_duplicates/markdup_report
 
-  uniquely_mapped_sorted_filtered_deduped_reads_as_bam:
-    type: File
-    outputSource: remove_duplicates/deduplicated_bam_bai_pair
-
   uniquely_mapped_sorted_filtered_deduped_reads_as_bam_statistics_report:
     type: File
     outputSource: get_bam_statistics_after_filtering/log_file
-
-  filtered_deduplicated_reads_as_bed:
-    type: File
-    outputSource: convert_bam_to_bed/bed_file
-
-  filtered_deduplicated_shifted_reads_as_bed:
-    type: File
-    outputSource: shift_reads/output_file
 
   filtered_deduplicated_sorted_shifted_reads_wo_blacklisted_as_bed:
     type: File
