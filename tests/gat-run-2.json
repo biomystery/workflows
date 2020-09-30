@@ -14,5 +14,6 @@
     "iterations": 1000,
     "output_filename": "results.tsv",
     "seed": 10,
+    "counter": "annotation-midoverlap",
     "threads": 2
 }
