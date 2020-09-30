@@ -512,8 +512,88 @@
   output:
     fastq_file:
       class: File
-      location: upstream.default
+      location: upstream.fastq
       size: 15415
+
+- job: ./extract-fastq-5.json
+  tool: ../tools/extract-fastq.cwl
+  output:
+    fastq_file:
+      class: File
+      location: upstream.fastq
+      size: 15415
+
+- job: ./extract-fastq-6.json
+  tool: ../tools/extract-fastq.cwl
+  output:
+    fastq_file:
+      class: File
+      location: upstream.fastq
+      size: 15415
+
+- job: ./extract-fastq-7.json
+  tool: ../tools/extract-fastq.cwl
+  output:
+    fastq_file:
+      class: File
+      location: upstream_downstream.fastq
+      size: 30830
+
+- job: ./extract-fastq-8.json
+  tool: ../tools/extract-fastq.cwl
+  output:
+    fastq_file:
+      class: File
+      location: upstream_downstream.fastq
+      size: 30830
+
+- job: ./extract-fastq-9.json
+  tool: ../tools/extract-fastq.cwl
+  output:
+    fastq_file:
+      class: File
+      location: upstream_downstream.fastq
+      size: 30830
+
+- job: ./extract-fastq-10.json
+  tool: ../tools/extract-fastq.cwl
+  output:
+    fastq_file:
+      class: File
+      location: upstream_downstream.fastq
+      size: 30830
+
+- job: ./extract-fastq-11.json
+  tool: ../tools/extract-fastq.cwl
+  output:
+    fastq_file:
+      class: File
+      location: upstream_downstream.fastq
+      size: 30830
+
+- job: ./extract-fastq-12.json
+  tool: ../tools/extract-fastq.cwl
+  output:
+    fastq_file:
+      class: File
+      location: upstream_upstream.fastq
+      size: 30830
+
+- job: ./extract-fastq-13.json
+  tool: ../tools/extract-fastq.cwl
+  output:
+    fastq_file:
+      class: File
+      location: upstream_upstream.fastq
+      size: 30830
+
+- job: ./extract-fastq-14.json
+  tool: ../tools/extract-fastq.cwl
+  output:
+    fastq_file:
+      class: File
+      location: upstream_downstream_upstream.fastq
+      size: 46245
 
 # ========================================================
 # fastqc
