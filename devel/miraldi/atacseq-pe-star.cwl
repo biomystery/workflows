@@ -270,32 +270,6 @@ steps:
     - target_file                                                     # Renamed adapter trimming report for fastq file 2
 
 
-  rename_trimmed_fastq_1:
-    doc: |
-      Renames trimmed fastq file 1 (technical step to get rid of
-      the suffix added by TrimGalore to the filename)
-    run: ../../tools/rename.cwl
-    in:
-      source_file: trim_adapters/trimmed_file                         # Trimmed uncompressed fastq file 1
-      target_filename:
-        source: fastq_file_1
-        valueFrom: $(get_root(self.basename) + ".fastq")              # Use basename of the original fastq file 1
-    out:
-    - target_file                                                     # Renamed trimmed uncompressed fastq file 1
-
-  rename_trimmed_fastq_2:
-    doc: |
-      Renames trimmed fastq file 2 (technical step to get rid of
-      the suffix added by TrimGalore to the filename)
-    run: ../../tools/rename.cwl
-    in:
-      source_file: trim_adapters/trimmed_file_pair                    # Trimmed uncompressed fastq file 2
-      target_filename:
-        source: fastq_file_2
-        valueFrom: $(get_root(self.basename) + ".fastq")              # Use basename of the original fastq file 2
-    out:
-    - target_file                                                     # Renamed trimmed uncompressed fastq file 2
-
 # -----------------------------------------------------------------------------------
 
   align_reads:
@@ -305,8 +279,8 @@ steps:
     run: ../../tools/star-alignreads.cwl
     in:
       readFilesIn:
-      - rename_trimmed_fastq_1/target_file
-      - rename_trimmed_fastq_2/target_file
+      - trim_adapters/trimmed_file
+      - trim_adapters/trimmed_file_pair
       genomeDir: indices_folder
       outSAMtype:
         default:
@@ -325,8 +299,8 @@ steps:
         default: 5                                                    # Allow maximum 5 mismatches per read pair
       outFileNamePrefix:                                              # Sets the output files prefix to be a combination of fastq files 1,2 root names
         source:
-        - rename_trimmed_fastq_1/target_file
-        - rename_trimmed_fastq_2/target_file
+        - fastq_file_1
+        - fastq_file_2
         valueFrom: $(get_root(self[0].basename) + "_" + get_root(self[1].basename) + ".")
       threads: threads
     out:
@@ -343,8 +317,8 @@ steps:
       sort_input: align_reads/aligned_file                            # Unsorted SAM file with ONLY uniquely mapped reads with max 5 mismatches per read pair
       sort_output_filename:                                           # Sets the output file name to be a combination of fastq files 1,2 root names
         source:
-        - rename_trimmed_fastq_1/target_file
-        - rename_trimmed_fastq_2/target_file
+        - fastq_file_1
+        - fastq_file_2
         valueFrom: $(get_root(self[0].basename) + "_" + get_root(self[1].basename) + "_uniquely_mapped_sorted.bam")
       threads: threads
     out:
