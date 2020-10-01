@@ -537,9 +537,11 @@ steps:
       nomodel:
         default: true
       shift:                                                          # Use average read length from BAM file after all filters applied
-        source: get_bam_statistics_after_filtering/average_length
-        valueFrom: $(-Math.round(self/2))
-      extsize: get_bam_statistics_after_filtering/average_length
+        default: 0                                                    # based on Tareian suggestion
+      extsize:
+        default: 40                                                   # based on Tareian suggestion
+      q_value:
+        default: 0.01                                                 # based on Tareian suggestion
     out:
     - narrow_peak_file                                                # Called peaks as not sorted narrowpeak file
     - macs_log                                                        # Returned as workflow output. Not used in any other calculations
