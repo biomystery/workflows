@@ -2,22 +2,22 @@
 # Dockerfile
 #
 # Software:         BioWardrobe PCA script
-# Software Version: v0.0.6
+# Software Version: v0.0.7
 # Description:      Dockerized version of PCA script from BioWardrobe
 # Website:          https://github.com/Barski-lab/workflows
 # Provides:         PCA script from BioWardrobe
-#                   argparse 1.1.1
-#                   jsonlite 1.5
-#                   scatterplot3d 0.3-41
-#                   run_pca.R
-# Base Image:       biowardrobe2/scidap-addons:v0.0.6
-# Build Cmd:        docker build --rm -t biowardrobe2/pca:v0.0.6 -f pca-Dockerfile .
-# Pull Cmd:         docker pull biowardrobe2/pca:v0.0.6
-# Run Cmd:          docker run --rm -ti biowardrobe2/pca:v0.0.6
+# Base Image:       r-base:4.0.2
+# Build Cmd:        docker build --rm -t biowardrobe2/pca:v0.0.7 -f pca-Dockerfile .
+# Pull Cmd:         docker pull biowardrobe2/pca:v0.0.7
+# Run Cmd:          docker run --rm -ti biowardrobe2/pca:v0.0.7
 #################################################################
 # Argparse, jsonlite, scatterplot3d and FindPython are set to the
 # specific versions to garantee that they will work on R 3.2.3-4
 # inherited from the base image.
+#
+# v0.0.7
+# - switch to r-base:4.0.2 as base image
+# - update run_pca.R script to use ggplot and plotly
 #
 # v0.0.6
 # Updated run_pca.R script
@@ -44,8 +44,8 @@
 
 
 ### Base Image
-FROM biowardrobe2/scidap-addons:v0.0.6
-MAINTAINER Michael Kotliar "misha.kotliar@gmail.com"
+FROM r-base:4.0.2
+LABEL maintainer="misha.kotliar@gmail.com"
 ENV DEBIAN_FRONTEND noninteractive
 
 
@@ -53,34 +53,19 @@ ENV DEBIAN_FRONTEND noninteractive
 
 WORKDIR /tmp
 
-ENV VER_ARGPARSE 1.1.1
-ENV URL_ARGPARSE "https://github.com/trevorld/argparse/archive/v${VER_ARGPARSE}.tar.gz"
-
-ENV VER_FINDPYTHON 1.0.3
-ENV URL_FINDPYTHON "https://github.com/trevorld/findpython/archive/v${VER_FINDPYTHON}.tar.gz"
-
-ENV VER_JSONLITE 1.5
-ENV URL_JSONLITE "https://github.com/jeroen/jsonlite/archive/v${VER_JSONLITE}.tar.gz"
-
-ENV VER_SCATTERPLOT3D 0.3-41
-ENV URL_SCATTERPLOT3D "https://github.com/cran/scatterplot3d/archive/${VER_SCATTERPLOT3D}.tar.gz"
-
-COPY ./scripts/install_from_source.R /tmp/install_from_source.R
 COPY ./scripts/run_pca.R /usr/local/bin/run_pca.R
 
 ### Installing dependencies
 RUN apt-get update && \
-    apt-get install libxml2-dev -y && \
-
-### Installing Argparse and FindPython packages from source
-    Rscript /tmp/install_from_source.R "${URL_FINDPYTHON}" && \
-    Rscript /tmp/install_from_source.R "${URL_JSONLITE}" && \
-    Rscript /tmp/install_from_source.R "${URL_ARGPARSE}" && \
-    Rscript /tmp/install_from_source.R "${URL_SCATTERPLOT3D}" && \
-
+    apt-get install libgcc-8-dev python3-dev python3-pip libxml2-dev libcurl4-openssl-dev libssl-dev pandoc -y && \
+### Installing dependencies
+    R -e 'install.packages("argparse", repo = "https://cloud.r-project.org/")' && \
+    R -e 'install.packages("scatterplot3d", repo = "https://cloud.r-project.org/")' && \
+    R -e 'install.packages("ggplot2", repo = "https://cloud.r-project.org/")' && \
+    R -e 'install.packages("plotly", repo = "https://cloud.r-project.org/")' && \
+    R -e 'install.packages("htmlwidgets", repo = "https://cloud.r-project.org/")' && \
 ### Installing run_pca.R R script
     chmod +x /usr/local/bin/run_pca.R && \
-
 ### Cleaning
     apt-get clean && \
     apt-get purge && \
