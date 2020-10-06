@@ -4821,6 +4821,9 @@
     pca_3d_plot:
       class: File
       location: dummy_004.png
+    pca_3d_html:
+      class: File
+      location: dummy_pca3d.html
     pca_file:
       class: File
       location: dummy_pca.tsv
@@ -4847,6 +4850,9 @@
     pca_3d_plot:
       class: File
       location: dummy_004.png
+    pca_3d_html:
+      class: File
+      location: dummy_pca3d.html
     pca_file:
       class: File
       location: dummy_pca.tsv
