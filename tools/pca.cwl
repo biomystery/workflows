@@ -80,7 +80,7 @@ outputs:
     type: File?
     outputBinding:
       glob: "*.html"
-    doc: "Plotly interactive 3D PCA plot (first three components)"
+    doc: "Plotly generated interactive 3D PCA plot (first three components)"
 
   pca_file:
     type: File
