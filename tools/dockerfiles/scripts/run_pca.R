@@ -3,6 +3,9 @@ options(warn=-1)
 options("width"=200)
 suppressMessages(library(argparse))
 suppressMessages(library(scatterplot3d))
+suppressMessages(library(ggplot2))
+suppressMessages(library(plotly))
+suppressMessages(library(htmlwidgets))
 
 
 ##########################################################################################
@@ -54,6 +57,52 @@ load_data_set <- function(filenames, prefixes, target_colname, intersect_by, gen
 }
 
 
+export_pca_plot <- function(data, x, y, x_perc_var, y_perc_var, width=800, height=800, resolution=72){
+    print(
+        ggplot(data, aes_string(x=x, y=y, color="experiment")) +
+        geom_point(size=5, shape=19) +
+        xlab(paste0(toString(x), ": ", x_perc_var, "% variance")) +
+        ylab(paste0(toString(y), ": ", y_perc_var, "% variance")) + 
+        geom_label(aes(label=experiment), nudge_y = 1, check_overlap = TRUE, show.legend = FALSE)
+    )
+}
+
+
+export_variance_plot <- function(variance_percentage, width=800, height=800, resolution=72){
+    data = data.frame(variance=variance_percentage)
+    data$item = as.numeric(row.names(data))
+    print(
+        ggplot(data, aes(x=item, y=variance)) +
+        xlab("") +
+        ylab("Variance %") + 
+        coord_cartesian(ylim = c(0, 100)) +
+        scale_x_continuous(breaks=data$item) +
+        geom_line(color="red")+
+        geom_point()
+    )
+}
+
+
+export_3d_plot_html <- function(data, output_prefix){
+    t <- list(
+        family = "sans serif",
+        size = 14,
+        color = toRGB("grey50")
+    )
+    fig_3d_plot = plot_ly(data, x=~PC1, y=~PC2, z=~PC3, color=~experiment, text=data$experiment)
+    fig_3d_plot = fig_3d_plot %>% add_markers()
+    fig_3d_plot <- fig_3d_plot %>% layout(
+        scene = list(
+            xaxis = list(title = "PC1"),
+            yaxis = list(title = "PC2"),
+            zaxis = list(title = "PC3")
+        )
+    )
+    fig_3d_plot <- fig_3d_plot %>% add_text(textfont = t, textposition = "top right")
+    saveWidget(fig_3d_plot, paste(output_prefix, "pca3d.html", sep=""))
+}
+
+
 # Parser
 parser <- ArgumentParser(description='Run BioWardrobe PCA')
 parser$add_argument("-i", "--input",     help='Input CSV/TSV files',                   type="character", required="True", nargs='+')
@@ -89,7 +138,7 @@ pca <- prcomp(t(filtered_target_data), cor=TRUE, scale.=T)
 result <- pca$x
 
 result_df <- as.data.frame(result)
-result_df <- cbind(exp=rownames(result_df), result_df)
+result_df <- cbind(experiment=rownames(result_df), result_df)
 
 write.table(result_df,
             file=paste(args$output, "pca.tsv", sep=""),
@@ -98,17 +147,17 @@ write.table(result_df,
             col.names=TRUE,
             quote=FALSE)
 
-plot(result[,1], result[,2], col=icolor, xlab="PCA1", ylab="PCA2", main="", pch=19, cex=2)
-legend("bottomright", text.col=icolor, bg="white", legend = args$name, yjust=0, horiz=F, bty='n', cex=0.8)
+variance_percentage <- round(pca$sdev / sum(pca$sdev) * 100, 2)
 
-plot(result[,2], result[,3], col=icolor, xlab="PCA2", ylab="PCA3", main="", pch=19, cex=2)
-legend("bottomright", text.col=icolor, bg="white", legend = args$name, yjust=0, horiz=F, bty='n', cex=0.8)
-
-plot(pca, type="lines", pch=19, cex=2)
+export_pca_plot(result_df, "PC1", "PC2", variance_percentage[1], variance_percentage[2])
+export_pca_plot(result_df, "PC2", "PC3", variance_percentage[2], variance_percentage[3])
+export_variance_plot(variance_percentage)
 
 s3d <- scatterplot3d(result[,1], result[,2], result[,3], xlab="PC1", ylab="PC2", zlab="PC3", main="",
 	                 color=icolor, col.axis="blue", sub="", box=T, lwd=5, type="p", pch=19, cex.symbols=2)
 
 legend("bottomright", inset=c(0.03,0.03), text.col=icolor, bg="white", legend=args$name, yjust=0, horiz=F, bty='n', cex=0.8)
+
+export_3d_plot_html(result_df, args$output)
 
 graphics.off()
