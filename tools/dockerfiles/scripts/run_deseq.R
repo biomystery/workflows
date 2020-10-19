@@ -7,8 +7,18 @@ suppressMessages(library(argparse))
 suppressMessages(library(BiocParallel))
 suppressMessages(library(pheatmap))
 suppressMessages(library(ggplot2))
+suppressMessages(library(ggrepel))
+
 
 ##########################################################################################
+#
+# v0.0.21
+#
+# - Add ggrepel for proper label positioning
+#
+# v0.0.20
+#
+# - Add --batchfile parameter to run_deseq.R to compensate batch effect
 #
 # v0.0.19
 #
@@ -196,7 +206,7 @@ export_pca_plot <- function(data, rootname, intgroup, width=800, height=800, res
                 geom_point(size=5, shape=19) +
                 xlab(paste0("PC1: ",percentVar[1], "% variance")) +
                 ylab(paste0("PC2: ",percentVar[2], "% variance")) + 
-                geom_label(aes(label=name), nudge_y = 1, check_overlap = TRUE, show.legend = FALSE)
+                geom_label_repel(aes(label=name), point.padding=0.5, box.padding=0.5, check_overlap = TRUE, show.legend = FALSE)
             )
             dev.off()
 
@@ -206,7 +216,7 @@ export_pca_plot <- function(data, rootname, intgroup, width=800, height=800, res
                 geom_point(size=5, shape=19) +
                 xlab(paste0("PC1: ",percentVar[1], "% variance")) +
                 ylab(paste0("PC2: ",percentVar[2], "% variance")) + 
-                geom_label(aes(label=name), nudge_y = 1, check_overlap = TRUE, show.legend = FALSE)
+                geom_label_repel(aes(label=name), point.padding=0.5, box.padding=0.5, check_overlap = TRUE, show.legend = FALSE)
             )
             dev.off()
 
