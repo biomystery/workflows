@@ -6,6 +6,7 @@ suppressMessages(library(scatterplot3d))
 suppressMessages(library(ggplot2))
 suppressMessages(library(plotly))
 suppressMessages(library(htmlwidgets))
+suppressMessages(library(ggrepel))
 
 
 ##########################################################################################
@@ -63,7 +64,7 @@ export_pca_plot <- function(data, x, y, x_perc_var, y_perc_var, width=800, heigh
         geom_point(size=5, shape=19) +
         xlab(paste0(toString(x), ": ", x_perc_var, "% variance")) +
         ylab(paste0(toString(y), ": ", y_perc_var, "% variance")) + 
-        geom_label(aes(label=experiment), nudge_y = 1, check_overlap = TRUE, show.legend = FALSE)
+        geom_label_repel(aes(label=experiment), point.padding=0.5, box.padding=0.5, check_overlap = TRUE, show.legend = FALSE)
     )
 }
 
