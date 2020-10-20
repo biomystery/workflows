@@ -3,6 +3,7 @@ class: CommandLineTool
 
 
 requirements:
+- class: InlineJavascriptRequirement
 - class: InitialWorkDirRequirement
   listing: |
     ${
