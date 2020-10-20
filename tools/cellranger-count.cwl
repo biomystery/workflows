@@ -116,14 +116,13 @@ outputs:
     doc: |
       Indexed reads aligned to the genome and transcriptome annotated with barcode information
   
-  filtered_feature_bc_matrix:
-    type: File
+  filtered_feature_bc_matrix_folder:
+    type: Directory
     outputBinding:
       glob: "sample/outs/filtered_feature_bc_matrix"
     doc: |
-      Filtered feature-barcode matrices containing only cellular barcodes in MEX format.
-      When implemented, in Targeted Gene Expression samples, the non-targeted genes won't
-      be present.
+      Folder with filtered feature-barcode matrices containing only cellular barcodes in MEX format.
+      When implemented, in Targeted Gene Expression samples, the non-targeted genes won't be present.
 
   filtered_feature_bc_matrix_h5:
     type: File
@@ -134,12 +133,12 @@ outputs:
       When implemented, in Targeted Gene Expression samples, the non-targeted genes won't
       be present.
   
-  raw_feature_bc_matrices:
-    type: File
+  raw_feature_bc_matrices_folder:
+    type: Directory
     outputBinding:
       glob: "sample/outs/raw_feature_bc_matrix"
     doc: |
-      Unfiltered feature-barcode matrices containing all barcodes in MEX format
+      Folder with unfiltered feature-barcode matrices containing all barcodes in MEX format
 
   raw_feature_bc_matrices_h5:
     type: File
@@ -148,13 +147,13 @@ outputs:
     doc: |
       Unfiltered feature-barcode matrices containing all barcodes in HDF5 format
 
-  secondary_analysis_report:
-    type: File
+  secondary_analysis_report_folder:
+    type: Directory
     outputBinding:
       glob: "sample/outs/analysis"
     doc: |
-      Secondary analysis data including dimensionality reduction, cell clustering,
-      and differential expression
+      Folder with secondary analysis results including dimensionality reduction,
+      cell clustering, and differential expression
 
   molecule_info_h5:
     type: File
