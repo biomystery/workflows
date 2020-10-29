@@ -27,6 +27,7 @@ inputs:
 
   gene_set_database:
     type:
+    - File
     - type: enum
       name: "genesetdatabase"
       symbols:

@@ -7,7 +7,10 @@
         "class": "File",
         "location": "./data/dm3_chr4/main_inputs/gsea/phenotypes.cls"
     },
-    "gene_set_database": "H_hallmark_gene_sets",
+    "gene_set_database": {
+        "class": "File",
+        "location": "./data/dm3_chr4/main_inputs/gsea/enrichr.H_hallmark_gene_sets.gmt"
+    },    
     "permutation_count": 3,
     "graphs_count": 2,
     "seed": 10,
