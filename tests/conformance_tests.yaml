@@ -1144,6 +1144,11 @@
         location: renamed.bam.bai
         size: 1368
 
+- job: ./rename-3.json
+  tool: ../tools/rename.cwl
+  output:
+    target_file: null
+
 # ========================================================
 # rsem-calculate-expression
 # ========================================================
