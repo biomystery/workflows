@@ -67,11 +67,11 @@ outputs:
     outputSource: rename_fastqc_report_fastq_2/target_file
 
   adapter_trimming_report_fastq_1:                                           # report
-    type: File
+    type: File?
     outputSource: rename_adapter_trimming_report_fastq_1/target_file
 
   adapter_trimming_report_fastq_2:                                           # report
-    type: File
+    type: File?
     outputSource: rename_adapter_trimming_report_fastq_2/target_file
   
   star_alignment_statistics_report:                                          # report
