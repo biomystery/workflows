@@ -32,6 +32,9 @@ inputs:
   bin_size:
     type: int
 
+  plot_title:
+    type: string
+
   recentering:
     type:
     - "null"
@@ -139,6 +142,7 @@ steps:
   make_heatmap:
     run: ../../tools/deeptools-plotheatmap.cwl
     in:
+      plot_title: plot_title
       scores_matrix: compute_score_matrix/scores_matrix
       output_filename:
         default: "score_matrix.pdf"
