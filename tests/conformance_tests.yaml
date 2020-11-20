@@ -6251,3 +6251,35 @@
     intron_tx_to_capture_mapping_file:
       class: File
       location: chr4.fa_intron_tx_to_capture.tsv
+
+# ========================================================
+# bypass-trimgalore-se
+# ========================================================
+
+- job: ./bypass-trimgalore-se-1.json
+  tool: ../tools/bypass-trimgalore-se.cwl
+  output:
+    selected_fastq_file:
+      class: File
+      location: downstream.fastq
+    selected_report_file:
+      class: File
+      location: upstream.fastq.gz_trimming_report.txt
+
+- job: ./bypass-trimgalore-se-2.json
+  tool: ../tools/bypass-trimgalore-se.cwl
+  output:
+    selected_fastq_file:
+      class: File
+      location: downstream.fastq
+    selected_report_file:
+      class: File
+      location: upstream.fastq.gz_trimming_report.txt
+
+- job: ./bypass-trimgalore-se-3.json
+  tool: ../tools/bypass-trimgalore-se.cwl
+  output:
+    selected_fastq_file:
+      class: File
+      location: downstream.fastq
+    selected_report_file: null
