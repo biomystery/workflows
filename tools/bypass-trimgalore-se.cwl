@@ -43,7 +43,7 @@ inputs:
   trimmed_fastq_file:
     type: File
     inputBinding:
-      position: 6
+      position: 7
 
   trimming_report_file:
     type: File
@@ -54,7 +54,7 @@ inputs:
     type: int?
     default: 100000
     inputBinding:
-      position: 10
+      position: 9
 
 
 outputs:
