@@ -6283,3 +6283,35 @@
       class: File
       location: downstream.fastq
     selected_report_file: null
+
+# ========================================================
+# bypass-trimgalore-pe
+# ========================================================
+
+- job: ./bypass-trimgalore-pe-1.json
+  tool: ../tools/bypass-trimgalore-pe.cwl
+  output:
+    selected_fastq_file_1:
+      class: File
+      location: upstream.fastq
+    selected_fastq_file_2:
+      class: File
+      location: downstream.fastq
+    selected_report_file_1:
+      class: File
+      location: upstream.fastq.gz_trimming_report.txt
+    selected_report_file_2:
+      class: File
+      location: downstream.fastq.gz_trimming_report.txt
+
+- job: ./bypass-trimgalore-pe-2.json
+  tool: ../tools/bypass-trimgalore-pe.cwl
+  output:
+    selected_fastq_file_1:
+      class: File
+      location: upstream.fastq
+    selected_fastq_file_2:
+      class: File
+      location: downstream.fastq
+    selected_report_file_1: null
+    selected_report_file_2: null

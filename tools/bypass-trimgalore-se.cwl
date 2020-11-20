@@ -116,13 +116,13 @@ s:creator:
         - id: http://orcid.org/0000-0002-6486-3898
 
 doc: |
-  If the number of reads in the trimmed_fastq_file is less then min_reads_count and
-  tool returns original_fastq_file and null as selected_report_file. Otherwise, the
+  If the number of reads in the trimmed_fastq_file is less then min_reads_count, tool
+  will return original_fastq_file and null as selected_report_file. Otherwise, the
   trimmed_fastq_file and trimming_report_file will be returned. Might be usefull in
-  case trimgalore removed all reads from the original_fastq_file 
+  case of trimgalore removed all reads from the original_fastq_file
 
 s:about: |
-  If the number of reads in the trimmed_fastq_file is less then min_reads_count and
-  tool returns original_fastq_file and null as selected_report_file. Otherwise, the
+  If the number of reads in the trimmed_fastq_file is less then min_reads_count, tool
+  will return original_fastq_file and null as selected_report_file. Otherwise, the
   trimmed_fastq_file and trimming_report_file will be returned. Might be usefull in
-  case trimgalore removed all reads from the original_fastq_file 
+  case of trimgalore removed all reads from the original_fastq_file

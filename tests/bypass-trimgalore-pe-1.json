@@ -1,0 +1,27 @@
+{
+    "original_fastq_file_1": {
+        "class": "File",
+        "location": "./data/dm3_chr4/main_inputs/fastq/chr4_100_chrM_25_mapped_reads/upstream.fastq.gz"
+    },
+    "trimmed_fastq_file_1": {
+        "class": "File",
+        "location": "./data/dm3_chr4/main_inputs/fastq/chr4_100_chrM_25_mapped_reads/upstream.fastq"
+    },
+    "original_fastq_file_2": {
+        "class": "File",
+        "location": "./data/dm3_chr4/main_inputs/fastq/chr4_100_chrM_25_mapped_reads/downstream.fastq.gz"
+    },
+    "trimmed_fastq_file_2": {
+        "class": "File",
+        "location": "./data/dm3_chr4/main_inputs/fastq/chr4_100_chrM_25_mapped_reads/downstream.fastq"
+    },
+    "trimming_report_file_1": {
+        "class": "File",
+        "location": "./data/dm3_chr4/generated_inputs/logs/trimgalore/upstream.fastq.gz_trimming_report.txt"
+    },
+    "trimming_report_file_2": {
+        "class": "File",
+        "location": "./data/dm3_chr4/generated_inputs/logs/trimgalore/downstream.fastq.gz_trimming_report.txt"
+    },
+    "min_reads_count": 100
+}
