@@ -369,7 +369,7 @@ outputs:
   reanalyze_params:
     type: File
     outputBinding:
-      glob: "reanalyzed/outs/params_csv.csv"
+      glob: "reanalyzed/outs/params.csv"
     doc: |
       Copy of the input params CSV file
 
