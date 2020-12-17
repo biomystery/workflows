@@ -73,7 +73,7 @@ assert_args <- function(args){
 
 
 get_args <- function(){
-    parser <- ArgumentParser(description="Merge feature files based on columns")
+    parser <- ArgumentParser(description="Merge feature files based on the specified columns")
     parser$add_argument(
         "-f", "--features",
         help="CSV/TSV feature files to be merged",                    
