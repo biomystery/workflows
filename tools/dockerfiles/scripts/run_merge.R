@@ -4,13 +4,11 @@ options("width"=300)
 
 
 suppressMessages(library(argparse))
-suppressMessages(library(BiocParallel))
-suppressMessages(library(pheatmap))
-suppressMessages(library(ggplot2))
-suppressMessages(library(ggrepel))
 
 
 ##########################################################################################
+#
+# v0.0.1
 #
 # All input CSV/TSV files should have the header (case-sensitive)
 #
