@@ -1,0 +1,20 @@
+{
+  "feature_files": [
+    {
+      "class": "File",
+      "location": "./data/dm3_chr4/generated_inputs/group_isoforms/u1_1000.genes.tsv"
+    },
+    {
+      "class": "File",
+       "location": "./data/dm3_chr4/generated_inputs/group_isoforms/u2_1000.genes.tsv"
+    },
+    {
+      "class": "File",
+      "location": "./data/dm3_chr4/generated_inputs/group_isoforms/u3_1000.genes.tsv"
+    }
+  ],
+  "feature_aliases": ["alpha", "beta", "gamma"],
+  "mergeby": ["GeneId", "Chrom"],
+  "report": "Strand",
+  "output_prefix": "strand_"
+}
