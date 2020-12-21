@@ -6315,3 +6315,59 @@
       location: downstream.fastq
     selected_report_file_1: null
     selected_report_file_2: null
+
+# ========================================================
+# feature-merge
+# ========================================================
+
+- job: ./feature-merge-1.json
+  tool: ../tools/feature-merge.cwl
+  output:
+    merged_file:
+      class: File
+      location: merged_report.tsv
+    stdout_log:
+      class: File
+      location: merge_stdout.log
+    stderr_log:
+      class: File
+      location: merge_stderr.log
+
+- job: ./feature-merge-2.json
+  tool: ../tools/feature-merge.cwl
+  output:
+    merged_file:
+      class: File
+      location: strand_report.tsv
+    stdout_log:
+      class: File
+      location: merge_stdout.log
+    stderr_log:
+      class: File
+      location: merge_stderr.log
+
+- job: ./feature-merge-3.json
+  tool: ../tools/feature-merge.cwl
+  output:
+    merged_file:
+      class: File
+      location: single_report.tsv
+    stdout_log:
+      class: File
+      location: merge_stdout.log
+    stderr_log:
+      class: File
+      location: merge_stderr.log
+
+- job: ./feature-merge-4.json
+  tool: ../tools/feature-merge.cwl
+  output:
+    merged_file:
+      class: File
+      location: single_report.tsv
+    stdout_log:
+      class: File
+      location: merge_stdout.log
+    stderr_log:
+      class: File
+      location: merge_stderr.log
