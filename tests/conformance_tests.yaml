@@ -6419,3 +6419,14 @@
     stderr_log:
       class: File
       location: merge_stderr.log
+
+# ========================================================
+# htseq-count
+# ========================================================
+
+- job: ./htseq-count.cwl-1.json
+  tool: ../tools/htseq-count.cwl.cwl
+  output:
+    gene_expression_report:
+      class: File
+      location: gene_expression_report.tsv
