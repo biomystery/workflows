@@ -6424,7 +6424,7 @@
 # htseq-count
 # ========================================================
 
-- job: ./htseq-count.cwl-1.json
+- job: ./htseq-count-1.json
   tool: ../tools/htseq-count.cwl
   output:
     gene_expression_report:
