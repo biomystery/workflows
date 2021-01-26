@@ -6427,6 +6427,12 @@
 - job: ./htseq-count-1.json
   tool: ../tools/htseq-count.cwl
   output:
-    gene_expression_report:
+    feature_counts_report_file:
       class: File
-      location: gene_expression_report.tsv
+      location: feature_counts_report.tsv
+    stdout_log:
+      class: File
+      location: feature_counts_stdout.log
+    stderr_log:
+      class: File
+      location: feature_counts_stderr.log
