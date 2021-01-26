@@ -5136,6 +5136,13 @@
     dedup_bam_file:
       class: File
       location: chr4_100_mapped_reads.Aligned.out_dedup.bam
+    output_stats:
+    - class: File
+      location: umi_tools_stats_edit_distance.tsv
+    - class: File
+      location: umi_tools_stats_per_umi.tsv
+    - class: File
+      location: umi_tools_stats_per_umi_per_position.tsv
     stdout_log:
       class: File
       location: umi_tools_dedup_stdout.log
@@ -5149,6 +5156,47 @@
     dedup_bam_file:
       class: File
       location: results.bam
+    output_stats:
+    - class: File
+      location: stats_edit_distance.tsv
+    - class: File
+      location: stats_per_umi.tsv
+    - class: File
+      location: stats_per_umi_per_position.tsv      
+    stdout_log:
+      class: File
+      location: umi_tools_dedup_stdout.log
+    stderr_log:
+      class: File
+      location: umi_tools_dedup_stderr.log
+
+- job: ./umi-tools-dedup-3.json
+  tool: ../tools/umi-tools-dedup.cwl
+  output:
+    dedup_bam_file:
+      class: File
+      location: chr4_100_mapped_reads.Aligned.out.bam
+      secondaryFiles:
+      - class: File
+        location: chr4_100_mapped_reads.Aligned.out.bam.bai
+    output_stats: null
+    stdout_log:
+      class: File
+      location: umi_tools_dedup_stdout.log
+    stderr_log:
+      class: File
+      location: umi_tools_dedup_stderr.log
+
+- job: ./umi-tools-dedup-4.json
+  tool: ../tools/umi-tools-dedup.cwl
+  output:
+    dedup_bam_file:
+      class: File
+      location: chr4_100_mapped_reads.Aligned.out.bam
+      secondaryFiles:
+      - class: File
+        location: chr4_100_mapped_reads.Aligned.out.bam.bai
+    output_stats: null
     stdout_log:
       class: File
       location: umi_tools_dedup_stdout.log
@@ -6371,3 +6419,14 @@
     stderr_log:
       class: File
       location: merge_stderr.log
+
+# ========================================================
+# htseq-count
+# ========================================================
+
+- job: ./htseq-count-1.json
+  tool: ../tools/htseq-count.cwl
+  output:
+    gene_expression_report:
+      class: File
+      location: gene_expression_report.tsv
