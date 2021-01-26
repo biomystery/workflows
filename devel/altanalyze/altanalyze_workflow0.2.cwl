@@ -14,12 +14,12 @@ outputs: []
 
 steps:
     step1:
-      run: altanalyze_dbfetch.cwl
+      run: altanalyze_dbfetch0.2.cwl
       in: []
       out: [stderr_log, stdout_log, database]
 
     step2:
-      run: altanalyze_test.cwl
+      run: altanalyze_test0.4.cwl
       in:
         data_in: step1/database
       out: [stderr_log, stdout_log]

@@ -5,21 +5,19 @@ requirements: []
 
 hints: []
 
-inputs:
-  move_script:
+inputs: 
+  bash_script:
     type: string?
     default: |
       #!/bin/bash
-      cp -r EnsMart72 /opt/altanalyze/AltDatabase
-      python /opt/altanalyze/AltAnalyze.py --species Mm --platform RNASeq --runICGS yes --ChromiumSparseMatrix /opt/altanalyze/DemoData/ICGS/10xGenomics/Mm-e14.5_Kidney-GSE104396/mm10/matrix.mtx --output /opt/altanalyze/DemoData/ICGS/10xGenomics/Mm-e14.5_Kidney-GSE104396/mm10 --expname kidney
+      python /opt/altanalyze/AltAnalyze.py --species Mm --update Official --version EnsMart72
+      ls /opt/altanalyze/AltDatabase/EnsMart72
+      cp -r /opt/altanalyze/AltDatabase/EnsMart72 .
 
     inputBinding:
       position: 5
     doc: |
       Bash function to redirect to complete the return of EnsMart72 as output.
-
-  data_in:
-    type: Directory
 
 outputs:
   stdout_log:
@@ -28,10 +26,15 @@ outputs:
   stderr_log:
     type: stderr
 
+  database:
+    type: Directory
+    outputBinding:
+      glob: "EnsMart72"
+
 baseCommand: [bash, '-c']
 
-stdout: aatest_stdout.log
-stderr: aatest_stderr.log
+stdout: aadbfetch_stdout.log
+stderr: aadbfetch_stderr.log
 
 $namespaces:
   s: http://schema.org/

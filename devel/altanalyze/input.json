@@ -1,0 +1,8 @@
+{"data_in": {"class": "Directory",
+"location": "EnsMart72"},
+"species": "Mm",
+"excludeCellCycle": "no",
+"removeOutliers": "yes",
+"restrictBy": "None",
+"downSample": "5000",
+"markerPearsonCutoff": "0.3"}
