@@ -5,4 +5,5 @@
 "removeOutliers": "yes",
 "restrictBy": "None",
 "downSample": "5000",
-"markerPearsonCutoff": "0.3"}
+"markerPearsonCutoff": "0.3",
+"expname": "kidney"}

@@ -16,7 +16,7 @@ inputs:
       set -- "$0" "$@"
       echo "$1"
       cp -r "$0" /opt/altanalyze/AltDatabase
-      python /opt/altanalyze/AltAnalyze.py --species "$2" --platform RNASeq --runICGS yes --excludeCellCycle "$3" --removeOutliers "$4" --restrictBy "$5" --downsample "$6" --markerPearsonCutoff "$7" --ChromiumSparseMatrix /opt/altanalyze/DemoData/ICGS/10xGenomics/Mm-e14.5_Kidney-GSE104396/mm10/matrix.mtx --output /opt/altanalyze/DemoData/ICGS/10xGenomics/Mm-e14.5_Kidney-GSE104396/mm10 --expname kidney
+      python /opt/altanalyze/AltAnalyze.py --species "$2" --platform RNASeq --runICGS yes --excludeCellCycle "$3" --removeOutliers "$4" --restrictBy "$5" --downsample "$6" --markerPearsonCutoff "$7" --ChromiumSparseMatrix /opt/altanalyze/DemoData/ICGS/10xGenomics/Mm-e14.5_Kidney-GSE104396/mm10/matrix.mtx --output /opt/altanalyze/DemoData/ICGS/10xGenomics/Mm-e14.5_Kidney-GSE104396/mm10 --expname "$8"
       ls /opt/altanalyze/DemoData/ICGS/10xGenomics/Mm-e14.5_Kidney-GSE104396/mm10/ICGS-NMF
       cp -r /opt/altanalyze/DemoData/ICGS/10xGenomics/Mm-e14.5_Kidney-GSE104396/mm10/ICGS-NMF .
 
@@ -64,7 +64,13 @@ inputs:
     type: string
     default: "0.3"
     inputBinding:
-      position: 7
+      position: 8
+
+  expname:
+    type: string
+    default: "kidney"
+    inputBinding:
+      position: 9
 
 outputs:
   stdout_log:

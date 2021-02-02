@@ -3,14 +3,19 @@ class: CommandLineTool
 
 requirements: []
 
-hints: []
+hints:
+  - class: DockerRequirement
+    dockerPull: haysb1991/altanalyze-test:version6
 
 inputs: 
   bash_script:
     type: string?
     default: |
       #!/bin/bash
-      python /opt/altanalyze/AltAnalyze.py --species Mm --update Official --version EnsMart72
+      echo "$@"
+      echo "$0"
+      echo "$2"
+      python /opt/altanalyze/AltAnalyze.py --species "$0" --update Official --version "$1"
       ls /opt/altanalyze/AltDatabase/EnsMart72
       cp -r /opt/altanalyze/AltDatabase/EnsMart72 .
 
@@ -18,6 +23,18 @@ inputs:
       position: 5
     doc: |
       Bash function to redirect to complete the return of EnsMart72 as output.
+
+  species:
+    type: string
+    default: "Mm"
+    inputBinding:
+      position: 6
+
+  db_name:
+    type: string
+    default: "EnsMart72"
+    inputBinding:
+      position: 7
 
 outputs:
   stdout_log:

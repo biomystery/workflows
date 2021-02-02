@@ -19,7 +19,7 @@ steps:
       out: [stderr_log, stdout_log, database]
 
     step2:
-      run: altanalyze_test0.4.cwl
+      run: altanalyze_test0.2.cwl
       in:
         data_in: step1/database
       out: [stderr_log, stdout_log]
