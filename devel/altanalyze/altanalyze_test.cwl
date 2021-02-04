@@ -5,7 +5,7 @@ requirements: []
 
 hints:
   - class: DockerRequirement
-    dockerPull: haysb1991/altanalyze-test:version6
+    dockerPull: haysb1991/altanalyze-test:version7
 
 inputs:
   move_script:
@@ -14,11 +14,15 @@ inputs:
       #!/bin/bash
       echo "$@"
       set -- "$0" "$@"
-      echo "$1"
+      echo "$9"
+      echo "$10"
       cp -r "$0" /opt/altanalyze/AltDatabase
-      python /opt/altanalyze/AltAnalyze.py --species "$2" --platform RNASeq --runICGS yes --excludeCellCycle "$3" --removeOutliers "$4" --restrictBy "$5" --downsample "$6" --markerPearsonCutoff "$7" --ChromiumSparseMatrix /opt/altanalyze/DemoData/ICGS/10xGenomics/Mm-e14.5_Kidney-GSE104396/mm10/matrix.mtx --output /opt/altanalyze/DemoData/ICGS/10xGenomics/Mm-e14.5_Kidney-GSE104396/mm10 --expname "$8"
-      ls /opt/altanalyze/DemoData/ICGS/10xGenomics/Mm-e14.5_Kidney-GSE104396/mm10/ICGS-NMF
-      cp -r /opt/altanalyze/DemoData/ICGS/10xGenomics/Mm-e14.5_Kidney-GSE104396/mm10/ICGS-NMF .
+      mkdir /opt/altanalyze/userdata/
+      cp -r "$9" /opt/altanalyze/userdata/
+      ls /opt/altanalyze/userdata
+      python /opt/altanalyze/AltAnalyze.py --species "$2" --platform RNASeq --runICGS yes --excludeCellCycle "$3" --removeOutliers "$4" --restrictBy "$5" --downsample "$6" --markerPearsonCutoff "$7" --ChromiumSparseMatrix /opt/altanalyze/userdata/ --output /opt/altanalyze/userdata/ --expname "$8"
+      ls /opt/altanalyze/userdata/ICGS-NMF
+      cp -r /opt/altanalyze/userdata/ICGS-NMF .
 
     inputBinding:
       position: 1
@@ -31,10 +35,12 @@ inputs:
       position: 2
 
   species:
-    type: string
-    default: "Mm"
-    inputBinding:
-      position: 3
+    type:
+      type: enum
+      name: "species"
+      symbols: ["Mm", "Hs", "Rn", "Dr"]
+      inputBinding:
+        position: 3
 
   excludeCellCycle:
     type: string
@@ -55,22 +61,27 @@ inputs:
       position: 6
 
   downsample:
-    type: string
-    default: "5000"
+    type: int
+    default: 5000
     inputBinding:
       position: 7
 
   markerPearsonCutoff:
-    type: string
-    default: "0.3"
+    type: float
+    default: 0.3
     inputBinding:
       position: 8
 
   expname:
     type: string
-    default: "kidney"
+    default: "scRNA-Seq"
     inputBinding:
       position: 9
+
+  input:
+    type: File
+    inputBinding:
+      position: 10
 
 outputs:
   stdout_log:

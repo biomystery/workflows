@@ -5,7 +5,7 @@ requirements: []
 
 hints:
   - class: DockerRequirement
-    dockerPull: haysb1991/altanalyze-test:version6
+    dockerPull: haysb1991/altanalyze-test:version7
 
 inputs: 
   bash_script:
@@ -25,10 +25,12 @@ inputs:
       Bash function to redirect to complete the return of EnsMart72 as output.
 
   species:
-    type: string
-    default: "Mm"
-    inputBinding:
-      position: 6
+    type:
+      type: enum
+      name: "species"
+      symbols: ["Mm", "Hs", "Rn", "Dr"]
+      inputBinding:
+        position: 6
 
   db_name:
     type: string

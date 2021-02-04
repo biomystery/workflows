@@ -1,7 +1,7 @@
 To run these tools:
 
-cwltool --no-match-user --no-read-only altanalyze_dbfetch0.4.cwl
-cwltool --no-match-user --no-read-only altanalyze_test0.4.cwl
+cwltool --no-match-user --no-read-only altanalyze_dbfetch.cwl input_fetch.json
+cwltool --no-match-user --no-read-only altanalyze_test.cwl input_run.json
 
 You should have CWL installed already on your computer. If you do not, you can use either of the following commands:
 
