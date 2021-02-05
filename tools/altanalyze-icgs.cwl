@@ -111,8 +111,17 @@ outputs:
     outputBinding: 
       glob: "icgs_data"
 
+  stdout_log:
+    type: stdout
+
+  stderr_log:
+    type: stderr
+
 
 baseCommand: ["bash", "-c"]
+
+stdout: altanalyze_icgs_stdout.log
+stderr: altanalyze_icgs_stderr.log
 
 
 $namespaces:
