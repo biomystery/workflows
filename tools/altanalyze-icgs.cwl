@@ -7,8 +7,8 @@ requirements:
 
 
 hints:
-  - class: DockerRequirement
-    dockerPull: haysb1991/altanalyze-test:version7
+- class: DockerRequirement
+  dockerPull: biowardrobe2/altanalyze:v0.0.3
 
 
 inputs:
