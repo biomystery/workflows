@@ -29,15 +29,18 @@ inputs:
       case ${GENOME_TYPE} in
         mm10)
           SPECIES=Mm
-          ENSEMBL_VERSION=EnsMart69
+          # ENSEMBL_VERSION=EnsMart69
+          ENSEMBL_VERSION=EnsMart72
           ;;
         hg19)
           SPECIES=Hs
-          ENSEMBL_VERSION=EnsMart62
+          # ENSEMBL_VERSION=EnsMart62
+          ENSEMBL_VERSION=EnsMart72
           ;;
         hg38)
           SPECIES=Hs
-          ENSEMBL_VERSION=EnsMart78
+          # ENSEMBL_VERSION=EnsMart78
+          ENSEMBL_VERSION=EnsMart72
           ;;
         *)
           echo "Unknown genome"
