@@ -38,7 +38,7 @@ inputs:
       cp ${FBC_MATRIX} ./altanalyze/userdata/
       python ./altanalyze/AltAnalyze.py --species ${SPECIES} \
       --platform RNASeq --runICGS yes \
-      --ChromiumSparseMatrix ./altanalyze/userdata/ --output ./icgs_data \
+      --ChromiumSparseMatrix ./altanalyze/userdata/ --output ./altanalyze/userdata/ \
       --expname icgs ${@:2}
     inputBinding:
       position: 5
@@ -109,7 +109,7 @@ outputs:
   icgs_data:
     type: Directory
     outputBinding: 
-      glob: "icgs_data"
+      glob: "altanalyze/userdata/ICGS-NMF"
 
   stdout_log:
     type: stdout
