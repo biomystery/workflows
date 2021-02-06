@@ -35,7 +35,7 @@ inputs:
       echo "Load ${SPECIES} from ${ENSEMBL_VERSION}"
       ln -s ${GENOME_DATA} ./altanalyze/AltDatabase/${ENSEMBL_VERSION}
       mkdir ./altanalyze/userdata/
-      cp ${FBC_MATRIX} ./altanalyze/userdata/
+      cp ${FBC_MATRIX} ./altanalyze/userdata/raw_feature_bc_matrices_h5.h5
       python ./altanalyze/AltAnalyze.py --species ${SPECIES} \
       --platform RNASeq --runICGS yes \
       --ChromiumSparseMatrix ./altanalyze/userdata/ --output ./altanalyze/userdata/ \
