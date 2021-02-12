@@ -6436,3 +6436,33 @@
     stderr_log:
       class: File
       location: feature_counts_stderr.log
+
+# ========================================================
+# ucsc-genepredtogtf
+# ========================================================
+
+- job: ./ucsc-genepredtogtf-1.json
+  tool: ../tools/ucsc-genepredtogtf.cwl
+  output:
+    annotation_gtf_file:
+      class: File
+      location: dm3_chr4.gtf
+    stdout_log:
+      class: File
+      location: genepredtogtf_stdout.log
+    stderr_log:
+      class: File
+      location: genepredtogtf_stderr.log
+
+- job: ./ucsc-genepredtogtf-2.json
+  tool: ../tools/ucsc-genepredtogtf.cwl
+  output:
+    annotation_gtf_file:
+      class: File
+      location: custom.gtf
+    stdout_log:
+      class: File
+      location: genepredtogtf_stdout.log
+    stderr_log:
+      class: File
+      location: genepredtogtf_stderr.log

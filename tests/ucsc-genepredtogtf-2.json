@@ -1,0 +1,7 @@
+{
+  "annotation_tsv_file": {
+    "class": "File",
+    "location": "./data/dm3_chr4/main_inputs/gtf/dm3_chr4.tsv"
+  },
+  "output_filename": "custom.gtf"
+}
