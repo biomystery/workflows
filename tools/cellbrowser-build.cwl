@@ -114,6 +114,7 @@ outputs:
 
 baseCommand: ["bash", "-c"]
 
+
 stdout: cbbuild_stdout.log
 stderr: cbbuild_stderr.log
 
