@@ -158,7 +158,12 @@ s:creator:
         s:email: mailto:misha.kotliar@gmail.com
         s:sameAs:
         - id: http://orcid.org/0000-0002-6486-3898
-
+    - class: s:Organization
+      s:legalName: "Salomonis Research Lab"
+      s:member:
+      - class: s:Person
+        s:name: Stuart Hay
+        s:email: mailto:haysb91@gmail.com
 
 doc: |
   Converts AltAnalyze outputs into the data structure supported by UCSC CellBrowser
