@@ -14,13 +14,11 @@ requirements:
   - entryname: cellbrowser.conf
     entry: |
       name = "cellbrowser"
-      priority = 10
-      tags = ["smartseq2"]
       shortLabel="CellBrowser"
-      exprMatrix="expr_matrix.tsv"
+      priority = 1
       geneIdType="auto"
+      exprMatrix="expr_matrix.tsv"
       meta="metadata.tsv"
-      enumFields = ["c1_cell_id"]
       coords=[
         {
           "file":"coordinates.tsv", 
@@ -28,6 +26,7 @@ requirements:
           "shortLabel":"Clustering"
         }
       ]
+      enumFields = ["barcode"]
       clusterField="cluster"
       labelField="label"
   - entryname: desc.conf
@@ -36,7 +35,7 @@ requirements:
       abstract = ""
       methods = ""
       biorxiv_url = ""
-      custom = {"sample barcode": ""}
+      custom = {}
 
 
 inputs:
