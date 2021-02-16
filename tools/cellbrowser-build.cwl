@@ -82,7 +82,7 @@ inputs:
       without needing to trim the matrix and reorder the metadata file. The metadata file
       also must have a header line.
 
-  coordinates_file:
+  cell_coordinates_file:
     type: File
     inputBinding:
       position: 8
