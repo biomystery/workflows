@@ -20,44 +20,51 @@ inputs:
       cp "$3" .
       cp "$4" .
       cp "$5" .
+      cp "$6" markers.tsv
       cbBuild -o outputhtml
       ls outputhtml
       cp -r outputhtml .
+      echo $?
 
     inputBinding:
       position: 1
     doc: |
       Bash function to generate needed html and scripts for cellbrowser.
 
-  input1:
+  GeneCellMatrix:
     type: File
     inputBinding:
       position: 2
 
-  input2:
+  MetaData:
     type: File
     inputBinding:
       position: 3
 
-  input3:
+  Coords:
     type: File
     inputBinding:
       position: 4
 
-  input4:
+  ConfigPaths:
     type: File
     inputBinding:
       position: 5
 
-  input5:
+  ConfigDesc:
     type: File
     inputBinding:
       position: 6
 
-  input6:
+  ConfigStarterGenes:
     type: File
     inputBinding:
       position: 7
+
+  Markers:
+    type: File
+    inputBinding:
+      position: 8
 
 outputs:
   stdout_log:
